@@ -46,3 +46,69 @@ class Droplet(JSObject):
 
     def action_url(self, endpoint=''):
         return urljoin(endpoint, '/v2/droplets/' + str(self.id) + '/actions')
+
+    def action(self, **params):  ### Rethink name
+        api = self.doapi_manager
+        return api.action(api.request(self.action_url(), method='POST',
+                                      params=params)["action"])
+
+    def disable_backups(self):
+        return self.action(type='disable_backups')
+
+    def reboot(self):
+        return self.action(type='reboot')
+
+    def power_cycle(self):
+        return self.action(type='power_cycle')
+
+    def shutdown(self):
+        return self.action(type='shutdown')
+
+    def power_off(self):
+        return self.action(type='power_off')
+
+    def power_on(self):
+        return self.action(type='power_on')
+
+    def restore(self, image):
+        return self.action(type='restore', image=image)
+
+    def password_reset(self):
+        return self.action(type='password_reset')
+
+    def resize(self, size, disk=None):
+        opts = {"disk": disk} if disk is not None else {}
+        return self.action(type='resize', size=size, **opts)
+
+    def rebuild(self, image):
+        return self.action(type='rebuild', image=image)
+
+    def rename(self, name):
+        return self.action(type='rename', name=name)
+
+    def change_kernel(self, kernel):
+        return self.action(type='change_kernel', kernel=kernel)
+
+    def enable_ipv6(self):
+        return self.action(type='enable_ipv6')
+
+    def enable_private_networking(self):
+        return self.action(type='enable_private_networking')
+
+    def snapshot(self, name):
+        return self.action(type='snapshot', name=name)
+
+    def upgrade(self):
+        return self.action(type='upgrade')
+
+    def delete(self):
+        self.doapi_manager.request(self.url(), method='DELETE')
+
+    def neighbors(self):
+        api = self.doapi_manager
+        # Yes, that's really supposed to be a literal backslash in the URL.
+        return map(api.droplet, api.paginate(self.url() + r'\neighbors',
+                                             'droplets'))
+
+    ### def wait(self, status=None)
+    # When status=None, wait for most recent action to complete/error
