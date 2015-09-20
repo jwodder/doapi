@@ -71,20 +71,44 @@ class doapi(object):
             except KeyError:
                 break
 
+    def droplet(self, obj):
+        if isinstance(obj, (int, long)):
+            dct = {"id": obj}
+        elif isinstance(obj, dict):
+            dct = obj.copy()
+        elif isinstance(obj, Droplet):
+            dct = obj._asdict()
+        else:
+            raise TypeError('argument must be integer, dict, or Droplet')
+        dct["doapi_manager"] = self
+        return Droplet(dct)
+
+    def action(self, obj):
+        if isinstance(obj, (int, long)):
+            dct = {"id": obj}
+        elif isinstance(obj, dict):
+            dct = obj.copy()
+        elif isinstance(obj, Action):
+            dct = obj._asdict()
+        else:
+            raise TypeError('argument must be integer, dict, or Action')
+        dct["doapi_manager"] = self
+        return Action(dct)
+
     def all_droplets(self):
-        return map(Droplet, self.paginate('/v2/droplets', 'droplets'))
+        return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
     def get_droplet(self, id):
-        return Droplet(self.request('/v2/droplets/%d' % (id,))["droplet"])
+        return self.droplet(self.request('/v2/droplets/%d' % (id,))["droplet"])
 
     def get_action(self, id):
-        return Action(self.request('/v2/droplets/%d' % (id,))["action"])
+        return self.action(self.request('/v2/droplets/%d' % (id,))["action"])
 
     def droplet_upgrades(self):
         return self.request('/v2/droplet_upgrades')
 
     def create_droplet(self, name, image, size, region, **args):
-        return Droplet(self.request('/v2/droplets', method='POST', params={
+        return self.droplet(self.request('/v2/droplets', method='POST', params={
             "name":               name,
             "image":              image,
             "size":               size,
@@ -145,21 +169,21 @@ class doapi(object):
         for page in self.raw_pages('/v2/droplets'):
             for drop in page["droplets"]:
                 if drop["name"] == name:
-                    yield Droplet(drop)
+                    yield self.droplet(drop)
 
     def get_all_droplets_by_name(self):
         droplets = defaultdict(list)
         for page in self.raw_pages('/v2/droplets'):
             for drop in page["droplets"]:
-                droplets[drop["name"]].append(Droplet(drop))
+                droplets[drop["name"]].append(self.droplet(drop))
         return droplets
 
     def get_ssh_key(self, id_or_print):
         return self.request('/v2/account/keys/' + str(id_or_print))["ssh_key"]
 
     def droplet_action(self, drop, **params):
-        return Action(self.request('/v2/droplets/%d/actions' % (drop,),
-                                   method='POST', params=params)["action"])
+        return self.action(self.request('/v2/droplets/%d/actions' % (drop,),
+                                        method='POST', params=params)["action"])
 
     def disable_backups(self, drop):
         return self.droplet_action(drop, type='disable_backups')
@@ -215,6 +239,6 @@ class doapi(object):
 
     def droplet_neighbors(self, drop):
         # Yes, that's really supposed to be a literal backslash in the URL.
-        return map(Droplet, self.paginate(r'/v2/droplets/%d\neighbors' % (drop,), 'droplets'))
+        return map(self.droplet, self.paginate(r'/v2/droplets/%d\neighbors' % (drop,), 'droplets'))
 
     ### def wait_droplet  # wait for most recent action to complete/error

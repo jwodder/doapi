@@ -37,8 +37,8 @@
       objects from just an ID and document that most operations won't work on
       the results
         - These methods should also be able to take an instance of the
-          respective type instead of an ID, in which case they return either
-          the argument itself or a copy
+          respective type (or a dict) instead of an ID, in which case they
+          return either the argument itself or a copy
 
     - JSONification will become more involved:
         - When the base class does not inherit `dict`, give it the method:
@@ -64,3 +64,5 @@
       returning the current state of the object
         - Also add mutating equivalents named `update`?
         - Rename `doapi.get_droplet` to `doapi.fetch_droplet` etc.
+
+- Try to find a way to return `meta` fields?
