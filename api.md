@@ -1,0 +1,22 @@
+# Known errors in the API documentation
+
+- The docs state that paginated results are 25 per page by default; it is
+  actually 20 per page.
+- The input attribute table for the "Snapshot a Droplet" action omits the
+  "name" attribute
+
+# Unanswered questions about the API
+
+- Can a droplet have more than one in-progress action on it at a time?
+- Is fetching an action via `/v2/actions/$ACTION_ID` always equivalent to
+  fetching via `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`?
+- Is there any guarantee about the order actions (or anything else, really) are
+  returned in when fetching multiple ones?
+- Can a non-error response object ever contain keys other than
+  `droplet`/`action`/etc., `links`, and `meta`?
+
+# Other notes
+
+- Yes, the URL path for getting a droplet's neighbors is really
+  `/v2/droplets/$DROPLET_ID\neighbors" with a `r'\n'`.  (Also, the list of
+  neighbors includes the droplet itself.)
