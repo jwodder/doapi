@@ -3,8 +3,6 @@ from urlparse import urljoin
 class Droplet(JSObject):
     ### Should the `region` and `image` attributes be objects instead of dicts?
 
-    __slots__ = ()
-
     def __int__(self):
         return self.id
 

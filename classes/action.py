@@ -1,8 +1,6 @@
 from urlparse import urljoin
 
 class Action(JSObject):
-    __slots__ = ()
-
     def __int__(self):
         return self.id
 
