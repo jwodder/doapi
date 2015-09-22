@@ -178,5 +178,22 @@ class doapi(object):
                 droplets[drop["name"]].append(self.droplet(drop))
         return droplets
 
-    def fetch_ssh_key(self, id_or_print):
-        return self.request('/v2/account/keys/' + str(id_or_print))["ssh_key"]
+    def sshkey(self, obj):
+        if isinstance(obj, (int, long)):
+            dct = {"id": obj}
+        elif isinstance(obj, basestring):
+            dct = {"fingerprint": obj}
+        elif isinstance(obj, SSHKey):
+            dct = obj._asdict()
+        elif isinstance(obj, dict):
+            dct = obj.copy()
+        else:
+            raise TypeError('argument must be integer, string, dict, or SSHKey')
+        dct["doapi_manager"] = self
+        return SSHKey(dct)
+
+    def fetch_sshkey(self, id=None, fingerprint=None):
+        if isinstance(id, SSHKey):
+            return id.fetch()
+        else:
+            return self.sshkey({"id": id, "fingerprint": fingerprint}).fetch()
