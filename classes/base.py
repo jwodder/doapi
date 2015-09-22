@@ -1,9 +1,12 @@
+import json
+
 # Don't use namedtuples for this or else everything will break if DigitalOcean
 # ever adds any new fields.
 
 # If I can do `droplet.region`, why not `droplet.region.slug`?  (That way lies
 # pants on cats.)
 
+"""
 class JSObject(dict):
     __slots__ = ()
     # What would happen if I did `__slots__ = ('doapi_manager',)`?  How would
@@ -18,12 +21,14 @@ class JSObject(dict):
     def __delattr__(self, name):
         del self[name]
 
+    ### Does __missing__ have to be implemented?
+
     def _asdict(self):
         data = dict(self)
         data.pop("doapi_manager", None)
         return data
-
 """
+
 class JSObject(object):
     def __init__(self, state):
         # This shadows properties/descriptors:
@@ -37,4 +42,12 @@ class JSObject(object):
         data = vars(self).copy()
         data.pop("doapi_manager", None)
         return data
-"""
+
+
+class DOEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, JSObject):
+            return obj._asdict()
+        else:
+            #return json.JSONEncoder.default(self, obj)
+            return super(DOEncoder, self).default(obj)

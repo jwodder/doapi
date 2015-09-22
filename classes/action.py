@@ -26,3 +26,6 @@ class Action(JSObject):
         ### TODO: Look into the conditions under which this has to include the
         ### resource type & ID too
         return urljoin(endpoint, '/v2/actions/' + str(self.id))
+
+    def fetch(self):
+        return self.doapi_manager.fetch_action(int(self))

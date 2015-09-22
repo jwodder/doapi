@@ -3,6 +3,8 @@
 
 # Add options to non-`new` commands for filtering by image/size/region?
 
+# All JSON output is pretty.
+
 doapi droplet [show]
 doapi droplet show [name|id] ...
 
@@ -24,6 +26,10 @@ doapi droplet new
     name ...
 
 doapi droplet delete [name|id] ...
+
+doapi droplet <action name> [--wait ...] [name|id] ...
+
+# Add a command for raw actions
 
 doapi raw [-X method] [-f | --json-file FILE] URL|PATH < json
 

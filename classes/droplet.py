@@ -47,7 +47,7 @@ class Droplet(JSObject):
     def action_url(self, endpoint=''):
         return urljoin(endpoint, '/v2/droplets/' + str(self.id) + '/actions')
 
-    def action(self, **params):  ### Rethink name
+    def action(self, **params):  ### TODO: Rethink name; `act`?
         api = self.doapi_manager
         return api.action(api.request(self.action_url(), method='POST',
                                       params=params)["action"])
@@ -110,5 +110,8 @@ class Droplet(JSObject):
         return map(api.droplet, api.paginate(self.url() + r'\neighbors',
                                              'droplets'))
 
+    def fetch(self):
+        return self.doapi_manager.fetch_droplet(int(self))
+
     ### def wait(self, status=None)
-    # When status=None, wait for most recent action to complete/error
+    # When `status is None`, wait for most recent action to complete/error

@@ -6,7 +6,6 @@ def main():
     #parser.add_argument('--api-key-file', type=argparse.FileType('r'))
     ### Make --api-key and --api-key-file mutually exclusive
     parser.add_argument('--timeout', type=int)
-    parser.add_argument('--pretty', action='store_true')
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
     cmd_droplet = cmds.add_parser('droplet')
