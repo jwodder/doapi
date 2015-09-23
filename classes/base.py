@@ -9,7 +9,7 @@ import json
 class JSObject(object):
     def __init__(self, state):
         # This shadows properties/descriptors:
-        self.__dict__.update(state)
+        self.__dict__.update(state)  # Does this not work in Python 3?
         # This does not (but will break if DO ever adds, say, a `completed`
         # field):
         #for k,v in state.iteritems():

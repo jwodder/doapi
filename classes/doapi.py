@@ -178,8 +178,22 @@ class doapi(object):
                 droplets[drop["name"]].append(self.droplet(drop))
         return droplets
 
-    def sshkey(self, obj):
-        if isinstance(obj, (int, long)):
+    def sshkey(self, obj=None, **keyargs):
+        if obj is None:
+            ### Do `dct = keyargs` instead?
+            if keyargs.get("id", None) is not None:
+                dct = {"id": keyargs["id"]}  ### Apply `int`?
+            elif keyargs.get("fingerprint", None) is not None:
+                dct = {"fingerprint": keyargs["fingerprint"]}  ### Apply `str`?
+            else:
+                raise TypeError('Neither "id" nor "fingerprint" is defined')
+            """ ### Alternative:
+            try:
+                dct = {"id": keyargs["id"]}
+            except KeyError:
+                dct = {"fingerprint": keyargs["fingerprint"]}
+            """
+        elif isinstance(obj, (int, long)):
             dct = {"id": obj}
         elif isinstance(obj, basestring):
             dct = {"fingerprint": obj}
@@ -192,8 +206,5 @@ class doapi(object):
         dct["doapi_manager"] = self
         return SSHKey(dct)
 
-    def fetch_sshkey(self, id=None, fingerprint=None):
-        if isinstance(id, SSHKey):
-            return id.fetch()
-        else:
-            return self.sshkey({"id": id, "fingerprint": fingerprint}).fetch()
+    def fetch_sshkey(self, obj=None, **keyargs):
+        return self.sshkey(obj, **keyargs).fetch()

@@ -42,15 +42,7 @@
 
 - Add a mutating equivalent of `fetch` named `update`?
 
-- Improve handling of construction of SSH keys from either an ID or a
-  fingerprint
-    - If the `id` argument to `doapi.fetch_sshkey` is a string, should it be
-      treated as a fingerprint?
-    - Allow `doapi.sshkey` to take explicit `id=...` and `fingerprint=...`
-      arguments?
-    - Make both `doapi.sshkey` and `doapi.fetch_sshkey` have signature `(self,
-      obj=None, **dict)` and have `fetch_sshkey` pass its arguments to `sshkey`
-      for handling?
-
 - Should `doapi.fetch_*` call `<TYPE>.fetch()` instead of the other way around?
   This would eliminate duplication of URL construction logic.
+
+- Make the code work in both Python 2 and Python 3
