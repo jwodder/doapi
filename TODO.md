@@ -46,3 +46,10 @@
   This would eliminate duplication of URL construction logic.
 
 - Make the code work in both Python 2 and Python 3
+- Bring in line with PEP 8
+
+- Prepend "`fetch_`" to `all_droplets` and `all_sshkeys`?
+    - Alternatively, remove the "`fetch_`" in `fetch_droplets_by_name` and
+      `fetch_all_droplets_by_name`?
+
+- Add methods to `doapi` for fetching SSH keys by name & fingerprint?

@@ -21,5 +21,5 @@ class SSHKey(JSObject):
         api = self.doapi_manager
         return api.sshkey(api.request(self.url(), method='PUT')["ssh_key"])
 
-    def delete(self):
+    def destroy(self):
         self.doapi_manager.request(self.url(), method='DELETE')

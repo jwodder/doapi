@@ -208,3 +208,12 @@ class doapi(object):
 
     def fetch_sshkey(self, obj=None, **keyargs):
         return self.sshkey(obj, **keyargs).fetch()
+
+    def all_sshkeys(self):
+        return map(self.sshkey, self.paginate('/v2/account/keys', 'ssh_keys'))
+
+    def create_sshkey(self, name, public_key):
+        return self.sshkey(self.request('/v2/account/keys', method='POST', params={"name": name, "public_key": public_key})["ssh_key"])
+
+
+    ### (fetch_)all_actions
