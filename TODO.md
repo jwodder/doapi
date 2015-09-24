@@ -24,22 +24,20 @@
 
 - Look into more appropriate/standard names for `_asdict`
 
-- Try to find a way to return `meta` fields?
-- Add a way to fetch the `RateLimit-*` headers returned in responses?
+- Try to find a way to return `meta` fields and the `RateLimit-*` headers
+  returned in responses
+    - Give `doapi` attributes for storing these values as of the most recent
+      HTTP request?
 
 - Rename `wait_droplets_status` to `wait_droplets`, default `status` to `None`,
   and wait for the most recent action on each droplet to complete/error when
   `status is None`
-
-- Give the DO classes `copy`/`__copy__` methods and implement "copy
-  constructing"
 
 - Each DO object class must have the following methods:
     - `fetch` (accompanied by `doapi.fetch_<TYPE>`)
     - `url`
     - `__int__` (Move to JSObject?)
     - `__format__` ?????
-    - `__str__` ????? (shows `name`?)
 
 - Should `doapi.fetch_*` call `<TYPE>.fetch()` instead of the other way around?
   This would eliminate duplication of URL construction logic.
@@ -55,3 +53,10 @@
   recent action
 
 - `doapi`: Add the ability to configure pagination
+
+- Should all JSON objects (kernels, droplet upgrades, etc.) have corresponding
+  classes?
+
+- Should JSObject be made into a Mapping?
+    - Should JSObject store all of its non-`doapi_manager` attributes in a
+      dedicated dict attribute?

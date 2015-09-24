@@ -3,22 +3,29 @@ import json
 # Don't use namedtuples for this or else everything will break if DigitalOcean
 # ever adds any new fields.
 
-# If I can do `droplet.region`, why not `droplet.region.slug`?  (That way lies
-# pants on cats.)
-
 class JSObject(object):
     def __init__(self, state):
+        if isinstance(state, self.__class__):
+            state = vars(state)
         # This shadows properties/descriptors:
         self.__dict__.update(state)  # Does this not work in Python 3?
         # This does not (but will break if DO ever adds, say, a `completed`
         # field):
-        #for k,v in state.iteritems():
-        #    setattr(self, k, v)
+        """
+        for k,v in state.iteritems():
+            setattr(self, k, v)
+        """
 
     def _asdict(self):
         data = vars(self).copy()
         data.pop("doapi_manager", None)
         return data
+
+    def __copy__(self):
+        return self.__class__(vars(self))
+
+    def __deepcopy__(self, memo):
+        return self.__class__(deepcopy(vars(self), memo))
 
 
 class DOEncoder(json.JSONEncoder):
