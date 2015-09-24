@@ -91,18 +91,22 @@ class doapi(object):
     def fetch_droplet_upgrades(self):
         return self.request('/v2/droplet_upgrades')
 
-    def create_droplet(self, name, image, size, region, **args):
-        return self.droplet(self.request('/v2/droplets', method='POST', data={
-            "name":               name,
-            "image":              image,
-            "size":               str(size),
-            "region":             str(region),
-            "ssh_keys":           args.get("ssh_keys", None),
-            "backups":            args.get("backups", False),
-            "ipv6":               args.get("ipv6", False),
-            "private_networking": args.get("private_networking", False),
-            "user_data":          args.get("user_data", None),
-        })["droplet"])
+    def create_droplet(self, name, image, size, region, **data):
+        # Standard optional attributes: ssh_keys, backups, ipv6,
+        #     private_networking, user_data
+        data["name"] = name
+        data["image"] = image.id if isinstance(image, Image) else image
+        data["size"] = str(size)
+        data["region"] = str(region)
+        try:
+            keys = data["ssh_keys"]
+        except KeyError:
+            pass
+        else:
+            data["ssh_keys"] = [k.id_or_fingerprint if isinstance(k, SSHKey)
+                                                    else k for k in keys]
+        return self.droplet(self.request('/v2/droplets', method='POST',
+                                         data=data)["droplet"])
 
     def wait_droplets_status(self, droplets, status="active", interval=None,
                              maxwait=-1):
