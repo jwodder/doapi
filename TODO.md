@@ -45,7 +45,7 @@
 - Make the code work in both Python 2 and Python 3
 - Bring in line with PEP 8
 
-- Add methods to `doapi` for fetching SSH keys by name & fingerprint?
+- Add methods to `doapi` for fetching SSH keys by name
 
 - Add the ability to fetch images by slug
 
@@ -60,3 +60,6 @@
 - Should JSObject be made into a Mapping?
     - Should JSObject store all of its non-`doapi_manager` attributes in a
       dedicated dict attribute?
+
+- Give `Action` a method `fetch_resource` for fetching the object that was
+  acted upon

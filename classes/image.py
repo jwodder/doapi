@@ -33,4 +33,6 @@ class Image(JSObject):
     def convert(self):
         return self.action(type='convert')
 
-    ### fetch_actions
+    def fetch_actions(self):
+        api = self.doapi_manager
+        return map(api.action, api.paginate(self.action_url(), 'actions'))

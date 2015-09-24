@@ -126,10 +126,13 @@ class Droplet(JSObject):
     def fetch(self):
         return self.doapi_manager.fetch_droplet(int(self))
 
+    def fetch_actions(self):
+        api = self.doapi_manager
+        return map(api.action, api.paginate(self.action_url(), 'actions'))
+
     ### def wait(self, status=None)
     # When `status is None`, wait for most recent action to complete/error
 
     ### fetch_kernels
     ### fetch_snapshots
     ### fetch_backups
-    ### fetch_actions
