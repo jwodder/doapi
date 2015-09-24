@@ -54,4 +54,4 @@
 - Give `droplet` and `image` (and `doapi`?) methods for fetching the most
   recent action
 
-- `doapi`: Add the ability to configure timeouts, pagination, endpoint, etc.
+- `doapi`: Add the ability to configure pagination

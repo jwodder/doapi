@@ -10,14 +10,12 @@ from   urlparse    import urljoin
 import requests
 
 class doapi(object):
-    ENDPOINT = 'https://api.digitalocean.com'
-    WAIT_INTERVAL = 10
-
-    def __init__(self, api_key):
-        ### Add an endpoint parameter
+    def __init__(self, api_key, endpoint='https://api.digitalocean.com',
+                 timeout=60, wait_interval=10):
         self.api_key = api_key
-        self.timeout = 60
-        self.endpoint = self.ENDPOINT
+        self.endpoint = endpoint
+        self.timeout = timeout
+        self.wait_interval = wait_interval
 
     def request(self, url, params={}, data={}, method='GET'):
         headers = {
@@ -32,6 +30,7 @@ class doapi(object):
         elif method == 'POST':
             r = requests.post(url,
                               headers=headers,
+                              params=params,
                               data=json.dumps(data),
                               timeout=self.timeout)
         elif method == 'PUT':
@@ -116,7 +115,7 @@ class doapi(object):
                              maxwait=-1):
         completed = []
         if interval is None:
-            interval = self.WAIT_INTERVAL
+            interval = self.wait_interval
         end_time = time() + maxwait if maxwait > 0 else None
         droplets = map(self.droplet, droplets)
         while droplets and (end_time is None or time() < end_time):
@@ -154,7 +153,7 @@ class doapi(object):
         completed = []
         errored = []
         if interval is None:
-            interval = self.WAIT_INTERVAL
+            interval = self.wait_interval
         end_time = time() + maxwait if maxwait > 0 else end_time = None
         while actions and (end_time is None or time() < end_time):
             next_actions = []
