@@ -1,7 +1,22 @@
 from urlparse import urljoin
 
 class Droplet(JSObject):
-    ### Should the `region` and `image` attributes be objects instead of dicts?
+    def __init__(self, state):
+        if isinstance(state, Droplet):
+            state = vars(state)
+        try:
+            api = state["doapi_manager"]
+        except KeyError:
+            mkimage, mkregion, mksize = Image, Region, Size
+        else:
+            mkimage, mkregion, mksize = api.image, api.region, api.size
+        if "image" in state:
+            state["image"] = mkimage(state["image"])
+        if "region" in state:
+            state["region"] = mkregion(state["region"])
+        if "size" in state:
+            state["size"] = mksize(state["size"])
+        super(Droplet, self).__init__(state)
 
     def __int__(self):
         return self.id
