@@ -19,9 +19,6 @@ class doapi(object):
         self.timeout = 60
         self.endpoint = self.ENDPOINT
 
-    def fullpath(self, path):
-        return urljoin(self.endpoint, path)
-
     def request(self, url, params=None, method='GET'):
         if params is None:
             params = dict()
@@ -53,15 +50,8 @@ class doapi(object):
         elif method != 'DELETE':
             return r.json()
 
-    def paginate(self, path, key, params=None):
-        ### TODO: Handle `meta` and other extra fields
-        data = []
-        for page in self.raw_pages(path, params):
-            data.extend(page[key])
-        return data
-
     def raw_pages(self, path, params=None):
-        url = self.fullpath(path)
+        url = urljoin(self.endpoint, path)
         while True:
             r = self.request(url, params=params)
             yield r
@@ -69,6 +59,13 @@ class doapi(object):
                 url = r["links"]["next"]
             except KeyError:
                 break
+
+    def paginate(self, path, key, params=None):
+        ### TODO: Handle `meta` and other extra fields
+        data = []
+        for page in self.raw_pages(path, params):
+            data.extend(page[key])
+        return data
 
     def droplet(self, obj):
         if isinstance(obj, (int, long)):
@@ -82,28 +79,26 @@ class doapi(object):
         dct["doapi_manager"] = self
         return Droplet(dct)
 
-    def action(self, obj):
-        if isinstance(obj, (int, long)):
-            dct = {"id": obj}
-        elif isinstance(obj, Action):
-            dct = obj._asdict()
-        elif isinstance(obj, dict):
-            dct = obj.copy()
-        else:
-            raise TypeError('argument must be integer, dict, or Action')
-        dct["doapi_manager"] = self
-        return Action(dct)
-
-    def all_droplets(self):
-        return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
-
     def fetch_droplet(self, id):
         return self.droplet(self.request('/v2/droplets/%d' % (int(id),))["droplet"])
 
-    def fetch_action(self, id):
-        return self.action(self.request('/v2/droplets/%d' % (int(id),))["action"])
+    def fetch_all_droplets(self):
+        return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
-    def droplet_upgrades(self):
+    def fetch_droplets_by_name(self, name):
+        for page in self.raw_pages('/v2/droplets'):
+            for drop in page["droplets"]:
+                if drop["name"] == name:
+                    yield self.droplet(drop)
+
+    def fetch_all_droplets_by_name(self):
+        droplets = defaultdict(list)
+        for page in self.raw_pages('/v2/droplets'):
+            for drop in page["droplets"]:
+                droplets[drop["name"]].append(self.droplet(drop))
+        return droplets
+
+    def fetch_droplet_upgrades(self):
         return self.request('/v2/droplet_upgrades')
 
     def create_droplet(self, name, image, size, region, **args):
@@ -125,10 +120,11 @@ class doapi(object):
         if interval is None:
             interval = self.WAIT_INTERVAL
         end_time = time() + maxwait if maxwait > 0 else None
+        droplets = map(self.droplet, droplets)
         while droplets and (end_time is None or time() < end_time):
             next_droplets = []
             for d in droplets:
-                drop = self.fetch_droplet(d)
+                drop = d.fetch()
                 if (drop.status == status if isinstance(status, basestring)
                                           else drop.status in status):
                     completed.append(drop)
@@ -140,6 +136,21 @@ class doapi(object):
             else:
                 sleep(min(interval, end_time - time()))
         return (completed, droplets)
+
+    def action(self, obj):
+        if isinstance(obj, (int, long)):
+            dct = {"id": obj}
+        elif isinstance(obj, Action):
+            dct = obj._asdict()
+        elif isinstance(obj, dict):
+            dct = obj.copy()
+        else:
+            raise TypeError('argument must be integer, dict, or Action')
+        dct["doapi_manager"] = self
+        return Action(dct)
+
+    def fetch_action(self, id):
+        return self.action(self.request('/v2/droplets/%d' % (int(id),))["action"])
 
     def wait_actions(self, actions, interval=None, maxwait=-1):
         completed = []
@@ -163,19 +174,6 @@ class doapi(object):
             else:
                 sleep(min(interval, end_time - time()))
         return (completed, errored, actions)
-
-    def fetch_droplets_by_name(self, name):
-        for page in self.raw_pages('/v2/droplets'):
-            for drop in page["droplets"]:
-                if drop["name"] == name:
-                    yield self.droplet(drop)
-
-    def fetch_all_droplets_by_name(self):
-        droplets = defaultdict(list)
-        for page in self.raw_pages('/v2/droplets'):
-            for drop in page["droplets"]:
-                droplets[drop["name"]].append(self.droplet(drop))
-        return droplets
 
     def sshkey(self, obj=None, **keyargs):
         if obj is None:
@@ -208,7 +206,7 @@ class doapi(object):
     def fetch_sshkey(self, obj=None, **keyargs):
         return self.sshkey(obj, **keyargs).fetch()
 
-    def all_sshkeys(self):
+    def fetch_all_sshkeys(self):
         return map(self.sshkey, self.paginate('/v2/account/keys', 'ssh_keys'))
 
     def create_sshkey(self, name, public_key):

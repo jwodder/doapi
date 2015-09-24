@@ -41,8 +41,6 @@
     - `__format__` ?????
     - `__str__` ????? (shows `name`?)
 
-- Add a mutating equivalent of `fetch` named `update`?
-
 - Should `doapi.fetch_*` call `<TYPE>.fetch()` instead of the other way around?
   This would eliminate duplication of URL construction logic.
 
@@ -56,7 +54,7 @@
 - Give `droplet` and `image` (and `doapi`?) methods for fetching the most
   recent action
 
-- All methods that make HTTP requests (except the low-level ones?) should have
-  names that begin with "`fetch_`"
-
 - `doapi`: Add the ability to configure timeouts, pagination, endpoint, etc.
+
+- Split `doapi.request`'s `params` parameter into a parameter for URL
+  parameters and one for POST data
