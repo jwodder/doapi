@@ -102,7 +102,7 @@ class Droplet(JSObject):
     def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')
 
-    def neighbors(self):
+    def fetch_neighbors(self):
         api = self.doapi_manager
         # Yes, that's really supposed to be a literal backslash in the URL.
         return map(api.droplet, api.paginate(self.url() + r'\neighbors',
@@ -113,3 +113,8 @@ class Droplet(JSObject):
 
     ### def wait(self, status=None)
     # When `status is None`, wait for most recent action to complete/error
+
+    ### fetch_kernels
+    ### fetch_snapshots
+    ### fetch_backups
+    ### fetch_actions

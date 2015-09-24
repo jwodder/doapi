@@ -25,6 +25,7 @@
 - Look into more appropriate/standard names for `_asdict`
 
 - Try to find a way to return `meta` fields?
+- Add a way to fetch the `RateLimit-*` headers returned in responses?
 
 - Rename `wait_droplets_status` to `wait_droplets`, default `status` to `None`,
   and wait for the most recent action on each droplet to complete/error when
@@ -48,8 +49,14 @@
 - Make the code work in both Python 2 and Python 3
 - Bring in line with PEP 8
 
-- Prepend "`fetch_`" to `all_droplets` and `all_sshkeys`?
-    - Alternatively, remove the "`fetch_`" in `fetch_droplets_by_name` and
-      `fetch_all_droplets_by_name`?
-
 - Add methods to `doapi` for fetching SSH keys by name & fingerprint?
+
+- Add the ability to fetch images by slug
+
+- Give `droplet` and `image` (and `doapi`?) methods for fetching the most
+  recent action
+
+- All methods that make HTTP requests (except the low-level ones?) should have
+  names that begin with "`fetch_`"
+
+- `doapi`: Add the ability to configure timeouts, pagination, endpoint, etc.

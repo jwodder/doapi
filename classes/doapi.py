@@ -14,8 +14,7 @@ class doapi(object):
     WAIT_INTERVAL = 10
 
     def __init__(self, api_key):
-        ### Add things for config options
-        ### Add an endpoint parameter?
+        ### Add an endpoint parameter
         self.api_key = api_key
         self.timeout = 60
         self.endpoint = self.ENDPOINT
@@ -215,5 +214,39 @@ class doapi(object):
     def create_sshkey(self, name, public_key):
         return self.sshkey(self.request('/v2/account/keys', method='POST', params={"name": name, "public_key": public_key})["ssh_key"])
 
+    def image(self, obj):
+        if isinstance(obj, (int, long)):
+            dct = {"id": obj}
+        elif isinstance(obj, Image):
+            dct = obj._asdict()
+        elif isinstance(obj, dict):
+            dct = obj.copy()
+        else:
+            raise TypeError('argument must be integer, dict, or Image')
+        dct["doapi_manager"] = self
+        return Image(dct)
 
-    ### (fetch_)all_actions
+    def fetch_image(self, obj):
+        return self.image(obj).fetch()
+
+    def fetch_all_images(self, type=None, private=False):
+        params = {}
+        if type is not None:
+            params["type"] = type
+        if private:
+            params["private"] = True
+        return map(self.image, self.paginate('/v2/images', 'images',
+                                             params=params)
+
+    def fetch_all_distribution_images(self):
+        return self.fetch_all_images(type='distribution')
+
+    def fetch_all_application_images(self):
+        return self.fetch_all_images(type='application')
+
+    def fetch_all_private_images(self):
+        return self.fetch_all_images(private=True)
+
+    ### fetch_all_actions
+    ### fetch_droplet_neighbors
+    ### fetch_droplet_upgrades

@@ -14,6 +14,10 @@
   returned in when fetching multiple ones?
 - Can a non-error response object ever contain keys other than
   `droplet`/`action`/etc., `links`, and `meta`?
+- Can an image slug take the place of an image ID in all URLs that use the
+  latter, or is this only allowed when retrieving a single image?
+- What happens if you try to create a new SSH key with a key whose fingerprint
+  has already been registered?
 
 # Other notes
 
