@@ -19,9 +19,7 @@ class doapi(object):
         self.timeout = 60
         self.endpoint = self.ENDPOINT
 
-    def request(self, url, params=None, method='GET'):
-        if params is None:
-            params = dict()
+    def request(self, url, params={}, data={}, method='GET'):
         headers = {
             "Authorization": "Bearer " + self.api_key,
             "Content-Type": "application/json"
@@ -34,7 +32,7 @@ class doapi(object):
         elif method == 'POST':
             r = requests.post(url,
                               headers=headers,
-                              data=json.dumps(params),
+                              data=json.dumps(data),
                               timeout=self.timeout)
         elif method == 'PUT':
             r = requests.put(url,
@@ -102,7 +100,7 @@ class doapi(object):
         return self.request('/v2/droplet_upgrades')
 
     def create_droplet(self, name, image, size, region, **args):
-        return self.droplet(self.request('/v2/droplets', method='POST', params={
+        return self.droplet(self.request('/v2/droplets', method='POST', data={
             "name":               name,
             "image":              image,
             "size":               size,
@@ -210,7 +208,7 @@ class doapi(object):
         return map(self.sshkey, self.paginate('/v2/account/keys', 'ssh_keys'))
 
     def create_sshkey(self, name, public_key):
-        return self.sshkey(self.request('/v2/account/keys', method='POST', params={"name": name, "public_key": public_key})["ssh_key"])
+        return self.sshkey(self.request('/v2/account/keys', method='POST', data={"name": name, "public_key": public_key})["ssh_key"])
 
     def image(self, obj):
         if isinstance(obj, (int, long)):

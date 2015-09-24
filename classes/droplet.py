@@ -45,10 +45,10 @@ class Droplet(JSObject):
     def action_url(self, endpoint=''):
         return urljoin(endpoint, '/v2/droplets/' + str(self.id) + '/actions')
 
-    def action(self, **params):  ### TODO: Rethink name; `act`?
+    def action(self, **data):  ### TODO: Rethink name; `act`?
         api = self.doapi_manager
         return api.action(api.request(self.action_url(), method='POST',
-                                      params=params)["action"])
+                                      data=data)["action"])
 
     def disable_backups(self):
         return self.action(type='disable_backups')

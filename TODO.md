@@ -55,6 +55,3 @@
   recent action
 
 - `doapi`: Add the ability to configure timeouts, pagination, endpoint, etc.
-
-- Split `doapi.request`'s `params` parameter into a parameter for URL
-  parameters and one for POST data

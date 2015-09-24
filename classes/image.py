@@ -21,10 +21,10 @@ class Image(JSObject):
     def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')
 
-    def action(self, **params):  ### TODO: Rethink name; `act`?
+    def action(self, **data):  ### TODO: Rethink name; `act`?
         api = self.doapi_manager
         return api.action(api.request(self.action_url(), method='POST',
-                                      params=params)["action"])
+                                      data=data)["action"])
 
     def transfer(self, region):
         return self.action(type='transfer', region=region)
