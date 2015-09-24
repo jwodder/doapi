@@ -16,7 +16,8 @@ class Image(JSObject):
 
     def update(self, name):
         api = self.doapi_manager
-        return api.image(api.request(self.url(), method='PUT')["image"])
+        return api.image(api.request(self.url(), method='PUT',
+                                     data={"name": name})["image"])
 
     def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')

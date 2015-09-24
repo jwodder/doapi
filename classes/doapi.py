@@ -18,33 +18,26 @@ class doapi(object):
         self.wait_interval = wait_interval
 
     def request(self, url, params={}, data={}, method='GET'):
-        headers = {
-            "Authorization": "Bearer " + self.api_key,
-            "Content-Type": "application/json"
+        attrs = {
+            "headers": {
+                "Authorization": "Bearer " + self.api_key,
+                "Content-Type": "application/json"
+            },
+            "params": params,
+            "timeout": self.timeout,
         }
         if method == 'GET':
-            r = requests.get(url,
-                             headers=headers,
-                             params=params,
-                             timeout=self.timeout)
+            r = requests.get(url, **attrs)
         elif method == 'POST':
-            r = requests.post(url,
-                              headers=headers,
-                              params=params,
-                              data=json.dumps(data),
-                              timeout=self.timeout)
+            r = requests.post(url, data=json.dumps(data), **attrs)
         elif method == 'PUT':
-            r = requests.put(url,
-                             headers=headers,
-                             params=params,
-                             timeout=self.timeout)
+            r = requests.put(url, data=json.dumps(data), **attrs)
         elif method == 'DELETE':
-            r = requests.delete(url, headers=headers, timeout=self.timeout)
+            r = requests.delete(url, **attrs)
         else:
             raise ValueError('Unrecognized HTTP method: ' + repr(method))
-        if r.status_code != requests.codes.ok:
-            ???
-        elif method != 'DELETE':
+        r.raise_for_status()
+        if method != 'DELETE':
             return r.json()
 
     def raw_pages(self, path, params=None):
