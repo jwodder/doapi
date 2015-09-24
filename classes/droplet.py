@@ -39,11 +39,11 @@ class Droplet(JSObject):
 
     @property
     def region_slug(self):
-        return self.region["slug"]
+        return self.region.slug
 
     @property
     def image_slug(self):
-        return self.image["slug"]
+        return self.image.slug
 
     @property
     def ip_address(self):

@@ -33,12 +33,6 @@
   and wait for the most recent action on each droplet to complete/error when
   `status is None`
 
-- Each DO object class must have the following methods:
-    - `fetch` (accompanied by `doapi.fetch_<TYPE>`)
-    - `url`
-    - `__int__` (Move to JSObject?)
-    - `__format__` ?????
-
 - Should `doapi.fetch_*` call `<TYPE>.fetch()` instead of the other way around?
   This would eliminate duplication of URL construction logic.
 
@@ -57,9 +51,15 @@
 - Should all JSON objects (kernels, droplet upgrades, etc.) have corresponding
   classes?
 
-- Should JSObject be made into a Mapping?
+- Should JSObject be made into a Mapping (that skips `doapi_manager`)?  It
+  would allow `dict(instance)` to work, eliminating the need for `_asdict`
     - Should JSObject store all of its non-`doapi_manager` attributes in a
       dedicated dict attribute?
 
 - Give `Action` a method `fetch_resource` for fetching the object that was
   acted upon
+
+- Rename all of the `fetch_foos` methods to `fetch_all_foos`?
+
+- Change the arguments of `JSObject.__init__` to `(self, state=None, **attrs)`,
+  thereby simplifying `doapi.droplet` etc. a bit?

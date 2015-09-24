@@ -35,3 +35,13 @@ class DOEncoder(json.JSONEncoder):
         else:
             #return json.JSONEncoder.default(self, obj)
             return super(DOEncoder, self).default(obj)
+
+
+class Region(JSObject):
+    def __str__(self):
+        return self.slug
+
+
+class Size(JSObject):
+    def __str__(self):
+        return self.slug

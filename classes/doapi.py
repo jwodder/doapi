@@ -95,8 +95,8 @@ class doapi(object):
         return self.droplet(self.request('/v2/droplets', method='POST', data={
             "name":               name,
             "image":              image,
-            "size":               size,
-            "region":             region,
+            "size":               str(size),
+            "region":             str(region),
             "ssh_keys":           args.get("ssh_keys", None),
             "backups":            args.get("backups", False),
             "ipv6":               args.get("ipv6", False),
@@ -234,6 +234,32 @@ class doapi(object):
 
     def fetch_all_private_images(self):
         return self.fetch_all_images(private=True)
+
+    def region(self, obj):
+        if isinstance(obj, Region):
+            dct = obj._asdict()
+        elif isinstance(obj, dict):
+            dct = obj.copy()
+        else:
+            raise TypeError('argument must be dict or Region')
+        dct["doapi_manager"] = self
+        return Region(dct)
+
+    def fetch_all_regions(self):
+        return map(self.region, self.paginate('/v2/regions', 'regions'))
+
+    def size(self, obj):
+        if isinstance(obj, Size):
+            dct = obj._asdict()
+        elif isinstance(obj, dict):
+            dct = obj.copy()
+        else:
+            raise TypeError('argument must be dict or Size')
+        dct["doapi_manager"] = self
+        return Size(dct)
+
+    def fetch_all_sizes(self):
+        return map(self.size, self.paginate('/v2/sizes', 'sizes'))
 
     ### fetch_all_actions
     ### fetch_droplet_neighbors
