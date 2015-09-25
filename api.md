@@ -5,6 +5,8 @@
 - The input attribute table for the "Snapshot a Droplet" action omits the
   "name" attribute
 - Descriptions for accounts are missing.
+- The curl examples include an "available" field in droplet objects that is not
+  documented and doesn't seem to actually exist.
 
 # Unanswered questions about the API
 

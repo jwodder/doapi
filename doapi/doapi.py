@@ -114,6 +114,11 @@ class doapi(object):
         return self.droplet(self.request('/v2/droplets', method='POST',
                                          data=data)["droplet"])
 
+    def fetch_droplet_neighbors(self):
+        return [map(self.droplet, hood)
+                for hood in self.paginate('/v2/reports/droplet_neighbors',
+                                          'neighbors')]
+
     def wait_droplets_status(self, droplets, status="active", interval=None,
                              maxwait=-1):
         completed = []
@@ -274,5 +279,4 @@ class doapi(object):
     def fetch_all_sizes(self):
         return map(self.size, self.paginate('/v2/sizes', 'sizes'))
 
-    ### fetch_droplet_neighbors
     ### fetch_droplet_upgrades
