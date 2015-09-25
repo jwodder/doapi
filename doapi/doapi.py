@@ -15,11 +15,12 @@ from   .sshkey     import SSHKey
 
 class doapi(object):
     def __init__(self, api_key, endpoint='https://api.digitalocean.com',
-                 timeout=60, wait_interval=10):
+                 timeout=60, wait_interval=10, per_page=None):
         self.api_key = api_key
         self.endpoint = endpoint
         self.timeout = timeout
         self.wait_interval = wait_interval
+        self.per_page = per_page
 
     def request(self, url, params={}, data={}, method='GET'):
         if url[:1] == "/":
@@ -47,8 +48,13 @@ class doapi(object):
             return r.json()
 
     def raw_pages(self, path, params=None):
+        if params is None:
+            params = {}
+        if self.per_page is not None:
+            params["per_page"] = self.per_page
         while True:
             r = self.request(path, params=params)
+            ### Could reusing `params` for non-first pages cause any problems?
             yield r
             try:
                 path = r["links"]["pages"]["next"]
@@ -56,7 +62,6 @@ class doapi(object):
                 break
 
     def paginate(self, path, key, params=None):
-        ### TODO: Handle `meta` and other extra fields
         data = []
         for page in self.raw_pages(path, params):
             data.extend(page[key])

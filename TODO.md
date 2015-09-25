@@ -15,7 +15,6 @@
 
 ## Features
 
-- `doapi`: Add the ability to configure pagination
 - Implement accounts, domain records, and domains
 - Add methods to `doapi` for fetching SSH keys by name
 - Add the ability to fetch images by slug

@@ -37,6 +37,8 @@
   has already been registered?
 - What are all of the `resource_type`s that action objects can be associated
   with?
+- If a `per_page` parameter is set in a request, are the links in the response
+  guaranteed to have `per_page` parameters with the same value?
 
 # Other notes
 
