@@ -27,7 +27,8 @@
 - Is fetching an action via `/v2/actions/$ACTION_ID` always equivalent to
   fetching via `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`?
 - Is there any guarantee about the order actions (or anything else, really) are
-  returned in when fetching multiple ones?
+  returned in when fetching more than one?  They appear to be returned in
+  reverse chronological order.
 - Can a non-error response object ever contain keys other than
   `droplet`/`action`/etc., `links`, and `meta`?
 - Can an image slug take the place of an image ID in all URLs that use the

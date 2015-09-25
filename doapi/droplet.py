@@ -133,8 +133,27 @@ class Droplet(JSObject):
         api = self.doapi_manager
         return map(api.action, api.paginate(self.action_url(), 'actions'))
 
-    ### def wait(self, status=None)
-    # When `status is None`, wait for most recent action to complete/error
+    def wait(self, status=None, interval=None, maxwait=-1):
+        if status is None:
+            self.fetch_last_action().wait(interval=interval, maxwait=maxwait)
+            ### Should this do something if the action errored?
+            return self.fetch()
+        else:
+            if interval is None:
+                interval = self.doapi_manager.wait_interval
+            end_time = time() + maxwait if maxwait > 0 else None
+            current = self
+            while end_time is None or time() < end_time:
+                current = current.fetch()
+                if current.status == status:
+                    return current
+                if end_time is None:
+                    sleep(interval)
+                else:
+                    sleep(min(interval, end_time - time()))
+
+    def fetch_last_action(self):
+        raise NotImplementedError ### !!!!!
 
     ### fetch_kernels
     ### fetch_snapshots
