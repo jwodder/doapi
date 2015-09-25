@@ -63,3 +63,5 @@
 
 - Change the arguments of `JSObject.__init__` to `(self, state=None, **attrs)`,
   thereby simplifying `doapi.droplet` etc. a bit?
+
+- Replace `minibin/*` with unit tests that just invoke the command-line client

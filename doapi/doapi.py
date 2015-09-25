@@ -152,6 +152,9 @@ class doapi(object):
     def fetch_action(self, id):
         return self.action(self.request('/v2/droplets/%d' % (int(id),))["action"])
 
+    def fetch_all_actions(self):
+        return map(self.action, self.paginate('/v2/actions', 'actions'))
+
     def wait_actions(self, actions, interval=None, maxwait=-1):
         completed = []
         errored = []
@@ -271,6 +274,5 @@ class doapi(object):
     def fetch_all_sizes(self):
         return map(self.size, self.paginate('/v2/sizes', 'sizes'))
 
-    ### fetch_all_actions
     ### fetch_droplet_neighbors
     ### fetch_droplet_upgrades
