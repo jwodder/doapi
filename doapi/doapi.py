@@ -4,7 +4,6 @@
 
 from   collections import defaultdict
 import json
-import os
 from   time        import sleep, time
 from   urlparse    import urljoin
 import requests
@@ -122,13 +121,11 @@ class doapi(object):
     def wait_droplets(self, droplets, status=None, interval=None, maxwait=-1):
         droplets = map(self.droplet, droplets)
         if status is None:
-            return [a.fetch_resource()
-                    for a in self.wait_actions([d.fetch_last_action()
-                                                for d in droplets],
-                                               interval=interval,
-                                               maxwait=maxwait)]
+            for a in self.wait_actions([d.fetch_last_action()
+                                        for d in droplets],
+                                       interval=interval, maxwait=maxwait):
+                yield a.fetch_resource()
         else:
-            completed = []
             if interval is None:
                 interval = self.wait_interval
             end_time = time() + maxwait if maxwait > 0 else None
@@ -136,9 +133,8 @@ class doapi(object):
                 next_droplets = []
                 for d in droplets:
                     drop = d.fetch()
-                    if (drop.status == status if isinstance(status, basestring)
-                                              else drop.status in status):
-                        completed.append(drop)
+                    if drop.status == status:
+                        yield drop
                     else:
                         next_droplets.append(drop)
                 droplets = next_droplets
@@ -146,7 +142,6 @@ class doapi(object):
                     sleep(interval)
                 else:
                     sleep(min(interval, end_time - time()))
-            return (completed, droplets)
 
     def action(self, obj):
         if isinstance(obj, (int, long)):
@@ -167,27 +162,23 @@ class doapi(object):
         return map(self.action, self.paginate('/v2/actions', 'actions'))
 
     def wait_actions(self, actions, interval=None, maxwait=-1):
-        completed = []
-        errored = []
+        actions = map(self.action, actions)
         if interval is None:
             interval = self.wait_interval
         end_time = time() + maxwait if maxwait > 0 else None
         while actions and (end_time is None or time() < end_time):
             next_actions = []
             for a in actions:
-                act = self.fetch_action(a)
+                act = a.fetch()
                 if act.in_progress:
                     next_actions.append(act)
-                elif act.completed:
-                    completed.append(act)
                 else:
-                    errored.append(act)
+                    yield act
             actions = next_actions
             if end_time is None:
                 sleep(interval)
             else:
                 sleep(min(interval, end_time - time()))
-        return (completed, errored, actions)
 
     def sshkey(self, obj=None, **keyargs):
         if obj is None:

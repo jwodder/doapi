@@ -29,12 +29,6 @@
 
 ## Structure
 
-- Rethink how the `wait_*` commands return their results; options:
-    - Current: Return a tuple of (finished, [errored,] unfinished) objects with
-      the first two being in the order they ended
-    - Yield each object as it finishes
-    - Return a list of objects in the same order as passed to the function
-
 - Should all JSON objects (kernels, droplet upgrades, etc.) have corresponding
   classes?
 
