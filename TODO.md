@@ -59,3 +59,4 @@
 - Bring in line with PEP 8
 - Make the code work in both Python 2 and Python 3
 - Replace `minibin/*` with unit tests that just invoke the command-line client
+- Should `doapi.__init__` take a default `maxwait` value?
