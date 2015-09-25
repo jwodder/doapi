@@ -153,7 +153,13 @@ class Droplet(JSObject):
                     sleep(min(interval, end_time - time()))
 
     def fetch_last_action(self):
-        raise NotImplementedError ### !!!!!
+        ### Naive implementation:
+        api = self.doapi_manager
+        return api.action(api.request(self.action_url())["actions"][0])
+        """
+        ### Slow yet guaranteed-correct implementation:
+        return max(self.fetch_actions(), key=lambda a: a.started_at)
+        """
 
     ### fetch_kernels
     ### fetch_snapshots
