@@ -52,7 +52,7 @@ class doapi(object):
             r = self.request(path, params=params)
             yield r
             try:
-                path = r["links"]["next"]
+                path = r["links"]["pages"]["next"]
             except KeyError:
                 break
 
