@@ -1,4 +1,5 @@
 from urlparse import urljoin
+from .base    import JSObject
 
 class Image(JSObject):
     def __int__(self):

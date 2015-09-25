@@ -8,6 +8,11 @@ import os
 from   time        import sleep, time
 from   urlparse    import urljoin
 import requests
+from   .base       import Region, Size
+from   .droplet    import Droplet
+from   .image      import Image
+from   .action     import Action
+from   .sshkey     import SSHKey
 
 class doapi(object):
     def __init__(self, api_key, endpoint='https://api.digitalocean.com',
@@ -151,7 +156,7 @@ class doapi(object):
         errored = []
         if interval is None:
             interval = self.wait_interval
-        end_time = time() + maxwait if maxwait > 0 else end_time = None
+        end_time = time() + maxwait if maxwait > 0 else None
         while actions and (end_time is None or time() < end_time):
             next_actions = []
             for a in actions:
@@ -228,7 +233,7 @@ class doapi(object):
         if private:
             params["private"] = True
         return map(self.image, self.paginate('/v2/images', 'images',
-                                             params=params)
+                                             params=params))
 
     def fetch_all_distribution_images(self):
         return self.fetch_all_images(type='distribution')

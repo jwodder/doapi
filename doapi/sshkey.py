@@ -1,11 +1,12 @@
 from urlparse import urljoin
+from .base    import JSObject
 
 class SSHKey(JSObject):
     def __int__(self):
         return self.id
 
     @property
-    def id_or_fingerprint:
+    def id_or_fingerprint(self):
         if getattr(self, 'id', None) is not None:
             return self.id
         elif getattr(self, 'fingerprint', None) is not None:

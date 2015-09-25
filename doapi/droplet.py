@@ -1,4 +1,5 @@
 from urlparse import urljoin
+from .base    import JSObject
 
 class Droplet(JSObject):
     def __init__(self, state):
