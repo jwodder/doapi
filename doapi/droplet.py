@@ -11,6 +11,7 @@ class Droplet(JSObject):
             mkimage, mkregion, mksize = Image, Region, Size
         else:
             mkimage, mkregion, mksize = api.image, api.region, api.size
+        ### TODO: When these fields are `None`, leave them unchanged.
         if "image" in state:
             state["image"] = mkimage(state["image"])
         if "region" in state:

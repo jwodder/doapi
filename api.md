@@ -7,6 +7,16 @@
 - Descriptions for accounts are missing.
 - The curl examples include an "available" field in droplet objects that is not
   documented and doesn't seem to actually exist.
+- The curl (and Ruby and Go) example for "List all Droplet Neighbors" shows the
+  API returning an array of objects instead of just an object.
+- The "neighbor" requests are underdocumented.
+- The example response for "List Neighbors for a Droplet" is wrong.  The actual
+  object returned is as follows:
+    - a "droplet" field containing the droplet object whose neighbors were
+      requested
+    - ???
+- The path for getting a droplet's neighbors should be written as
+  `/v2/droplets/$DROPLET_ID\neighbors` (also, note lack of colon).
 
 # Unanswered questions about the API
 
@@ -25,5 +35,4 @@
 # Other notes
 
 - Yes, the URL path for getting a droplet's neighbors is really
-  `/v2/droplets/$DROPLET_ID\neighbors" with a `r'\n'`.  (Also, the list of
-  neighbors includes the droplet itself.)
+  `/v2/droplets/$DROPLET_ID\neighbors" with a `r'\n'`.

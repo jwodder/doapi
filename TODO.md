@@ -66,4 +66,4 @@
 
 - Replace `minibin/*` with unit tests that just invoke the command-line client
 
-- `doapi.fetch_all_private_images` doesn't seem to be working correctly
+- There's something wrong with fetching a droplet's neighbors.

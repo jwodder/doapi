@@ -240,7 +240,7 @@ class doapi(object):
         if type is not None:
             params["type"] = type
         if private:
-            params["private"] = True
+            params["private"] = 'true'
         return map(self.image, self.paginate('/v2/images', 'images',
                                              params=params))
 
