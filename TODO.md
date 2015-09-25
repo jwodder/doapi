@@ -65,3 +65,5 @@
   thereby simplifying `doapi.droplet` etc. a bit?
 
 - Replace `minibin/*` with unit tests that just invoke the command-line client
+
+- `doapi.fetch_all_private_images` doesn't seem to be working correctly

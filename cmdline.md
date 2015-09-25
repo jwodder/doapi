@@ -3,6 +3,8 @@
 
 # Add options to non-`new` commands for filtering by image/size/region?
 
+# Look into the 'parents' argument to `argparse.ArgumentParser`
+
 # All JSON output is pretty.
 
 doapi droplet [show]
@@ -38,6 +40,8 @@ doapi sshkey new name [file default:stdin]
  # Add an option for only creating if the public key isn't already present
 doapi sshkey delete [id|fingerprint|name] ...
 doapi sshkey update id|fingerprint|name newname
+
+doapi image show [--type TYPE|--distribution|--application] [--private] ...
 
 ### Wait for a droplet to reach a given state
 
