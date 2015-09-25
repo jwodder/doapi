@@ -56,9 +56,6 @@
     - Should JSObject store all of its non-`doapi_manager` attributes in a
       dedicated dict attribute?
 
-- Give `Action` a method `fetch_resource` for fetching the object that was
-  acted upon
-
 - Rename all of the `fetch_foos` methods to `fetch_all_foos`?
 
 - Change the arguments of `JSObject.__init__` to `(self, state=None, **attrs)`,
@@ -67,3 +64,5 @@
 - Replace `minibin/*` with unit tests that just invoke the command-line client
 
 - There's something wrong with fetching a droplet's neighbors.
+
+- Implement accounts, domain records, and domains

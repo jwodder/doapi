@@ -17,6 +17,9 @@
     - ???
 - The path for getting a droplet's neighbors should be written as
   `/v2/droplets/$DROPLET_ID\neighbors` (also, note lack of colon).
+- Accounts are underdocumented.
+- The example response for fetching an account omits the relatively-recently
+  added "status" and "status_message" fields.
 
 # Unanswered questions about the API
 
@@ -31,6 +34,8 @@
   latter, or is this only allowed when retrieving a single image?
 - What happens if you try to create a new SSH key with a key whose fingerprint
   has already been registered?
+- What are all of the `resource_type`s that action objects can be associated
+  with?
 
 # Other notes
 

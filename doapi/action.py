@@ -28,3 +28,11 @@ class Action(JSObject):
 
     def fetch(self):
         return self.doapi_manager.fetch_action(int(self))
+
+    def fetch_resource(self):
+        if self.resource_type == "droplet":
+            return self.doapi_manager.fetch_droplet(self.resource_id)
+        elif self.resource_type == "image":
+            return self.doapi_manager.fetch_image(self.resource_id)
+        else:
+            raise ValueError('unknown resource_type: ' + repr(self.resource_type))
