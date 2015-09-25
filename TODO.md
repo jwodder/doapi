@@ -26,9 +26,6 @@
     - Give `doapi` attributes for storing these values as of the most recent
       HTTP request?
 - There's something wrong with fetching a droplet's neighbors.
-- Rename `wait_droplets_status` to `wait_droplets`, default `status` to `None`,
-  and wait for the most recent action on each droplet to complete/error when
-  `status is None`
 
 ## Structure
 

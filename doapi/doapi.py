@@ -119,28 +119,34 @@ class doapi(object):
                 for hood in self.paginate('/v2/reports/droplet_neighbors',
                                           'neighbors')]
 
-    def wait_droplets_status(self, droplets, status="active", interval=None,
-                             maxwait=-1):
-        completed = []
-        if interval is None:
-            interval = self.wait_interval
-        end_time = time() + maxwait if maxwait > 0 else None
+    def wait_droplets(self, droplets, status=None, interval=None, maxwait=-1):
         droplets = map(self.droplet, droplets)
-        while droplets and (end_time is None or time() < end_time):
-            next_droplets = []
-            for d in droplets:
-                drop = d.fetch()
-                if (drop.status == status if isinstance(status, basestring)
-                                          else drop.status in status):
-                    completed.append(drop)
+        if status is None:
+            return [a.fetch_resource()
+                    for a in self.wait_actions([d.fetch_last_action()
+                                                for d in droplets],
+                                               interval=interval,
+                                               maxwait=maxwait)]
+        else:
+            completed = []
+            if interval is None:
+                interval = self.wait_interval
+            end_time = time() + maxwait if maxwait > 0 else None
+            while droplets and (end_time is None or time() < end_time):
+                next_droplets = []
+                for d in droplets:
+                    drop = d.fetch()
+                    if (drop.status == status if isinstance(status, basestring)
+                                              else drop.status in status):
+                        completed.append(drop)
+                    else:
+                        next_droplets.append(drop)
+                droplets = next_droplets
+                if end_time is None:
+                    sleep(interval)
                 else:
-                    next_droplets.append(drop)
-            droplets = next_droplets
-            if end_time is None:
-                sleep(interval)
-            else:
-                sleep(min(interval, end_time - time()))
-        return (completed, droplets)
+                    sleep(min(interval, end_time - time()))
+            return (completed, droplets)
 
     def action(self, obj):
         if isinstance(obj, (int, long)):
