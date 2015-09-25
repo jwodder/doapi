@@ -7,16 +7,19 @@ from   tabulate import tabulate
 
 fields = [
     ("ID", "id"),
-    ("Name", "name"),
-    ("IP address", "ip_address"),
     ("Status", "status"),
-    ("Image", "image_slug"),
-    ("Size", "size_slug"),
+    ("Type", "type"),
+    ("Start", "started_at"),
+    ("End", "completed_at"),
     ("Region", "region_slug"),
 ]
 
 with open(os.path.expanduser('~/.doapi')) as fp:
     key = fp.read().strip()
 api = doapi.doapi(key)
-tabulate(zip(*fields)[0], [[getattr(drop, f) for _, f in fields]
-                           for drop in api.fetch_all_droplets()])
+
+for dropid in sys.argv[1:]:
+    drop = api.fetch_droplet(int(dropid))
+    tabulate(zip(*fields)[0], [[getattr(act, f) for _, f in fields]
+                               for act in drop.fetch_actions()])
+    print

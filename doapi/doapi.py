@@ -23,6 +23,8 @@ class doapi(object):
         self.wait_interval = wait_interval
 
     def request(self, url, params={}, data={}, method='GET'):
+        if url[:1] == "/":
+            url = urljoin(self.endpoint, url)
         attrs = {
             "headers": {
                 "Authorization": "Bearer " + self.api_key,
@@ -46,12 +48,11 @@ class doapi(object):
             return r.json()
 
     def raw_pages(self, path, params=None):
-        url = urljoin(self.endpoint, path)
         while True:
-            r = self.request(url, params=params)
+            r = self.request(path, params=params)
             yield r
             try:
-                url = r["links"]["next"]
+                path = r["links"]["next"]
             except KeyError:
                 break
 
