@@ -1,6 +1,7 @@
 #!/bin/bash
-DO_API_KEY=???
-DROPLET=???
+DO_API_KEY="$(cat ~/.doapi)"
+DROPLET=${1:?Usage: $0 droplet size}
+SIZE=${2:?Usage: $0 droplet size}
 
 function action {
     droplet="$1"
@@ -29,6 +30,6 @@ set -ex
 
 action $DROPLET '{"type":"shutdown"}' 
 
-action $DROPLET '{"type":"resize","size":"4gb","disk":true}'
+action $DROPLET '{"type":"resize","size":"'$SIZE'","disk":true}'
 
 action $DROPLET '{"type":"power_on"}'

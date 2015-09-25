@@ -1,8 +1,7 @@
 #!/bin/bash
-: ${DO_API_KEY:?Environment variable DO_API_KEY not defined}
-
-DROPLET=???
-IMAGE=ubuntu-12-04-x64
+DO_API_KEY="$(cat ~/.doapi)"
+DROPLET=${1:?Usage: $0 droplet image}
+IMAGE=${2:?Usage: $0 droplet image}
 
 function action {
     droplet="$1"

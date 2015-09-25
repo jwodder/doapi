@@ -4,6 +4,7 @@
   actually 20 per page.
 - The input attribute table for the "Snapshot a Droplet" action omits the
   "name" attribute
+- Descriptions for accounts are missing.
 
 # Unanswered questions about the API
 
