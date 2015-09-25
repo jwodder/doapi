@@ -33,9 +33,6 @@
   and wait for the most recent action on each droplet to complete/error when
   `status is None`
 
-- Should `doapi.fetch_*` call `<TYPE>.fetch()` instead of the other way around?
-  This would eliminate duplication of URL construction logic.
-
 - Make the code work in both Python 2 and Python 3
 - Bring in line with PEP 8
 

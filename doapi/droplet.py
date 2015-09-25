@@ -126,7 +126,8 @@ class Droplet(JSObject):
                                              'droplets'))
 
     def fetch(self):
-        return self.doapi_manager.fetch_droplet(int(self))
+        api = self.doapi_manager
+        return api.droplet(api.request(self.url())["droplet"])
 
     def fetch_actions(self):
         api = self.doapi_manager

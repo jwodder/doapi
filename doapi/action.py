@@ -27,7 +27,8 @@ class Action(JSObject):
         return urljoin(endpoint, '/v2/actions/' + str(self.id))
 
     def fetch(self):
-        return self.doapi_manager.fetch_action(int(self))
+        api = self.doapi_manager
+        return api.action(api.request(self.url())["action"])
 
     def fetch_resource(self):
         if self.resource_type == "droplet":

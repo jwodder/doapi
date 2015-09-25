@@ -75,8 +75,8 @@ class doapi(object):
         dct["doapi_manager"] = self
         return Droplet(dct)
 
-    def fetch_droplet(self, id):
-        return self.droplet(self.request('/v2/droplets/%d' % (int(id),))["droplet"])
+    def fetch_droplet(self, obj):
+        return self.droplet(obj).fetch()
 
     def fetch_all_droplets(self):
         return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
@@ -154,8 +154,8 @@ class doapi(object):
         dct["doapi_manager"] = self
         return Action(dct)
 
-    def fetch_action(self, id):
-        return self.action(self.request('/v2/droplets/%d' % (int(id),))["action"])
+    def fetch_action(self, obj):
+        return self.action(obj).fetch()
 
     def fetch_all_actions(self):
         return map(self.action, self.paginate('/v2/actions', 'actions'))
