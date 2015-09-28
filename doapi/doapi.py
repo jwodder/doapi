@@ -1,7 +1,3 @@
-### Everything other than `request` returns only the actual relevant value,
-### omitting `meta`, `links`, etc.  If you want the extra fields, do a raw
-### request yourself.
-
 from   collections import defaultdict
 import json
 from   time        import sleep, time
@@ -21,6 +17,8 @@ class doapi(object):
         self.timeout = timeout
         self.wait_interval = wait_interval
         self.per_page = per_page
+        self.last_response = None
+        self.last_meta = None
 
     def request(self, url, params={}, data={}, method='GET'):
         if url[:1] == "/":
@@ -43,9 +41,25 @@ class doapi(object):
             r = requests.delete(url, **attrs)
         else:
             raise ValueError('Unrecognized HTTP method: ' + repr(method))
+        self.last_response = r
+        self.last_meta = None
         r.raise_for_status()
         if method != 'DELETE':
-            return r.json()
+            response = r.json()
+            try:
+                self.last_meta = response["meta"]
+            except (KeyError, TypeError):
+                pass
+            return response
+
+    @property
+    def last_rate_limit(self):
+        if self.last_response is None:
+            return None
+        else:
+            ### Double-check this:
+            return {k:v for k,v in self.last_response.headers.iteritems()
+                        if k.startswith('ratelimit')}
 
     def raw_pages(self, path, params=None):
         if params is None:

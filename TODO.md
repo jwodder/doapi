@@ -20,10 +20,6 @@
 - Add the ability to fetch images by slug
 - Give `droplet` and `image` (and `doapi`?) methods for fetching the most
   recent action
-- Try to find a way to return `meta` fields and the `RateLimit-*` headers
-  returned in responses
-    - Give `doapi` attributes for storing these values as of the most recent
-      HTTP request?
 - There's something wrong with fetching a droplet's neighbors.
 
 ## Structure
@@ -35,6 +31,7 @@
   would allow `dict(instance)` to work, eliminating the need for `_asdict`
     - Should JSObject store all of its non-`doapi_manager` attributes in a
       dedicated dict attribute?
+    - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict`
 
 - Change the arguments of `JSObject.__init__` to `(self, state=None, **attrs)`,
   thereby simplifying `doapi.droplet` etc. a bit?
