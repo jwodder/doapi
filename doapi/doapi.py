@@ -61,25 +61,20 @@ class doapi(object):
             return {k:v for k,v in self.last_response.headers.iteritems()
                         if k.startswith('ratelimit')}
 
-    def raw_pages(self, path, params=None):
+    def paginate(self, path, key, params=None):
         if params is None:
             params = {}
         if self.per_page is not None:
             params["per_page"] = self.per_page
         while True:
-            r = self.request(path, params=params)
+            page = self.request(path, params=params)
             ### Could reusing `params` for non-first pages cause any problems?
-            yield r
+            for obj in page[key]:
+                yield obj
             try:
-                path = r["links"]["pages"]["next"]
+                path = page["links"]["pages"]["next"]
             except KeyError:
                 break
-
-    def paginate(self, path, key, params=None):
-        data = []
-        for page in self.raw_pages(path, params):
-            data.extend(page[key])
-        return data
 
     def droplet(self, obj):
         if isinstance(obj, (int, long)):
@@ -100,15 +95,14 @@ class doapi(object):
         return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
     def fetch_droplets_by_name(self, name):
-        return [self.droplet(drop) for page in self.raw_pages('/v2/droplets')
-                                   for drop in page["droplets"]
+        return [self.droplet(drop) for drop in self.paginate('/v2/droplets',
+                                                             'droplets')
                                    if drop["name"] == name]
 
     def fetch_all_droplets_by_name(self):
         droplets = defaultdict(list)
-        for page in self.raw_pages('/v2/droplets'):
-            for drop in page["droplets"]:
-                droplets[drop["name"]].append(self.droplet(drop))
+        for drop in self.paginate('/v2/droplets', 'droplets'):
+            droplets[drop["name"]].append(self.droplet(drop))
         return droplets
 
     def fetch_droplet_upgrades(self):
