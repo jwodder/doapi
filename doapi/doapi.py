@@ -100,10 +100,9 @@ class doapi(object):
         return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
     def fetch_droplets_by_name(self, name):
-        for page in self.raw_pages('/v2/droplets'):
-            for drop in page["droplets"]:
-                if drop["name"] == name:
-                    yield self.droplet(drop)
+        return [self.droplet(drop) for page in self.raw_pages('/v2/droplets')
+                                   for drop in page["droplets"]
+                                   if drop["name"] == name]
 
     def fetch_all_droplets_by_name(self):
         droplets = defaultdict(list)
