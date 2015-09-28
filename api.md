@@ -5,6 +5,8 @@
 - The input attribute table for the "Snapshot a Droplet" action omits the
   "name" attribute
 - Descriptions for accounts are missing.
+- The example response for fetching an account omits the relatively-recently
+  added "status" and "status_message" fields.
 - The curl examples include an "available" field in droplet objects that is not
   documented and doesn't seem to actually exist.
 - The curl (and Ruby and Go) example for "List all Droplet Neighbors" shows the
@@ -17,9 +19,6 @@
     - ???
 - The path for getting a droplet's neighbors should be written as
   `/v2/droplets/$DROPLET_ID\neighbors` (also, note lack of colon).
-- Accounts are underdocumented.
-- The example response for fetching an account omits the relatively-recently
-  added "status" and "status_message" fields.
 
 # Unanswered questions about the API
 

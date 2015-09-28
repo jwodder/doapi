@@ -45,3 +45,8 @@ class Region(JSObject):
 class Size(JSObject):
     def __str__(self):
         return self.slug
+
+
+class Account(JSObject):
+    def fetch(self):
+        return self.doapi_manager.fetch_account()

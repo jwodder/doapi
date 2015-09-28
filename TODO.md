@@ -11,11 +11,13 @@
 - Droplet action commands that require the droplet to be off should have a flag
   for ensuring the droplet is off beforehand
 
+- Add a way to get the current rate limit
+
 # Internals
 
 ## Features
 
-- Implement accounts, domain records, and domains
+- Implement support for domains and domain records
 - Add methods to `doapi` for fetching SSH keys by name
 - Add the ability to fetch images by slug
 - Give `droplet` and `image` (and `doapi`?) methods for fetching the most

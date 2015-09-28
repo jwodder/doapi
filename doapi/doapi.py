@@ -288,4 +288,9 @@ class doapi(object):
     def fetch_all_sizes(self):
         return map(self.size, self.paginate('/v2/sizes', 'sizes'))
 
+    def fetch_account(self):
+        account = self.request("/v2/account")["account"]
+        account["doapi_manager"] = self
+        return Account(account)
+
     ### fetch_droplet_upgrades
