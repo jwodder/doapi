@@ -1,6 +1,3 @@
-### Add `--unique` options for enforcing uniqueness among droplet names (and
-### then add an `--ignore` option for not erroring on nonunique names)
-
 # Add options to non-`new` commands for filtering by image/size/region?
 
 # Look into the 'parents' argument to `argparse.ArgumentParser`
@@ -33,10 +30,11 @@ doapi droplet <action name> [--wait ...] [name|id] ...
 
 # Add a command for raw actions
 
-doapi raw [-X method] [-f | --json-file FILE] URL|PATH < json
+doapi raw [-X method] [-f | --json-file FILE] URL|PATH < data
 # Add an option for printing headers to stderr
 # Instead of "raw" and an "-X method" option, have commands named "get",
 #   "post", "put", and "delete" (and "head"?) ?
+# Add a `--paginate KEY` argument?
 
 doapi sshkey [show [id|fingerprint|name] ...]
 doapi sshkey new name [file default:stdin]
@@ -64,6 +62,9 @@ Options common to all actions (including creating droplets):
     --wait-time seconds
     --wait-interval seconds
 
+Options common to all operations on droplets:
+    --unique  # enforces uniqueness among droplet names
+    --ignore ?  # with `--unique`, don't error on nonunique names
 
 API key sources, in order of precedence:
  - API key or keyfile specified on the command-line (mutually exclusive)

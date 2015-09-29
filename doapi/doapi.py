@@ -3,7 +3,7 @@ import json
 from   time        import sleep, time
 from   urlparse    import urljoin
 import requests
-from   .base       import Region, Size
+from   .base       import Region, Size, Account
 from   .droplet    import Droplet
 from   .image      import Image
 from   .action     import Action
@@ -78,15 +78,11 @@ class doapi(object):
 
     def droplet(self, obj):
         if isinstance(obj, (int, long)):
-            dct = {"id": obj}
-        elif isinstance(obj, Droplet):
-            dct = obj._asdict()
-        elif isinstance(obj, dict):
-            dct = obj.copy()
+            return Droplet(id=obj, doapi_manager=self)
+        elif isinstance(obj, (Droplet, dict)):
+            return Droplet(obj, doapi_manager=self)
         else:
             raise TypeError('argument must be integer, dict, or Droplet')
-        dct["doapi_manager"] = self
-        return Droplet(dct)
 
     def fetch_droplet(self, obj):
         return self.droplet(obj).fetch()
@@ -157,15 +153,11 @@ class doapi(object):
 
     def action(self, obj):
         if isinstance(obj, (int, long)):
-            dct = {"id": obj}
-        elif isinstance(obj, Action):
-            dct = obj._asdict()
-        elif isinstance(obj, dict):
-            dct = obj.copy()
+            return Action(id=obj, doapi_manager=self)
+        elif isinstance(obj, (Action, dict)):
+            return Action(obj, doapi_manager=self)
         else:
             raise TypeError('argument must be integer, dict, or Action')
-        dct["doapi_manager"] = self
-        return Action(dct)
 
     def fetch_action(self, obj):
         return self.action(obj).fetch()
@@ -194,31 +186,15 @@ class doapi(object):
 
     def sshkey(self, obj=None, **keyargs):
         if obj is None:
-            ### Do `dct = keyargs` instead?
-            if keyargs.get("id", None) is not None:
-                dct = {"id": keyargs["id"]}  ### Apply `int`?
-            elif keyargs.get("fingerprint", None) is not None:
-                dct = {"fingerprint": keyargs["fingerprint"]}  ### Apply `str`?
-            else:
-                raise TypeError('Neither "id" nor "fingerprint" is defined')
-            """ ### Alternative:
-            try:
-                dct = {"id": keyargs["id"]}
-            except KeyError:
-                dct = {"fingerprint": keyargs["fingerprint"]}
-            """
+            return SSHKey(keyargs, doapi_manager=self)
         elif isinstance(obj, (int, long)):
-            dct = {"id": obj}
+            return SSHKey(id=obj, doapi_manager=self)
         elif isinstance(obj, basestring):
-            dct = {"fingerprint": obj}
-        elif isinstance(obj, SSHKey):
-            dct = obj._asdict()
-        elif isinstance(obj, dict):
-            dct = obj.copy()
+            return SSHKey(fingerprint=obj, doapi_manager=self)
+        elif isinstance(obj, (SSHKey, dict)):
+            return SSHKey(obj, doapi_manager=self)
         else:
             raise TypeError('argument must be integer, string, dict, or SSHKey')
-        dct["doapi_manager"] = self
-        return SSHKey(dct)
 
     def fetch_sshkey(self, obj=None, **keyargs):
         return self.sshkey(obj, **keyargs).fetch()
@@ -231,15 +207,11 @@ class doapi(object):
 
     def image(self, obj):
         if isinstance(obj, (int, long)):
-            dct = {"id": obj}
-        elif isinstance(obj, Image):
-            dct = obj._asdict()
-        elif isinstance(obj, dict):
-            dct = obj.copy()
+            return Image(id=obj, doapi_manager=self)
+        elif isinstance(obj, (Image, dict)):
+            return Image(obj, doapi_manager=self)
         else:
             raise TypeError('argument must be integer, dict, or Image')
-        dct["doapi_manager"] = self
-        return Image(dct)
 
     def fetch_image(self, obj):
         return self.image(obj).fetch()
@@ -263,27 +235,13 @@ class doapi(object):
         return self.fetch_all_images(private=True)
 
     def region(self, obj):
-        if isinstance(obj, Region):
-            dct = obj._asdict()
-        elif isinstance(obj, dict):
-            dct = obj.copy()
-        else:
-            raise TypeError('argument must be dict or Region')
-        dct["doapi_manager"] = self
-        return Region(dct)
+        return Region(obj, doapi_manager=self)
 
     def fetch_all_regions(self):
         return map(self.region, self.paginate('/v2/regions', 'regions'))
 
     def size(self, obj):
-        if isinstance(obj, Size):
-            dct = obj._asdict()
-        elif isinstance(obj, dict):
-            dct = obj.copy()
-        else:
-            raise TypeError('argument must be dict or Size')
-        dct["doapi_manager"] = self
-        return Size(dct)
+        return Size(obj, doapi_manager=self)
 
     def fetch_all_sizes(self):
         return map(self.size, self.paginate('/v2/sizes', 'sizes'))

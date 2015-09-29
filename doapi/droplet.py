@@ -1,22 +1,23 @@
+from time     import sleep, time
 from urlparse import urljoin
 from .base    import JSObject, Kernel
 
 class Droplet(JSObject):
-    def __init__(self, state):
+    def __init__(self, state={}, **extra):
         if isinstance(state, Droplet):
             state = vars(state)
+        state = dict(state, **extra)
         try:
             api = state["doapi_manager"]
         except KeyError:
             mkimage, mkregion, mksize = Image, Region, Size
         else:
             mkimage, mkregion, mksize = api.image, api.region, api.size
-        ### TODO: When these fields are `None`, leave them unchanged.
-        if "image" in state:
+        if state.get("image") is not None:
             state["image"] = mkimage(state["image"])
-        if "region" in state:
+        if state.get("region") is not None:
             state["region"] = mkregion(state["region"])
-        if "size" in state:
+        if state.get("size") is not None:
             state["size"] = mksize(state["size"])
         super(Droplet, self).__init__(state)
 
@@ -171,5 +172,5 @@ class Droplet(JSObject):
 
     def fetch_all_kernels(self):
         api = self.doapi_manager
-        return [Kernel(dict(kern, doapi_manager=api))
+        return [Kernel(kern, doapi_manager=api)
                 for kern in api.paginate(self.url() + '/kernels', 'kernels')]

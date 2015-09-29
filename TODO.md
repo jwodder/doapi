@@ -32,16 +32,22 @@
 - Should all JSON objects (kernels, droplet upgrades, etc.) have corresponding
   classes?
 
+- Should the "networks" field of droplets have its own class?
+
 - Should JSObject be made into a Mapping (that skips `doapi_manager`)?  It
   would allow `dict(instance)` to work, eliminating the need for `_asdict`
     - Should JSObject store all of its non-`doapi_manager` attributes in a
       dedicated dict attribute?
     - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict`
 
-- Change the arguments of `JSObject.__init__` to `(self, state=None, **attrs)`,
-  thereby simplifying `doapi.droplet` etc. a bit?
+- Should `JSObject.__init__` allow the `state` to be an integer to be used as
+  an ID (or a string to use as a fingerprint for SSHKeys?), thereby simplifying
+  `doapi.droplet` etc. a bit more?
 
-- Delete `doapi.size` and `doapi.region`?
+- Give `doapi` `account`, `kernel`, etc. methods?
+
+- Should kernels, snapshots, and backups store the droplets for which they were
+  retrieved?
 
 ## Other
 
@@ -54,5 +60,6 @@
 - Make the code work in both Python 2 and Python 3
 - Replace `minibin/*` with unit tests that just invoke the command-line client
 - Should `doapi.__init__` take a default `maxwait` value?
-- Define `image.__str__` to return the slug?
+- Define `Image.__str__` to return the slug?
+- Define `SSHKey.__str__` to return the fingerprint?
 - Should any classes have `__str__` methods that return `name` attributes?

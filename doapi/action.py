@@ -1,3 +1,4 @@
+from time     import sleep, time
 from urlparse import urljoin
 from .base    import JSObject
 

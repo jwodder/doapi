@@ -4,15 +4,18 @@ import json
 # ever adds any new fields.
 
 class JSObject(object):
-    def __init__(self, state):
+    def __init__(self, state={}, **extra):
         if isinstance(state, self.__class__):
             state = vars(state)
         # This shadows properties/descriptors:
-        self.__dict__.update(state)  # Does this not work in Python 3?
+        self.__dict__.update(state)
+        self.__dict__.update(extra)
         # This does not (but will break if DO ever adds, say, a `completed`
         # field):
         """
         for k,v in state.iteritems():
+            setattr(self, k, v)
+        for k,v in extra.iteritems():
             setattr(self, k, v)
         """
 
