@@ -40,10 +40,6 @@
       dedicated dict attribute?
     - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict`
 
-- Should `JSObject.__init__` allow the `state` to be an integer to be used as
-  an ID (or a string to use as a fingerprint for SSHKeys?), thereby simplifying
-  `doapi.droplet` etc. a bit more?
-
 - Give `doapi` `account`, `kernel`, etc. methods?
 
 - Should kernels, snapshots, and backups store the droplets for which they were

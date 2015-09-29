@@ -1,25 +1,23 @@
 from time     import sleep, time
 from urlparse import urljoin
-from .base    import JSObject, Kernel
+from .base    import JSObject, Region, Size, Kernel
+from .image   import Image
 
 class Droplet(JSObject):
     def __init__(self, state={}, **extra):
-        if isinstance(state, Droplet):
-            state = vars(state)
-        state = dict(state, **extra)
+        super(Droplet, self).__init__(state, **extra)
         try:
-            api = state["doapi_manager"]
-        except KeyError:
+            api = self.doapi_manager
+        except AttributeError:
             mkimage, mkregion, mksize = Image, Region, Size
         else:
             mkimage, mkregion, mksize = api.image, api.region, api.size
-        if state.get("image") is not None:
-            state["image"] = mkimage(state["image"])
-        if state.get("region") is not None:
-            state["region"] = mkregion(state["region"])
-        if state.get("size") is not None:
-            state["size"] = mksize(state["size"])
-        super(Droplet, self).__init__(state)
+        if getattr(self, "image", None) is not None:
+            self.image = mkimage(self.image)
+        if getattr(self, "region", None) is not None:
+            self.region = mkregion(self.region)
+        if getattr(self, "size", None) is not None:
+            self.size = mksize(self.size)
 
     def __int__(self):
         return self.id

@@ -77,12 +77,7 @@ class doapi(object):
                 break
 
     def droplet(self, obj):
-        if isinstance(obj, (int, long)):
-            return Droplet(id=obj, doapi_manager=self)
-        elif isinstance(obj, (Droplet, dict)):
-            return Droplet(obj, doapi_manager=self)
-        else:
-            raise TypeError('argument must be integer, dict, or Droplet')
+        return Droplet(obj, doapi_manager=self)
 
     def fetch_droplet(self, obj):
         return self.droplet(obj).fetch()
@@ -152,12 +147,7 @@ class doapi(object):
                     sleep(min(interval, end_time - time()))
 
     def action(self, obj):
-        if isinstance(obj, (int, long)):
-            return Action(id=obj, doapi_manager=self)
-        elif isinstance(obj, (Action, dict)):
-            return Action(obj, doapi_manager=self)
-        else:
-            raise TypeError('argument must be integer, dict, or Action')
+        return Action(obj, doapi_manager=self)
 
     def fetch_action(self, obj):
         return self.action(obj).fetch()
@@ -185,16 +175,7 @@ class doapi(object):
                 sleep(min(interval, end_time - time()))
 
     def sshkey(self, obj=None, **keyargs):
-        if obj is None:
-            return SSHKey(keyargs, doapi_manager=self)
-        elif isinstance(obj, (int, long)):
-            return SSHKey(id=obj, doapi_manager=self)
-        elif isinstance(obj, basestring):
-            return SSHKey(fingerprint=obj, doapi_manager=self)
-        elif isinstance(obj, (SSHKey, dict)):
-            return SSHKey(obj, doapi_manager=self)
-        else:
-            raise TypeError('argument must be integer, string, dict, or SSHKey')
+        return SSHKey(obj, doapi_manager=self, **keyargs)
 
     def fetch_sshkey(self, obj=None, **keyargs):
         return self.sshkey(obj, **keyargs).fetch()
@@ -206,12 +187,7 @@ class doapi(object):
         return self.sshkey(self.request('/v2/account/keys', method='POST', data={"name": name, "public_key": public_key})["ssh_key"])
 
     def image(self, obj):
-        if isinstance(obj, (int, long)):
-            return Image(id=obj, doapi_manager=self)
-        elif isinstance(obj, (Image, dict)):
-            return Image(obj, doapi_manager=self)
-        else:
-            raise TypeError('argument must be integer, dict, or Image')
+        return Image(obj, doapi_manager=self)
 
     def fetch_image(self, obj):
         return self.image(obj).fetch()

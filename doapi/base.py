@@ -1,3 +1,4 @@
+import copy
 import json
 
 # Don't use namedtuples for this or else everything will break if DigitalOcean
@@ -5,7 +6,9 @@ import json
 
 class JSObject(object):
     def __init__(self, state={}, **extra):
-        if isinstance(state, self.__class__):
+        if isinstance(state, (int, long)):
+            state = {"id": state}
+        elif isinstance(state, self.__class__):
             state = vars(state)
         # This shadows properties/descriptors:
         self.__dict__.update(state)
@@ -28,7 +31,7 @@ class JSObject(object):
         return self.__class__(vars(self))
 
     def __deepcopy__(self, memo):
-        return self.__class__(deepcopy(vars(self), memo))
+        return self.__class__(copy.deepcopy(vars(self), memo))
 
 
 class DOEncoder(json.JSONEncoder):
