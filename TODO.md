@@ -13,6 +13,9 @@
 
 - Add a way to get the current rate limit
 
+- Add an option (for non-raw commands) for printing the response headers to
+  stderr?
+
 # Internals
 
 ## Features
@@ -38,6 +41,8 @@
 - Change the arguments of `JSObject.__init__` to `(self, state=None, **attrs)`,
   thereby simplifying `doapi.droplet` etc. a bit?
 
+- Delete `doapi.size` and `doapi.region`?
+
 ## Other
 
 - Document everything!
@@ -49,3 +54,5 @@
 - Make the code work in both Python 2 and Python 3
 - Replace `minibin/*` with unit tests that just invoke the command-line client
 - Should `doapi.__init__` take a default `maxwait` value?
+- Define `image.__str__` to return the slug?
+- Should any classes have `__str__` methods that return `name` attributes?

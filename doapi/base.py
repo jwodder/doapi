@@ -50,3 +50,12 @@ class Size(JSObject):
 class Account(JSObject):
     def fetch(self):
         return self.doapi_manager.fetch_account()
+
+
+class Kernel(JSObject):
+    def __int__(self):
+        return self.id
+
+
+class DropletUpgrade(JSObject):
+    pass

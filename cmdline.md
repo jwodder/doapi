@@ -34,6 +34,9 @@ doapi droplet <action name> [--wait ...] [name|id] ...
 # Add a command for raw actions
 
 doapi raw [-X method] [-f | --json-file FILE] URL|PATH < json
+# Add an option for printing headers to stderr
+# Instead of "raw" and an "-X method" option, have commands named "get",
+#   "post", "put", and "delete" (and "head"?) ?
 
 doapi sshkey [show [id|fingerprint|name] ...]
 doapi sshkey new name [file default:stdin]
@@ -49,6 +52,17 @@ doapi image show [--type TYPE|--distribution|--application] [--private] ...
 ### pending action at a time, this can be replaced with "Wait for the latest
 ### action on a droplet to complete"
 
+
+Options common to all commands:
+    --api-key key
+    --api-key-file file
+    --timeout int
+    --endpoint URL
+
+Options common to all actions (including creating droplets):
+    --wait
+    --wait-time seconds
+    --wait-interval seconds
 
 
 API key sources, in order of precedence:

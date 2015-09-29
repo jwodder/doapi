@@ -1,5 +1,5 @@
 from urlparse import urljoin
-from .base    import JSObject
+from .base    import JSObject, Kernel
 
 class Droplet(JSObject):
     def __init__(self, state):
@@ -161,6 +161,15 @@ class Droplet(JSObject):
         return max(self.fetch_actions(), key=lambda a: a.started_at)
         """
 
-    ### fetch_kernels
-    ### fetch_snapshots
-    ### fetch_backups
+    def fetch_all_snapshots(self):
+        api = self.doapi_manager
+        return map(api.image, api.paginate(self.url() + '/snapshots', 'snapshots'))
+
+    def fetch_all_backups(self):
+        api = self.doapi_manager
+        return map(api.image, api.paginate(self.url() + '/backups', 'backups'))
+
+    def fetch_all_kernels(self):
+        api = self.doapi_manager
+        return [Kernel(dict(kern, doapi_manager=api))
+                for kern in api.paginate(self.url() + '/kernels', 'kernels')]
