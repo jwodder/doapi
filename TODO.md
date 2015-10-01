@@ -54,3 +54,5 @@
 - Define `SSHKey.__str__` to return the fingerprint?
 - Should any classes have `__str__` methods that return `name` attributes?
 - Rename `action.done` to `action.ended`?
+- Should the `url` methods be renamed to avoid confusion with droplet upgrades'
+  "url" fields?

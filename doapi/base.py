@@ -71,4 +71,5 @@ class Kernel(JSObject):
 
 
 class DropletUpgrade(JSObject):
-    pass
+    def fetch_droplet(self):
+        return self.doapi_manager.fetch_droplet(self.droplet_id)

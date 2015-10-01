@@ -98,7 +98,8 @@ class doapi(object):
         return droplets
 
     def fetch_droplet_upgrades(self):
-        return self.request('/v2/droplet_upgrades')
+        return [DropletUpgrade(obj, doapi_manager=self)
+                for obj in self.request('/v2/droplet_upgrades')]
 
     def create_droplet(self, name, image, size, region, **data):
         # Standard optional attributes: ssh_keys, backups, ipv6,
@@ -232,9 +233,8 @@ class doapi(object):
         return map(self.size, self.paginate('/v2/sizes', 'sizes'))
 
     def fetch_account(self):
-        account = self.request(Account.url())["account"]
-        account["doapi_manager"] = self
-        return Account(account)
+        return Account(self.request(Account.url())["account"],
+                       doapi_manager=self)
 
     def domain(self, obj):
         return Domain(obj, doapi_manager=self)
@@ -250,5 +250,3 @@ class doapi(object):
             "name": name,
             "ip_address": ip_address,
         })["domain"])
-
-    ### fetch_droplet_upgrades
