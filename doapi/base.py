@@ -1,5 +1,6 @@
 import copy
 import json
+from   urlparse import urljoin
 
 class JSObject(object):
     # Don't use namedtuples for this or else everything will break if
