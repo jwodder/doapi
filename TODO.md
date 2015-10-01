@@ -21,18 +21,23 @@
 ## Features
 
 - Add methods to `doapi` for fetching SSH keys by name
-- Add the ability to fetch images by slug
 - There's something wrong with fetching a droplet's neighbors.
 
 ## Structure
 
-- Should the "networks" field of droplets have its own class?
+- Should the "networks" field of droplets have its own class(es)?
 
 - Should JSObject be made into a Mapping (that skips `doapi_manager`)?  It
   would allow `dict(instance)` to work, eliminating the need for `_asdict`
     - Should JSObject store all of its non-`doapi_manager` attributes in a
       dedicated dict attribute?
     - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict`
+    - Idea: Attributes are divided into two groups, "API" (which are preserved
+      when converted to JSON and show up in iteration) and "meta" (which are
+      not).  `foo.x` fetches a meta attribute if it exists, an API attribute
+      otherwise.  `foo['x']` always fetches an API attribute.  `foo.x = y`
+      always(?) sets a meta attribute; to set an API attribute, do `foo['x'] =
+      y`.
 
 - Give `doapi` `account`, `kernel`, etc. methods?
 
@@ -52,3 +57,6 @@
 - Rename `action.done` to `action.ended`?
 - Should the `url` methods be renamed to avoid confusion with droplet upgrades'
   "url" fields?
+- Should slugs be allowed as alternative identifiers for images the same way
+  fingerprints are for SSH keys?  (This depends on the circumstances under
+  which the API will allow a slug in place of an ID in the first place.)

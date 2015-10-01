@@ -206,6 +206,9 @@ class doapi(object):
     def fetch_image(self, obj):
         return self.image(obj).fetch()
 
+    def fetch_image_by_slug(self, slug):
+        return self.image(self.request('/v2/images/' + slug)["image"])
+
     def fetch_all_images(self, type=None, private=False):
         params = {}
         if type is not None:
