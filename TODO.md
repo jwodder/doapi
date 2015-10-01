@@ -22,8 +22,6 @@
 
 - Add methods to `doapi` for fetching SSH keys by name
 - Add the ability to fetch images by slug
-- Give `droplet` and `image` (and `doapi`?) methods for fetching the most
-  recent action
 - There's something wrong with fetching a droplet's neighbors.
 
 ## Structure

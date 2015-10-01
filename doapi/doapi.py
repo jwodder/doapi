@@ -153,6 +153,14 @@ class doapi(object):
     def fetch_action(self, obj):
         return self.action(obj).fetch()
 
+    def fetch_last_action(self):
+        ### Naive implementation:
+        return self.action(self.request('/v2/actions')["actions"][0])
+        """
+        ### Slow yet guaranteed-correct implementation:
+        return max(self.fetch_all_actions(), key=lambda a: a.started_at)
+        """
+
     def fetch_all_actions(self):
         return map(self.action, self.paginate('/v2/actions', 'actions'))
 
