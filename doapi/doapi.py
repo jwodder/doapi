@@ -147,6 +147,8 @@ class doapi(object):
                     sleep(interval)
                 else:
                     sleep(min(interval, end_time - time()))
+            for d in droplets:
+                yield d
 
     def action(self, obj):
         return Action(obj, doapi_manager=self)
@@ -183,6 +185,8 @@ class doapi(object):
                 sleep(interval)
             else:
                 sleep(min(interval, end_time - time()))
+        for a in actions:
+            yield a
 
     def sshkey(self, obj=None, **keyargs):
         return SSHKey(obj, doapi_manager=self, **keyargs)
