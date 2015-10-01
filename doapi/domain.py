@@ -30,7 +30,7 @@ class Domain(JSObject):
     def fetch_record(self, obj):
         return self.record(obj).fetch()
 
-    def fetch_all_records(self)
+    def fetch_all_records(self):
         api = self.doapi_manager
         return map(self.record, api.paginate(self.record_url(),
                                              'domain_records'))
