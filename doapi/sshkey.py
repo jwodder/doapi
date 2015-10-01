@@ -31,5 +31,5 @@ class SSHKey(JSObject):
         return api.sshkey(api.request(self.url(), method='PUT',
                                       data={"name": name})["ssh_key"])
 
-    def destroy(self):  ### Rename "delete"?
+    def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')

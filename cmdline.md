@@ -24,11 +24,15 @@ doapi droplet new
     # ipv6, backups, etc.
     name ...
 
-doapi droplet delete [name|id] ...
+doapi droplet delete name|id ...
 
-doapi droplet <action name> [--wait ...] [name|id] ...
+doapi droplet <action name> [--wait ...] name|id ...
+# Should the "droplet" part be optional/omitted?
 
-# Add a command for raw actions
+doapi neighbors [[name|id] ...]
+# Should this be a subcommand of "droplet"?
+
+# Add a command for raw droplet actions
 
 doapi raw [-X method] [-f | --json-file FILE] URL|PATH < data
 # Add an option for printing headers to stderr
