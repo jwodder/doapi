@@ -3,7 +3,7 @@ import json
 from   time        import sleep, time
 from   urlparse    import urljoin
 import requests
-from   .base       import Region, Size, Account
+from   .base       import Region, Size, Account, DropletUpgrade
 from   .domain     import Domain
 from   .droplet    import Droplet
 from   .image      import Image
