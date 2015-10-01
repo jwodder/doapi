@@ -80,3 +80,18 @@ class Kernel(JSObject):
 class DropletUpgrade(JSObject):
     def fetch_droplet(self):
         return self.doapi_manager.fetch_droplet(self.droplet_id)
+
+
+def byname(iterable):
+    bins = defaultdict(list)
+    for obj in iterable:
+        bins[obj.name].append(obj)
+    return bins
+
+def filterName(name, iterable):
+    return [obj for obj in iterable if obj.name == name]
+    """
+    for obj in iterable:
+        if obj.name == name:
+            yield obj
+    """

@@ -86,17 +86,6 @@ class doapi(object):
     def fetch_all_droplets(self):
         return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
-    def fetch_droplets_by_name(self, name):
-        return [self.droplet(drop) for drop in self.paginate('/v2/droplets',
-                                                             'droplets')
-                                   if drop["name"] == name]
-
-    def fetch_all_droplets_by_name(self):
-        droplets = defaultdict(list)
-        for drop in self.paginate('/v2/droplets', 'droplets'):
-            droplets[drop["name"]].append(self.droplet(drop))
-        return droplets
-
     def fetch_droplet_upgrades(self):
         return [DropletUpgrade(obj, doapi_manager=self)
                 for obj in self.request('/v2/droplet_upgrades')]

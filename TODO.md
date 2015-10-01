@@ -18,11 +18,6 @@
 
 # Internals
 
-## Features
-
-- Add methods to `doapi` for fetching SSH keys by name
-- Add methods to `doapi` for fetching images by name?
-
 ## Structure
 
 - Should the "networks" field of droplets have its own class(es)?
