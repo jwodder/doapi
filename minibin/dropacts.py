@@ -21,5 +21,5 @@ api = doapi.doapi(key)
 for dropid in sys.argv[1:]:
     drop = api.fetch_droplet(int(dropid))
     tabulate(zip(*fields)[0], [[getattr(act, f) for _, f in fields]
-                               for act in drop.fetch_actions()])
+                               for act in drop.fetch_all_actions()])
     print

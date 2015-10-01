@@ -118,17 +118,17 @@ class Droplet(JSObject):
     def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')
 
-    def fetch_neighbors(self):
+    def fetch(self):
+        api = self.doapi_manager
+        return api.droplet(api.request(self.url())["droplet"])
+
+    def fetch_all_neighbors(self):
         api = self.doapi_manager
         # Yes, that's really supposed to be a literal backslash in the URL.
         return map(api.droplet, api.paginate(self.url() + r'\neighbors',
                                              'droplets'))
 
-    def fetch(self):
-        api = self.doapi_manager
-        return api.droplet(api.request(self.url())["droplet"])
-
-    def fetch_actions(self):
+    def fetch_all_actions(self):
         api = self.doapi_manager
         return map(api.action, api.paginate(self.action_url(), 'actions'))
 
@@ -157,7 +157,7 @@ class Droplet(JSObject):
         return api.action(api.request(self.action_url())["actions"][0])
         """
         ### Slow yet guaranteed-correct implementation:
-        return max(self.fetch_actions(), key=lambda a: a.started_at)
+        return max(self.fetch_all_actions(), key=lambda a: a.started_at)
         """
 
     def fetch_all_snapshots(self):

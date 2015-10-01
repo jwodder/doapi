@@ -34,7 +34,7 @@ class Image(JSObject):
     def convert(self):
         return self.action(type='convert')
 
-    def fetch_actions(self):
+    def fetch_all_actions(self):
         api = self.doapi_manager
         return map(api.action, api.paginate(self.action_url(), 'actions'))
 
@@ -44,5 +44,5 @@ class Image(JSObject):
         return api.action(api.request(self.action_url())["actions"][0])
         """
         ### Slow yet guaranteed-correct implementation:
-        return max(self.fetch_actions(), key=lambda a: a.started_at)
+        return max(self.fetch_all_actions(), key=lambda a: a.started_at)
         """

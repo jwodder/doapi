@@ -45,7 +45,6 @@
 - If a `wait_*` method receives a KeyboardInterrupt, it should return
   immediately
 - Look into more appropriate/standard names for `_asdict`
-- Rename all of the `fetch_foos` methods to `fetch_all_foos`?
 - Bring in line with PEP 8
 - Make the code work in both Python 2 and Python 3
 - Replace `minibin/*` with unit tests that just invoke the command-line client
