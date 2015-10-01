@@ -1,10 +1,10 @@
 import copy
 import json
 
-# Don't use namedtuples for this or else everything will break if DigitalOcean
-# ever adds any new fields.
-
 class JSObject(object):
+    # Don't use namedtuples for this or else everything will break if
+    # DigitalOcean ever adds any new fields.
+
     _meta_attrs = ('doapi_manager',)
 
     def __init__(self, state={}, **extra):
