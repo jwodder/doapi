@@ -21,6 +21,7 @@
 ## Features
 
 - Add methods to `doapi` for fetching SSH keys by name
+- Add methods to `doapi` for fetching images by name?
 
 ## Structure
 
@@ -39,6 +40,8 @@
       y`.
 
 - Give `doapi` `account`, `kernel`, etc. methods?
+
+- Should the `fetch_all_*` methods return generators instead of lists?
 
 ## Other
 
