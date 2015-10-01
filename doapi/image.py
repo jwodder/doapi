@@ -50,3 +50,7 @@ class Image(JSObject):
         ### Slow yet guaranteed-correct implementation:
         return max(self.fetch_all_actions(), key=lambda a: a.started_at)
         """
+
+    def fetch_droplet(self):
+        ### Handle self.droplet being an int?
+        return self.droplet.fetch()

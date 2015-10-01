@@ -36,9 +36,6 @@
 
 - Give `doapi` `account`, `kernel`, etc. methods?
 
-- Give Kernel & Image `fetch_droplet` methods
-- Give DomainRecord a `fetch_domain` method
-
 ## Other
 
 - Document everything!

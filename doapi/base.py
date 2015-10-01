@@ -71,6 +71,10 @@ class Kernel(JSObject):
     def __int__(self):
         return self.id
 
+    def fetch_droplet(self):
+        ### Handle self.droplet being an int?
+        return self.droplet.fetch()
+
 
 class DropletUpgrade(JSObject):
     def fetch_droplet(self):
