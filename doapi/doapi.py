@@ -4,6 +4,7 @@ from   time        import sleep, time
 from   urlparse    import urljoin
 import requests
 from   .base       import Region, Size, Account
+from   .domain     import Domain
 from   .droplet    import Droplet
 from   .image      import Image
 from   .action     import Action
@@ -223,8 +224,23 @@ class doapi(object):
         return map(self.size, self.paginate('/v2/sizes', 'sizes'))
 
     def fetch_account(self):
-        account = self.request("/v2/account")["account"]
+        account = self.request(Account.url())["account"]
         account["doapi_manager"] = self
         return Account(account)
+
+    def domain(self, obj):
+        return Domain(obj, doapi_manager=self)
+
+    def fetch_domain(self, obj):
+        return self.domain(obj).fetch()
+
+    def fetch_all_domains(self):
+        return map(self.domain, self.paginate('/v2/domains', 'domains'))
+
+    def create_domain(self, name, ip_address):
+        return self.domain(self.request('/v2/domains', method='POST', data={
+            "name": name,
+            "ip_address": ip_address,
+        })["domain"])
 
     ### fetch_droplet_upgrades

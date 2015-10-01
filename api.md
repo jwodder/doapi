@@ -38,6 +38,9 @@
   with?
 - If a `per_page` parameter is set in a request, are the links in the response
   guaranteed to have `per_page` parameters with the same value?
+- When creating a domain record, can non-required attributes for the record
+  type be omitted?  Can non-required attributes always be present anyway, and
+  if so, must they then be null?
 
 # Other notes
 

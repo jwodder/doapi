@@ -20,7 +20,6 @@
 
 ## Features
 
-- Implement support for domains and domain records
 - Add methods to `doapi` for fetching SSH keys by name
 - Add the ability to fetch images by slug
 - Give `droplet` and `image` (and `doapi`?) methods for fetching the most
@@ -28,9 +27,6 @@
 - There's something wrong with fetching a droplet's neighbors.
 
 ## Structure
-
-- Should all JSON objects (kernels, droplet upgrades, etc.) have corresponding
-  classes?
 
 - Should the "networks" field of droplets have its own class?
 
@@ -59,3 +55,4 @@
 - Define `Image.__str__` to return the slug?
 - Define `SSHKey.__str__` to return the fingerprint?
 - Should any classes have `__str__` methods that return `name` attributes?
+- Rename `action.done` to `action.ended`?

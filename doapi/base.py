@@ -5,6 +5,8 @@ import json
 # ever adds any new fields.
 
 class JSObject(object):
+    _meta_attrs = ('doapi_manager',)
+
     def __init__(self, state={}, **extra):
         if isinstance(state, (int, long)):
             state = {"id": state}
@@ -24,7 +26,8 @@ class JSObject(object):
 
     def _asdict(self):
         data = vars(self).copy()
-        data.pop("doapi_manager", None)
+        for attr in self._meta_attrs:
+            data.pop(attr, None)
         return data
 
     def __copy__(self):
@@ -56,6 +59,10 @@ class Size(JSObject):
 class Account(JSObject):
     def fetch(self):
         return self.doapi_manager.fetch_account()
+
+    @staticmethod
+    def url(endpoint=''):
+        return urljoin(endpoint, '/v2/account')
 
 
 class Kernel(JSObject):
