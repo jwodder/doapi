@@ -2,6 +2,10 @@ from urlparse import urljoin
 from .base    import JSObject
 
 class Image(JSObject):
+    _meta_attrs = JSObject._meta_attrs + ('droplet',)
+    # The `droplet` attribute is set when fetching a droplet's snapshots or
+    # backups.
+
     def __int__(self):
         return self.id
 

@@ -36,8 +36,8 @@
 
 - Give `doapi` `account`, `kernel`, etc. methods?
 
-- Should kernels, snapshots, and backups store the droplets for which they were
-  retrieved?
+- Give Kernel & Image `fetch_droplet` methods
+- Give DomainRecord a `fetch_domain` method
 
 ## Other
 

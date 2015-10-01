@@ -66,6 +66,8 @@ class Account(JSObject):
 
 
 class Kernel(JSObject):
+    _meta_attrs = JSObject._meta_attrs + ('droplet',)
+
     def __int__(self):
         return self.id
 

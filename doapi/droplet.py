@@ -162,13 +162,15 @@ class Droplet(JSObject):
 
     def fetch_all_snapshots(self):
         api = self.doapi_manager
-        return map(api.image, api.paginate(self.url() + '/snapshots', 'snapshots'))
+        return [Image(obj, doapi_manager=api, droplet=self)
+                for obj in api.paginate(self.url() + '/snapshots', 'snapshots')]
 
     def fetch_all_backups(self):
         api = self.doapi_manager
-        return map(api.image, api.paginate(self.url() + '/backups', 'backups'))
+        return [Image(obj, doapi_manager=api, droplet=self)
+                for obj in api.paginate(self.url() + '/backups', 'backups')]
 
     def fetch_all_kernels(self):
         api = self.doapi_manager
-        return [Kernel(kern, doapi_manager=api)
+        return [Kernel(kern, doapi_manager=api, droplet=self)
                 for kern in api.paginate(self.url() + '/kernels', 'kernels')]
