@@ -67,15 +67,15 @@ class doapi(object):
             params = {}
         if self.per_page is not None:
             params["per_page"] = self.per_page
+        page = self.request(path, params=params)
         while True:
-            page = self.request(path, params=params)
-            ### Could reusing `params` for non-first pages cause any problems?
             for obj in page[key]:
                 yield obj
             try:
-                path = page["links"]["pages"]["next"]
+                url = page["links"]["pages"]["next"]
             except KeyError:
                 break
+            page = self.request(url)
 
     def droplet(self, obj):
         return Droplet(obj, doapi_manager=self)
