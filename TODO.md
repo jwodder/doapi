@@ -21,7 +21,6 @@
 ## Features
 
 - Add methods to `doapi` for fetching SSH keys by name
-- There's something wrong with fetching a droplet's neighbors.
 
 ## Structure
 

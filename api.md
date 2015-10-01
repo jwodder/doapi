@@ -9,16 +9,12 @@
   added "status" and "status_message" fields.
 - The curl examples include an "available" field in droplet objects that is not
   documented and doesn't seem to actually exist.
+- The "neighbor" requests are underdocumented.
 - The curl (and Ruby and Go) example for "List all Droplet Neighbors" shows the
   API returning an array of objects instead of just an object.
-- The "neighbor" requests are underdocumented.
-- The example response for "List Neighbors for a Droplet" is wrong.  The actual
-  object returned is as follows:
-    - a "droplet" field containing the droplet object whose neighbors were
-      requested
-    - ???
-- The path for getting a droplet's neighbors should be written as
-  `/v2/droplets/$DROPLET_ID\neighbors` (also, note lack of colon).
+- The path for getting a droplet's neighbors is actually
+  `/v2/droplets/$DROPLET_ID/neighbors` (note forward slash in place of
+  backslash and lack of colon).
 
 # Unanswered questions about the API
 
@@ -41,8 +37,3 @@
 - When creating a domain record, can non-required attributes for the record
   type be omitted?  Can non-required attributes always be present anyway, and
   if so, must they then be null?
-
-# Other notes
-
-- Yes, the URL path for getting a droplet's neighbors is really
-  `/v2/droplets/$DROPLET_ID\neighbors" with a `r'\n'`.

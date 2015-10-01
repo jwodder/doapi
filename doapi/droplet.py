@@ -124,8 +124,7 @@ class Droplet(JSObject):
 
     def fetch_all_neighbors(self):
         api = self.doapi_manager
-        # Yes, that's really supposed to be a literal backslash in the URL.
-        return map(api.droplet, api.paginate(self.url() + r'\neighbors',
+        return map(api.droplet, api.paginate(self.url() + '/neighbors',
                                              'droplets'))
 
     def fetch_all_actions(self):
