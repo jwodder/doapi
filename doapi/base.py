@@ -111,13 +111,13 @@ class Networks(JSObjectWithDroplet):
             if getattr(self, attr, None) is not None:
                 meta[attr] = getattr(self, attr)
         if getattr(self, "v4", None):
-            self.v4 = [Network(obj, **meta) for obj in self.v4]
+            self.v4 = [Network(obj, ip_version=4, **meta) for obj in self.v4]
         if getattr(self, "v6", None):
-            self.v6 = [Network(obj, **meta) for obj in self.v6]
+            self.v6 = [Network(obj, ip_version=6, **meta) for obj in self.v6]
 
 
 class Network(JSObjectWithDroplet):
-    pass
+    _meta_attrs = JSObjectWithDroplet._meta_attrs + ('ip_version',)
 
 
 def byname(iterable):

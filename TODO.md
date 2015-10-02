@@ -48,7 +48,6 @@
 - Give `doapi` `account`, `kernel`, etc. methods?
 - Should the `fetch_all_*` methods return generators instead of lists?
 - Define `__int__` in `JSObject`?
-- Give `Network` a meta attribute for the IP version
 - Add a class for droplets' `next_backup_window` fields
 
 - Try to be more consistent regarding when deep copies of objects are created.
