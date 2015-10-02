@@ -37,6 +37,12 @@ class JSObject(object):
     def __deepcopy__(self, memo):
         return self.__class__(copy.deepcopy(vars(self), memo))
 
+    def __eq__(self, other):
+        return type(self) == type(other) and vars(self) == vars(other)
+
+    def __ne__(self, other):
+        return not (self == other)
+
 
 class DOEncoder(json.JSONEncoder):
     def default(self, obj):

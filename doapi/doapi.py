@@ -246,3 +246,9 @@ class doapi(object):
             "name": name,
             "ip_address": ip_address,
         })["domain"])
+
+    def __eq__(self, other):
+        return type(self) == type(other) and vars(self) == vars(other)
+
+    def __ne__(self, other):
+        return not (self == other)

@@ -30,29 +30,23 @@
 
 # Internals
 
-## Features
-
-- Overload comparison operators
-
 ## Structure
 
-- Should the "networks" field of droplets have its own class(es)?
-
-- Should JSObject be made into a Mapping (that skips `doapi_manager`)?  It
-  would allow `dict(instance)` to work, eliminating the need for `_asdict`
-    - Should JSObject store all of its non-`doapi_manager` attributes in a
-      dedicated dict attribute?
-    - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict`
-    - Idea: Attributes are divided into two groups, "API" (which are preserved
-      when converted to JSON and show up in iteration) and "meta" (which are
-      not).  `foo.x` fetches a meta attribute if it exists, an API attribute
+- Make JSObject into a Mapping/MutableMapping that skips "meta" attributes,
+  eliminating the need for `_asdict`
+    - Attributes are divided into two groups, "API" (which are preserved when
+      converted to JSON and show up in iteration) and "meta" (which are not).
+      `foo.x` fetches a meta attribute if it exists, an API attribute
       otherwise.  `foo['x']` always fetches an API attribute.  `foo.x = y`
       always(?) sets a meta attribute; to set an API attribute, do `foo['x'] =
       y`.
+    - "API" attributes are stored in a private dict meta attribute
+    - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict` instead
 
+- Should the "networks" field of droplets have its own class(es)?
 - Give `doapi` `account`, `kernel`, etc. methods?
-
 - Should the `fetch_all_*` methods return generators instead of lists?
+- Define `__int__` in `JSObject`?
 
 ## Other
 
