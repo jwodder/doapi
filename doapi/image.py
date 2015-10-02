@@ -1,8 +1,7 @@
 from urlparse import urljoin
-from .base    import JSObject, fetch_droplet
+from .base    import JSObjectWithDroplet
 
-class Image(JSObject):
-    _meta_attrs = JSObject._meta_attrs + ('droplet',)
+class Image(JSObjectWithDroplet):
     # The `droplet` attribute is set when fetching a droplet's snapshots or
     # backups.
 
@@ -50,6 +49,3 @@ class Image(JSObject):
         ### Slow yet guaranteed-correct implementation:
         return max(self.fetch_all_actions(), key=lambda a: a.started_at)
         """
-
-    def fetch_droplet(self):
-        return fetch_droplet(self)

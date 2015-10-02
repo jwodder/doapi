@@ -13,7 +13,11 @@ class Droplet(JSObject):
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
                           ('kernel', Kernel), ('networks', Networks)]:
             if getattr(self, attr, None) is not None:
-                setattr(self, attr, cls(getattr(self, attr), **meta))
+                if attr == 'networks':
+                    new = cls(getattr(self, attr), droplet=self, **meta)
+                else:
+                    new = cls(getattr(self, attr), **meta)
+                setattr(self, attr, new)
 
     def __int__(self):
         return self.id

@@ -44,6 +44,27 @@ class JSObject(object):
         return not (self == other)
 
 
+class JSObjectWithDroplet(JSObject):
+    """A JSObject with a "`droplet`" meta attribute"""
+
+    _meta_attrs = JSObject._meta_attrs + ('droplet',)
+
+    def fetch_droplet(self):
+        drop = getattr(self, "droplet", None)
+        if drop is None:
+            return None
+        try:
+            api = self.doapi_manager
+        except AttributeError:
+            return drop.fetch()
+            # If `drop` is an int, the user gets the AttributeError they
+            # deserve.
+        else:
+            return api.fetch_droplet(drop)
+            # If `drop` is an int, the user doesn't get the AttributeError they
+            # don't deserve.
+
+
 class DOEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, JSObject):
@@ -88,9 +109,7 @@ class DropletUpgrade(JSObject):
         return self.doapi_manager.fetch_droplet(self.droplet_id)
 
 
-class Networks(JSObject):
-    _meta_attrs = JSObject._meta_attrs + ('droplet',)
-
+class Networks(JSObjectWithDroplet):
     def __init__(self, state={}, **extra):
         super(Networks, self).__init__(state, **extra)
         meta = {}
@@ -102,15 +121,9 @@ class Networks(JSObject):
         if getattr(self, "v6", None):
             self.v6 = [Network(obj, **meta) for obj in self.v6]
 
-    def fetch_droplet(self):
-        return fetch_droplet(self)
 
-
-class Network(JSObject):
-    _meta_attrs = JSObject._meta_attrs + ('droplet',)
-
-    def fetch_droplet(self):
-        return fetch_droplet(self)
+class Network(JSObjectWithDroplet):
+    pass
 
 
 def byname(iterable):
@@ -126,11 +139,3 @@ def filterName(name, iterable):
         if obj.name == name:
             yield obj
     """
-
-def fetch_droplet(obj):
-    try:
-        api = obj.doapi_manager
-    except AttributeError:
-        return self.droplet.fetch()
-    else:
-        return api.doapi_manager.fetch_droplet(self.droplet)
