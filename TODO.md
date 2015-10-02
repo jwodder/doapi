@@ -66,8 +66,6 @@
 - Make the code work in both Python 2 and Python 3
 - Replace `minibin/*` with unit tests that just invoke the command-line client
 - Should `doapi.__init__` take a default `maxwait` value?
-- Define `Image.__str__` to return the slug?
-- Define `SSHKey.__str__` to return the fingerprint?
 - Should any classes have `__str__` methods that return `name` attributes?
 - Rename `action.done` to `action.ended`?
 - Should the `url` methods be renamed to avoid confusion with droplet upgrades'
@@ -75,3 +73,5 @@
 - Should slugs be allowed as alternative identifiers for images the same way
   fingerprints are for SSH keys?  (This depends on the circumstances under
   which the API will allow a slug in place of an ID in the first place.)
+- Should `JSObject.__repr__` show `doapi_manager`?
+- Handle infinite recursion in `JSObject.__repr__` with the `repr` module?

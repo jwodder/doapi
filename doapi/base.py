@@ -43,6 +43,13 @@ class JSObject(object):
     def __ne__(self, other):
         return not (self == other)
 
+    def __repr__(self):
+        # Meta attributes have to be omitted or else infinite recursion will
+        # occur when trying to print a Droplet.
+        return '%s(%s)' % (self.__class__.__name__,
+                           ', '.join('%s=%r' % kv
+                                     for kv in self._asdict().iteritems()))
+
 
 class JSObjectWithDroplet(JSObject):
     """A JSObject with a "`droplet`" meta attribute"""
