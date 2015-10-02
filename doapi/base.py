@@ -6,7 +6,7 @@ class JSObject(object):
     # Don't use namedtuples for this or else everything will break if
     # DigitalOcean ever adds any new fields.
 
-    _meta_attrs = ('doapi_manager',)
+    _meta_attrs = ('_meta_attrs', 'doapi_manager')
 
     def __init__(self, state={}, **extra):
         if isinstance(state, (int, long)):
@@ -88,6 +88,31 @@ class DropletUpgrade(JSObject):
         return self.doapi_manager.fetch_droplet(self.droplet_id)
 
 
+class Networks(JSObject):
+    _meta_attrs = JSObject._meta_attrs + ('droplet',)
+
+    def __init__(self, state={}, **extra):
+        super(Networks, self).__init__(state, **extra)
+        meta = {}
+        for attr in ('doapi_manager', 'droplet'):
+            if getattr(self, attr, None) is not None:
+                meta[attr] = getattr(self, attr)
+        if getattr(self, "v4", None):
+            self.v4 = [Network(obj, **meta) for obj in self.v4]
+        if getattr(self, "v6", None):
+            self.v6 = [Network(obj, **meta) for obj in self.v6]
+
+    def fetch_droplet(self):
+        return fetch_droplet(self)
+
+
+class Network(JSObject):
+    _meta_attrs = JSObject._meta_attrs + ('droplet',)
+
+    def fetch_droplet(self):
+        return fetch_droplet(self)
+
+
 def byname(iterable):
     bins = defaultdict(list)
     for obj in iterable:
@@ -101,3 +126,11 @@ def filterName(name, iterable):
         if obj.name == name:
             yield obj
     """
+
+def fetch_droplet(obj):
+    try:
+        api = obj.doapi_manager
+    except AttributeError:
+        return self.droplet.fetch()
+    else:
+        return api.doapi_manager.fetch_droplet(self.droplet)

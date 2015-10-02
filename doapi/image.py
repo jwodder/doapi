@@ -1,5 +1,5 @@
 from urlparse import urljoin
-from .base    import JSObject
+from .base    import JSObject, fetch_droplet
 
 class Image(JSObject):
     _meta_attrs = JSObject._meta_attrs + ('droplet',)
@@ -52,5 +52,4 @@ class Image(JSObject):
         """
 
     def fetch_droplet(self):
-        ### Handle self.droplet being an int?
-        return self.droplet.fetch()
+        return fetch_droplet(self)

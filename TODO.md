@@ -30,6 +30,8 @@
 
 # Internals
 
+- Handle all items marked with "`TODO`" or "`###`" in the code
+
 ## Structure
 
 - Make JSObject into a Mapping/MutableMapping that skips "meta" attributes,
@@ -43,10 +45,10 @@
     - "API" attributes are stored in a private dict meta attribute
     - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict` instead
 
-- Should the "networks" field of droplets have its own class(es)?
 - Give `doapi` `account`, `kernel`, etc. methods?
 - Should the `fetch_all_*` methods return generators instead of lists?
 - Define `__int__` in `JSObject`?
+- Give `Network` a meta attribute for the IP version
 
 ## Other
 
