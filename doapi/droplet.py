@@ -48,10 +48,10 @@ class Droplet(JSObject):
 
     @property
     def ip_address(self):
+        v4nets = getattr(self.networks, "v4", [])
+        v6nets = getattr(self.networks, "v6", [])
         try:
-            ### TODO: Are v4 and v6 both present right after a droplet is
-            ### created?
-            return (self.networks["v4"] + self.networks["v6"])[0]["ip_address"]
+            return (v4nets + v6nets)[0].ip_address
         except IndexError:
             return None
 
