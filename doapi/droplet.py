@@ -11,7 +11,7 @@ class Droplet(JSObject):
         except AttributeError:
             meta = {}
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
-                          ('networks', Networks)]:
+                          ('kernel', Kernel), ('networks', Networks)]:
             if getattr(self, attr, None) is not None:
                 setattr(self, attr, cls(getattr(self, attr), **meta))
 

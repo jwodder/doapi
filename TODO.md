@@ -42,13 +42,14 @@
       otherwise.  `foo['x']` always fetches an API attribute.  `foo.x = y`
       always(?) sets a meta attribute; to set an API attribute, do `foo['x'] =
       y`.
-    - "API" attributes are stored in a private dict meta attribute
+    - API attributes are stored in a private dict meta attribute
     - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict` instead
 
 - Give `doapi` `account`, `kernel`, etc. methods?
 - Should the `fetch_all_*` methods return generators instead of lists?
 - Define `__int__` in `JSObject`?
 - Give `Network` a meta attribute for the IP version
+- Add a class for droplets' `next_backup_window` fields
 
 ## Other
 
