@@ -35,6 +35,8 @@
 - When creating a domain record, can non-required attributes for the record
   type be omitted?  Can non-required attributes always be present anyway, and
   if so, must they then be null?
+- Are there any uniqueness constraints on droplet, image, or SSH key names?
+    - Can an image have a name that is the same as a slug?
 
 # Other notes
 

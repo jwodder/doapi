@@ -1,123 +1,32 @@
-# Look into the 'parents' argument to `argparse.ArgumentParser`
-
-- Droplets/"<droplet>" arguments are specified as either ID numbers or names.
-- SSH keys/"<sshkey>" arguments are specified as ID numbers, fingerprints, or
-  names.
-- Images/"<image>" arguments are specified as either ID numbers or slugs (or
-  names?).
+Look into the 'parents' argument to `argparse.ArgumentParser`
 
 All JSON output is pretty.
 
-There is no filtering of result lists by region, image, etc.; the only query
-filters available are those directly supported by the API.  For everything
-else, use `jq`.
+[Rethink this:] There is no filtering of result lists by region, image, etc.;
+the only query filters available are those directly supported by the API.  For
+everything else, use `jq`.
 
-When getting lists of objects for multiple items (e.g., getting the snapshots
-for a list of more than one droplet), should the output be a list of lists of
-objects?
-
-Should this instead be split up into multiple commands? (`do-droplet`,
-`do-account`, etc.?)
-
-
-doapi
-	droplet
-		[show [<droplet> ...]]
-		new
-		    -i|--image <image>
-		    -s|--size <size>
-		    -r|--region <region>
-		    --json
-		     # A JSON array (or an object, which is treated as an array
-		     # of one) is read from standard input, the -i/-s/-r values
-		     # are applied to those objects that are missing them, and
-		     # the droplets are created from the objects.  When --json
-		     # is given, no `name` arguments should be given.
-		    --json-file FILE
-		    <wait options>
-		    --user-data data
-		    # ipv6, backups, etc.
-		    <name> ...
-		delete <droplet> ...
-		wait [--status=STATUS] <wait options> <droplet> ...
-		    # No status → wait for latest action to complete
-		    # Error out if an unknown value is used for "status"
-		<action name> <wait options> <droplet> ...
-		    # In "doapi droplet <action>", should the "droplet" part be
-		    # optional/omitted?
-		upgrades [--droplets]
-		    # --droplets: return the droplets that will be upgraded
-		    # instead
-		# raw action
-		# getting actions
-		# getting last action
-		snapshots <droplet> ...
-		backups <droplet> ...
-		kernels <droplet> ...
-		neighbors [<droplet> ...]
-
-	raw [-X method] [-f | --json-file FILE] URL|PATH < data
-	# Add an option for printing headers to stderr
-	# Instead of "raw" and an "-X method" option, have commands named "get",
-	#   "post", "put", and "delete" (and "head"?) ?
-	# Add a `--paginate KEY` argument?
-
-	sshkey
-		[show [<sshkey> ...]]
-		new <name> [<file>; default: stdin]
-		    # Add an option for only creating if the public key isn't
-		    # already present (and another for returning the
-		    # pre-existing key in that case?)
-		delete <sshkey> ...
-		update <sshkey> <new name>
-
-	image
-		[show [--type TYPE|--distribution|--application] [--private] ...]
-		update <image> <new name>
-		delete <image> ...
-		transfer <image> <region>
-		transfer -r|--region <region> <image> ...
-		convert <image> ...
-		# raw action
-		# getting actions
-		# getting last action
-		# waiting for last action(s)
-
-	action
-		show
-		wait
-		latest
-		# fetch resource?
-
-	domain
-		[show [name ...]]
-		new <name> <ip address>
-		delete <name> ...
-
-	# Rethink most of this:
-	record --domain=DOMAIN
-		[show [id|??? ...]]
-		new type name data [priority] [port] [weight]
-		update id|??? [anything]
-		delete id|???
-
-	regions
-	sizes
-	account
+There are no options for controlling pagination.  The only instance where
+pagination should have an effect on the outcome is for raw requests, and for
+those the user can just append `?per_page=` to the path.
 
 Options common to all commands:
     --api-key key
     --api-key-file file
     --timeout int
     --endpoint URL
+    -D/--dump-header <file> # ?  # as in curl
 
 Options common to all actions (including creating droplets):
     --wait
     --wait-time seconds
     --wait-interval seconds
 
-Options common to all operations on droplets:
-    --unique  # enforces uniqueness among droplet names
+Options common to all operations on droplets, SSH keys, & images:
+    --unique  # enforces uniqueness among names (settable via config file?)
+	      # With --unique, images cannot be given names that are the same
+	      # as a slug (and SSH keys can't be given names that could be
+	      # fingerprints?)
     --ignore ?  # with `--unique`, don't error on nonunique names
 
 API key sources, in order of precedence:
@@ -125,3 +34,103 @@ API key sources, in order of precedence:
  - DO_API_KEY environment variable
  - DO_API_TOKEN environment variable
  - ~/.doapi file [Rethink name]
+
+
+<droplet> := ID or name
+<sshkey>  := ID, fingerprint, or name
+<image>   := ID, slug, or name (slugs take precedence)
+<action>  := ID
+
+
+do-droplet
+	[show [<droplet> ...]]
+	new
+	    -i|--image <image>
+	    -s|--size <size>
+	    -r|--region <region>
+	    [--json <file>]
+	     # A JSON array (or an object, which is treated as an array
+	     # of one) is read from <file> (which may be '-'), the
+	     # -i/-s/-r values are applied to those objects that are
+	     # missing them, and the droplets are created from the
+	     # objects.  When --json is given, no `name` arguments
+	     # should be given.
+	    <wait options>
+	    [--user-data data]
+	    # ipv6, backups, etc.
+	    <name> ...
+	delete <droplet> ...
+	wait [--status=STATUS] <wait options> <droplet> ...
+	    # No status → wait for latest action to complete
+	    # Error out (unless --force'd) if an unknown value is used
+	    # for "status"
+	    # Add waiting for specific actions?
+	<action name> <wait options> <droplet> ...
+	    # In "doapi droplet <action>", should the "droplet" part be
+	    # optional/omitted?
+	    # Arguments to actions are specified with `--name=value`
+	upgrades [--droplets]
+	    # --droplets: return the droplets that will be upgraded
+	    # instead
+	# raw action
+	# getting actions
+	# getting last action
+	snapshots <droplet> ...
+	backups <droplet> ...
+	kernels <droplet> ...
+	neighbors [<droplet> ...]
+
+do-request  # raw request
+    [-X <method>]
+    [-d/--data <string|@file>]  # as in curl
+    [-D/--dump-header <file>]   # as in curl
+    [--paginate <key>]
+    <URL>|<path>
+
+do-sshkey
+	[show [<sshkey> ...]]
+	new <name> [<file>; default: stdin]
+	    # Add an option for only creating if the public key isn't
+	    # already present (and another for returning the
+	    # pre-existing key in that case?)
+	    # Add an option for passing the entire key as a string
+	delete <sshkey> ...
+	update <sshkey> <new name>
+
+do-image
+	[show [--type TYPE|--distribution|--application] [--private] ...]
+	update <image> <new name>
+	delete <image> ...
+	transfer <image> <region>
+	transfer -r|--region <region> <image> ...
+	convert <image> ...
+	# raw action
+	# getting actions
+	# getting last action
+	# waiting for last action(s) (or specific actions?)
+
+do-action
+	show  # Add --latest option?  --in-progress?
+	latest  # Merge into `show`?
+	wait {--latest/--all | <action> ...}
+	resource <action> ...  # fetch resource
+	# duplicates of the commands for manipulating droplet & image
+	#   actions???
+
+do-domain
+	[show [name ...]]
+	new <name> <ip address>
+	delete <name> ...
+
+	# Rethink most of this:
+	record --domain=DOMAIN
+		[show [id|??? ...]]
+		new type name data [priority] [port] [weight]
+		update id|??? [anything]
+		delete id|???
+		# Add a "set" command that replaces all pre-existing records
+		# with a given name with a single record?
+
+do-regions
+do-sizes
+do-account

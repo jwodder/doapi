@@ -1,22 +1,38 @@
+- Double-check DO's official term for API keys/tokens
+
 # Externals
-
-- Add arguments for controlling pagination
-
-- Add a command for waiting for the most recent action on each droplet in a
-  given list to finish
-    - Idea: The command for waiting on droplet actions can take arguments as
-      either "`<DROPLET>:<ACTION>`" or "`<DROPLET>:`" (or just "`<DROPLET>`"?),
-      the latter indicating the most recent action.
 
 - Droplet action commands that require the droplet to be off should have a flag
   for ensuring the droplet is off beforehand
-
 - Add a way to get the current rate limit
+- When getting lists of objects for multiple items (e.g., getting the snapshots
+  for a list of more than one droplet), should the output be a list of lists of
+  objects?
+- Add `--all` options for everything that takes a list of objects to operate
+  on? (except the "delete" commands; that'd be bad)
+- All operations should be doable in batches via an option (mutually exclusive
+  with positional arguments) for reading a JSON list of objects (specifying
+  what to operate on and any arguments; instead of an object, one can use a
+  string or int, which is treated like an object ID given on the command line)
+  from a file.
 
-- Add an option (for non-raw commands) for printing the response headers to
-  stderr?
+- After everything else is done, implement config files for specifying default
+  values for:
+    - API key
+    - file containing API key
+    - timeout
+    - endpoint
+    - wait time
+    - wait interval
+    - whether to wait/what operations to wait on?
+    - whether to enforce name uniqueness among droplets, SSH keys, and/or images
+    - parameters to pass when creating a droplet
 
 # Internals
+
+## Features
+
+- Overload comparison operators
 
 ## Structure
 
