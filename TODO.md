@@ -51,6 +51,12 @@
 - Give `Network` a meta attribute for the IP version
 - Add a class for droplets' `next_backup_window` fields
 
+- Try to be more consistent regarding when deep copies of objects are created.
+    - Passing an image, region, etc. object to `Droplet` (e.g., when copying a
+      droplet) causes it to be deep-copied.
+    - The droplet reference passed to a network, kernel, backup, or snapshot
+      object is not deep-copied.
+
 ## Other
 
 - Document everything!

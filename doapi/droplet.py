@@ -13,7 +13,7 @@ class Droplet(JSObject):
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
                           ('kernel', Kernel), ('networks', Networks)]:
             if getattr(self, attr, None) is not None:
-                if attr == 'networks':
+                if attr in ('kernel', 'networks'):   ### also 'image'?
                     new = cls(getattr(self, attr), droplet=self, **meta)
                 else:
                     new = cls(getattr(self, attr), **meta)

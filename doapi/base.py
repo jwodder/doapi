@@ -93,15 +93,9 @@ class Account(JSObject):
         return urljoin(endpoint, '/v2/account')
 
 
-class Kernel(JSObject):
-    _meta_attrs = JSObject._meta_attrs + ('droplet',)
-
+class Kernel(JSObjectWithDroplet):
     def __int__(self):
         return self.id
-
-    def fetch_droplet(self):
-        ### Handle self.droplet being an int?
-        return self.droplet.fetch()
 
 
 class DropletUpgrade(JSObject):
