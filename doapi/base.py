@@ -119,6 +119,9 @@ class Networks(JSObjectWithDroplet):
 class Network(JSObjectWithDroplet):
     _meta_attrs = JSObjectWithDroplet._meta_attrs + ('ip_version',)
 
+    def __str__(self):
+        return self.ip_address
+
 
 def byname(iterable):
     bins = defaultdict(list)

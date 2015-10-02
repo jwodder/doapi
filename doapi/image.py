@@ -8,6 +8,13 @@ class Image(JSObjectWithDroplet):
     def __int__(self):
         return self.id
 
+    def __str__(self):
+        if getattr(self, "slug", None) is not None:
+            return self.slug
+        else:
+            raise AttributeError("%r object has no attribute 'slug'"
+                                 % (self.__class__.__name__,))
+
     def url(self, endpoint=''):
         return urljoin(endpoint, '/v2/images/' + str(self.id))
 
