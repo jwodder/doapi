@@ -134,7 +134,7 @@ class Droplet(JSObject):
     def wait(self, status=None, interval=None, maxwait=-1):
         if status is None:
             self.fetch_last_action().wait(interval=interval, maxwait=maxwait)
-            ### Should this do something if the action errored?
+            ### TODO: Should this do something if the action errored?
             return self.fetch()
         else:
             if interval is None:
@@ -151,11 +151,11 @@ class Droplet(JSObject):
                     sleep(min(interval, end_time - time()))
 
     def fetch_last_action(self):
-        ### Naive implementation:
+        # Naive implementation:
         api = self.doapi_manager
         return api.action(api.request(self.action_url())["actions"][0])
         """
-        ### Slow yet guaranteed-correct implementation:
+        # Slow yet guaranteed-correct implementation:
         return max(self.fetch_all_actions(), key=lambda a: a.started_at)
         """
 

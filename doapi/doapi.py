@@ -63,7 +63,6 @@ class doapi(object):
         if self.last_response is None:
             return None
         else:
-            ### Double-check this:
             return {k:v for k,v in self.last_response.headers.iteritems()
                         if k.startswith('ratelimit')}
 
@@ -151,10 +150,10 @@ class doapi(object):
         return self.action(obj).fetch()
 
     def fetch_last_action(self):
-        ### Naive implementation:
+        # Naive implementation:
         return self.action(self.request('/v2/actions')["actions"][0])
         """
-        ### Slow yet guaranteed-correct implementation:
+        # Slow yet guaranteed-correct implementation:
         return max(self.fetch_all_actions(), key=lambda a: a.started_at)
         """
 

@@ -75,3 +75,4 @@
   which the API will allow a slug in place of an ID in the first place.)
 - Should `JSObject.__repr__` show `doapi_manager`?
 - Handle infinite recursion in `JSObject.__repr__` with the `repr` module?
+- Look into the correctness of the naïve implementation of `fetch_last_action`

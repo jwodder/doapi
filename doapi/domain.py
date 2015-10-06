@@ -21,8 +21,11 @@ class Domain(JSObject):
         self.doapi_manager.request(self.url(), method='DELETE')
 
     def record(self, obj):
-        ### Handle `self.doapi_manager` not existing
-        return DomainRecord(obj, doapi_manager=self.doapi_manager, domain=self)
+        try:
+            meta = {"doapi_manager": self.doapi_manager}
+        except AttributeError:
+            meta = {}
+        return DomainRecord(obj, domain=self, **meta)
 
     def record_url(self, endpoint=''):
         return urljoin(endpoint, self.url() + '/records')
@@ -50,7 +53,7 @@ class Domain(JSObject):
 class DomainRecord(JSObject):
     _meta_attrs = JSObject._meta_attrs + ('domain',)
 
-    ### Should this try to handle self.domain being a string?
+    ### TODO: Should this try to handle self.domain being a string?
 
     def __int__(self):
         return self.id
@@ -64,7 +67,7 @@ class DomainRecord(JSObject):
     def fetch_domain(self):
         return self.domain.fetch()
 
-    ### Rethink the arguments:
+    ### TODO: Rethink the arguments:
     def update(self, **attrs):
         return self.domain.record(self.doapi_manager.request(self.url(), method='PUT', data=attrs)["domain_record"])
 
