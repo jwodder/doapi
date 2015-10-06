@@ -18,7 +18,7 @@
 
 # Unanswered questions about the API
 
-- Can a droplet have more than one in-progress action on it at a time?
+- Can a droplet or image have more than one in-progress action on it at a time?
 - Is fetching an action via `/v2/actions/$ACTION_ID` always equivalent to
   fetching via `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`?
 - Is there any guarantee about the order actions (or anything else, really) are

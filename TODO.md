@@ -31,6 +31,13 @@
 # Internals
 
 - Handle all items marked with "`TODO`" or "`###`" in the code
+- Fix `JSObject.__repr__`'s handling of meta attributes
+    - Show `doapi_manager` and DomainRecord's `domain`
+        - Should `doapi_manager` be omitted from nested objects?
+    - Do not show `_meta_attrs` (which isn't supposed to be in `vars()` anyway)
+      or Network's `ip_version`
+    - Do not show `droplet` when recursing inside a droplet
+        - Only show `droplet` as an int?
 
 ## Structure
 
@@ -45,16 +52,16 @@
     - API attributes are stored in a private dict meta attribute
     - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict` instead
 
-- Give `doapi` `account`, `kernel`, etc. methods?
-- Should the `fetch_all_*` methods return generators instead of lists?
-- Define `__int__` in `JSObject`?
-- Add a class for droplets' `next_backup_window` fields
-
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a
       droplet) causes it to be deep-copied.
     - The droplet reference passed to a network, kernel, backup, or snapshot
       object is not deep-copied.
+
+- Give `doapi` `account`, `kernel`, etc. methods?
+- Should the `fetch_all_*` methods return generators instead of lists?
+- Define `__int__` in `JSObject`?
+- Add a class for droplets' `next_backup_window` fields
 
 ## Other
 
@@ -73,8 +80,7 @@
 - Should slugs be allowed as alternative identifiers for images the same way
   fingerprints are for SSH keys?  (This depends on the circumstances under
   which the API will allow a slug in place of an ID in the first place.)
-- Should `JSObject.__repr__` show `doapi_manager`?
-- Handle infinite recursion in `JSObject.__repr__` with the `repr` module?
 - Look into the correctness of the naïve implementation of `fetch_last_action`
-- Should the `Network` class be named `Interface` or something like that
-  instead?
+- Should the `Network` class be renamed `Interface` or something like that?
+- Make `DomainRecord` more robust with regards to potentially lacking a
+  `doapi_manager` and/or `domain` object (cf. `JSObjectWithDroplet`)
