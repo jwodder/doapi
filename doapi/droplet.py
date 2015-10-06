@@ -61,59 +61,59 @@ class Droplet(JSObject):
     def action_url(self, endpoint=''):
         return urljoin(endpoint, '/v2/droplets/' + str(self.id) + '/actions')
 
-    def action(self, **data):  ### TODO: Rethink name; `act`?
+    def act(self, **data):
         api = self.doapi_manager
         return api.action(api.request(self.action_url(), method='POST',
                                       data=data)["action"])
 
     def disable_backups(self):
-        return self.action(type='disable_backups')
+        return self.act(type='disable_backups')
 
     def reboot(self):
-        return self.action(type='reboot')
+        return self.act(type='reboot')
 
     def power_cycle(self):
-        return self.action(type='power_cycle')
+        return self.act(type='power_cycle')
 
     def shutdown(self):
-        return self.action(type='shutdown')
+        return self.act(type='shutdown')
 
     def power_off(self):
-        return self.action(type='power_off')
+        return self.act(type='power_off')
 
     def power_on(self):
-        return self.action(type='power_on')
+        return self.act(type='power_on')
 
     def restore(self, image):
-        return self.action(type='restore', image=image)
+        return self.act(type='restore', image=image)
 
     def password_reset(self):
-        return self.action(type='password_reset')
+        return self.act(type='password_reset')
 
     def resize(self, size, disk=None):
         opts = {"disk": disk} if disk is not None else {}
-        return self.action(type='resize', size=size, **opts)
+        return self.act(type='resize', size=size, **opts)
 
     def rebuild(self, image):
-        return self.action(type='rebuild', image=image)
+        return self.act(type='rebuild', image=image)
 
     def rename(self, name):
-        return self.action(type='rename', name=name)
+        return self.act(type='rename', name=name)
 
     def change_kernel(self, kernel):
-        return self.action(type='change_kernel', kernel=kernel)
+        return self.act(type='change_kernel', kernel=kernel)
 
     def enable_ipv6(self):
-        return self.action(type='enable_ipv6')
+        return self.act(type='enable_ipv6')
 
     def enable_private_networking(self):
-        return self.action(type='enable_private_networking')
+        return self.act(type='enable_private_networking')
 
     def snapshot(self, name):
-        return self.action(type='snapshot', name=name)
+        return self.act(type='snapshot', name=name)
 
     def upgrade(self):
-        return self.action(type='upgrade')
+        return self.act(type='upgrade')
 
     def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')
@@ -129,7 +129,7 @@ class Droplet(JSObject):
 
     def fetch_all_actions(self):
         api = self.doapi_manager
-        return map(api.action, api.paginate(self.action_url(), 'actions'))
+        return map(api.act, api.paginate(self.action_url(), 'actions'))
 
     def wait(self, status=None, interval=None, maxwait=-1):
         if status is None:

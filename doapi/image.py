@@ -33,16 +33,16 @@ class Image(JSObjectWithDroplet):
     def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')
 
-    def action(self, **data):  ### TODO: Rethink name; `act`?
+    def act(self, **data):
         api = self.doapi_manager
         return api.action(api.request(self.action_url(), method='POST',
                                       data=data)["action"])
 
     def transfer(self, region):
-        return self.action(type='transfer', region=region)
+        return self.act(type='transfer', region=region)
 
     def convert(self):
-        return self.action(type='convert')
+        return self.act(type='convert')
 
     def fetch_all_actions(self):
         api = self.doapi_manager
