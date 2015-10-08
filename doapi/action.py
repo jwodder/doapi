@@ -39,16 +39,6 @@ class Action(JSObject):
         else:
             raise ValueError('Unknown resource_type: ' + repr(self.resource_type))
 
-    def wait(self, interval=None, maxwait=-1):
-        if interval is None:
-            interval = self.doapi_manager.wait_interval
-        end_time = time() + maxwait if maxwait > 0 else None
-        current = self
-        while end_time is None or time() < end_time:
-            current = current.fetch()
-            if current.done:
-                return current
-            if end_time is None:
-                sleep(interval)
-            else:
-                sleep(min(interval, end_time - time()))
+    def wait(self, wait_interval=None, wait_time=None):
+        return next(self.doapi_manager.wait_actions([self], wait_interval,
+                                                            wait_time))

@@ -38,6 +38,7 @@
       or Network's `ip_version`
     - Do not show `droplet` when recursing inside a droplet
         - Only show `droplet` as an int?
+- Wait intervals & times should be in milliseconds (or smaller?), not seconds
 
 ## Structure
 
@@ -51,6 +52,7 @@
       y`.
     - API attributes are stored in a private dict meta attribute
     - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict` instead
+    - cf. UserDict
 
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a

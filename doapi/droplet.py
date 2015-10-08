@@ -131,24 +131,9 @@ class Droplet(JSObject):
         api = self.doapi_manager
         return map(api.act, api.paginate(self.action_url(), 'actions'))
 
-    def wait(self, status=None, interval=None, maxwait=-1):
-        if status is None:
-            self.fetch_last_action().wait(interval=interval, maxwait=maxwait)
-            ### TODO: Should this do something if the action errored?
-            return self.fetch()
-        else:
-            if interval is None:
-                interval = self.doapi_manager.wait_interval
-            end_time = time() + maxwait if maxwait > 0 else None
-            current = self
-            while end_time is None or time() < end_time:
-                current = current.fetch()
-                if current.status == status:
-                    return current
-                if end_time is None:
-                    sleep(interval)
-                else:
-                    sleep(min(interval, end_time - time()))
+    def wait(self, status=None, wait_interval=None, wait_time=None):
+        return next(self.doapi_manager.wait_droplets([self], status,
+                                                     wait_interval, wait_time))
 
     def fetch_last_action(self):
         # Naive implementation:

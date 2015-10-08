@@ -12,11 +12,12 @@ from   .sshkey     import SSHKey
 
 class doapi(object):
     def __init__(self, api_key, endpoint='https://api.digitalocean.com',
-                 timeout=60, wait_interval=10, per_page=None):
+                 timeout=60, wait_interval=10, wait_time=None, per_page=None):
         self.api_key = api_key
         self.endpoint = endpoint
         self.timeout = timeout
         self.wait_interval = wait_interval
+        self.wait_time = wait_time
         self.per_page = per_page
         self.last_response = None
         self.last_meta = None
@@ -116,32 +117,17 @@ class doapi(object):
                 for hood in self.paginate('/v2/reports/droplet_neighbors',
                                           'neighbors')]
 
-    def wait_droplets(self, droplets, status=None, interval=None, maxwait=-1):
+    def wait_droplets(self, droplets, status=None, wait_interval=None,
+                                                   wait_time=None):
         droplets = map(self.droplet, droplets)
         if status is None:
             for a in self.wait_actions([d.fetch_last_action()
                                         for d in droplets],
-                                       interval=interval, maxwait=maxwait):
+                                       wait_interval, wait_time)
                 yield a.fetch_resource()
         else:
-            if interval is None:
-                interval = self.wait_interval
-            end_time = time() + maxwait if maxwait > 0 else None
-            while droplets and (end_time is None or time() < end_time):
-                next_droplets = []
-                for d in droplets:
-                    drop = d.fetch()
-                    if drop.status == status:
-                        yield drop
-                    else:
-                        next_droplets.append(drop)
-                droplets = next_droplets
-                if end_time is None:
-                    sleep(interval)
-                else:
-                    sleep(min(interval, end_time - time()))
-            for d in droplets:
-                yield d
+            return self._wait(droplets, lambda d: d.status == status,
+                              wait_interval, wait_time)
 
     def action(self, obj):
         return Action(obj, doapi_manager=self)
@@ -160,26 +146,9 @@ class doapi(object):
     def fetch_all_actions(self):
         return map(self.action, self.paginate('/v2/actions', 'actions'))
 
-    def wait_actions(self, actions, interval=None, maxwait=-1):
-        actions = map(self.action, actions)
-        if interval is None:
-            interval = self.wait_interval
-        end_time = time() + maxwait if maxwait > 0 else None
-        while actions and (end_time is None or time() < end_time):
-            next_actions = []
-            for a in actions:
-                act = a.fetch()
-                if act.in_progress:
-                    next_actions.append(act)
-                else:
-                    yield act
-            actions = next_actions
-            if end_time is None:
-                sleep(interval)
-            else:
-                sleep(min(interval, end_time - time()))
-        for a in actions:
-            yield a
+    def wait_actions(self, actions, wait_interval=None, wait_time=None):
+        return self._wait(map(self.action, actions), lambda a: a.done,
+                          wait_interval, wait_time)
 
     def sshkey(self, obj=None, **keyargs):
         return SSHKey(obj, doapi_manager=self, **keyargs)
@@ -256,3 +225,35 @@ class doapi(object):
 
     def __ne__(self, other):
         return not (self == other)
+
+    def _wait(self, objects, isdone, wait_interval=None, wait_time=None)
+        # `wait_time` can be set to a negative value to explicitly make the
+        # function wait forever, overriding any positive value set for
+        # `self.wait_time`
+        objects = list(objects)
+        if wait_interval is None:
+            wait_interval = self.wait_interval
+        if wait_time < 0:
+            end_time = None
+        else:
+            if wait_time is None:
+                wait_time = self.wait_time
+            if wait_time is None or wait_time < 0:
+                end_time = None
+            else:
+                end_time = time() + wait_time
+        while objects and (end_time is None or time() < end_time):
+            next_objs = []
+            for o in objects:
+                obj = o.fetch()
+                if isdone(obj):
+                    yield obj
+                else:
+                    next_objs.append(obj)
+            objects = next_objs
+            if end_time is None:
+                sleep(wait_interval)
+            else:
+                sleep(min(wait_interval, end_time - time()))
+        for o in objects:
+            yield o
