@@ -13,6 +13,8 @@ from   .sshkey     import SSHKey
 class doapi(object):
     def __init__(self, api_key, endpoint='https://api.digitalocean.com',
                  timeout=60, wait_interval=10, wait_time=None, per_page=None):
+        # Note that timeout, wait_interval, and wait_time are a number of
+        # seconds as an int or float.
         self.api_key = api_key
         self.endpoint = endpoint
         self.timeout = timeout

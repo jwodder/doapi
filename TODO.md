@@ -2,6 +2,7 @@
 
 # Externals
 
+- Add error handling
 - Droplet action commands that require the droplet to be off should have a flag
   for ensuring the droplet is off beforehand
 - Add a way to get the current rate limit
@@ -38,7 +39,6 @@
       or Network's `ip_version`
     - Do not show `droplet` when recursing inside a droplet
         - Only show `droplet` as an int?
-- Wait intervals & times should be in milliseconds (or smaller?), not seconds
 
 ## Structure
 

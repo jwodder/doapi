@@ -1,7 +1,3 @@
-Look into the 'parents' argument to `argparse.ArgumentParser`
-
-All JSON output is pretty.
-
 [Rethink this:] There is no filtering of result lists by region, image, etc.;
 the only query filters available are those directly supported by the API.  For
 everything else, use `jq`.
@@ -15,7 +11,7 @@ Options common to all commands:
     --api-key-file file
     --timeout int
     --endpoint URL
-    -D/--dump-header <file> # ?  # as in curl
+    ### -D/--dump-header <file> # ?  # as in curl
 
 Options common to all actions (including creating droplets):
     --wait
@@ -28,6 +24,11 @@ Options common to all operations on droplets, SSH keys, & images:
 	      # as a slug (and SSH keys can't be given names that could be
 	      # fingerprints?)
     --ignore ?  # with `--unique`, don't error on nonunique names
+
+Better idea: `--unique` is always on by default; to create an object with a
+duplicate name, a `--force` option is required.  Using a non-unique name in a
+command raises an error unless some option is specified to make the name expand
+to all matching objects.
 
 API key sources, in order of precedence:
  - API key or keyfile specified on the command-line (mutually exclusive)
