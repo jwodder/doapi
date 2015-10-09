@@ -45,7 +45,7 @@ API key sources, in order of precedence:
 <action>  := ID
 
 
-do-droplet
+doapi-droplet
 	[show [<droplet> ...]]
 	new
 	    -i|--image <image>
@@ -85,14 +85,14 @@ do-droplet
 	kernels <droplet> ...
 	neighbors [<droplet> ...]
 
-do-request  # raw request
+doapi-request  # raw request
     [-X <method>]
     [-d/--data <string|@file>]  # as in curl
     [-D/--dump-header <file>]   # as in curl
     [--paginate <key>]
     <URL>|<path>
 
-do-sshkey
+doapi-sshkey
 	[show [<sshkey> ...]]
 	new <name> [<file>; default: stdin]
 	    # Add an option for only creating if the public key isn't
@@ -102,7 +102,7 @@ do-sshkey
 	delete <sshkey> ...
 	update <sshkey> <new name>
 
-do-image
+doapi-image
 	[show [--type TYPE|--distribution|--application] [--private] ...]
 	update <image> <new name>
 	delete <image> ...
@@ -114,7 +114,7 @@ do-image
 	# getting last action
 	# waiting for last action(s) (or specific actions?)
 
-do-action
+doapi-action
 	show  # Add --latest option?  --in-progress?
 	latest  # Merge into `show`?
 	wait {--latest/--all | <action> ...}
@@ -126,7 +126,7 @@ do-action
 	# efficiently by merely requesting the first page of actions for each
 	# droplet and each private image.
 
-do-domain
+doapi-domain
 	[show [name ...]]
 	new <name> <ip address>
 	delete <name> ...
@@ -140,6 +140,6 @@ do-domain
 		# Add a "set" command that replaces all pre-existing records
 		# with a given name with a single record?
 
-do-regions
-do-sizes
-do-account
+doapi-regions
+doapi-sizes
+doapi-account

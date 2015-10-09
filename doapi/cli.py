@@ -1,9 +1,9 @@
-#!/usr/bin/python
 import argparse
 import os
 import os.path
 import sys
-from   doapi import doapi, DOEncoder, byname
+from   .base  import DOEncoder, byname
+from   .doapi import doapi
 
 universal = argparse.ArgumentParser(add_help=False)
 keyopts = universal.add_mutually_exclusive_group()
@@ -19,7 +19,7 @@ waitopts.add_argument('--wait-interval', type=float, metavar='seconds')
 
 cache = None
 
-def do_droplet():
+def doapi_droplet():
     parser = argparse.ArgumentParser(parents=[universal])
     cmds = parser.add_subparsers(title='command', dest='cmd')
     cmd_new = cmds.add_parser('new')
@@ -28,16 +28,16 @@ def do_droplet():
     client = mkclient(args)
     ...
 
-def do_image():
+def doapi_image():
     ...
 
-def do_action():
+def doapi_action():
     ...
 
-def do_domain():
+def doapi_domain():
     ...
 
-def do_sshkey():
+def doapi_sshkey():
     parser = argparse.ArgumentParser(parents=[universal])
     cmds = parser.add_subparsers(title='command', dest='cmd')
     cmd_show = cmds.add_parser('show')
@@ -69,25 +69,25 @@ def do_sshkey():
         assert False
 
 
-def do_regions():
+def doapi_regions():
     parser = argparse.ArgumentParser(parents=[universal])
     args = parser.parse_args()
     client = mkclient(args)
     dump(client.fetch_all_regions())
 
-def do_sizes():
+def doapi_sizes():
     parser = argparse.ArgumentParser(parents=[universal])
     args = parser.parse_args()
     client = mkclient(args)
     dump(client.fetch_all_sizes())
 
-def do_account():
+def doapi_account():
     parser = argparse.ArgumentParser(parents=[universal])
     args = parser.parse_args()
     client = mkclient(args)
     dump(client.fetch_account())
 
-def do_request():
+def doapi_request():
     ### DOC NOTE: --dump-header dumps as JSON, because it's much easier that
     ### way.
     parser = argparse.ArgumentParser(parents=[universal])
@@ -248,34 +248,27 @@ class Cache(object):
 
 if __name__ == '__main__':
     argv0 = os.path.splitext(os.path.basename(sys.argv[0]))[0]
-    if argv0 == 'do-droplet':
-        do_droplet()
-    elif argv0 == 'do-image':
-        do_image()
-    elif argv0 == 'do-action':
-        do_action()
-    elif argv0 == 'do-domain':
-        do_domain()
-    elif argv0 == 'do-sshkey':
-        do_sshkey()
-    elif argv0 == 'do-regions':
-        do_regions()
-    elif argv0 == 'do-sizes':
-        do_sizes()
-    elif argv0 == 'do-account':
-        do_account()
-    elif argv0 == 'do-request':
-        do_request()
+    if argv0 == 'doapi' and len(sys.argv) > 1:
+        argv0 += '-' + sys.argv.pop(1)
+    if argv0 == 'doapi-droplet':
+        doapi_droplet()
+    elif argv0 == 'doapi-image':
+        doapi_image()
+    elif argv0 == 'doapi-action':
+        doapi_action()
+    elif argv0 == 'doapi-domain':
+        doapi_domain()
+    elif argv0 == 'doapi-sshkey':
+        doapi_sshkey()
+    elif argv0 == 'doapi-regions':
+        doapi_regions()
+    elif argv0 == 'doapi-sizes':
+        doapi_sizes()
+    elif argv0 == 'doapi-account':
+        doapi_account()
+    elif argv0 == 'doapi-request':
+        doapi_request()
     else:
-        die('''\
-This command must be invoked as one of the following:
- - do-droplet
- - do-image
- - do-action
- - do-domain
- - do-sshkey
- - do-regions
- - do-sizes
- - do-account
- - do-request
-''')
+        die('Available commands:\n'
+            '    account action domain droplet image regions request sizes'
+            ' sshkey')
