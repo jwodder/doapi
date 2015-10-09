@@ -88,9 +88,44 @@ def do_account():
     dump(client.fetch_account())
 
 def do_request():
-    ...
-
-
+    ### DOC NOTE: --dump-header dumps as JSON, because it's much easier that
+    ### way.
+    parser = argparse.ArgumentParser(parents=[universal])
+    parser.add_argument('-X', '--request', type=str.upper, default='GET',
+                        choices=['GET', 'POST', 'PUT', 'DELETE'])
+    parser.add_argument('-d', '--data', metavar='string|@file')
+    parser.add_argument('-D', '--dump-header', type=argparse.FileType('w'))
+    parser.add_argument('--paginate', metavar='key')
+    parser.add_argument('path', metavar='URL|path')
+    args = parser.parse_args()
+    if args.paginate is not None and args.request != 'GET':
+        die('--paginate can only be used with the GET method')
+    if args.data is not None:
+        ### Complain if the request method is GET or DELETE?
+        if len(args.data) > 1 and args.data[0] == '@':
+            if args.data[1:] == '-':
+                extra = {"data": sys.stdin.read()}
+            else:
+                with open(args.data[1:]) as fp:
+                    extra = {"data": fp.read()}
+        else:
+            extra = {"data": args.data}
+    else:
+        extra = {}
+    client = mkclient(args)
+    if args.paginate is None:
+        response = client.request(args.path, method=args.request, **extra)
+    else:
+        ### TODO: Print paginated results as they come in rather than all at
+        ### once.
+        response = list(client.paginate(args.path, args.paginate))
+    if args.dump_header:
+        # Using "with" would cause `args.dump_header` to close afterwards,
+        # which would cause problems if it was stdout.  "with" technically
+        # doesn't provide any benefit here anyway.
+        dump(dict(client.last_response.headers), fp=args.dump_header)
+    if args.request != 'DELETE':
+        dump(response)
 
 
 def mkclient(args):
@@ -109,7 +144,7 @@ def mkclient(args):
             with open(os.path.expanduser('~/.doapi')) as fp:
                 api_key = fp.read().strip()
         except IOError:
-            raise SystemExit('''\
+            die('''\
 No DigitalOcean API key supplied
 
 Specify your API key via one of the following (in order of precedence):
@@ -125,8 +160,13 @@ Specify your API key via one of the following (in order of precedence):
     return client
 
 
-def dump(obj):
-    print json.dumps(obj, cls=DOEncoder, sort_keys=True, indent=4)
+def dump(obj, fp=sys.stdout):
+    json.dump(obj, fp, cls=DOEncoder, sort_keys=True, indent=4)
+    fp.write('\n')
+
+
+def die(msg, *va_arg):
+    raise SystemExit(sys.argv[0] + ': ' + msg % va_arg)
 
 
 class Cache(object):
@@ -227,7 +267,7 @@ if __name__ == '__main__':
     elif argv0 == 'do-request':
         do_request()
     else:
-        raise SystemExit('''\
+        die('''\
 This command must be invoked as one of the following:
  - do-droplet
  - do-image

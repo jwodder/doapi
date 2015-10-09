@@ -39,6 +39,8 @@
       or Network's `ip_version`
     - Do not show `droplet` when recursing inside a droplet
         - Only show `droplet` as an int?
+- Rethink giving `doapi` a `__repr__` method (Showing the API key is bad,
+  right?)
 
 ## Structure
 

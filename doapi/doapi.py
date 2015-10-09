@@ -40,6 +40,7 @@ class doapi(object):
             "params": params,
             "timeout": self.timeout,
         }
+        method = method.upper()
         if method == 'GET':
             r = requests.get(url, **attrs)
         elif method == 'POST':

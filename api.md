@@ -15,6 +15,8 @@
 - The path for getting a droplet's neighbors is actually
   `/v2/droplets/$DROPLET_ID/neighbors` (note forward slash in place of
   backslash and lack of colon).
+- The documentation claims that the API accepts HEAD requests, but actually
+  making such requests seems to always result in a 404.
 
 # Unanswered questions about the API
 
