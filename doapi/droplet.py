@@ -85,22 +85,30 @@ class Droplet(JSObject):
         return self.act(type='power_on')
 
     def restore(self, image):
+        if isinstance(image, Image):
+            image = image.id
         return self.act(type='restore', image=image)
 
     def password_reset(self):
         return self.act(type='password_reset')
 
     def resize(self, size, disk=None):
+        if isinstance(size, Size):
+            size = size.slug
         opts = {"disk": disk} if disk is not None else {}
         return self.act(type='resize', size=size, **opts)
 
     def rebuild(self, image):
+        if isinstance(image, Image):
+            image = image.id
         return self.act(type='rebuild', image=image)
 
     def rename(self, name):
         return self.act(type='rename', name=name)
 
     def change_kernel(self, kernel):
+        if isinstance(kernel, Kernel):
+            kernel = kernel.id
         return self.act(type='change_kernel', kernel=kernel)
 
     def enable_ipv6(self):

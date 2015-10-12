@@ -71,12 +71,9 @@ doapi-droplet
 	    # for "status"
 	    # Add waiting for specific actions?
 	<action name> <wait options> <droplet> ...
-	    # In "doapi droplet <action>", should the "droplet" part be
-	    # optional/omitted?
 	    # Arguments to actions are specified with `--name=value`
 	upgrades [--droplets]
-	    # --droplets: return the droplets that will be upgraded
-	    # instead
+	    # --droplets: return the droplets that will be upgraded instead
 	# raw action
 	# getting actions
 	# getting last action

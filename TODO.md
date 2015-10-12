@@ -16,6 +16,21 @@
   what to operate on and any arguments; instead of an object, one can use a
   string or int, which is treated like an object ID given on the command line)
   from a file.
+- Make `doapi-TYPE` a synonym for `doapi-TYPE show`, which should list all
+  objects of the given type
+- Give `doapi-regions` and `doapi-sizes` "`show`" commands for fetching only
+  specific regions/sizes (and change the names of the commands to singular?)
+- `doapi-droplet`: Add synonyms for some actions:
+    - `on` = `power-on`
+    - `off` = `power-off`
+    - `backups-off` = `disable-backups`
+    - `set-kernel` = `change-kernel`
+    - `rekernel` = `change-kernel` ?
+    - `chkernel` = `change-kernel` ?
+    - [SOMETHING shorter than "enable-private-networking"]
+    - [others?]
+- Rename `doapi-droplet`'s `upgrades` and `snapshots` commands so as to
+  eliminate confusion with `upgrade` and `snapshot`
 
 - After everything else is done, implement config files for specifying default
   values for:
@@ -73,7 +88,7 @@
 - If a `wait_*` method receives a KeyboardInterrupt, it should return
   immediately
 - Look into more appropriate/standard names for `_asdict`
-- Bring in line with PEP 8
+- Bring in line with PEP 8 and pylint
 - Make the code work in both Python 2 and Python 3
 - Replace `minibin/*` with unit tests that just invoke the command-line client
 - Should `doapi.__init__` take a default `maxwait` value?
