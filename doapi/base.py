@@ -128,18 +128,3 @@ class Network(JSObjectWithDroplet):
 
     def __str__(self):
         return self.ip_address
-
-
-def byname(iterable):
-    bins = defaultdict(list)
-    for obj in iterable:
-        bins[obj.name].append(obj)
-    return bins
-
-def filterName(name, iterable):
-    return [obj for obj in iterable if obj.name == name]
-    """
-    for obj in iterable:
-        if obj.name == name:
-            yield obj
-    """

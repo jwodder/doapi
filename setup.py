@@ -11,15 +11,15 @@ setup(
     entry_points={
         "console_scripts": [
             'doapi = doapi.cli',
-            'doapi-account = doapi.cli:doapi_account',
-            'doapi-action = doapi.cli:doapi_action',
-            'doapi-domain = doapi.cli:doapi_domain',
-            'doapi-droplet = doapi.cli:doapi_droplet',
-            'doapi-image = doapi.cli:doapi_image',
-            'doapi-regions = doapi.cli:doapi_regions',
-            'doapi-request = doapi.cli:doapi_request',
-            'doapi-sizes = doapi.cli:doapi_sizes',
-            'doapi-sshkey = doapi.cli:doapi_sshkey',
+            'doapi-account = doapi.cli.account',
+            'doapi-action = doapi.cli.action',
+            'doapi-domain = doapi.cli.domain',
+            'doapi-droplet = doapi.cli.droplet',
+            'doapi-image = doapi.cli.image',
+            'doapi-regions = doapi.cli.regions',
+            'doapi-request = doapi.cli.request',
+            'doapi-sizes = doapi.cli.sizes',
+            'doapi-sshkey = doapi.cli.sshkey',
         ]
     },
 )
