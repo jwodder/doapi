@@ -11,7 +11,6 @@ Options common to all commands:
     --api-key-file file
     --timeout int
     --endpoint URL
-    ### -D/--dump-header <file> # ?  # as in curl
 
 Options common to all actions (including creating droplets):
     --wait
@@ -29,6 +28,9 @@ Better idea: `--unique` is always on by default; to create an object with a
 duplicate name, a `--force` option is required.  Using a non-unique name in a
 command raises an error unless some option is specified to make the name expand
 to all matching objects.
+
+When getting lists of objects for multiple items (e.g., getting the snapshots
+for a list of more than one droplet), the output is a list of lists of objects.
 
 API key sources, in order of precedence:
  - API key or keyfile specified on the command-line (mutually exclusive)

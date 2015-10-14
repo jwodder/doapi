@@ -6,16 +6,8 @@
 - Droplet action commands that require the droplet to be off should have a flag
   for ensuring the droplet is off beforehand
 - Add a way to get the current rate limit
-- When getting lists of objects for multiple items (e.g., getting the snapshots
-  for a list of more than one droplet), should the output be a list of lists of
-  objects?
 - Add `--all` options for everything that takes a list of objects to operate
   on? (except the "delete" commands; that'd be bad)
-- All operations should be doable in batches via an option (mutually exclusive
-  with positional arguments) for reading a JSON list of objects (specifying
-  what to operate on and any arguments; instead of an object, one can use a
-  string or int, which is treated like an object ID given on the command line)
-  from a file.
 - Make `doapi-TYPE` a synonym for `doapi-TYPE show`, which should list all
   objects of the given type
 - Give `doapi-regions` and `doapi-sizes` "`show`" commands for fetching only
@@ -31,9 +23,16 @@
     - [others?]
 - Rename `doapi-droplet`'s `upgrades` and `snapshots` commands so as to
   eliminate confusion with `upgrade` and `snapshot`
+- Allow invocations of the form `doapi <options> <command>`
 
-- After everything else is done, implement config files for specifying default
-  values for:
+- For second release: All operations should be doable in batches via an option
+  (mutually exclusive with positional arguments) for reading a JSON list of
+  objects (specifying what to operate on and any arguments; instead of an
+  object, one can use a string or int, which is treated like an object ID given
+  on the command line) from a file.
+    - cf. the intended `--json` option to `doapi-droplet new`
+
+- For third release: implement config files for specifying default values for:
     - API key
     - file containing API key
     - timeout
@@ -41,7 +40,8 @@
     - wait time
     - wait interval
     - whether to wait/what operations to wait on?
-    - whether to enforce name uniqueness among droplets, SSH keys, and/or images
+    - whether to enforce name uniqueness among droplets, SSH keys, and/or
+      images
     - parameters to pass when creating a droplet
 
 # Internals
@@ -79,7 +79,6 @@
 
 - Give `doapi` `account`, `kernel`, etc. methods?
 - Should the `fetch_all_*` methods return generators instead of lists?
-- Define `__int__` in `JSObject`?
 - Add a class for droplets' `next_backup_window` fields
 
 ## Other

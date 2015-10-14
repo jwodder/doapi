@@ -39,6 +39,8 @@
   if so, must they then be null?
 - Are there any uniqueness constraints on droplet, image, or SSH key names?
     - Can an image have a name that is the same as a slug?
+- Exactly which droplet actions can only be carried out when the droplet is
+  already off?
 
 # Other notes
 

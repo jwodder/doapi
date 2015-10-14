@@ -128,3 +128,20 @@ class Network(JSObjectWithDroplet):
 
     def __str__(self):
         return self.ip_address
+
+
+class DOAPIError(Exception):
+    def __init__(self, response):
+        self.response = response
+        # Taken from requests' raise_for_status:
+        self.http_error_msg = ''
+        if 400 <= response.status_code < 500:
+            self.http_error_msg = '%s Client Error: %s for url: %s\n' \
+                                  % (response.status_code, response.reason,
+                                     response.url)
+        elif 500 <= response.status_code < 600:
+            self.http_error_msg = '%s Server Error: %s for url: %s\n' \
+                                  % (response.status_code, response.reason,
+                                     response.url)
+        self.http_error_msg += response.text
+        super(DOAPIError, self).__init__(self.http_error_msg)

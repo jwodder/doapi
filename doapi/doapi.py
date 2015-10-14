@@ -3,7 +3,7 @@ import json
 from   time        import sleep, time
 from   urlparse    import urljoin
 import requests
-from   .base       import Region, Size, Account, DropletUpgrade
+from   .base       import Region, Size, Account, DropletUpgrade, DOAPIError
 from   .domain     import Domain
 from   .droplet    import Droplet
 from   .image      import Image
@@ -53,7 +53,8 @@ class doapi(object):
             raise ValueError('Unrecognized HTTP method: ' + repr(method))
         self.last_response = r
         self.last_meta = None
-        r.raise_for_status()
+        if 400 <= r.status_code < 600:
+            raise DOAPIError(r)
         if method != 'DELETE':
             response = r.json()
             try:
@@ -126,11 +127,12 @@ class doapi(object):
         if status is None:
             for a in self.wait_actions([d.fetch_last_action()
                                         for d in droplets],
-                                       wait_interval, wait_time)
+                                       wait_interval, wait_time):
                 yield a.fetch_resource()
         else:
-            return self._wait(droplets, lambda d: d.status == status,
-                              wait_interval, wait_time)
+            for d in self._wait(droplets, lambda d: d.status == status,
+                                wait_interval, wait_time):
+                yield d
 
     def action(self, obj):
         return Action(obj, doapi_manager=self)
@@ -229,7 +231,7 @@ class doapi(object):
     def __ne__(self, other):
         return not (self == other)
 
-    def _wait(self, objects, isdone, wait_interval=None, wait_time=None)
+    def _wait(self, objects, isdone, wait_interval=None, wait_time=None):
         # `wait_time` can be set to a negative value to explicitly make the
         # function wait forever, overriding any positive value set for
         # `self.wait_time`
