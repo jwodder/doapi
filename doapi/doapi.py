@@ -235,6 +235,8 @@ class doapi(object):
         # function wait forever, overriding any positive value set for
         # `self.wait_time`
         objects = list(objects)
+        if not objects:
+            return
         if wait_interval is None:
             wait_interval = self.wait_interval
         if wait_time < 0:
@@ -246,7 +248,7 @@ class doapi(object):
                 end_time = None
             else:
                 end_time = time() + wait_time
-        while objects and (end_time is None or time() < end_time):
+        while end_time is None or time() < end_time:
             next_objs = []
             for o in objects:
                 obj = o.fetch()
@@ -255,7 +257,9 @@ class doapi(object):
                 else:
                     next_objs.append(obj)
             objects = next_objs
-            if end_time is None:
+            if not objects:
+                break
+            elif end_time is None:
                 sleep(wait_interval)
             else:
                 sleep(min(wait_interval, end_time - time()))

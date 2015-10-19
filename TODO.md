@@ -24,6 +24,7 @@
 - Rename `doapi-droplet`'s `upgrades` and `snapshots` commands so as to
   eliminate confusion with `upgrade` and `snapshot`
 - Allow invocations of the form `doapi <options> <command>`
+- Use docopt instead of argparse?
 
 - For second release: All operations should be doable in batches via an option
   (mutually exclusive with positional arguments) for reading a JSON list of
