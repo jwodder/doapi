@@ -1,9 +1,10 @@
 import argparse
+from   collections import defaultdict
 import os
 import os.path
 import sys
-from   ..base  import DOEncoder
-from   ..doapi import doapi
+from   ..base      import DOEncoder
+from   ..doapi     import doapi
 
 universal = argparse.ArgumentParser(add_help=False)
 keyopts = universal.add_mutually_exclusive_group()
@@ -48,7 +49,7 @@ class Cache(object):
                                      if getattr(obj, attr, None) is not None}
             self.caches[key] = grouped
 
-    def get(self, key, label, multiple=True):
+    def get(self, key, label, multiple=True, mandatory=True):
         grouped = self.caches[key]
         for attr in self.groupby[key]:
             if attr == "id":
@@ -67,20 +68,23 @@ class Cache(object):
                     elif len(answer) == 1:
                         return answer[0]
                     else:
-                        raise SystemError('%r: ambiguous; name used by'
-                                          ' multiple %ss' % (label, key))
+                        die('%r: ambiguous; name used by multiple %ss'
+                            % (label, key))
                 elif multiple:
                     return [answer]
                 else:
                     return answer
-        raise SystemError('%r: no such %s' % (label, key))
+        if mandatory:
+            die('%r: no such %s' % (label, key))
+        else:
+            return None
 
     def cache_sshkeys(self):
         self.cache(self.client.fetch_all_sshkeys(), "sshkey")
 
-    def get_sshkey(self, label, multiple=True):
+    def get_sshkey(self, label, multiple=True, mandatory=True):
         self.cache_sshkeys()
-        self.get("sshkey", label, multiple)
+        self.get("sshkey", label, multiple, mandatory)
 
     def get_sshkeys(self, labels, multiple=True):
         if multiple:
@@ -91,9 +95,9 @@ class Cache(object):
     def cache_droplets(self):
         self.cache(self.client.fetch_all_droplets(), "droplet")
 
-    def get_droplet(self, label, multiple=True):
+    def get_droplet(self, label, multiple=True, mandatory=True):
         self.cache_droplets()
-        self.get("droplet", label, multiple)
+        self.get("droplet", label, multiple, mandatory)
 
     def get_droplets(self, labels, multiple=True):
         if multiple:
@@ -104,9 +108,9 @@ class Cache(object):
     def cache_images(self):
         self.cache(self.client.fetch_all_images(), "image")
 
-    def get_image(self, label, multiple=True):
+    def get_image(self, label, multiple=True, mandatory=True):
         self.cache_images()
-        self.get("image", label, multiple)
+        self.get("image", label, multiple, mandatory)
 
     def get_images(self, labels, multiple=True):
         if multiple:
@@ -145,7 +149,8 @@ Specify your API key via one of the following (in order of precedence):
     return (client, Cache(client))
 
 def dump(obj, fp=sys.stdout):
-    json.dump(obj, fp, cls=DOEncoder, sort_keys=True, indent=4)
+    json.dump(obj, fp, cls=DOEncoder, sort_keys=True, indent=4,
+              separators=(',', ': '))
     fp.write('\n')
 
 def die(msg, *va_arg):

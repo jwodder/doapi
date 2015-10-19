@@ -18,12 +18,11 @@ def main():
     cmd_new.add_argument('-i', '--image', required=True)
     cmd_new.add_argument('-s', '--size', required=True)
     cmd_new.add_argument('-r', '--region', required=True)
-    cmd_new.add_argument('--backups', action='store_true')
+    cmd_new.add_argument('-B', '--backups', action='store_true')
     cmd_new.add_argument('--ipv6', action='store_true')
     cmd_new.add_argument('-P', '--private-networking', action='store_true')
-    cmd_new.add_argument('--user-data')
-    ### --json
-    ### ssh keys
+    cmd_new.add_argument('-U', '--user-data')
+    cmd_new.add_argument('-K', '--ssh-key', action='append', default=[])
     cmd_new.add_argument('name', nargs='+')
 
     cmd_wait = cmds.add_parser('wait', parents=[util.waitbase])
@@ -32,7 +31,8 @@ def main():
     cmd_wait.add_argument('droplet', nargs='+')
 
     for act in sorted(unary_drop_acts):
-        cmds.add_parser(act, parents=[util.waitopts]).add_argument('droplet', nargs='+')
+        cmds.add_parser(act, parents=[util.waitopts])\
+            .add_argument('droplet', nargs='+')
 
     for act in "snapshots backups kernels delete".split():
         cmds.add_parser(act).add_argument('droplet', nargs='+')
@@ -67,14 +67,39 @@ def main():
 
     ### raw action, getting actions/last action, etc.
 
-    ...
     args = parser.parse_args()
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
         util.dump(cache.get_droplets(args.droplet, multiple=True))
 
     elif args.cmd == 'new':
-        ...
+        params = {
+            "image": cache.get_image(args.image, multiple=False),
+            ### TODO: Check that `args.size` and `args.region` are valid
+            "size": args.size,
+            "region": args.region,
+            "backups": args.backups,
+            "ipv6": args.ipv6,
+            "private_networking": args.private_networking,
+        }
+        if args.user_data is not None:
+            params["user_data"] = args.user_data
+
+        ### name uniqueness
+
+        ### SSH keys
+        sshkeys = []
+        for kname in args.ssh_key:
+            key = cache.get_sshkey(kname, multiple=False, mandatory=True)
+            if key is None:
+
+        drops = [client.create_droplet(n, **params) for n in args.name]
+        if args.wait:
+            ### TODO: Dump actions as they complete
+            drops = client.wait_droplets(drops, status='active')
+            ### Note: This will cause problems when fetching a pre-existing
+            ###       droplet that isn't active.
+        util.dump(drops)
 
     elif args.cmd == 'wait':
         ...
@@ -92,12 +117,15 @@ def main():
     elif args.cmd == 'snapshots':
         util.dump(map(Droplet.fetch_all_snapshots,
                       cache.get_droplets(args.droplet, multiple=False)))
+
     elif args.cmd == 'backups':
         util.dump(map(Droplet.fetch_all_backups,
                       cache.get_droplets(args.droplet, multiple=False)))
+
     elif args.cmd == 'kernels':
         util.dump(map(Droplet.fetch_all_kernels,
                       cache.get_droplets(args.droplet, multiple=False)))
+
     elif args.cmd == 'delete':
         drops = cache.get_droplets(args.droplet, multiple=False)
         for d in drops:
@@ -153,6 +181,9 @@ def main():
         if args.wait:
             act = act.wait()
         util.dump(act)
+
+### neighbors
+### upgrades
 
     else:
         assert False, 'No path defined for command %r' % (args.cmd,)
