@@ -11,7 +11,7 @@ from   .sshkey  import SSHKey
 
 class doapi(object):
     def __init__(self, api_key, endpoint='https://api.digitalocean.com',
-                 timeout=60, wait_interval=10, wait_time=None, per_page=None):
+                 timeout=60, wait_interval=5, wait_time=None, per_page=None):
         # Note that timeout, wait_interval, and wait_time are a number of
         # seconds as an int or float.
         self.api_key = api_key
@@ -259,9 +259,12 @@ class doapi(object):
             objects = next_objs
             if not objects:
                 break
-            elif end_time is None:
-                sleep(wait_interval)
-            else:
-                sleep(min(wait_interval, end_time - time()))
+            try:
+                if end_time is None:
+                    sleep(wait_interval)
+                else:
+                    sleep(min(wait_interval, end_time - time()))
+            except KeyboardInterrupt:
+                break
         for o in objects:
             yield o

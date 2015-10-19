@@ -98,8 +98,6 @@
 ## Other
 
 - Document everything!
-- If a `wait_*` method receives a KeyboardInterrupt, it should return
-  immediately
 - Look into more appropriate/standard names for `_asdict`
 - Replace `minibin/*` with unit tests that just invoke the command-line client
 - Should `doapi.__init__` take a default `maxwait` value?
