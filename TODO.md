@@ -29,7 +29,6 @@
         - [others?]
     - Rename the `upgrades` and `snapshots` commands so as to eliminate
       confusion with `upgrade` and `snapshot`
-- Allow invocations of the form `doapi <options> <command>`
 - Use docopt instead of argparse?
 - Prevent creation of objects whose name could be confused with an ID,
   fingerprint (for SSH keys), or slug (for images) unless some option

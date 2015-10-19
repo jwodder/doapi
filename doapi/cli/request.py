@@ -1,6 +1,6 @@
 from . import _util as util
 
-def main():
+def main(argv=None, parsed=None):
     ### DOC NOTE: --dump-header dumps as JSON, because it's much easier that
     ### way.
     parser = argparse.ArgumentParser(parents=[util.universal],
@@ -11,7 +11,7 @@ def main():
     parser.add_argument('-D', '--dump-header', type=argparse.FileType('w'))
     parser.add_argument('--paginate', metavar='key')
     parser.add_argument('path', metavar='URL|path')
-    args = parser.parse_args()
+    args = parser.parse_args(argv, parsed)
     if args.paginate is not None and args.request != 'GET':
         util.die('--paginate can only be used with the GET method')
     if args.data is not None:

@@ -127,7 +127,7 @@ def mkclient(args):
             api_key = fp.read().strip()
     elif "DO_API_KEY" in os.environ:
         api_key = os.environ["DO_API_KEY"]
-    elif "DO_API_TOKEN" in os.environ"
+    elif "DO_API_TOKEN" in os.environ:
         api_key = os.environ["DO_API_TOKEN"]
     else:
         try:

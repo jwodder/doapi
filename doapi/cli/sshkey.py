@@ -1,6 +1,6 @@
 from . import _util as util
 
-def main():
+def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
                                      prog='doapi-sshkey')
     cmds = parser.add_subparsers(title='command', dest='cmd')
@@ -15,7 +15,7 @@ def main():
     cmd_update = cmds.add_parser('update')
     cmd_update.add_argument('sshkey')
     cmd_update.add_argument('name')
-    args = parser.parse_args()
+    args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
         util.dump(cache.get_sshkeys(args.sshkey, multiple=True))

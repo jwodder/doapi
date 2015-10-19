@@ -1,6 +1,6 @@
 from . import _util as util
 
-def main():
+def main(argv=None, parsed=None):
     ...
 
 if __name__ == '__main__':

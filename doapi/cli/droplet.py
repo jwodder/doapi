@@ -9,7 +9,7 @@ unary_drop_acts = {
                .split()
 }
 
-def main():
+def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
                                      prog='doapi-droplet')
     cmds = parser.add_subparsers(title='command', dest='cmd')
@@ -70,7 +70,7 @@ def main():
 
     ### raw action, getting actions/last action, etc.
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
         util.dump(cache.get_droplets(args.droplet, multiple=True))
