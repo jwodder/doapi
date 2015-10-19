@@ -56,6 +56,7 @@
         - Only show `droplet` as an int?
 - Rethink giving `doapi` a `__repr__` method (Showing the API key is bad,
   right?)
+- Add waiting for a droplet to become unlocked (or locked?)
 
 ## Structure
 
@@ -102,3 +103,4 @@
 - Should the `Network` class be renamed `Interface` or something like that?
 - Make `DomainRecord` more robust with regards to potentially lacking a
   `doapi_manager` and/or `domain` object (cf. `JSObjectWithDroplet`)
+- Rename the `doapi` class to `Manager`?

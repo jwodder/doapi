@@ -8,6 +8,13 @@ setup(
 
     ### <https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/>
 
+    classifiers=[
+        'Programming Language :: Python :: 2',
+        # The use of argparse precludes support for Python 2 versions before
+        # 2.7 and Python 3 versions before 3.2.
+        'Programming Language :: Python :: 2.7',
+    ]
+
     entry_points={
         "console_scripts": [
             'doapi = doapi.cli',

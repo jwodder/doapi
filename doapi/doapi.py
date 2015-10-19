@@ -1,14 +1,13 @@
-from   collections import defaultdict
 import json
-from   time        import sleep, time
-from   urlparse    import urljoin
+from   time     import sleep, time
+from   urlparse import urljoin
 import requests
-from   .base       import Region, Size, Account, DropletUpgrade, DOAPIError
-from   .domain     import Domain
-from   .droplet    import Droplet
-from   .image      import Image
-from   .action     import Action
-from   .sshkey     import SSHKey
+from   .base    import Region, Size, Account, DropletUpgrade, DOAPIError
+from   .domain  import Domain
+from   .droplet import Droplet
+from   .image   import Image
+from   .action  import Action
+from   .sshkey  import SSHKey
 
 class doapi(object):
     def __init__(self, api_key, endpoint='https://api.digitalocean.com',
