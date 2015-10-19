@@ -11,7 +11,7 @@ keyopts = universal.add_mutually_exclusive_group()
 keyopts.add_argument('--api-key')
 keyopts.add_argument('--api-key-file', type=argparse.FileType('r'))
 universal.add_argument('--timeout', type=float, metavar='seconds')
-universal.add_argument('--endpoint')
+universal.add_argument('--endpoint', metavar='URL')
 
 waitbase = argparse.ArgumentParser(add_help=False)
 waitbase.add_argument('--wait-time', type=float, metavar='seconds')

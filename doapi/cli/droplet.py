@@ -1,10 +1,13 @@
+from errno     import ENOENT
 from .         import _util as util
 from ..droplet import Droplet
 
-unary_drop_acts = {act.replace('_', '-'): getattr(Droplet, act)
-                   for act in "disable_backups reboot power_cycle shutdown"
-                              " power_off power_on password_reset enable_ipv6"
-                              " enable_private_networking upgrade".split()}
+unary_drop_acts = {
+    act.replace('_', '-'): getattr(Droplet, act)
+    for act in "disable_backups reboot power_cycle shutdown power_off power_on"
+               " password_reset enable_ipv6 enable_private_networking upgrade"\
+               .split()
+}
 
 def main():
     parser = argparse.ArgumentParser(parents=[util.universal],
@@ -85,13 +88,23 @@ def main():
         if args.user_data is not None:
             params["user_data"] = args.user_data
 
-        ### name uniqueness
+        ### TODO: name uniqueness
 
-        ### SSH keys
         sshkeys = []
         for kname in args.ssh_key:
-            key = cache.get_sshkey(kname, multiple=False, mandatory=True)
+            key = cache.get_sshkey(kname, multiple=False, mandatory=False)
             if key is None:
+                try:
+                    with open(kname) as fp:
+                        pubkey = fp.read().strip()
+                except IOError as e:
+                    if e.errno == ENOENT:
+                        die('%s: no such SSH key' % (kname,))
+                    else:
+                        raise
+                else:
+                    key = client.create_sshkey(kname, pubkey)
+            sshkeys.append(key)
 
         drops = [client.create_droplet(n, **params) for n in args.name]
         if args.wait:

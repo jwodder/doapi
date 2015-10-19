@@ -1,6 +1,9 @@
+- Handle all items marked with "`TODO`" or "`###`" in the code
 - Double-check DO's official term for API keys/tokens
+- Bring the code in line with PEP 8 and pylint
+- Make the code work in both Python 2 and Python 3
 
-# Externals
+# Command-Line Interface
 
 - Add error handling
 - Droplet action commands that require the droplet to be off should have a flag
@@ -12,19 +15,29 @@
   objects of the given type
 - Give `doapi-regions` and `doapi-sizes` "`show`" commands for fetching only
   specific regions/sizes (and change the names of the commands to singular?)
-- `doapi-droplet`: Add synonyms for some actions:
-    - `on` = `power-on`
-    - `off` = `power-off`
-    - `backups-off` = `disable-backups`
-    - `set-kernel` = `change-kernel`
-    - `rekernel` = `change-kernel` ?
-    - `chkernel` = `change-kernel` ?
-    - [SOMETHING shorter than "enable-private-networking"]
-    - [others?]
-- Rename `doapi-droplet`'s `upgrades` and `snapshots` commands so as to
-  eliminate confusion with `upgrade` and `snapshot`
+- `doapi-droplet`:
+    - Add an option (`--ignore`?) for not creating any droplets that already
+      exist but printing out the pre-existing droplets anyway
+    - Add synonyms for some actions:
+        - `on` = `power-on`
+        - `off` = `power-off`
+        - `backups-off` = `disable-backups`
+        - `set-kernel` = `change-kernel`
+        - `rekernel` = `change-kernel` ?
+        - `chkernel` = `change-kernel` ?
+        - [SOMETHING shorter than "enable-private-networking"]
+        - [others?]
+    - Rename the `upgrades` and `snapshots` commands so as to eliminate
+      confusion with `upgrade` and `snapshot`
 - Allow invocations of the form `doapi <options> <command>`
 - Use docopt instead of argparse?
+- Prevent creation of objects whose name could be confused with an ID,
+  fingerprint (for SSH keys), or slug (for images) unless some option
+  (`--force`?) is given.
+- `doapi-sshkey`:
+    - Add an option for only creating if the public key isn't already present
+      (and another for returning the pre-existing key in that case?)
+    - Add an option for passing the entire key as a string
 
 - For second release: All operations should be doable in batches via an option
   (mutually exclusive with positional arguments) for reading a JSON list of
@@ -45,9 +58,8 @@
       images
     - parameters to pass when creating a droplet
 
-# Internals
+# Library
 
-- Handle all items marked with "`TODO`" or "`###`" in the code
 - Fix `JSObject.__repr__`'s handling of meta attributes
     - Show `doapi_manager` and DomainRecord's `domain`
         - Should `doapi_manager` be omitted from nested objects?
@@ -57,7 +69,7 @@
         - Only show `droplet` as an int?
 - Rethink giving `doapi` a `__repr__` method (Showing the API key is bad,
   right?)
-- Add waiting for a droplet to become unlocked (or locked?)
+- Add the ability to wait for a droplet to become unlocked (or locked?)
 
 ## Structure
 
@@ -89,8 +101,6 @@
 - If a `wait_*` method receives a KeyboardInterrupt, it should return
   immediately
 - Look into more appropriate/standard names for `_asdict`
-- Bring in line with PEP 8 and pylint
-- Make the code work in both Python 2 and Python 3
 - Replace `minibin/*` with unit tests that just invoke the command-line client
 - Should `doapi.__init__` take a default `maxwait` value?
 - Should any classes have `__str__` methods that return `name` attributes?
