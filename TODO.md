@@ -2,10 +2,14 @@
 - Double-check DO's official term for API keys/tokens
 - Bring the code in line with PEP 8 and pylint
 - Make the code work in both Python 2 and Python 3
+- Add support for floating IPs
 
 # Command-Line Interface
 
 - Add error handling
+    - When creating/operating on multiple objects and one produces an error,
+      there should be an option for continuing with the rest (including
+      waiting?).
 - Droplet action commands that require the droplet to be off should have a flag
   for ensuring the droplet is off beforehand
 - Add a way to get the current rate limit
@@ -34,8 +38,10 @@
   fingerprint (for SSH keys), or slug (for images) unless some option
   (`--force`?) is given.
 - `doapi-sshkey`:
-    - Add an option for only creating if the public key isn't already present
-      (and another for returning the pre-existing key in that case?)
+    - Add an option for only creating if there isn't already a key with the
+      same fingerprint (and another for returning the pre-existing key in that
+      case?)
+        - Do the same thing for key names?
     - Add an option for passing the entire key as a string
 
 - For second release: All operations should be doable in batches via an option
@@ -54,8 +60,8 @@
     - wait interval
     - whether to wait/what operations to wait on?
     - whether to enforce name uniqueness among droplets, SSH keys, and/or
-      images
-    - parameters to pass when creating a droplet
+      images?
+    - default parameters to pass when creating a droplet
 
 # Library
 

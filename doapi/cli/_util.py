@@ -23,8 +23,8 @@ waitopts.add_argument('--wait', action='store_true')
 
 class Cache(object):
     ### TODO: When not all objects of a type have been fetched, labels that are
-    ### valid IDs should not cause everything to be fetched (but the result
-    ### should still be cached).
+    ### valid IDs (or fingerprints or potential slugs) should not cause
+    ### everything to be fetched (but the result should still be cached).
 
     groupby = {
         "droplet": ("id", "name"),
@@ -70,6 +70,7 @@ class Cache(object):
                     else:
                         die('%r: ambiguous; name used by multiple %ss'
                             % (label, key))
+                        ### Print the IDs of everything with that name?
                 elif multiple:
                     return [answer]
                 else:
@@ -77,7 +78,7 @@ class Cache(object):
         if mandatory:
             die('%r: no such %s' % (label, key))
         else:
-            return None
+            return [] if multiple else None
 
     def cache_sshkeys(self):
         self.cache(self.client.fetch_all_sshkeys(), "sshkey")

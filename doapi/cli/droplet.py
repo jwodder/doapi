@@ -69,6 +69,7 @@ def main(argv=None, parsed=None):
     cmd_chkernel.add_argument('kernel', type=int)
 
     ### raw action, getting actions/last action, etc.
+    ...
 
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
@@ -89,6 +90,7 @@ def main(argv=None, parsed=None):
             params["user_data"] = args.user_data
 
         ### TODO: name uniqueness
+        ...
 
         sshkeys = []
         for kname in args.ssh_key:
@@ -103,7 +105,11 @@ def main(argv=None, parsed=None):
                     else:
                         raise
                 else:
+                    ### TODO: First see if a key with the same fingerprint
+                    ### already exists and, if so, use that
                     key = client.create_sshkey(kname, pubkey)
+                    ### TODO: Add the new key to the cache so it'll be
+                    ### available for subsequent `-K` arguments
             sshkeys.append(key)
 
         drops = [client.create_droplet(n, **params) for n in args.name]
@@ -195,8 +201,11 @@ def main(argv=None, parsed=None):
             act = act.wait()
         util.dump(act)
 
-### neighbors
-### upgrades
+    elif args.cmd == 'neighbors':
+        ...
+
+    elif args.cmd == 'upgrades':
+        ...
 
     else:
         assert False, 'No path defined for command %r' % (args.cmd,)

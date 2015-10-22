@@ -131,6 +131,9 @@ class Network(JSObjectWithDroplet):
 
 
 class DOAPIError(Exception):
+    # Note that this class is only for representing errors reported by the
+    # endpoint in response to API requests.  Everything else that can go wrong
+    # uses the normal Python exceptions.
     def __init__(self, response):
         self.response = response
         # Taken from requests' raise_for_status:

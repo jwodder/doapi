@@ -65,10 +65,31 @@
 - Snapshots are allowed to have the same name as an image slug.
 - It appears that a droplet is "locked" iff there is currently an action in
   progress on it.
+- Droplet names can only contain alphanumeric characters, `.`, and `-`.
+
+## Observed error responses
+
 - If you attempt to create an SSH key that is already registered, you get a 422
   response (Unprocessable Entity) with the body:
 
         {
             "id": "unprocessable_entity",
             "message": "SSH Key is already in use on your account"
+        }
+
+- If you attempt to fetch a droplet that does not exist (or a droplet that
+  *does* exist but belongs to another account), you get a 404 response with the
+  body:
+
+        {
+            "id": "not_found",
+            "message": "The resource you were accessing could not be found."
+        }
+
+- Attempting to create a droplet with an invalid name produces a 422 response
+  with the body:
+
+        {
+            "id": "unprocessable_entity",
+            "message": "Name Only valid hostname characters are allowed. (a-z, A-Z, 0-9, . and -)"
         }
