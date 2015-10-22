@@ -67,7 +67,6 @@ class DomainRecord(JSObject):
     def fetch_domain(self):
         return self.domain.fetch()
 
-    ### TODO: Rethink the arguments:
     def update(self, **attrs):
         return self.domain.record(self.doapi_manager.request(self.url(), method='PUT', data=attrs)["domain_record"])
 

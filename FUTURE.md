@@ -1,12 +1,15 @@
-# Features for future releases
+# Features for Future Releases
 
 - Make the code work in both Python 2 and Python 3
 - Add the ability to wait for a droplet to become unlocked (or locked?)
 
 ## Command-Line Interface
 
+- While waiting for actions to finish (or while paginating results for
+  `doapi-request`), dump each object as soon as it completes/is available
+
 - When creating/operating on multiple objects and one produces an error, there
-  should be an option for continuing with the rest (including waiting?).
+  should be an option for continuing with the rest (including waiting?)
 
 - Droplet action commands that require the droplet to be off should have a flag
   for ensuring it's off beforehand
@@ -90,8 +93,18 @@
 - Give `doapi-region` and `doapi-size` "`show`" commands for fetching only
   specific regions/sizes
 
+### Internals
+
+- When not all objects of a type have been cached, labels that are valid IDs
+  (or fingerprints or potential slugs) should not cause everything to be
+  fetched (but the result should still be cached)
+
 ## Library
 
 - Should slugs be allowed as alternative identifiers for images the same way
   fingerprints are for SSH keys?  (This depends on the circumstances under
   which the API will allow a slug in place of an ID in the first place.)
+- Give doapi a `wait_objects` (Rethink name) method for waiting for the most
+  recent actions on a set of objects to complete
+- Make `DomainRecord` more robust with regards to potentially lacking a
+  `doapi_manager` and/or `domain` object (cf. `JSObjectWithDroplet`)

@@ -1,17 +1,41 @@
+- Document everything!
 - Handle all items marked with "`TODO`" or "`###`" in the code
 - Double-check DO's official term for API keys/tokens
 - Bring the code in line with PEP 8 and pylint
-- Add support for floating IPs
+- Add command-line support for floating IPs
+- Replace `minibin/*` with unit tests that just invoke the command-line client
 
 # Command-Line Interface
 
 - Add error handling
-- `doapi-droplet`:
-    - Rename the `upgrades` and `snapshots` commands so as to eliminate
-      confusion with `upgrade` and `snapshot`
+- `doapi-droplet`: Rename the `upgrades` and `snapshots` commands so as to
+  eliminate confusion with `upgrade` and `snapshot`
 - Use docopt instead of argparse?
 
 # Library
+
+- Give Image a `wait` method
+- Look into whether one can fetch all of a floating IP's actions via
+  `/v2/floating_ips/$ADDR/actions`; if so, give FloatingIP `fetch_all_actions`,
+  `fetch_last_action`, and `wait` methods (and give the CLI floating
+  IP-specific action commands)
+- Add an `Actionable` class encapsulating all of Droplet, Image, and
+  FloatingIP's shared action behavior
+- Add support for floating IPs to `Action.fetch_resource`
+- Give `doapi` `account`, `kernel`, etc. methods?
+- Should the `fetch_all_*` methods return generators instead of lists?
+- Add a class for droplets' `next_backup_window` fields
+- Look into the correctness of the naïve implementation of `fetch_last_action`
+- Prevent classes without IDs from being initialized with an int
+- If an error occurs inside `_wait`, it should return the remaining objects
+  somehow (by yielding them? by attaching them to the exception?) before
+  letting it propagate out
+
+- Try to be more consistent regarding when deep copies of objects are created.
+    - Passing an image, region, etc. object to `Droplet` (e.g., when copying a
+      droplet) causes it to be deep-copied.
+    - The droplet reference passed to a network, kernel, backup, or snapshot
+      object is not deep-copied.
 
 - Fix `JSObject.__repr__`'s handling of meta attributes
     - Show `doapi_manager` and DomainRecord's `domain`
@@ -22,8 +46,6 @@
         - Only show `droplet` as an int?
 - Rethink giving `doapi` a `__repr__` method (Showing the API key is bad,
   right?)
-
-## Structure
 
 - Make JSObject into a Mapping/MutableMapping that skips "meta" attributes,
   eliminating the need for `_asdict`
@@ -37,28 +59,11 @@
     - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict` instead
     - cf. UserDict
 
-- Try to be more consistent regarding when deep copies of objects are created.
-    - Passing an image, region, etc. object to `Droplet` (e.g., when copying a
-      droplet) causes it to be deep-copied.
-    - The droplet reference passed to a network, kernel, backup, or snapshot
-      object is not deep-copied.
+## Naming things
 
-- Give `doapi` `account`, `kernel`, etc. methods?
-- Should the `fetch_all_*` methods return generators instead of lists?
-- Add a class for droplets' `next_backup_window` fields
-
-## Other
-
-- Document everything!
 - Look into more appropriate/standard names for `_asdict`
-- Replace `minibin/*` with unit tests that just invoke the command-line client
-- Should any classes have `__str__` methods that return `name` attributes?
 - Rename `action.done` to `action.ended`?
 - Should the `url` methods be renamed to avoid confusion with droplet upgrades'
   "url" fields?
-- Look into the correctness of the naïve implementation of `fetch_last_action`
-- Should the `Network` class be renamed `Interface` or something like that?
-- Make `DomainRecord` more robust with regards to potentially lacking a
-  `doapi_manager` and/or `domain` object (cf. `JSObjectWithDroplet`)
 - Rename the `doapi` class to `Manager`?
-- Prevent classes without IDs from being initialized with an int
+- Should the `Network` class be renamed `Interface` or something like that?
