@@ -23,9 +23,9 @@ setup(
             'doapi-domain = doapi.cli.domain',
             'doapi-droplet = doapi.cli.droplet',
             'doapi-image = doapi.cli.image',
-            'doapi-regions = doapi.cli.regions',
+            'doapi-region = doapi.cli.region',
             'doapi-request = doapi.cli.request',
-            'doapi-sizes = doapi.cli.sizes',
+            'doapi-size = doapi.cli.size',
             'doapi-sshkey = doapi.cli.sshkey',
         ]
     },

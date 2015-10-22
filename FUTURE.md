@@ -87,6 +87,9 @@
 
 - `doapi-action`: Add the ability to filter by droplet vs. image?
 
+- Give `doapi-region` and `doapi-size` "`show`" commands for fetching only
+  specific regions/sizes
+
 ## Library
 
 - Should slugs be allowed as alternative identifiers for images the same way

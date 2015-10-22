@@ -4,7 +4,7 @@ from   . import _util as util
 def main():
     parser = argparse.ArgumentParser(parents=[util.universal], prog='doapi')
     parser.add_argument('command', choices="account action domain droplet"
-                                           " image regions request sizes"
+                                           " image region request size"
                                            " sshkey".split())
     parser.add_argument('arguments', nargs=argparse.REMAINDER)
     args = parser.parse_args()
@@ -19,10 +19,10 @@ def main():
         from .domain import main as main2
     elif args.command == 'sshkey':
         from .sshkey import main as main2
-    elif args.command == 'regions':
-        from .regions import main as main2
-    elif args.command == 'sizes':
-        from .sizes import main as main2
+    elif args.command == 'region':
+        from .region import main as main2
+    elif args.command == 'size':
+        from .size import main as main2
     elif args.command == 'account':
         from .account import main as main2
     elif args.command == 'request':

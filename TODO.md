@@ -6,8 +6,6 @@
 # Command-Line Interface
 
 - Add error handling
-- Give `doapi-regions` and `doapi-sizes` "`show`" commands for fetching only
-  specific regions/sizes (and change the names of the commands to singular?)
 - `doapi-droplet`:
     - Rename the `upgrades` and `snapshots` commands so as to eliminate
       confusion with `upgrade` and `snapshot`
