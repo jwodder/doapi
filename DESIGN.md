@@ -1,14 +1,18 @@
 # Design Decisions Made for the CLI
 
-- *[Rethink this]* There is no filtering of result lists by region, image,
-  etc.; the only query filters available are those directly supported by the
-  API.  For everything else, use `jq`.
 - There are no options for controlling pagination.  The only instance where
   pagination should have an effect on the outcome is for raw requests, and for
   those the user can just append `?per_page=` to the path.
 - When getting lists of objects for multiple items (e.g., getting the snapshots
   for a list of more than one droplet), the output is a list of lists of
   objects.
+- Operations that take mandatory arguments beyond just the objects to operate
+  on (e.g., renaming a droplet) should only allow the user to specify one
+  object to operate on at a time, as the other positional arguments are needed
+  for the extra arguments.
+    - `doapi-droplet new` gets a pass because (a) there's no obvious order to
+      put the image, region, & size in, and (b) future features are planned
+      that would allow the user to leave out some or all of these arguments.
 
 ## On handling duplicated names
 
@@ -79,7 +83,3 @@
 
     Rethink whether omitting positional arguments — and thus waiting for all
     in-progress actions on the given objects — should be allowed.
-
-- Idea: For `doapi-<droplet/image>`, one can specify individual actions of an
-  object by writing `object@num`, where `num` is `0` (`1`?) for the most recent
-  action, `1` (`-1`? `2`?) for the action before that, etc.

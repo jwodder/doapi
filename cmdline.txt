@@ -25,18 +25,11 @@ API key sources, in order of precedence:
 
 
 doapi-droplet
-	[show [<droplet> ...]]
+	show [<droplet> ...]
 	new
 	    -i|--image <image>
 	    -s|--size <size>
 	    -r|--region <region>
-	    [--json <file>]
-	     # A JSON array (or an object, which is treated as an array
-	     # of one) is read from <file> (which may be '-'), the
-	     # -i/-s/-r values are applied to those objects that are
-	     # missing them, and the droplets are created from the
-	     # objects.  When --json is given, no `name` arguments
-	     # should be given.
 	    <wait options>
 	    [--user-data data]
 	    # ipv6, backups, etc.
@@ -44,9 +37,6 @@ doapi-droplet
 	delete <droplet> ...
 	wait [--status=STATUS] <wait options> <droplet> ...
 	    # No status → wait for latest action to complete
-	    # Error out (unless --force'd?) if an unknown value is used for
-	    # "status"
-	    # Add waiting for specific actions?
 	<action name> <wait options> <droplet> ...
 	upgrades [--droplets]
 	    # --droplets: return the droplets that will be upgraded instead
@@ -59,24 +49,23 @@ doapi-droplet
 	neighbors [<droplet> ...]
 
 doapi-request  # raw request
-    [-X <method>]
-    [-d/--data <string|@file>]  # as in curl
-    [-D/--dump-header <file>]   # as in curl
-    [--paginate <key>]
-    <URL>|<path>
+	[-X <method>]
+	[-d/--data <string|@file>]  # as in curl
+	[-D/--dump-header <file>]   # as in curl
+	[--paginate <key>]
+	<URL>|<path>
 
 doapi-sshkey
-	[show [<sshkey> ...]]
+	show [<sshkey> ...]
 	new <name> [<file>; default: stdin]
 	delete <sshkey> ...
 	update <sshkey> <new name>
 
 doapi-image
-	[show [--type TYPE|--distribution|--application] [--private] ...]
+	show [--type TYPE|--distribution|--application] [--private] ...
 	update <image> <new name>
 	delete <image> ...
 	transfer <image> <region>
-	transfer -r|--region <region> <image> ...
 	convert <image> ...
 	# raw action
 	# getting actions
