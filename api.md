@@ -41,6 +41,7 @@
   already off?
 - What happens if two droplets both named `foo.managed.domain` are created?
 - How are error responses structured?
+- What is the `resource_id` of an action associated with a floating IP?
 
 # Other notes
 

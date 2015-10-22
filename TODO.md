@@ -61,3 +61,4 @@
 - Make `DomainRecord` more robust with regards to potentially lacking a
   `doapi_manager` and/or `domain` object (cf. `JSObjectWithDroplet`)
 - Rename the `doapi` class to `Manager`?
+- Prevent classes without IDs from being initialized with an int

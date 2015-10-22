@@ -1,13 +1,14 @@
 import json
-from   time     import sleep, time
-from   urlparse import urljoin
+from   time         import sleep, time
+from   urlparse     import urljoin
 import requests
-from   .base    import Region, Size, Account, DropletUpgrade, DOAPIError
-from   .domain  import Domain
-from   .droplet import Droplet
-from   .image   import Image
-from   .action  import Action
-from   .sshkey  import SSHKey
+from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError
+from   .domain      import Domain
+from   .droplet     import Droplet
+from   .floating_ip import FloatingIP
+from   .image       import Image
+from   .action      import Action
+from   .sshkey      import SSHKey
 
 class doapi(object):
     def __init__(self, api_key, endpoint='https://api.digitalocean.com',
@@ -223,6 +224,32 @@ class doapi(object):
             "name": name,
             "ip_address": ip_address,
         })["domain"])
+
+    def floating_ip(self, obj):
+        return FloatingIP(obj, doapi_manager=self)
+
+    def fetch_floating_ip(self, obj):
+        return self.floating_ip(obj).fetch()
+
+    def fetch_all_floating_ips(self):
+        return map(self.floating_ip, self.paginate('/v2/floating_ips',
+                                                   'floating_ips'))
+
+    def create_floating_ip(self, droplet_id=None, region=None):
+        if (droplet_id is None) == (region is None):
+            ### Is TypeError the right type of error?
+            raise TypeError('Exactly one of "droplet_id" and "region" must be'
+                            ' specified')
+        if droplet_id is not None:
+            if isinstance(droplet_id, Droplet):
+                droplet_id = droplet_id.id
+            data = {"droplet_id": droplet_id}
+        else:
+            if isinstance(region, Region):
+                region = region.slug
+            data = {"region": region}
+        return self.floating_ip(self.request('/v2/floating_ips', method='POST',
+                                             data=data)["floating_ip"])
 
     def __eq__(self, other):
         return type(self) == type(other) and vars(self) == vars(other)
