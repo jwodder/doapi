@@ -2,7 +2,7 @@ from errno     import ENOENT
 from .         import _util as util
 from ..droplet import Droplet
 
-unary_drop_acts = {
+unary_acts = {
     act.replace('_', '-'): getattr(Droplet, act)
     for act in "disable_backups reboot power_cycle shutdown power_off power_on"
                " password_reset enable_ipv6 enable_private_networking upgrade"\
@@ -18,9 +18,9 @@ def main(argv=None, parsed=None):
     cmd_show.add_argument('droplet', nargs='+')
 
     cmd_new = cmds.add_parser('new', parents=[util.waitopts])
-    cmd_new.add_argument('-i', '--image', required=True)
-    cmd_new.add_argument('-s', '--size', required=True)
-    cmd_new.add_argument('-r', '--region', required=True)
+    cmd_new.add_argument('-I', '--image', required=True)
+    cmd_new.add_argument('-S', '--size', required=True)
+    cmd_new.add_argument('-R', '--region', required=True)
     cmd_new.add_argument('-B', '--backups', action='store_true')
     cmd_new.add_argument('--ipv6', action='store_true')
     cmd_new.add_argument('-P', '--private-networking', action='store_true')
@@ -33,7 +33,7 @@ def main(argv=None, parsed=None):
                           choices=['active', 'new', 'off', 'archive']
     cmd_wait.add_argument('droplet', nargs='+')
 
-    for act in sorted(unary_drop_acts):
+    for act in sorted(unary_acts):
         cmds.add_parser(act, parents=[util.waitopts])\
             .add_argument('droplet', nargs='+')
 
@@ -53,7 +53,7 @@ def main(argv=None, parsed=None):
     cmd_resize.add_argument('size')
 
     cmd_rebuild = cmds.add_parser('rebuild', parents=[util.waitopts])
-    cmd_rebuild.add_argument('--image')
+    cmd_rebuild.add_argument('-I', '--image')
     cmd_rebuild.add_argument('droplet', nargs='+')
 
     cmd_rename = cmds.add_parser('rename', parents=[util.waitopts])
@@ -123,11 +123,11 @@ def main(argv=None, parsed=None):
     elif args.cmd == 'wait':
         ...
 
-    elif args.cmd in unary_drop_acts:
+    elif args.cmd in unary_acts:
         # Fetch all of the droplets first so that an invalid droplet
         # specification won't cause some actions to start and others not.
         drops = cache.get_droplets(args.droplet, multiple=False)
-        acts = map(unary_drop_acts[args.cmd], drops)
+        acts = map(unary_acts[args.cmd], drops)
         if args.wait:
             ### TODO: Dump actions as they complete
             acts = client.wait_actions(acts)
@@ -208,7 +208,7 @@ def main(argv=None, parsed=None):
         ...
 
     else:
-        assert False, 'No path defined for command %r' % (args.cmd,)
+        raise RuntimeError('No path defined for command %r' % (args.cmd,))
 
 
 if __name__ == '__main__':

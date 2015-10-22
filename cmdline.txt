@@ -27,9 +27,9 @@ API key sources, in order of precedence:
 doapi-droplet
 	show <droplet> ...
 	new
-	    -i|--image <image>
-	    -s|--size <size>
-	    -r|--region <region>
+	    -I|--image <image>
+	    -S|--size <size>
+	    -R|--region <region>
 	    <wait options>
 	    [--user-data data]
 	    # ipv6, backups, etc.

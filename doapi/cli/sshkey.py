@@ -29,7 +29,7 @@ def main(argv=None, parsed=None):
         key = cache.get_sshkey(args.sshkey, multiple=False)
         util.dump(key.update(args.name))
     else:
-        assert False, 'No path defined for command %r' % (args.cmd,)
+        raise RuntimeError('No path defined for command %r' % (args.cmd,))
 
 if __name__ == '__main__':
     main()

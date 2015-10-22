@@ -2,7 +2,6 @@
 - Handle all items marked with "`TODO`" or "`###`" in the code
 - Double-check DO's official term for API keys/tokens
 - Bring the code in line with PEP 8 and pylint
-- Add command-line support for floating IPs
 - Replace `minibin/*` with unit tests that just invoke the command-line client
 
 # Command-Line Interface
@@ -11,6 +10,7 @@
 - `doapi-droplet`: Rename the `upgrades` and `snapshots` commands so as to
   eliminate confusion with `upgrade` and `snapshot`
 - Use docopt instead of argparse?
+- Add `--wait` options to `doapi-floating-ip`'s actions
 
 # Library
 
