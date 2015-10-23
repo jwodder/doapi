@@ -94,3 +94,19 @@
             "id": "unprocessable_entity",
             "message": "Name Only valid hostname characters are allowed. (a-z, A-Z, 0-9, . and -)"
         }
+
+- Attempting to create an SSH key with an invalid pubkey produces a 422
+  response with the body:
+
+    {
+        "id": "unprocessable_entity",
+        "message": "Key invalid type, we support 'ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', or 'ecdsa-sha2-nistp521'"
+    }
+
+- Attempting to register an SSH key that has already been registered produces a
+  422 with:
+
+    {
+        "id": "unprocessable_entity",
+        "message": "SSH Key is already in use on your account"
+    }

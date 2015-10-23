@@ -1,11 +1,12 @@
-from . import _util as util
+import argparse
+from   . import _util as util
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
                                      prog='doapi-floating-ip')
     cmds = parser.add_subparsers(title='command', dest='cmd')
     cmd_show = cmds.add_parser('show')
-    cmd_show.add_argument('ip', nargs='+')
+    cmd_show.add_argument('ip', nargs='*')
     cmd_new = cmds.add_parser('new')
     newopts = cmd_new.add_mutually_exclusive_group(required=True)
     newopts.add_argument('-D', '--droplet')
@@ -20,7 +21,10 @@ def main(argv=None, parsed=None):
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
-        util.dump(map(client.fetch_floating_ip, args.ip))
+        if args.ip:
+            util.dump(map(client.fetch_floating_ip, args.ip))
+        else:
+            util.dump(client.fetch_all_floating_ips())
     elif args.cmd == 'new':
         if args.droplet is not None:
             drop = cache.get_droplet(args.droplet, multiple=False)

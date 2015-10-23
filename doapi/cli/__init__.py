@@ -11,16 +11,16 @@ def main():
     ### Figure out a shorter way to write this:
     if args.command == 'account':
         from .account import main as main2
-    elif args.command == 'action':
-        from .action import main as main2
-    elif args.command == 'domain':
-        from .domain import main as main2
-    elif args.command == 'droplet':
-        from .droplet import main as main2
+    ###elif args.command == 'action':
+    ###    from .action import main as main2
+    ###elif args.command == 'domain':
+    ###    from .domain import main as main2
+    ###elif args.command == 'droplet':
+    ###    from .droplet import main as main2
     elif args.command == 'floating-ip':
         from .floating_ip import main as main2
-    elif args.command == 'image':
-        from .image import main as main2
+    ###elif args.command == 'image':
+    ###    from .image import main as main2
     elif args.command == 'region':
         from .region import main as main2
     elif args.command == 'request':

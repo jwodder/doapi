@@ -25,7 +25,7 @@ API key sources, in order of precedence:
 
 
 doapi-droplet
-	show <droplet> ...
+	show [<droplet> ...]
 	new
 	    -I|--image <image>
 	    -S|--size <size>
@@ -56,7 +56,7 @@ doapi-request  # raw request
 	<URL>|<path>
 
 doapi-sshkey
-	show <sshkey> ...
+	show [<sshkey> ...]
 	new <name> [<file>; default: stdin]
 	delete <sshkey> ...
 	update <sshkey> <new name>
@@ -83,7 +83,7 @@ doapi-action
 	# droplet and each private image.
 
 doapi-domain
-	show <name> ...
+	show [<name> ...]
 	new <name> <ip address>
 	delete <name> ...
 
@@ -106,7 +106,7 @@ doapi-domain
 		### Deletion by type and/or name?
 
 doapi-floating-ip
-	show <ip> ...
+	show [<ip> ...]
 	new {--droplet <droplet> | --region <region>}
 	assign <ip> <droplet>
 	unassign <ip> ...

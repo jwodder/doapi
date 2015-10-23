@@ -19,8 +19,8 @@
 - Add `--all` options for everything that takes a list of objects to operate
   on? (except the "delete" commands; that'd be bad)
 
-- `doapi-TYPE show` should list all objects of the given type
-    - Running just `doapi-TYPE` (or `doapi TYPE`) should have the same effect
+- Running just `doapi-TYPE` (or `doapi TYPE`) should be equivalent to
+  `doapi-TYPE show`.
 
 - `doapi-droplet new`: Add an option for not creating a droplet if the name is
   already in use but instead return the pre-existing droplet

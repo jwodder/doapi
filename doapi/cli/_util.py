@@ -1,5 +1,6 @@
 import argparse
 from   collections import defaultdict
+import json
 import os
 import os.path
 import sys
@@ -85,7 +86,7 @@ class Cache(object):
 
     def get_sshkey(self, label, multiple=True, mandatory=True):
         self.cache_sshkeys()
-        self.get("sshkey", label, multiple, mandatory)
+        return self.get("sshkey", label, multiple, mandatory)
 
     def get_sshkeys(self, labels, multiple=True):
         if multiple:
@@ -98,7 +99,7 @@ class Cache(object):
 
     def get_droplet(self, label, multiple=True, mandatory=True):
         self.cache_droplets()
-        self.get("droplet", label, multiple, mandatory)
+        return self.get("droplet", label, multiple, mandatory)
 
     def get_droplets(self, labels, multiple=True):
         if multiple:
@@ -111,7 +112,7 @@ class Cache(object):
 
     def get_image(self, label, multiple=True, mandatory=True):
         self.cache_images()
-        self.get("image", label, multiple, mandatory)
+        return self.get("image", label, multiple, mandatory)
 
     def get_images(self, labels, multiple=True):
         if multiple:

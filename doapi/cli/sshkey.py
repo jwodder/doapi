@@ -1,11 +1,13 @@
-from . import _util as util
+import argparse
+import sys
+from   . import _util as util
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
                                      prog='doapi-sshkey')
     cmds = parser.add_subparsers(title='command', dest='cmd')
     cmd_show = cmds.add_parser('show')
-    cmd_show.add_argument('sshkey', nargs='+')
+    cmd_show.add_argument('sshkey', nargs='*')
     cmd_new = cmds.add_parser('new')
     cmd_new.add_argument('name')
     cmd_new.add_argument('pubkey', type=argparse.FileType('r'), nargs='?',
@@ -18,7 +20,10 @@ def main(argv=None, parsed=None):
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
-        util.dump(cache.get_sshkeys(args.sshkey, multiple=True))
+        if args.sshkey:
+            util.dump(cache.get_sshkeys(args.sshkey, multiple=True))
+        else:
+            util.dump(client.fetch_all_sshkeys())
     elif args.cmd == 'new':
         util.dump(client.create_sshkey(args.name, args.pubkey.read().strip()))
     elif args.cmd == 'delete':

@@ -30,6 +30,8 @@
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting it propagate out
+- DOAPIError should take as attributes the fields of the JSON object returned
+  in the body (if any)
 
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a

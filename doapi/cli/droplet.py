@@ -1,6 +1,7 @@
-from errno     import ENOENT
-from .         import _util as util
-from ..droplet import Droplet
+import argparse
+from   errno     import ENOENT
+from   .         import _util as util
+from   ..droplet import Droplet
 
 unary_acts = {
     act.replace('_', '-'): getattr(Droplet, act)
@@ -15,7 +16,7 @@ def main(argv=None, parsed=None):
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
     cmd_show = cmds.add_parser('show')
-    cmd_show.add_argument('droplet', nargs='+')
+    cmd_show.add_argument('droplet', nargs='*')
 
     cmd_new = cmds.add_parser('new', parents=[util.waitopts])
     cmd_new.add_argument('-I', '--image', required=True)
@@ -30,7 +31,7 @@ def main(argv=None, parsed=None):
 
     cmd_wait = cmds.add_parser('wait', parents=[util.waitbase])
     cmd_wait.add_argument('-S', '--status', type=str.lower,
-                          choices=['active', 'new', 'off', 'archive']
+                          choices=['active', 'new', 'off', 'archive'])
     cmd_wait.add_argument('droplet', nargs='+')
 
     for act in sorted(unary_acts):
@@ -74,7 +75,10 @@ def main(argv=None, parsed=None):
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
-        util.dump(cache.get_droplets(args.droplet, multiple=True))
+        if args.droplet:
+            util.dump(cache.get_droplets(args.droplet, multiple=True))
+        else:
+            util.dump(client.fetch_all_droplets())
 
     elif args.cmd == 'new':
         params = {

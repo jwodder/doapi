@@ -1,4 +1,5 @@
-from . import _util as util
+import argparse
+from   . import _util as util
 
 def main(argv=None, parsed=None):
     ### DOC NOTE: --dump-header dumps as JSON, because it's much easier that

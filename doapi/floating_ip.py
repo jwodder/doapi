@@ -1,5 +1,6 @@
 from urlparse import urljoin
-from .base    import JSObject
+from .base    import JSObject, Region
+from .droplet import Droplet
 
 class FloatingIP(JSObject):
     def __init__(self, state={}, **extra):
