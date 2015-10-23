@@ -17,7 +17,8 @@
   backslash and lack of colon).
 - The documentation claims that the API accepts HEAD requests, but actually
   making such requests seems to always result in a 404.
-- The "locked" field of floating IP objects is not documented.
+- The "locked" field of floating IP objects is not documented (though it does
+  appear in the examples).
 
 # Unanswered questions about the API
 
@@ -42,6 +43,8 @@
   already off?
 - What happens if two droplets both named `foo.managed.domain` are created?
 - How are error responses structured?
+- Can floating IPs be IPv6?  If so, how are they converted to `resource_id`s of
+  actions?
 
 # Other notes
 

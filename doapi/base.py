@@ -1,5 +1,6 @@
 import copy
 import json
+import numbers
 from   urlparse import urljoin
 
 class JSObject(object):
@@ -9,7 +10,7 @@ class JSObject(object):
     _meta_attrs = ('_meta_attrs', 'doapi_manager')
 
     def __init__(self, state={}, **extra):
-        if isinstance(state, (int, long)):
+        if isinstance(state, numbers.Integral):
             state = {"id": state}
         elif isinstance(state, self.__class__):
             state = vars(state)

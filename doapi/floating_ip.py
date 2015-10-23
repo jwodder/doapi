@@ -1,10 +1,15 @@
-from urlparse import urljoin
-from .base    import JSObject, Region
-from .droplet import Droplet
+import numbers
+import socket
+import struct
+from   urlparse import urljoin
+from   .base    import JSObject, Region
+from   .droplet import Droplet
 
 class FloatingIP(JSObject):
     def __init__(self, state={}, **extra):
-        if isinstance(state, basestring):
+        if isinstance(state, numbers.Integral):
+            state = {"ip": socket.inet_ntoa(struct.pack('!I', state))}
+        elif isinstance(state, basestring):
             state = {"ip": state}
         super(FloatingIP, self).__init__(state, **extra)
         try:
