@@ -17,6 +17,7 @@
   backslash and lack of colon).
 - The documentation claims that the API accepts HEAD requests, but actually
   making such requests seems to always result in a 404.
+- The "locked" field of floating IP objects is not documented.
 
 # Unanswered questions about the API
 
@@ -41,7 +42,6 @@
   already off?
 - What happens if two droplets both named `foo.managed.domain` are created?
 - How are error responses structured?
-- What is the `resource_id` of an action associated with a floating IP?
 
 # Other notes
 
@@ -67,6 +67,13 @@
 - It appears that a droplet is "locked" iff there is currently an action in
   progress on it.
 - Droplet names can only contain alphanumeric characters, `.`, and `-`.
+- An action associated with a floating IP has a `resource_type` of
+  `"floating_ip"` and a `resource_id` equal to the IP address interpreted as
+  bytes of a big-endian integer.
+- Actions to assign & unassign floating IPs are only associated with the IPs,
+  not the droplets.
+- Deleting an assigned floating IP causes an "unassign" action to automatically
+  happen first.
 
 ## Observed error responses
 

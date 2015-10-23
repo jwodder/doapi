@@ -22,6 +22,7 @@
 - Add an `Actionable` class encapsulating all of Droplet, Image, and
   FloatingIP's shared action behavior
 - Add support for floating IPs to `Action.fetch_resource`
+- Add support for constructing a FloatingIP from an int
 - Give `doapi` `account`, `kernel`, etc. methods?
 - Should the `fetch_all_*` methods return generators instead of lists?
 - Add a class for droplets' `next_backup_window` fields

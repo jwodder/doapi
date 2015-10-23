@@ -32,15 +32,15 @@ def main(argv=None, parsed=None):
         else:
             ### Check that `args.region` is an actual region?
             newip = client.create_floating_ip(region=args.region)
-        dump(newip)
+        util.dump(newip)
     elif args.cmd == 'assign':
         floip = client.fetch_floating_ip(args.ip)
         drop = cache.get_droplet(args.droplet, multiple=False)
-        dump(floip.assign(drop))
-    elif args.cmd = 'unassign':
+        util.dump(floip.assign(drop))
+    elif args.cmd == 'unassign':
         floips = map(client.fetch_floating_ip, args.ip)
-        dump([fi.unassign() for fi in floips])
-    elif args.cmd = 'delete':
+        util.dump([fi.unassign() for fi in floips])
+    elif args.cmd == 'delete':
         floips = map(client.fetch_floating_ip, args.ip)
         for fi in floips:
             fi.delete()

@@ -137,7 +137,7 @@ class Droplet(JSObject):
 
     def fetch_all_actions(self):
         api = self.doapi_manager
-        return map(api.act, api.paginate(self.action_url(), 'actions'))
+        return map(api.action, api.paginate(self.action_url(), 'actions'))
 
     def wait(self, status=None, wait_interval=None, wait_time=None):
         return next(self.doapi_manager.wait_droplets([self], status,
