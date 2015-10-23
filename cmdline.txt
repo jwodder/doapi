@@ -22,6 +22,7 @@ API key sources, in order of precedence:
 	     # as SSH keys, causing them to be automatically registered with DO
 <image>   := ID, slug, or name (slugs take precedence)
 <action>  := ID
+<ip>      := IP address in x.x.x.x form or as an integer
 
 
 doapi-droplet

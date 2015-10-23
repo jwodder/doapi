@@ -11,7 +11,6 @@
   eliminate confusion with `upgrade` and `snapshot`
 - Use docopt instead of argparse?
 - Add `--wait` options to `doapi-floating-ip`'s actions
-- Allow specifying floating IPs as ints
 
 # Library
 

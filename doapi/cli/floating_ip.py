@@ -22,7 +22,7 @@ def main(argv=None, parsed=None):
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
         if args.ip:
-            util.dump(map(client.fetch_floating_ip, args.ip))
+            util.dump(map(client.fetch_floating_ip, map(maybeInt, args.ip)))
         else:
             util.dump(client.fetch_all_floating_ips())
     elif args.cmd == 'new':
@@ -34,18 +34,24 @@ def main(argv=None, parsed=None):
             newip = client.create_floating_ip(region=args.region)
         util.dump(newip)
     elif args.cmd == 'assign':
-        floip = client.fetch_floating_ip(args.ip)
+        floip = client.fetch_floating_ip(maybeInt(args.ip))
         drop = cache.get_droplet(args.droplet, multiple=False)
         util.dump(floip.assign(drop))
     elif args.cmd == 'unassign':
-        floips = map(client.fetch_floating_ip, args.ip)
+        floips = map(client.fetch_floating_ip, map(maybeInt, args.ip))
         util.dump([fi.unassign() for fi in floips])
     elif args.cmd == 'delete':
-        floips = map(client.fetch_floating_ip, args.ip)
+        floips = map(client.fetch_floating_ip, map(maybeInt, args.ip))
         for fi in floips:
             fi.delete()
     else:
         raise RuntimeError('No path defined for command %r' % (args.cmd,))
+
+def maybeInt(s):
+    try:
+        return int(s)
+    except ValueError:
+        return s
 
 if __name__ == '__main__':
     main()
