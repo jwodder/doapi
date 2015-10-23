@@ -13,6 +13,9 @@
     - `doapi-droplet new` gets a pass because (a) there's no obvious order to
       put the image, region, & size in, and (b) future features are planned
       that would allow the user to leave out some or all of these arguments.
+- `doapi-droplet`: `show-upgrades` and `show-snapshots` are named as such
+  (instead of "`upgrades`" and "`snapshots`") in order to avoid confusion with
+  `upgrade` and `snapshot`.
 
 ## On handling duplicated names
 

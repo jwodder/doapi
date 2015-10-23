@@ -7,8 +7,6 @@
 # Command-Line Interface
 
 - Add error handling
-- `doapi-droplet`: Rename the `upgrades` and `snapshots` commands so as to
-  eliminate confusion with `upgrade` and `snapshot`
 - Use docopt instead of argparse?
 - Add `--wait` options to `doapi-floating-ip`'s actions
 

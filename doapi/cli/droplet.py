@@ -39,11 +39,13 @@ def main(argv=None, parsed=None):
         cmds.add_parser(act, parents=[util.waitopts])\
             .add_argument('droplet', nargs='+')
 
-    for act in "snapshots backups kernels delete".split():
+    for act in "show-snapshots backups kernels delete".split():
         cmds.add_parser(act).add_argument('droplet', nargs='+')
 
     cmd.add_parser('neighbors').add_argument('droplet', nargs='*')
-    cmd.add_parser('upgrades').add_argument('--droplets', action='store_true')
+
+    cmd.add_parser('show-upgrades').add_argument('--droplets',
+                                                 action='store_true')
 
     cmd_restore = cmds.add_parser('restore', parents=[util.waitopts])
     cmd_restore.add_argument('droplet')
@@ -136,7 +138,7 @@ def main(argv=None, parsed=None):
             acts = client.wait_actions(acts)
         util.dump(acts)
 
-    elif args.cmd == 'snapshots':
+    elif args.cmd == 'show-snapshots':
         util.dump(map(Droplet.fetch_all_snapshots,
                       cache.get_droplets(args.droplet, multiple=False)))
 
@@ -211,7 +213,7 @@ def main(argv=None, parsed=None):
         else:
             util.dump(client.fetch_droplet_neighbors())
 
-    elif args.cmd == 'upgrades':
+    elif args.cmd == 'show-upgrades':
         upgrades = client.fetch_droplet_upgrades()
         if args.droplets:
             util.dump(map(DropletUpgrade.fetch_droplet, upgrades))
