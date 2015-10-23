@@ -13,8 +13,7 @@
 - The curl (and Ruby and Go) example for "List all Droplet Neighbors" shows the
   API returning an array of objects instead of just an object.
 - The path for getting a droplet's neighbors is actually
-  `/v2/droplets/$DROPLET_ID/neighbors` (note forward slash in place of
-  backslash and lack of colon).
+  `/v2/droplets/$DROPLET_ID/neighbors`.
 - The documentation claims that the API accepts HEAD requests, but actually
   making such requests seems to always result in a 404.
 - The "locked" field of floating IP objects is not documented (though it does

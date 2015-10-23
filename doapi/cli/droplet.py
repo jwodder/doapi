@@ -1,6 +1,7 @@
 import argparse
 from   errno     import ENOENT
 from   .         import _util as util
+from   ..base    import DropletUpgrade
 from   ..droplet import Droplet
 
 unary_acts = {
@@ -69,8 +70,7 @@ def main(argv=None, parsed=None):
     cmd_chkernel.add_argument('droplet')
     cmd_chkernel.add_argument('kernel', type=int)
 
-    ### raw action, getting actions/last action, etc.
-    ...
+    ### TODO: raw action, getting actions/last action, etc.
 
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
@@ -94,7 +94,6 @@ def main(argv=None, parsed=None):
             params["user_data"] = args.user_data
 
         ### TODO: name uniqueness
-        ...
 
         sshkeys = []
         for kname in args.ssh_key:
@@ -124,8 +123,8 @@ def main(argv=None, parsed=None):
             ###       droplet that isn't active.
         util.dump(drops)
 
-    elif args.cmd == 'wait':
-        ...
+    ###elif args.cmd == 'wait':
+    ###    ...
 
     elif args.cmd in unary_acts:
         # Fetch all of the droplets first so that an invalid droplet
@@ -206,10 +205,18 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'neighbors':
-        ...
+        if args.droplet:
+            util.dump(map(Droplet.fetch_all_neighbors,
+                          cache.get_droplets(args.droplet, multiple=False)))
+        else:
+            util.dump(client.fetch_droplet_neighbors())
 
     elif args.cmd == 'upgrades':
-        ...
+        upgrades = client.fetch_droplet_upgrades()
+        if args.droplets:
+            util.dump(map(DropletUpgrade.fetch_droplet, upgrades))
+        else:
+            util.dump(upgrades)
 
     else:
         raise RuntimeError('No path defined for command %r' % (args.cmd,))

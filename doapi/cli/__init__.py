@@ -15,8 +15,8 @@ def main():
     ###    from .action import main as main2
     ###elif args.command == 'domain':
     ###    from .domain import main as main2
-    ###elif args.command == 'droplet':
-    ###    from .droplet import main as main2
+    elif args.command == 'droplet':
+        from .droplet import main as main2
     elif args.command == 'floating-ip':
         from .floating_ip import main as main2
     ###elif args.command == 'image':
