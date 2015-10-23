@@ -14,8 +14,6 @@
 - Droplet action commands that require the droplet to be off should have a flag
   for ensuring it's off beforehand
 
-- Add a way to get the current rate limit
-
 - Add `--all` options for everything that takes a list of objects to operate
   on? (except the "delete" commands; that'd be bad)
 

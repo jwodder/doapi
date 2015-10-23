@@ -42,9 +42,9 @@ def main(argv=None, parsed=None):
     for act in "show-snapshots backups kernels delete".split():
         cmds.add_parser(act).add_argument('droplet', nargs='+')
 
-    cmd.add_parser('neighbors').add_argument('droplet', nargs='*')
+    cmds.add_parser('neighbors').add_argument('droplet', nargs='*')
 
-    cmd.add_parser('show-upgrades').add_argument('--droplets',
+    cmds.add_parser('show-upgrades').add_argument('--droplets',
                                                  action='store_true')
 
     cmd_restore = cmds.add_parser('restore', parents=[util.waitopts])

@@ -115,4 +115,4 @@ doapi-floating-ip
 
 doapi-region
 doapi-size
-doapi-account
+doapi-account [--rate-limit]
