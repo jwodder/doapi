@@ -36,6 +36,8 @@ class Action(JSObject):
             return self.doapi_manager.fetch_droplet(self.resource_id)
         elif self.resource_type == "image":
             return self.doapi_manager.fetch_image(self.resource_id)
+        elif self.resource_type == "floating_ip":
+            return self.doapi_manager.fetch_floating_ip(self.resource_id)
         else:
             raise ValueError('Unknown resource_type: ' + repr(self.resource_type))
 

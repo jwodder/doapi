@@ -13,7 +13,6 @@
 
 # Library
 
-- Add support for floating IPs to `Action.fetch_resource`
 - Give `doapi` `account`, `kernel`, etc. methods?
 - Should the `fetch_all_*` methods return generators instead of lists?
 - Add a class for droplets' `next_backup_window` fields
