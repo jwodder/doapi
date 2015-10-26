@@ -76,6 +76,8 @@
   not the droplets.
 - Deleting an assigned floating IP causes an "unassign" action to automatically
   happen first.
+- All of a floating IP's actions can be fetched by requesting
+  `/v2/floating_ips/$IP_ADDR/actions`; this is not documented.
 
 ## Observed error responses
 

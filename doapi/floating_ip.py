@@ -2,10 +2,10 @@ import numbers
 import socket
 import struct
 from   urlparse import urljoin
-from   .base    import JSObject, Region
+from   .base    import Actionable, Region
 from   .droplet import Droplet
 
-class FloatingIP(JSObject):
+class FloatingIP(Actionable):
     def __init__(self, state={}, **extra):
         if isinstance(state, numbers.Integral):
             state = {"ip": socket.inet_ntoa(struct.pack('!I', state))}
@@ -35,11 +35,6 @@ class FloatingIP(JSObject):
 
     def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')
-
-    def act(self, **data):
-        api = self.doapi_manager
-        return api.action(api.request(self.action_url(), method='POST',
-                                      data=data)["action"])
 
     def assign(self, droplet_id):
         if isinstance(droplet_id, Droplet):

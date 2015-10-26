@@ -73,6 +73,31 @@ class JSObjectWithDroplet(JSObject):
             # don't deserve.
 
 
+class Actionable(JSObject):
+    # abstract method: action_url (and fetch)
+
+    def act(self, **data):
+        api = self.doapi_manager
+        return api.action(api.request(self.action_url(), method='POST',
+                                      data=data)["action"])
+
+    def wait(self, wait_interval=None, wait_time=None):
+        list(self.doapi_manager.wait_actions([self.fetch_last_action()],
+                                             status, wait_interval, wait_time))
+        return self.fetch()
+
+    def fetch_all_actions(self):
+        api = self.doapi_manager
+        return map(api.action, api.paginate(self.action_url(), 'actions'))
+
+    def fetch_last_action(self):
+        # Naive implementation:
+        api = self.doapi_manager
+        return api.action(api.request(self.action_url())["actions"][0])
+        # Slow yet guaranteed-correct implementation:
+        #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
+
+
 class DOEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, JSObject):

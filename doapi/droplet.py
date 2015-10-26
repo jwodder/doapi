@@ -1,9 +1,9 @@
 from time     import sleep, time
 from urlparse import urljoin
-from .base    import JSObject, Region, Size, Kernel, Networks
+from .base    import Actionable, Region, Size, Kernel, Networks
 from .image   import Image
 
-class Droplet(JSObject):
+class Droplet(Actionable):
     def __init__(self, state={}, **extra):
         super(Droplet, self).__init__(state, **extra)
         try:
@@ -60,11 +60,6 @@ class Droplet(JSObject):
 
     def action_url(self, endpoint=''):
         return urljoin(endpoint, '/v2/droplets/' + str(self.id) + '/actions')
-
-    def act(self, **data):
-        api = self.doapi_manager
-        return api.action(api.request(self.action_url(), method='POST',
-                                      data=data)["action"])
 
     def disable_backups(self):
         return self.act(type='disable_backups')
@@ -135,23 +130,6 @@ class Droplet(JSObject):
         return map(api.droplet, api.paginate(self.url() + '/neighbors',
                                              'droplets'))
 
-    def fetch_all_actions(self):
-        api = self.doapi_manager
-        return map(api.action, api.paginate(self.action_url(), 'actions'))
-
-    def wait(self, status=None, wait_interval=None, wait_time=None):
-        return next(self.doapi_manager.wait_droplets([self], status,
-                                                     wait_interval, wait_time))
-
-    def fetch_last_action(self):
-        # Naive implementation:
-        api = self.doapi_manager
-        return api.action(api.request(self.action_url())["actions"][0])
-        """
-        # Slow yet guaranteed-correct implementation:
-        return max(self.fetch_all_actions(), key=lambda a: a.started_at)
-        """
-
     def fetch_all_snapshots(self):
         api = self.doapi_manager
         return [Image(obj, doapi_manager=api, droplet=self)
@@ -166,3 +144,7 @@ class Droplet(JSObject):
         api = self.doapi_manager
         return [Kernel(kern, doapi_manager=api, droplet=self)
                 for kern in api.paginate(self.url() + '/kernels', 'kernels')]
+
+    def wait(self, status=None, wait_interval=None, wait_time=None):
+        return next(self.doapi_manager.wait_droplets([self], status,
+                                                     wait_interval, wait_time))

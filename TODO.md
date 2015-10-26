@@ -1,29 +1,25 @@
 - Document everything!
 - Handle all items marked with "`TODO`" or "`###`" in the code
-- Double-check DO's official term for API keys/tokens
 - Bring the code in line with PEP 8 and pylint
 - Replace `minibin/*` with unit tests that just invoke the command-line client
+- Change all references to "API keys" to "API tokens"
 
 # Command-Line Interface
 
 - Add error handling
 - Use docopt instead of argparse?
 - Add `--wait` options to `doapi-floating-ip`'s actions
+- `doapi-floating-ip`: Add action commands
 
 # Library
 
-- Give Image a `wait` method
-- Look into whether one can fetch all of a floating IP's actions via
-  `/v2/floating_ips/$ADDR/actions`; if so, give FloatingIP `fetch_all_actions`,
-  `fetch_last_action`, and `wait` methods (and give the CLI floating
-  IP-specific action commands)
-- Add an `Actionable` class encapsulating all of Droplet, Image, and
-  FloatingIP's shared action behavior
 - Add support for floating IPs to `Action.fetch_resource`
 - Give `doapi` `account`, `kernel`, etc. methods?
 - Should the `fetch_all_*` methods return generators instead of lists?
 - Add a class for droplets' `next_backup_window` fields
 - Look into the correctness of the naïve implementation of `fetch_last_action`
+- Look into whether I should be relying on the fetchability of
+  `/v2/floating_ips/$IP_ADDR/actions`
 - Prevent classes without IDs from being initialized with an int
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before

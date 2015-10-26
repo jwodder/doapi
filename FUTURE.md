@@ -16,6 +16,10 @@
 
 - Add `--all` options for everything that takes a list of objects to operate
   on? (except the "delete" commands; that'd be bad)
+    - At the very least, this should be done for all of the commands that
+      simply fetch data without changing anything.
+    - Instead of having an `--all` option, just fetch everything when no
+      objects are specified?
 
 - Running just `doapi-TYPE` (or `doapi TYPE`) should be equivalent to
   `doapi-TYPE show`.
@@ -67,8 +71,8 @@
     - wait time
     - wait interval
     - whether to wait/what operations to wait on?
-    - whether to enforce name uniqueness among droplets, SSH keys, and/or
-      images?
+    - whether & when to enforce name uniqueness among droplets, SSH keys, &
+      images
     - default parameters to pass when creating a droplet
     - whether to allow misleading-looking names for objects
 
@@ -86,10 +90,13 @@
 
 - Add the ability to filter droplets by image, region, & size?
 
-- `doapi-action`: Add the ability to filter by droplet vs. image?
+- `doapi-action`: Add the ability to filter by droplet vs. image vs. floating
+  IP?
 
 - Give `doapi-region` and `doapi-size` "`show`" commands for fetching only
   specific regions/sizes
+
+- Add a `-V`/`--version` option
 
 ### Internals
 
