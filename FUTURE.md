@@ -113,3 +113,4 @@
   recent actions on a set of objects to complete
 - Make `DomainRecord` more robust with regards to potentially lacking a
   `doapi_manager` and/or `domain` object (cf. `JSObjectWithDroplet`)
+- Give `doapi` `account`, `kernel`, etc. methods?

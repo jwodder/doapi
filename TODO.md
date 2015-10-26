@@ -13,7 +13,6 @@
 
 # Library
 
-- Give `doapi` `account`, `kernel`, etc. methods?
 - Should the `fetch_all_*` methods return generators instead of lists?
 - Add a class for droplets' `next_backup_window` fields
 - Look into the correctness of the naïve implementation of `fetch_last_action`
@@ -22,9 +21,7 @@
 - Prevent classes without IDs from being initialized with an int
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
-  letting it propagate out
-- DOAPIError should take as attributes the fields of the JSON object returned
-  in the body (if any)
+  letting the error propagate out
 
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a

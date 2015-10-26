@@ -174,3 +174,12 @@ class DOAPIError(Exception):
                                      response.url)
         self.http_error_msg += response.text
         super(DOAPIError, self).__init__(self.http_error_msg)
+        try:
+            body = response.json()
+        except ValueError:
+            pass
+        else:
+            if isinstance(body, dict):
+                for k,v in body.iteritems():
+                    if not hasattr(self, k):
+                        setattr(self, k, v)
