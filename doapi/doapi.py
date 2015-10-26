@@ -24,11 +24,6 @@ class doapi(object):
         self.last_response = None
         self.last_meta = None
 
-    def __repr__(self):
-        return '%s(%s)' % (self.__class__.__name__,
-                           ', '.join('%s=%r' % kv
-                                     for kv in vars(self).iteritems()))
-
     def request(self, url, params={}, data={}, method='GET'):
         if url[:1] == "/":
             url = urljoin(self.endpoint, url)

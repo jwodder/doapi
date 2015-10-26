@@ -98,6 +98,9 @@
 
 - Add a `-V`/`--version` option
 
+- Give the `show` commands an `--ignore` option for skipping objects that don't
+  exist?
+
 ### Internals
 
 - When not all objects of a type have been cached, labels that are valid IDs
