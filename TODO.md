@@ -22,6 +22,8 @@
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
+- Rethink the utility/design sense of having `_meta_attrs` for anything other
+  than `doapi_manager`
 
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a

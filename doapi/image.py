@@ -2,8 +2,9 @@ from urlparse import urljoin
 from .base    import JSObjectWithDroplet, Actionable
 
 class Image(JSObjectWithDroplet, Actionable):
-    # The `droplet` attribute is set when fetching a droplet's snapshots or
-    # backups.
+    # The `droplet` attribute is set for the "image" fields of droplets as well
+    # as for the images returned by `Droplet.fetch_all_snapshots` and
+    # `Droplet.fetch_all_backups`.
 
     def __int__(self):
         return self.id

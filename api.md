@@ -44,6 +44,7 @@
 - How are error responses structured?
 - Can floating IPs be IPv6?  If so, how are they converted to `resource_id`s of
   actions?
+- How are `next_backup_window` objects structured?
 
 # Other notes
 
