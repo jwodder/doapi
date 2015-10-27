@@ -11,11 +11,11 @@ from   .action      import Action
 from   .sshkey      import SSHKey
 
 class doapi(object):
-    def __init__(self, api_key, endpoint='https://api.digitalocean.com',
+    def __init__(self, api_token, endpoint='https://api.digitalocean.com',
                  timeout=60, wait_interval=5, wait_time=None, per_page=None):
         # Note that timeout, wait_interval, and wait_time are a number of
         # seconds as an int or float.
-        self.api_key = api_key
+        self.api_token = api_token
         self.endpoint = endpoint
         self.timeout = timeout
         self.wait_interval = wait_interval
@@ -29,7 +29,7 @@ class doapi(object):
             url = urljoin(self.endpoint, url)
         attrs = {
             "headers": {
-                "Authorization": "Bearer " + self.api_key,
+                "Authorization": "Bearer " + self.api_token,
                 "Content-Type": "application/json"
             },
             "params": params,

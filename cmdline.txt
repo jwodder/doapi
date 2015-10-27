@@ -1,6 +1,6 @@
 Options common to all commands:
-    --api-key key
-    --api-key-file file
+    --api-token token
+    --api-token-file file
     --timeout int
     --endpoint URL
 
@@ -9,11 +9,10 @@ Options common to all actions (including creating droplets):
     --wait-time seconds
     --wait-interval seconds
 
-API key sources, in order of precedence:
- - API key or keyfile specified on the command-line (mutually exclusive)
- - DO_API_KEY environment variable
+API token sources, in order of precedence:
+ - API token or tokenfile specified on the command-line (mutually exclusive)
  - DO_API_TOKEN environment variable
- - ~/.doapi file [Rethink name]
+ - ~/.doapi file
 
 
 <droplet> := ID or name

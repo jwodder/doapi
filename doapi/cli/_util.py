@@ -8,9 +8,9 @@ from   ..base      import DOEncoder
 from   ..doapi     import doapi
 
 universal = argparse.ArgumentParser(add_help=False)
-keyopts = universal.add_mutually_exclusive_group()
-keyopts.add_argument('--api-key')
-keyopts.add_argument('--api-key-file', type=argparse.FileType('r'))
+tokenopts = universal.add_mutually_exclusive_group()
+tokenopts.add_argument('--api-token')
+tokenopts.add_argument('--api-token-file', type=argparse.FileType('r'))
 universal.add_argument('--timeout', type=float, metavar='seconds')
 universal.add_argument('--endpoint', metavar='URL')
 
@@ -122,32 +122,30 @@ class Cache(object):
 
 
 def mkclient(args):
-    if args.api_key is not None:
-        api_key = args.api_key
-    elif args.api_key_file is not None:
-        with args.api_key_file as fp:
-            api_key = fp.read().strip()
-    elif "DO_API_KEY" in os.environ:
-        api_key = os.environ["DO_API_KEY"]
+    if args.api_token is not None:
+        api_token = args.api_token
+    elif args.api_token_file is not None:
+        with args.api_token_file as fp:
+            api_token = fp.read().strip()
     elif "DO_API_TOKEN" in os.environ:
-        api_key = os.environ["DO_API_TOKEN"]
+        api_token = os.environ["DO_API_TOKEN"]
     else:
         try:
             with open(os.path.expanduser('~/.doapi')) as fp:
-                api_key = fp.read().strip()
+                api_token = fp.read().strip()
         except IOError:
             die('''\
-No DigitalOcean API key supplied
+No DigitalOcean API token supplied
 
-Specify your API key via one of the following (in order of precedence):
- - the `--api-key KEY` or `--api-key-file FILE` option
- - the `DO_API_KEY` or `DO_API_TOKEN` environment variable
+Specify your API token via one of the following (in order of precedence):
+ - the `--api-token TOKEN` or `--api-token-file FILE` option
+ - the `DO_API_TOKEN` environment variable
  - a ~/.doapi file
 ''')
-    client = doapi(api_key, **{param: getattr(args, param)
-                               for param in "timeout endpoint wait_interval"
-                                            " wait_time".split()
-                               if getattr(args, param, None) is not None})
+    client = doapi(api_token, **{param: getattr(args, param)
+                                 for param in "timeout endpoint wait_interval"
+                                              " wait_time".split()
+                                 if getattr(args, param, None) is not None})
     return (client, Cache(client))
 
 def dump(obj, fp=sys.stdout):

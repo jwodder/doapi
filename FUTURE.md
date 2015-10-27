@@ -64,8 +64,8 @@
         > be given.
 
 - Implement config files for specifying default values for:
-    - API key
-    - file containing API key
+    - API token
+    - file containing API token
     - timeout
     - endpoint
     - wait time

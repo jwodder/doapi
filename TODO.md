@@ -2,7 +2,6 @@
 - Handle all items marked with "`TODO`" or "`###`" in the code
 - Bring the code in line with PEP 8 and pylint
 - Replace `minibin/*` with unit tests that just invoke the command-line client
-- Change all references to "API keys" to "API tokens"
 
 # Command-Line Interface
 
@@ -60,7 +59,6 @@
 ## Naming things
 
 - Look into more appropriate/standard names for `_asdict`
-- Rename `action.done` to `action.ended`?
 - Should the `url` methods be renamed to avoid confusion with droplet upgrades'
   "url" fields?
 - Rename the `doapi` class to `Manager`?
