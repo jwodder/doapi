@@ -9,7 +9,7 @@
 - Add error handling
 - Use docopt instead of argparse?
 - Add `--wait` options to `doapi-floating-ip`'s actions
-- `doapi-floating-ip`: Add action commands
+- Add a `-V`/`--version` option
 
 # Library
 
@@ -24,6 +24,9 @@
   letting the error propagate out
 - Rethink the utility/design sense of having `_meta_attrs` for anything other
   than `doapi_manager`
+- Add a function (or method?) for recursively converting a JSObject to a `dict`
+    - name: `.primitive()`?
+    - The resulting dicts will lack any meta attributes.
 
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a
@@ -50,6 +53,9 @@
     - API attributes are stored in a private dict meta attribute
     - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict` instead
     - cf. UserDict
+    - Making JSObject a subclass of `dict` will lead to subtle bugs when an
+      object is passed to a constructor of a different type and used
+      successfully to update the new object's state
 
 ## Naming things
 

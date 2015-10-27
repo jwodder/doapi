@@ -18,6 +18,7 @@ def main(argv=None, parsed=None):
     cmd_unassign.add_argument('ip', nargs='+')
     cmd_delete = cmds.add_parser('delete')
     cmd_delete.add_argument('ip', nargs='+')
+    util.add_actioncmds(cmds, 'ip')
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
@@ -44,6 +45,9 @@ def main(argv=None, parsed=None):
         floips = map(client.fetch_floating_ip, map(maybeInt, args.ip))
         for fi in floips:
             fi.delete()
+    elif args.cmd in ('act', 'actions', 'wait'):
+        floips = map(client.fetch_floating_ip, map(maybeInt, args.ip))
+        util.do_actioncmd(args, client, floips)
     else:
         raise RuntimeError('No path defined for command %r' % (args.cmd,))
 

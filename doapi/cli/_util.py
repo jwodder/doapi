@@ -163,3 +163,59 @@ def byname(iterable):
     for obj in iterable:
         bins[obj.name].append(obj)
     return bins
+
+def add_actioncmds(cmds, objtype):
+    cmd_act = cmds.add_parser('act', parents=[waitbase])
+    paramopts = cmd_act.add_mutually_exclusive_group()
+    paramopts.add_argument('-p', '--params', metavar='JSON dict')
+    paramopts.add_argument('-P', '--param-file', type=argparse.FileType('r'))
+    cmd_act.add_argument('type')
+    cmd_act.add_argument(objtype, nargs='+')
+    cmd_actions = cmds.add_parser('actions')
+    latestopts = cmd_actions.add_mutually_exclusive_group()
+    latestopts.add_argument('--last', action='store_true')
+    latestopts.add_argument('--in-progress', action='store_true')
+    cmd_actions.add_argument(objtype, nargs='+')
+    cmd_wait = cmds.add_parser('wait', parents=[waitbase])
+    if objtype == 'droplet':
+        cmd_wait.add_argument('-S', '--status', type=str.lower,
+                              choices=['active', 'new', 'off', 'archive'])
+    cmd_wait.add_argument(objtype, nargs='+')
+
+def do_actioncmd(args, client, objects):
+    if args.cmd == 'act':
+        if args.params:
+            params = json.loads(args.params)
+            if not isinstance(params, dict):
+                die('--params must be a JSON dictionary/object')
+        elif args.param_file:
+            with args.param_file:
+                params = json.load(args.param_file)
+            if not isinstance(params, dict):
+                die('--param-file contents must be a JSON dictionary/object')
+        else:
+            params = {}
+        actions = [obj.act(type=args.type, **params) for obj in objects]
+        if args.wait:
+            ### TODO: Dump actions as they complete
+            actions = list(client.wait_actions(actions))
+        dump(actions)
+    elif args.cmd == 'actions':
+        if args.last or args.in_progress:
+            actions = [obj.fetch_last_action() for obj in objects]
+            if args.in_progress:
+                actions = [a for a in actions if a.in_progress]
+            dump(actions)
+        else:
+            dump([obj.fetch_all_actions() for obj in objects])
+    elif args.cmd == 'wait':
+        if getattr(args, "status", None) is not None:
+            ### TODO: Dump droplets as they complete
+            dump(list(client.wait_droplets(objects, status=args.status)))
+        else:
+            actions = [obj.fetch_last_action() for obj in objects]
+            ### TODO: Dump actions as they complete
+            dump(list(client.wait_actions(actions)))
+    else:
+        raise RuntimeError('Programmer error: do_actioncmd called with invalid'
+                           ' command')

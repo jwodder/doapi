@@ -96,8 +96,6 @@
 - Give `doapi-region` and `doapi-size` "`show`" commands for fetching only
   specific regions/sizes
 
-- Add a `-V`/`--version` option
-
 - Give the `show` commands an `--ignore` option for skipping objects that don't
   exist?
 
@@ -106,6 +104,15 @@
 - When not all objects of a type have been cached, labels that are valid IDs
   (or fingerprints or potential slugs) should not cause everything to be
   fetched (but the result should still be cached)
+
+- Give all commands that either have `--wait` (except 'new') or are 'wait' an
+  option for dumping the manipulated objects instead of the completed actions
+    - Because fetching objects while an action is still in progress on them
+      doesn't seem that useful/meaningful, this will only be available to
+      "waiters" and will imply `--wait`.
+
+- Give `doapi-<droplet/image/floating-ip> delete` waiting options for waiting
+  on each object's "destroy" action
 
 ## Library
 
@@ -117,3 +124,7 @@
 - Make `DomainRecord` more robust with regards to potentially lacking a
   `doapi_manager` and/or `domain` object (cf. `JSObjectWithDroplet`)
 - Give `doapi` `account`, `kernel`, etc. methods?
+- Give `doapi` a `wait_objects` method that fetches each input object's last
+  action, waits for it to complete, and returns the object fetched anew?
+    - Add special handling for Actions that just waits on & returns them
+      normally?

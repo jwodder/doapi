@@ -30,10 +30,7 @@ def main(argv=None, parsed=None):
     cmd_new.add_argument('-K', '--ssh-key', action='append', default=[])
     cmd_new.add_argument('name', nargs='+')
 
-    cmd_wait = cmds.add_parser('wait', parents=[util.waitbase])
-    cmd_wait.add_argument('-S', '--status', type=str.lower,
-                          choices=['active', 'new', 'off', 'archive'])
-    cmd_wait.add_argument('droplet', nargs='+')
+    util.add_actioncmds(cmds, 'droplet')
 
     for act in sorted(unary_acts):
         cmds.add_parser(act, parents=[util.waitopts])\
@@ -71,8 +68,6 @@ def main(argv=None, parsed=None):
     cmd_chkernel = cmds.add_parser('change-kernel', parents=[util.waitopts])
     cmd_chkernel.add_argument('droplet')
     cmd_chkernel.add_argument('kernel', type=int)
-
-    ### TODO: raw action, getting actions/last action, etc.
 
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
@@ -119,14 +114,15 @@ def main(argv=None, parsed=None):
 
         drops = [client.create_droplet(n, **params) for n in args.name]
         if args.wait:
-            ### TODO: Dump actions as they complete
-            drops = client.wait_droplets(drops, status='active')
+            ### TODO: Dump droplets as they come up
+            drops = list(client.wait_droplets(drops, status='active'))
             ### Note: This will cause problems when fetching a pre-existing
             ###       droplet that isn't active.
         util.dump(drops)
 
-    ###elif args.cmd == 'wait':
-    ###    ...
+    elif args.cmd in ('act', 'actions', 'wait'):
+        drops = cache.get_droplets(args.droplet, multiple=False)
+        util.do_actioncmd(args, client, drops)
 
     elif args.cmd in unary_acts:
         # Fetch all of the droplets first so that an invalid droplet
@@ -135,7 +131,7 @@ def main(argv=None, parsed=None):
         acts = map(unary_acts[args.cmd], drops)
         if args.wait:
             ### TODO: Dump actions as they complete
-            acts = client.wait_actions(acts)
+            acts = list(client.wait_actions(acts))
         util.dump(acts)
 
     elif args.cmd == 'show-snapshots':
@@ -181,7 +177,7 @@ def main(argv=None, parsed=None):
             acts = [d.rebuild(d.image) for d in drops]
         if args.wait:
             ### TODO: Dump actions as they complete
-            acts = client.wait_actions(acts)
+            acts = list(client.wait_actions(acts))
         util.dump(acts)
 
     elif args.cmd == 'rename':

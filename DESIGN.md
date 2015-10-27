@@ -67,24 +67,31 @@
 
 - Raw action:
 
-        doapi-<droplet/image> act [-P <params as JSON object>] <type> <obj>...
-        # or?
-        doapi-<droplet/image> act [--param name=value]* <type> <obj>...
-        # or?
-        doapi-<droplet/image> act [-p <params as JSON object> | -P <JSON file>] <type> <obj>...
+        doapi-<droplet/image> act [-p|--params <params as JSON object> | -P|--param-file <JSON file>] <waitopts> <type> <obj>...
 
 - Getting actions:
 
-        doapi-<droplet/image> actions [--latest | --in-progress] [<obj> ...]
-        doapi-action [<id> ...]
-        doapi-action {--latest | --in-progress}
+        doapi-<droplet/image> actions [--last | --in-progress] <obj> ...
+        doapi-action show [<id> ...]
+        doapi-action show {--last | --in-progress}
 
 - Waiting for actions (These assume that an object can't have more than one
   in-progress action on it at a time):
 
-        doapi-droplet wait <wait options> [--status STATUS] [<droplet> ...]
-        doapi-image   wait <wait options>                   [<image> ...]
-        doapi-action  wait <wait options>                   [<id> ...]
+        doapi-droplet wait <wait options> [--status STATUS] <droplet> ...
+        doapi-image   wait <wait options>                   <image> ...
+        doapi-action  wait <wait options>                   <id> ...
+        doapi-action  wait <wait options>                   --in-progress  # ?
 
-    Rethink whether omitting positional arguments — and thus waiting for all
-    in-progress actions on the given objects — should be allowed.
+# Design Decisions Made for the Library
+
+- The following should be regarded as private:
+    - constructors for everything other than `doapi`
+    - `JSObject`
+    - `JSObject._meta_attrs`
+    - `JSObjectWithDroplet`
+    - `Actionable`
+    - the `droplet`, `action`, `sshkey`, `image`, `region`, `size`, `domain`,
+      and `floating_ip` methods of `doapi`
+    - `doapi._wait()`
+    - `Domain.record()`
