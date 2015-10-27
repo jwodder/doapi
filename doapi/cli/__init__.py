@@ -19,8 +19,8 @@ def main():
         from .droplet import main as main2
     elif args.command == 'floating-ip':
         from .floating_ip import main as main2
-    ###elif args.command == 'image':
-    ###    from .image import main as main2
+    elif args.command == 'image':
+        from .image import main as main2
     elif args.command == 'region':
         from .region import main as main2
     elif args.command == 'request':

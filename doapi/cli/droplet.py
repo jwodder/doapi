@@ -89,9 +89,7 @@ def main(argv=None, parsed=None):
         }
         if args.user_data is not None:
             params["user_data"] = args.user_data
-
         ### TODO: name uniqueness
-
         sshkeys = []
         for kname in args.ssh_key:
             key = cache.get_sshkey(kname, multiple=False, mandatory=False)

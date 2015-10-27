@@ -28,8 +28,7 @@ class Image(JSObjectWithDroplet, Actionable):
 
     def update(self, name):
         api = self.doapi_manager
-        return api.image(api.request(self.url(), method='PUT',
-                                     data={"name": name})["image"])
+        return api.image(api.request(self.url(), method='PUT', data={"name": name})["image"])
 
     def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')

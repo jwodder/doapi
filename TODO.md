@@ -1,7 +1,7 @@
 - Document everything!
 - Handle all items marked with "`TODO`" or "`###`" in the code
 - Bring the code in line with PEP 8 and pylint
-- Replace `minibin/*` with unit tests that just invoke the command-line client
+- Add tests
 
 # Command-Line Interface
 
@@ -9,6 +9,8 @@
 - Use docopt instead of argparse?
 - Add `--wait` options to `doapi-floating-ip`'s actions
 - Add a `-V`/`--version` option
+- Add checks to mutating commands to ensure that the same object isn't listed
+  on the command line twice
 
 # Library
 
@@ -23,9 +25,6 @@
   letting the error propagate out
 - Rethink the utility/design sense of having `_meta_attrs` for anything other
   than `doapi_manager`
-- Add a function (or method?) for recursively converting a JSObject to a `dict`
-    - name: `.primitive()`?
-    - The resulting dicts will lack any meta attributes.
 
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a

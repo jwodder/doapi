@@ -45,6 +45,8 @@
 - Can floating IPs be IPv6?  If so, how are they converted to `resource_id`s of
   actions?
 - How are `next_backup_window` objects structured?
+- When fetching images, will specifying both a type and `private=true` ever
+  return a nonempty list?
 
 # Other notes
 

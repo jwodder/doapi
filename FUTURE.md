@@ -128,3 +128,6 @@
   action, waits for it to complete, and returns the object fetched anew?
     - Add special handling for Actions that just waits on & returns them
       normally?
+- Add a function (or method?) for recursively converting a JSObject to a `dict`
+    - name: `.primitive()`?
+    - The resulting dicts should lack any meta attributes.
