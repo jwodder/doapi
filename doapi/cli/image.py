@@ -1,6 +1,7 @@
 import argparse
-from   .       import _util as util
-from   ..image import Image
+from   six.moves import map
+from   .         import _util as util
+from   ..image   import Image
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],

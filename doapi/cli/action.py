@@ -1,5 +1,6 @@
 import argparse
 from   itertools import chain
+from   six.moves import map
 from   .         import _util as util
 from   ..action  import Action
 

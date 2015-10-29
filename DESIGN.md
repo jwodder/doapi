@@ -94,3 +94,4 @@
       and `floating_ip` methods of `doapi`
     - `doapi._wait()`
     - `Domain.record()`
+    - `lmap`

@@ -2,7 +2,9 @@ import json
 from   time         import sleep, time
 from   urlparse     import urljoin
 import requests
-from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError
+from   six.moves    import map
+from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError, \
+                           lmap
 from   .domain      import Domain
 from   .droplet     import Droplet
 from   .floating_ip import FloatingIP
@@ -91,8 +93,8 @@ class doapi(object):
         return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
     def fetch_all_droplet_upgrades(self):
-        return [DropletUpgrade(obj, doapi_manager=self)
-                for obj in self.request('/v2/droplet_upgrades')]
+        for obj in self.request('/v2/droplet_upgrades'):
+            yield DropletUpgrade(obj, doapi_manager=self)
 
     def create_droplet(self, name, image, size, region, **data):
         # Standard optional attributes: ssh_keys, backups, ipv6,
@@ -112,9 +114,8 @@ class doapi(object):
                                          data=data)["droplet"])
 
     def fetch_all_droplet_neighbors(self):
-        return [map(self.droplet, hood)
-                for hood in self.paginate('/v2/reports/droplet_neighbors',
-                                          'neighbors')]
+        for hood in self.paginate('/v2/reports/droplet_neighbors', 'neighbors'):
+            yield lmap(self.droplet, hood)
 
     def wait_droplets(self, droplets, status=None, wait_interval=None,
                                                    wait_time=None):

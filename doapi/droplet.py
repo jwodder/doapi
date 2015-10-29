@@ -1,7 +1,8 @@
-from time     import sleep, time
-from urlparse import urljoin
-from .base    import Actionable, Region, Size, Kernel, Networks
-from .image   import Image
+from time      import sleep, time
+from urlparse  import urljoin
+from six.moves import map
+from .base     import Actionable, Region, Size, Kernel, Networks
+from .image    import Image
 
 class Droplet(Actionable):
     def __init__(self, state={}, **extra):
@@ -132,18 +133,18 @@ class Droplet(Actionable):
 
     def fetch_all_snapshots(self):
         api = self.doapi_manager
-        return [Image(obj, doapi_manager=api, droplet=self)
-                for obj in api.paginate(self.url() + '/snapshots', 'snapshots')]
+        for obj in api.paginate(self.url() + '/snapshots', 'snapshots'):
+            yield Image(obj, doapi_manager=api, droplet=self)
 
     def fetch_all_backups(self):
         api = self.doapi_manager
-        return [Image(obj, doapi_manager=api, droplet=self)
-                for obj in api.paginate(self.url() + '/backups', 'backups')]
+        for obj in api.paginate(self.url() + '/backups', 'backups'):
+            yield Image(obj, doapi_manager=api, droplet=self)
 
     def fetch_all_kernels(self):
         api = self.doapi_manager
-        return [Kernel(kern, doapi_manager=api, droplet=self)
-                for kern in api.paginate(self.url() + '/kernels', 'kernels')]
+        for kern in api.paginate(self.url() + '/kernels', 'kernels'):
+            yield Kernel(kern, doapi_manager=api, droplet=self)
 
     def wait(self, status=None, wait_interval=None, wait_time=None):
         return next(self.doapi_manager.wait_droplets([self], status,

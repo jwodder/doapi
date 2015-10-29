@@ -41,6 +41,7 @@ class Cache(object):
 
     def cache(self, objects, key):
         if key not in self.caches:
+            objects = list(objects)
             grouped = {key: objects}
             for attr in self.groupby[key]:
                 if attr == "name":
@@ -219,7 +220,7 @@ def do_actioncmd(args, client, objects):
                 actions = [a for a in actions if a.in_progress]
             dump(actions)
         else:
-            dump([obj.fetch_all_actions() for obj in objects])
+            dump(obj.fetch_all_actions() for obj in objects)
     elif args.cmd == 'wait':
         if getattr(args, "status", None) is not None:
             dump(client.wait_droplets(objects, status=args.status))

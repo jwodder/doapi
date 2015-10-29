@@ -1,5 +1,6 @@
-from urlparse import urljoin
-from .base    import JSObject
+from urlparse  import urljoin
+from six.moves import map
+from .base     import JSObject
 
 class Domain(JSObject):
     def __init__(self, state={}, **extra):

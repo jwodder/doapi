@@ -20,7 +20,8 @@ class SSHKey(JSObject):
             raise TypeError('Neither .id nor .fingerprint is defined')
 
     def url(self, endpoint=''):
-        return urljoin(endpoint, '/v2/account/keys/' + str(self.id_or_fingerprint))
+        return urljoin(endpoint, '/v2/account/keys/'
+                                 + str(self.id_or_fingerprint))
 
     def fetch(self):
         api = self.doapi_manager

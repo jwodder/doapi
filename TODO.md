@@ -16,7 +16,6 @@
 
 # Library
 
-- Should the `fetch_all_*` methods return generators instead of lists?
 - Add a class for droplets' `next_backup_window` fields
 - Look into the correctness of the naïve implementation of `fetch_last_action`
 - Look into whether I should be relying on the fetchability of

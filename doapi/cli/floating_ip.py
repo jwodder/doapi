@@ -1,5 +1,6 @@
 import argparse
-from   . import _util as util
+from   six.moves import map
+from   .         import _util as util
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],

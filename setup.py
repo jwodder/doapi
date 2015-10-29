@@ -5,7 +5,7 @@ setup(
     version='0.1.0.dev1',
     packages=['doapi'],
     ### Does doapi.cli constitute a separate package?
-    install_requires=['requests'],
+    install_requires=['requests', 'six'],
 
     ### <https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/>
 

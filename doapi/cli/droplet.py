@@ -1,5 +1,6 @@
 import argparse
 from   errno     import ENOENT
+from   six.moves import map
 from   .         import _util as util
 from   ..base    import DropletUpgrade
 from   ..droplet import Droplet

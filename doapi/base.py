@@ -2,7 +2,8 @@ import collections
 import copy
 import json
 import numbers
-from   urlparse import urljoin
+from   urlparse  import urljoin
+from   six.moves import map
 
 class JSObject(object):
     # Don't use namedtuples for this or else everything will break if
@@ -186,3 +187,6 @@ class DOAPIError(Exception):
                 for k,v in body.iteritems():
                     if not hasattr(self, k):
                         setattr(self, k, v)
+
+def lmap(f, *args):
+    return list(map(f, *args))
