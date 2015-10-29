@@ -205,10 +205,10 @@ def main(argv=None, parsed=None):
             util.dump(map(Droplet.fetch_all_neighbors,
                           cache.get_droplets(args.droplet, multiple=False)))
         else:
-            util.dump(client.fetch_droplet_neighbors())
+            util.dump(client.fetch_all_droplet_neighbors())
 
     elif args.cmd == 'show-upgrades':
-        upgrades = client.fetch_droplet_upgrades()
+        upgrades = client.fetch_all_droplet_upgrades()
         if args.droplets:
             util.dump(map(DropletUpgrade.fetch_droplet, upgrades))
         else:

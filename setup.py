@@ -3,7 +3,8 @@ from setuptools import setup
 setup(
     name='doapi',
     version='0.1.0.dev1',
-    package='doapi',
+    packages=['doapi'],
+    ### Does doapi.cli constitute a separate package?
     install_requires=['requests'],
 
     ### <https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/>

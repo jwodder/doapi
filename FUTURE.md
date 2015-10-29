@@ -131,3 +131,10 @@
 - Add a function (or method?) for recursively converting a JSObject to a `dict`
     - name: `.primitive()`?
     - The resulting dicts should lack any meta attributes.
+- Fix `JSObject.__repr__`'s handling of meta attributes
+    - Show `doapi_manager` and DomainRecord's `domain`
+        - Should `doapi_manager` be omitted from nested objects?
+    - Do not show `_meta_attrs` (which isn't supposed to be in `vars()` anyway)
+      or Network's `ip_version`
+    - Do not show `droplet` when recursing inside a droplet
+        - Only show `droplet` as an int?

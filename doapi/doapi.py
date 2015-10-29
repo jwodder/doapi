@@ -90,7 +90,7 @@ class doapi(object):
     def fetch_all_droplets(self):
         return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
-    def fetch_droplet_upgrades(self):
+    def fetch_all_droplet_upgrades(self):
         return [DropletUpgrade(obj, doapi_manager=self)
                 for obj in self.request('/v2/droplet_upgrades')]
 
@@ -111,7 +111,7 @@ class doapi(object):
         return self.droplet(self.request('/v2/droplets', method='POST',
                                          data=data)["droplet"])
 
-    def fetch_droplet_neighbors(self):
+    def fetch_all_droplet_neighbors(self):
         return [map(self.droplet, hood)
                 for hood in self.paginate('/v2/reports/droplet_neighbors',
                                           'neighbors')]

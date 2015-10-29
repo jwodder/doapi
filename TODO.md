@@ -32,14 +32,6 @@
     - The droplet reference passed to a network, kernel, backup, or snapshot
       object is not deep-copied.
 
-- Fix `JSObject.__repr__`'s handling of meta attributes
-    - Show `doapi_manager` and DomainRecord's `domain`
-        - Should `doapi_manager` be omitted from nested objects?
-    - Do not show `_meta_attrs` (which isn't supposed to be in `vars()` anyway)
-      or Network's `ip_version`
-    - Do not show `droplet` when recursing inside a droplet
-        - Only show `droplet` as an int?
-
 - Make JSObject into a Mapping/MutableMapping that skips "meta" attributes,
   eliminating the need for `_asdict`
     - Attributes are divided into two groups, "API" (which are preserved when
