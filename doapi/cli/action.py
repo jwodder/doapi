@@ -41,8 +41,7 @@ def main(argv=None, parsed=None):
             acts = args.action
         else:
             acts = all_in_progress(client)
-        ### TODO: Dump actions as they complete
-        util.dump(list(client.wait_actions(acts)))
+        util.dump(client.wait_actions(acts))
 
     elif args.cmd == 'resource':
         ### TODO: Dump `null` when the resource no longer exists?

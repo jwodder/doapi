@@ -5,9 +5,6 @@
 
 ## Command-Line Interface
 
-- While waiting for actions to finish (or while paginating results for
-  `doapi-request`), dump each object as soon as it completes/is available
-
 - When creating/operating on multiple objects and one produces an error, there
   should be an option for continuing with the rest (including waiting?)
 

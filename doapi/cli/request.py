@@ -31,9 +31,7 @@ def main(argv=None, parsed=None):
     if args.paginate is None:
         response = client.request(args.path, method=args.request, **extra)
     else:
-        ### TODO: Print paginated results as they come in rather than all at
-        ### once.
-        response = list(client.paginate(args.path, args.paginate))
+        response = client.paginate(args.path, args.paginate)
     if args.dump_header:
         # Using "with" would cause `args.dump_header` to close afterwards,
         # which would cause problems if it was stdout.  "with" technically

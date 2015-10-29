@@ -1,3 +1,4 @@
+import collections
 import copy
 import json
 import numbers
@@ -102,6 +103,8 @@ class DOEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, JSObject):
             return obj._asdict()
+        elif isinstance(obj, collections.Iterator):
+            return list(obj)
         else:
             #return json.JSONEncoder.default(self, obj)
             return super(DOEncoder, self).default(obj)

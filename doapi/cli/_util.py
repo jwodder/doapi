@@ -1,8 +1,9 @@
 import argparse
-from   collections import defaultdict
+from   collections import defaultdict, Iterator
 import json
 import os
 import os.path
+import re
 import sys
 from   ..base      import DOEncoder
 from   ..doapi     import doapi
@@ -149,9 +150,23 @@ Specify your API token via one of the following (in order of precedence):
     return (client, Cache(client))
 
 def dump(obj, fp=sys.stdout):
-    json.dump(obj, fp, cls=DOEncoder, sort_keys=True, indent=4,
-              separators=(',', ': '))
-    fp.write('\n')
+    if isinstance(obj, Iterator):
+        fp.write('[\n')
+        first = True
+        for o in obj:
+            if first:
+                first = False
+            else:
+                fp.write(',\n')
+            s = json.dumps(o, cls=DOEncoder, sort_keys=True, indent=4,
+                           separators=(',', ': '))
+            fp.write(re.sub(r'^', '    ', s, flags=re.M))
+            fp.flush()
+        fp.write('\n]\n')
+    else:
+        json.dump(obj, fp, cls=DOEncoder, sort_keys=True, indent=4,
+                  separators=(',', ': '))
+        fp.write('\n')
 
 def die(msg, *va_arg):
     raise SystemExit(sys.argv[0] + ': ' + msg % va_arg)
@@ -195,8 +210,7 @@ def do_actioncmd(args, client, objects):
             params = {}
         actions = [obj.act(type=args.type, **params) for obj in objects]
         if args.wait:
-            ### TODO: Dump actions as they complete
-            actions = list(client.wait_actions(actions))
+            actions = client.wait_actions(actions)
         dump(actions)
     elif args.cmd == 'actions':
         if args.last or args.in_progress:
@@ -208,12 +222,10 @@ def do_actioncmd(args, client, objects):
             dump([obj.fetch_all_actions() for obj in objects])
     elif args.cmd == 'wait':
         if getattr(args, "status", None) is not None:
-            ### TODO: Dump droplets as they complete
-            dump(list(client.wait_droplets(objects, status=args.status)))
+            dump(client.wait_droplets(objects, status=args.status))
         else:
             actions = [obj.fetch_last_action() for obj in objects]
-            ### TODO: Dump actions as they complete
-            dump(list(client.wait_actions(actions)))
+            dump(client.wait_actions(actions))
     else:
         raise RuntimeError('Programmer error: do_actioncmd called with invalid'
                            ' command')

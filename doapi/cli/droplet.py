@@ -112,8 +112,7 @@ def main(argv=None, parsed=None):
 
         drops = [client.create_droplet(n, **params) for n in args.name]
         if args.wait:
-            ### TODO: Dump droplets as they come up
-            drops = list(client.wait_droplets(drops, status='active'))
+            drops = client.wait_droplets(drops, status='active')
             ### Note: This will cause problems when fetching a pre-existing
             ###       droplet that isn't active.
         util.dump(drops)
@@ -128,8 +127,7 @@ def main(argv=None, parsed=None):
         drops = cache.get_droplets(args.droplet, multiple=False)
         acts = map(unary_acts[args.cmd], drops)
         if args.wait:
-            ### TODO: Dump actions as they complete
-            acts = list(client.wait_actions(acts))
+            acts = client.wait_actions(acts)
         util.dump(acts)
 
     elif args.cmd == 'show-snapshots':
@@ -174,8 +172,7 @@ def main(argv=None, parsed=None):
         else:
             acts = [d.rebuild(d.image) for d in drops]
         if args.wait:
-            ### TODO: Dump actions as they complete
-            acts = list(client.wait_actions(acts))
+            acts = client.wait_actions(acts)
         util.dump(acts)
 
     elif args.cmd == 'rename':

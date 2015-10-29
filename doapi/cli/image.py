@@ -68,8 +68,7 @@ def main(argv=None, parsed=None):
         imgs = cache.get_images(args.image, multiple=False)
         acts = map(Image.convert, imgs)
         if args.wait:
-            ### TODO: Dump actions as they complete
-            acts = list(client.wait_actions(acts))
+            acts = client.wait_actions(acts)
         util.dump(acts)
 
     elif args.cmd in ('act', 'actions', 'wait'):
