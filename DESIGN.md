@@ -80,8 +80,7 @@
 
         doapi-droplet wait <wait options> [--status STATUS] <droplet> ...
         doapi-image   wait <wait options>                   <image> ...
-        doapi-action  wait <wait options>                   <id> ...
-        doapi-action  wait <wait options>                   --in-progress  # ?
+        doapi-action  wait <wait options>                   [<id> ...]
 
 # Design Decisions Made for the Library
 

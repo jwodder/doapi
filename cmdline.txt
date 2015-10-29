@@ -73,14 +73,12 @@ doapi-image
 	# waiting for last action(s) (or specific actions?)
 
 doapi-action
-	show  # Add --latest option?  --in-progress?
-	latest  # Merge into `show`?
-	wait {--latest/--all | <action> ...}
+        show [<id> ...]
+        show {--last | --in-progress}
+        wait <wait options> [<id> ...]
+	# Not specifying any arguments means "wait on all in-progress actions"
 	resource <action> ...  # fetch resource
-
-	# In theory, it might be possible to fetch all in-progress actions
-	# efficiently by merely requesting the first page of actions for each
-	# droplet and each private image.
+        resource {--last | --in-progress}
 
 doapi-domain
 	show [<name> ...]

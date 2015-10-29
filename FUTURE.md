@@ -86,13 +86,6 @@
 - `doapi-<sshkey/image>`: Allow `rename` as a synonym of `update`?
 - `doapi-droplet`: Allow `update` as a synonym of `rename`?
 
-- Add the ability to filter images by region?
-
-- Add the ability to filter droplets by image, region, & size?
-
-- `doapi-action`: Add the ability to filter by droplet vs. image vs. floating
-  IP?
-
 - Give `doapi-region` and `doapi-size` "`show`" commands for fetching only
   specific regions/sizes
 

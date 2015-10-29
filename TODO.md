@@ -2,6 +2,8 @@
 - Handle all items marked with "`TODO`" or "`###`" in the code
 - Bring the code in line with PEP 8 and pylint
 - Add tests
+- A lot of the code relies on the assumption that an object cannot have more
+  than one in-progress action running on it at a time.  Confirm this.
 
 # Command-Line Interface
 

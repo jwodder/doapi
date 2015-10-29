@@ -8,11 +8,11 @@ def main():
                                            " size sshkey".split())
     parser.add_argument('arguments', nargs=argparse.REMAINDER)
     args = parser.parse_args()
-    ### Figure out a shorter way to write this:
+    ### TODO: Figure out a shorter way to write this:
     if args.command == 'account':
         from .account import main as main2
-    ###elif args.command == 'action':
-    ###    from .action import main as main2
+    elif args.command == 'action':
+        from .action import main as main2
     ###elif args.command == 'domain':
     ###    from .domain import main as main2
     elif args.command == 'droplet':
