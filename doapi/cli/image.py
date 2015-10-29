@@ -14,7 +14,7 @@ def main(argv=None, parsed=None):
     showopts.add_argument('--application', action='store_true')
     showopts.add_argument('--type')
     showopts.add_argument('--private', action='store_true')
-    showopts.add_argument('image', nargs='+')
+    cmd_show.add_argument('image', nargs='*')
 
     cmd_delete = cmds.add_parser('delete')
     cmd_delete.add_argument('image', nargs='+')
@@ -34,17 +34,26 @@ def main(argv=None, parsed=None):
 
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
+
     if args.cmd == 'show':
-        if args.image:
-            util.dump(cache.get_images(args.image, multiple=True))
-        elif args.distribution:
+        if args.distribution:
+            if args.image:
+                util.die('--distribution and image arguments are mutually exclusive')
             util.dump(client.fetch_all_distribution_images())
         elif args.application:
+            if args.image:
+                util.die('--application and image arguments are mutually exclusive')
             util.dump(client.fetch_all_application_images())
         elif args.type:
+            if args.image:
+                util.die('--type and image arguments are mutually exclusive')
             util.dump(client.fetch_all_images(type=args.type))
         elif args.private:
+            if args.image:
+                util.die('--private and image arguments are mutually exclusive')
             util.dump(client.fetch_all_private_images())
+        elif args.image:
+            util.dump(cache.get_images(args.image, multiple=True))
         else:
             util.dump(client.fetch_all_images())
 

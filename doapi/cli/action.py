@@ -13,27 +13,31 @@ def main(argv=None, parsed=None):
     showopts = cmd_show.add_mutually_exclusive_group()
     showopts.add_argument('--last', action='store_true')
     showopts.add_argument('--in-progress', action='store_true')
-    showopts.add_argument('action', nargs='+', type=int)
+    cmd_show.add_argument('action', nargs='*', type=int)
 
     cmd_wait = cmds.add_parser('wait')
     cmd_wait.add_argument('action', nargs='*', type=int)
 
-    cmd_resource = add_parser('resource')
+    cmd_resource = cmds.add_parser('resource')
     resopts = cmd_resource.add_mutually_exclusive_group(required=True)
     resopts.add_argument('--last', action='store_true')
     resopts.add_argument('--in-progress', action='store_true')
-    resopts.add_argument('action', nargs='+', type=int)
+    cmd_resource.add_argument('action', nargs='*', type=int)
 
     args = parser.parse_args(argv, parsed)
     client, _ = util.mkclient(args)
 
     if args.cmd == 'show':
-        if args.action:
-            util.dump(map(client.fetch_action, args.action))
-        elif args.last:
+        if args.last:
+            if args.action:
+                util.die('--last and action arguments are mutually exclusive')
             util.dump(client.fetch_last_action())
         elif args.in_progress:
+            if args.action:
+                util.die('--in-progress and action arguments are mutually exclusive')
             util.dump(all_in_progress(client))
+        elif args.action:
+            util.dump(map(client.fetch_action, args.action))
         else:
             util.dump(client.fetch_all_actions())
 
@@ -47,19 +51,24 @@ def main(argv=None, parsed=None):
     elif args.cmd == 'resource':
         ### TODO: Dump `null` when the resource no longer exists?
         if args.last:
+            if args.action:
+                util.die('--last and action arguments are mutually exclusive')
             util.dump(client.fetch_last_action().fetch_resource())
         else:
             if args.in_progress:
+                if args.action:
+                    util.die('--in-progress and action arguments are mutually exclusive')
                 acts = all_in_progress(client)
-            else:
+            elif args.action:
                 acts = map(client.fetch_action, args.action)
+            else:
+                die('You must specify one of --last, --in-progress, or one or more actions')
             util.dump(map(Action.fetch_resource, acts))
 
     else:
         raise RuntimeError('No path defined for command %r' % (args.cmd,))
 
 def all_in_progress(client):
-    acts = []
     for obj in chain(client.fetch_all_droplets(),
                      ### TODO: This assumes that only private images can be
                      ### acted on.  Confirm this.
@@ -69,8 +78,7 @@ def all_in_progress(client):
         ### `fetch_last_action` may error out.  Handle this.
         a = obj.fetch_last_action()
         if a.in_progress:
-            acts.append(a)
-    return acts
+            yield a
 
 if __name__ == '__main__':
     main()
