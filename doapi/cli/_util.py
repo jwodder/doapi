@@ -152,10 +152,11 @@ Specify your API token via one of the following (in order of precedence):
 
 def dump(obj, fp=sys.stdout):
     if isinstance(obj, Iterator):
-        fp.write('[\n')
+        fp.write('[')
         first = True
         for o in obj:
             if first:
+                fp.write('\n')
                 first = False
             else:
                 fp.write(',\n')
@@ -163,7 +164,9 @@ def dump(obj, fp=sys.stdout):
                            separators=(',', ': '))
             fp.write(re.sub(r'^', '    ', s, flags=re.M))
             fp.flush()
-        fp.write('\n]\n')
+        if not first:
+            fp.write('\n')
+        fp.write(']\n')
     else:
         json.dump(obj, fp, cls=DOEncoder, sort_keys=True, indent=4,
                   separators=(',', ': '))
