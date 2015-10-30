@@ -1,4 +1,3 @@
-from time      import sleep, time
 from urlparse  import urljoin
 from six.moves import map
 from .base     import Actionable, Region, Size, Kernel, Networks

@@ -100,7 +100,7 @@ def main(argv=None, parsed=None):
                         pubkey = fp.read().strip()
                 except IOError as e:
                     if e.errno == ENOENT:
-                        die('%s: no such SSH key' % (kname,))
+                        util.die('%s: no such SSH key' % (kname,))
                     else:
                         raise
                 else:

@@ -59,7 +59,7 @@ class DomainRecord(JSObject):
     def __int__(self):
         return self.id
 
-    def url(self):
+    def url(self, endpoint=''):
         return urljoin(endpoint, self.domain.record_url() + '/' + str(self.id))
 
     def fetch(self):

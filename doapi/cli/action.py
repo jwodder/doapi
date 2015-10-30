@@ -62,7 +62,7 @@ def main(argv=None, parsed=None):
             elif args.action:
                 acts = map(client.fetch_action, args.action)
             else:
-                die('You must specify one of --last, --in-progress, or one or more actions')
+                util.die('You must specify one of --last, --in-progress, or one or more actions')
             util.dump(map(Action.fetch_resource, acts))
 
     else:

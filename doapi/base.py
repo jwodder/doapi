@@ -85,7 +85,7 @@ class Actionable(JSObject):
 
     def wait(self, wait_interval=None, wait_time=None):
         list(self.doapi_manager.wait_actions([self.fetch_last_action()],
-                                             status, wait_interval, wait_time))
+                                             wait_interval, wait_time))
         return self.fetch()
 
     def fetch_all_actions(self):
