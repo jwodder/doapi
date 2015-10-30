@@ -9,9 +9,9 @@
 
 - Add error handling
 - Use docopt instead of argparse?
-- Add a `-V`/`--version` option
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
+- Add metavars and other --help data
 
 # Library
 
@@ -25,6 +25,9 @@
   letting the error propagate out
 - Rethink the utility/design sense of having `_meta_attrs` for anything other
   than `doapi_manager`
+- Should `url()` and `action_url()` methods automatically use
+  `self.doapi_manager.endpoint` as an endpoint when `self.doapi_manager` is
+  defined?  Should they then be properties?
 
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a
@@ -41,16 +44,12 @@
       always(?) sets a meta attribute; to set an API attribute, do `foo['x'] =
       y`.
     - API attributes are stored in a private dict meta attribute
-    - cf. <https://github.com/kennethreitz/requests/blob/8b5e457b756b2ab4c02473f7a42c2e0201ecc7e9/requests/packages/urllib3/_collections.py#L107> for how to subclass `dict` instead
-    - cf. UserDict
-    - Making JSObject a subclass of `dict` will lead to subtle bugs when an
-      object is passed to a constructor of a different type and used
-      successfully to update the new object's state
+    - Note that, as Mappings are acceptable arguments to `dict.update`, this
+      could lead to subtle bugs when an object is passed to a constructor of a
+      different type and used successfully to update the new object's state
 
 ## Naming things
 
 - Look into more appropriate/standard names for `_asdict`
-- Should the `url` methods be renamed to avoid confusion with droplet upgrades'
-  "url" fields?
 - Rename the `doapi` class to `Manager`?
 - Should the `Network` class be renamed `Interface` or something like that?

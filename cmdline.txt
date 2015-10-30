@@ -101,7 +101,6 @@ doapi-domain
 		       [--weight WEIGHT]
 		       <id>
 		delete <id> ...
-		### Deletion by type and/or name?
 
 doapi-floating-ip
 	show [<ip> ...]

@@ -34,7 +34,8 @@ def main(argv=None, parsed=None):
             util.dump(client.fetch_last_action())
         elif args.in_progress:
             if args.action:
-                util.die('--in-progress and action arguments are mutually exclusive')
+                util.die('--in-progress and action arguments are mutually'
+                         ' exclusive')
             util.dump(all_in_progress(client))
         elif args.action:
             util.dump(map(client.fetch_action, args.action))
@@ -57,12 +58,14 @@ def main(argv=None, parsed=None):
         else:
             if args.in_progress:
                 if args.action:
-                    util.die('--in-progress and action arguments are mutually exclusive')
+                    util.die('--in-progress and action arguments are mutually'
+                             ' exclusive')
                 acts = all_in_progress(client)
             elif args.action:
                 acts = map(client.fetch_action, args.action)
             else:
-                util.die('You must specify one of --last, --in-progress, or one or more actions')
+                util.die('You must specify one of --last, --in-progress, or'
+                         ' one or more actions')
             util.dump(map(Action.fetch_resource, acts))
 
     else:

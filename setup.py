@@ -1,10 +1,20 @@
-from setuptools import setup
+from   os.path    import dirname, join
+import re
+from   setuptools import setup
+
+with open(join(dirname(__file__), 'doapi', '__init__.py')) as fp:
+    for line in fp:
+        m = re.search(r'^\s*__version__\s*=\s*([\'"])([^\'"]+)\1\s*$', line)
+        if m:
+            version = m.group(2)
+            break
+    else:
+        raise RuntimeError('Unable to find own __version__ string')
 
 setup(
     name='doapi',
-    version='0.1.0.dev1',
-    packages=['doapi'],
-    ### Does doapi.cli constitute a separate package?
+    version=version,
+    packages=['doapi', 'doapi.cli'],
     install_requires=['requests', 'six'],
 
     ### <https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/>

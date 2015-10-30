@@ -5,6 +5,7 @@ import os
 import os.path
 import re
 import sys
+from   ..          import __version__
 from   ..base      import DOEncoder
 from   ..doapi     import doapi
 
@@ -14,6 +15,8 @@ tokenopts.add_argument('--api-token')
 tokenopts.add_argument('--api-token-file', type=argparse.FileType('r'))
 universal.add_argument('--timeout', type=float, metavar='seconds')
 universal.add_argument('--endpoint', metavar='URL')
+universal.add_argument('-V', '--version', action='version',
+                                          version='doapi ' + __version__)
 
 waitbase = argparse.ArgumentParser(add_help=False)
 waitbase.add_argument('--wait-time', type=float, metavar='seconds')

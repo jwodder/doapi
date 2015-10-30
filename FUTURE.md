@@ -52,6 +52,8 @@
   what to operate on and any arguments; instead of an object, one can use a
   string or int, which is treated like an object ID given on the command line)
   from a file.
+    - Also give plain `doapi` a batch mode for executing arbitrary actions on
+      arbitrary objects
     - cf. the draft `--json <file>` option to `doapi-droplet new`:
 
         > A JSON array (or an object, which is treated as an array of one) is
@@ -89,12 +91,6 @@
 - Give the `show` commands an `--ignore` option for skipping objects that don't
   exist?
 
-### Internals
-
-- When not all objects of a type have been cached, labels that are valid IDs
-  (or fingerprints or potential slugs) should not cause everything to be
-  fetched (but the result should still be cached)
-
 - Give all commands that either have `--wait` (except 'new') or are 'wait' an
   option for dumping the manipulated objects instead of the completed actions
     - Because fetching objects while an action is still in progress on them
@@ -104,6 +100,12 @@
 - Give `doapi-<droplet/image/floating-ip> delete` waiting options for waiting
   on each object's "destroy" action
 
+### Internals
+
+- When not all objects of a type have been cached, labels that are valid IDs
+  (or fingerprints or potential slugs) should not cause everything to be
+  fetched (but the result should still be cached)
+
 ## Library
 
 - Should slugs be allowed as alternative identifiers for images the same way
@@ -112,7 +114,8 @@
 - Give doapi a `wait_objects` (Rethink name) method for waiting for the most
   recent actions on a set of objects to complete
 - Make `DomainRecord` more robust with regards to potentially lacking a
-  `doapi_manager` and/or `domain` object (cf. `JSObjectWithDroplet`)
+  `doapi_manager` and/or `domain` object or having a string for a `domain`
+  object (cf. `JSObjectWithDroplet`)
 - Give `doapi` `account`, `kernel`, etc. methods?
 - Give `doapi` a `wait_objects` method that fetches each input object's last
   action, waits for it to complete, and returns the object fetched anew?

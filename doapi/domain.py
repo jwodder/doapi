@@ -54,8 +54,6 @@ class Domain(JSObject):
 class DomainRecord(JSObject):
     _meta_attrs = JSObject._meta_attrs + ('domain',)
 
-    ### TODO: Should this try to handle self.domain being a string?
-
     def __int__(self):
         return self.id
 
@@ -63,13 +61,17 @@ class DomainRecord(JSObject):
         return urljoin(endpoint, self.domain.record_url() + '/' + str(self.id))
 
     def fetch(self):
-        return self.domain.record(self.doapi_manager.request(self.url())["domain_record"])
+        return self.domain.record(self.doapi_manager.request(self.url())\
+                                                            ["domain_record"])
 
     def fetch_domain(self):
         return self.domain.fetch()
 
     def update(self, **attrs):
-        return self.domain.record(self.doapi_manager.request(self.url(), method='PUT', data=attrs)["domain_record"])
+        return self.domain.record(self.doapi_manager.request(self.url(),
+                                                             method='PUT',
+                                                             data=attrs)\
+                                                            ["domain_record"])
 
     def delete(self):
         self.doapi_manager.request(self.url(), method='DELETE')
