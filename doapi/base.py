@@ -76,7 +76,11 @@ class JSObjectWithDroplet(JSObject):
 
 
 class Actionable(JSObject):
-    # abstract method: action_url (and fetch)
+    def action_url(self, endpoint=''):
+        raise NotImplementedError
+
+    def fetch(self):
+        raise NotImplementedError
 
     def act(self, **data):
         api = self.doapi_manager

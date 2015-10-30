@@ -1,6 +1,6 @@
 - Document everything!
 - Handle all items marked with "`TODO`" or "`###`" in the code
-- Bring the code in line with PEP 8 and pylint
+- Bring the code in line with PEP 8
 - Add tests
 - A lot of the code relies on the assumption that an object cannot have more
   than one in-progress action running on it at a time.  Confirm this.
@@ -9,7 +9,6 @@
 
 - Add error handling
 - Use docopt instead of argparse?
-- Add `--wait` options to `doapi-floating-ip`'s actions
 - Add a `-V`/`--version` option
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice

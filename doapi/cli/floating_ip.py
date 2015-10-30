@@ -12,10 +12,10 @@ def main(argv=None, parsed=None):
     newopts = cmd_new.add_mutually_exclusive_group(required=True)
     newopts.add_argument('-D', '--droplet')
     newopts.add_argument('-R', '--region')
-    cmd_assign = cmds.add_parser('assign')
+    cmd_assign = cmds.add_parser('assign', parents=[util.waitopts])
     cmd_assign.add_argument('ip')
     cmd_assign.add_argument('droplet')
-    cmd_unassign = cmds.add_parser('unassign')
+    cmd_unassign = cmds.add_parser('unassign', parents=[util.waitopts])
     cmd_unassign.add_argument('ip', nargs='+')
     cmd_delete = cmds.add_parser('delete')
     cmd_delete.add_argument('ip', nargs='+')
@@ -38,10 +38,16 @@ def main(argv=None, parsed=None):
     elif args.cmd == 'assign':
         floip = client.fetch_floating_ip(maybeInt(args.ip))
         drop = cache.get_droplet(args.droplet, multiple=False)
-        util.dump(floip.assign(drop))
+        act = floip.assign(drop)
+        if args.wait:
+            act = act.wait()
+        util.dump(act)
     elif args.cmd == 'unassign':
         floips = map(client.fetch_floating_ip, map(maybeInt, args.ip))
-        util.dump([fi.unassign() for fi in floips])
+        acts = [fi.unassign() for fi in floips]
+        if args.wait:
+            acts = client.wait_actions(acts)
+        util.dump(acts)
     elif args.cmd == 'delete':
         floips = map(client.fetch_floating_ip, map(maybeInt, args.ip))
         for fi in floips:
