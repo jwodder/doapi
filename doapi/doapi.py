@@ -3,8 +3,7 @@ from   time         import sleep, time
 from   urlparse     import urljoin
 import requests
 from   six.moves    import map
-from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError, \
-                           lmap
+from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError
 from   .domain      import Domain
 from   .droplet     import Droplet
 from   .floating_ip import FloatingIP
@@ -115,7 +114,7 @@ class doapi(object):
 
     def fetch_all_droplet_neighbors(self):
         for hood in self.paginate('/v2/reports/droplet_neighbors', 'neighbors'):
-            yield lmap(self.droplet, hood)
+            yield list(map(self.droplet, hood))
 
     def wait_droplets(self, droplets, status=None, wait_interval=None,
                                                    wait_time=None):

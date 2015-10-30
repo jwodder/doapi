@@ -187,6 +187,3 @@ class DOAPIError(Exception):
                 for k,v in body.iteritems():
                     if not hasattr(self, k):
                         setattr(self, k, v)
-
-def lmap(f, *args):
-    return list(map(f, *args))
