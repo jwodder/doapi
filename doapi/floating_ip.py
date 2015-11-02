@@ -6,7 +6,7 @@ from   .base    import Actionable, Region
 from   .droplet import Droplet
 
 class FloatingIP(Actionable):
-    def __init__(self, state={}, **extra):
+    def __init__(self, state=None, **extra):
         if isinstance(state, numbers.Integral):
             state = {"ip": socket.inet_ntoa(struct.pack('!I', state))}
         elif isinstance(state, basestring):

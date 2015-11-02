@@ -3,7 +3,7 @@ from six.moves import map
 from .base     import JSObject
 
 class Domain(JSObject):
-    def __init__(self, state={}, **extra):
+    def __init__(self, state=None, **extra):
         if isinstance(state, basestring):
             state = {"name": state}
         super(Domain, self).__init__(state, **extra)

@@ -4,7 +4,7 @@ from .base     import Actionable, Region, Size, Kernel, Networks
 from .image    import Image
 
 class Droplet(Actionable):
-    def __init__(self, state={}, **extra):
+    def __init__(self, state=None, **extra):
         super(Droplet, self).__init__(state, **extra)
         try:
             meta = {"doapi_manager": self.doapi_manager}

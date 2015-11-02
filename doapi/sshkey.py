@@ -2,7 +2,7 @@ from urlparse import urljoin
 from .base    import JSObject
 
 class SSHKey(JSObject):
-    def __init__(self, state={}, **extra):
+    def __init__(self, state=None, **extra):
         if isinstance(state, basestring):
             state = {"fingerprint": state}
         super(SSHKey, self).__init__(state, **extra)
