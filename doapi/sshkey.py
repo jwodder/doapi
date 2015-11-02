@@ -10,6 +10,9 @@ class SSHKey(JSObject):
     def __int__(self):
         return self.id
 
+    def __str__(self):
+        return self.fingerprint
+
     @property
     def id_or_fingerprint(self):
         if getattr(self, 'id', None) is not None:
@@ -17,7 +20,7 @@ class SSHKey(JSObject):
         elif getattr(self, 'fingerprint', None) is not None:
             return self.fingerprint
         else:
-            raise TypeError('Neither .id nor .fingerprint is defined')
+            raise TypeError('SSHKey has neither .id nor .fingerprint')
 
     def url(self, endpoint=''):
         return urljoin(endpoint, '/v2/account/keys/'
