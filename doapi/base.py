@@ -93,17 +93,16 @@ class JSObjectWithDroplet(JSObject):
     _meta_attrs = JSObject._meta_attrs + ('droplet',)
 
     def fetch_droplet(self):
-        drop = getattr(self, "droplet", None)
-        if drop is None:
+        if self.droplet is None:
             return None
         if self.doapi_manager is None:
-            return drop.fetch()
-            # If `drop` is an int, the user gets the AttributeError they
-            # deserve.
+            return self.droplet.fetch()
+            # If `self.droplet` is an int, the user gets the AttributeError
+            # they deserve.
         else:
-            return self.doapi_manager.fetch_droplet(drop)
-            # If `drop` is an int, the user doesn't get the AttributeError they
-            # don't deserve.
+            return self.doapi_manager.fetch_droplet(self.droplet)
+            # If `self.droplet` is an int, the user doesn't get the
+            # AttributeError they don't deserve.
 
 
 class Actionable(JSObject):
@@ -178,13 +177,13 @@ class DropletUpgrade(JSObject):
 class Networks(JSObjectWithDroplet):
     def __init__(self, state=None, **extra):
         super(Networks, self).__init__(state, **extra)
-        meta = {}
-        for attr in ('doapi_manager', 'droplet'):
-            if getattr(self, attr, None) is not None:
-                meta[attr] = getattr(self, attr)
-        if getattr(self, "v4", None):
+        meta = {
+            "doapi_manager": self.doapi_manager,
+            "droplet": self.droplet,
+        }
+        if self.get("v4"):
             self.v4 = [Network(obj, ip_version=4, **meta) for obj in self.v4]
-        if getattr(self, "v6", None):
+        if self.get("v6"):
             self.v6 = [Network(obj, ip_version=6, **meta) for obj in self.v6]
 
 

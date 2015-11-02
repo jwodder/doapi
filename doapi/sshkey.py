@@ -15,9 +15,9 @@ class SSHKey(JSObject):
 
     @property
     def id_or_fingerprint(self):
-        if getattr(self, 'id', None) is not None:
+        if self.get("id") is not None:
             return self.id
-        elif getattr(self, 'fingerprint', None) is not None:
+        elif self.get("fingerprint") is not None:
             return self.fingerprint
         else:
             raise TypeError('SSHKey has neither .id nor .fingerprint')

@@ -10,7 +10,7 @@ class Image(JSObjectWithDroplet, Actionable):
         return self.id
 
     def __str__(self):
-        if getattr(self, "slug", None) is not None:
+        if self.get("slug") is not None:
             return self.slug
         else:
             raise AttributeError("%r object has no attribute 'slug'"

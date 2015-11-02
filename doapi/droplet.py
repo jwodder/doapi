@@ -42,8 +42,8 @@ class Droplet(Actionable):
 
     @property
     def ip_address(self):
-        v4nets = getattr(self.networks, "v4", [])
-        v6nets = getattr(self.networks, "v6", [])
+        v4nets = self.networks.get("v4", [])
+        v6nets = self.networks.get("v6", [])
         try:
             return (v4nets + v6nets)[0].ip_address
         except IndexError:
