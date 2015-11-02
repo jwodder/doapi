@@ -31,9 +31,6 @@ class JSObject(collections.MutableMapping):
         for k,v in iteritems(extra):
             setattr(self, k, v)
 
-    def _asdict(self):
-        return self.data.copy()
-
     def __copy__(self):
         return self.__class__(self)
 
@@ -141,8 +138,7 @@ class Actionable(JSObject):
 class DOEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, JSObject):
-            #return obj.data
-            return dict(obj)
+            return obj.data
         elif isinstance(obj, collections.Iterator):
             return list(obj)
         else:

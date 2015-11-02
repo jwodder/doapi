@@ -30,8 +30,6 @@
 - Should `url()` and `action_url()` methods automatically use
   `self.doapi_manager.endpoint` as an endpoint when `self.doapi_manager` is
   defined?  Should they then be properties?
-- Get rid of `JSObject._asdict`?
-
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a
       droplet) causes it to be deep-copied.
@@ -40,6 +38,5 @@
 
 ## Naming things
 
-- Look into more appropriate/standard names for `_asdict`
 - Rename the `doapi` class to `Manager`?
 - Should the `Network` class be renamed `Interface` or something like that?
