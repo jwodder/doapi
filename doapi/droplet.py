@@ -8,14 +8,10 @@ class Droplet(Actionable):
         super(Droplet, self).__init__(state, **extra)
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
                           ('kernel', Kernel), ('networks', Networks)]:
-            if getattr(self, attr, None) is not None:
+            if self.get(attr) is not None and not isinstance(self[attr], cls):
+                self[attr] = cls(self[attr], doapi_manager=self.doapi_manager)
                 if attr in ('kernel', 'networks', 'image'):
-                    new = cls(getattr(self, attr), droplet=self,
-                              doapi_manager=self.doapi_manager)
-                else:
-                    new = cls(getattr(self, attr),
-                              doapi_manager=self.doapi_manager)
-                setattr(self, attr, new)
+                    self[attr].droplet = self
 
     def __int__(self):
         return self.id

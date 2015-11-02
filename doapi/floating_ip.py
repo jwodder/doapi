@@ -13,9 +13,8 @@ class FloatingIP(Actionable):
             state = {"ip": state}
         super(FloatingIP, self).__init__(state, **extra)
         for attr, cls in [('region', Region), ('droplet', Droplet)]:
-            if getattr(self, attr, None) is not None:
-                setattr(self, attr, cls(getattr(self, attr),
-                                        doapi_manager=self.doapi_manager))
+            if self.get(attr) is not None and not isinstance(self[attr], cls):
+                self[attr] = cls(self[attr], doapi_manager=self.doapi_manager)
 
     def __str__(self):
         return self.ip

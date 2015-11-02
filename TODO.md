@@ -30,11 +30,6 @@
 - Should `url()` and `action_url()` methods automatically use
   `self.doapi_manager.endpoint` as an endpoint when `self.doapi_manager` is
   defined?  Should they then be properties?
-- Try to be more consistent regarding when deep copies of objects are created.
-    - Passing an image, region, etc. object to `Droplet` (e.g., when copying a
-      droplet) causes it to be deep-copied.
-    - The droplet reference passed to a network, kernel, backup, or snapshot
-      object is not deep-copied.
 
 ## Naming things
 
