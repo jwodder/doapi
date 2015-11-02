@@ -6,17 +6,15 @@ from .image    import Image
 class Droplet(Actionable):
     def __init__(self, state=None, **extra):
         super(Droplet, self).__init__(state, **extra)
-        try:
-            meta = {"doapi_manager": self.doapi_manager}
-        except AttributeError:
-            meta = {}
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
                           ('kernel', Kernel), ('networks', Networks)]:
             if getattr(self, attr, None) is not None:
                 if attr in ('kernel', 'networks', 'image'):
-                    new = cls(getattr(self, attr), droplet=self, **meta)
+                    new = cls(getattr(self, attr), droplet=self,
+                              doapi_manager=self.doapi_manager)
                 else:
-                    new = cls(getattr(self, attr), **meta)
+                    new = cls(getattr(self, attr),
+                              doapi_manager=self.doapi_manager)
                 setattr(self, attr, new)
 
     def __int__(self):

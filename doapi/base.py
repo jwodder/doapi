@@ -3,42 +3,45 @@ import copy
 import json
 import numbers
 from   urlparse  import urljoin
+from   six       import iteritems
 from   six.moves import map
 
-class JSObject(object):
-    # Don't use namedtuples for this or else everything will break if
-    # DigitalOcean ever adds any new fields.
+class JSObject(collections.MutableMapping):
+    _meta_attrs = ('data', 'doapi_manager')
 
-    _meta_attrs = ('_meta_attrs', 'doapi_manager')
-
-    def __init__(self, state={}, **extra):
+    def __init__(self, state=None, **extra):
+        # Note that meta attributes in `state` are not recognized as such, but
+        # they are in `extra`.
+        for attr in self._meta_attrs:
+            self.__dict__[attr] = None
+        self.data = {}
         if isinstance(state, numbers.Integral):
             state = {"id": state}
         elif isinstance(state, self.__class__):
-            state = vars(state)
-        # This shadows properties/descriptors:
-        self.__dict__.update(state)
-        self.__dict__.update(extra)
-        # This does not (but will break if DO ever adds, say, a `completed`
-        # field):
-        """
-        for k,v in state.iteritems():
+            for attr in self._meta_attrs:
+                if attr != 'data':
+                    setattr(self, attr, getattr(state, attr))
+            state = state.data
+        elif isinstance(state, JSObject):
+            raise TypeError('%r object passed to %r constructor'
+                            % (state.__class__.__name__,
+                               self.__class__.__name__))
+        if state is not None:
+            self.data.update(state)
+        for k,v in iteritems(extra):
             setattr(self, k, v)
-        for k,v in extra.iteritems():
-            setattr(self, k, v)
-        """
 
     def _asdict(self):
-        data = vars(self).copy()
-        for attr in self._meta_attrs:
-            data.pop(attr, None)
-        return data
+        return self.data.copy()
 
     def __copy__(self):
-        return self.__class__(vars(self))
+        return self.__class__(self)
 
     def __deepcopy__(self, memo):
-        return self.__class__(copy.deepcopy(vars(self), memo))
+        dup = self.__class__()
+        for attr in self._meta_attrs:
+            setattr(self, attr, copy.deepcopy(getattr(self, attr), memo))
+        return dup
 
     def __eq__(self, other):
         return type(self) == type(other) and vars(self) == vars(other)
@@ -50,8 +53,41 @@ class JSObject(object):
         # Meta attributes have to be omitted or else infinite recursion will
         # occur when trying to print a Droplet.
         return '%s(%s)' % (self.__class__.__name__,
-                           ', '.join('%s=%r' % kv
-                                     for kv in self._asdict().iteritems()))
+                           ', '.join('%s=%r' % kv for kv in self.items()))
+
+    def __getitem__(self, key):
+        return self.data[key]
+
+    def __setitem__(self, key, value):
+        self.data[key] = value
+
+    def __delitem__(self, key):
+        del self.data[key]
+
+    def __iter__(self):
+        return iter(self.data)
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getattr__(self, name):
+        try:
+            return self.data[name]
+        except KeyError:
+            raise AttributeError('%r object has no attribute %r'
+                                 % (self.__class__.__name__, name))
+
+    def __setattr__(self, name, value):
+        if name in self.__dict__:
+            self.__dict__[name] = value
+        else:
+            self.data[name] = value
+
+    def __delattr__(self, name):
+        if name in self.__dict__:
+            del self.__dict__[name]
+        else:
+            del self.data[name]
 
 
 class JSObjectWithDroplet(JSObject):
@@ -63,14 +99,12 @@ class JSObjectWithDroplet(JSObject):
         drop = getattr(self, "droplet", None)
         if drop is None:
             return None
-        try:
-            api = self.doapi_manager
-        except AttributeError:
+        if self.doapi_manager is None:
             return drop.fetch()
             # If `drop` is an int, the user gets the AttributeError they
             # deserve.
         else:
-            return api.fetch_droplet(drop)
+            return self.doapi_manager.fetch_droplet(drop)
             # If `drop` is an int, the user doesn't get the AttributeError they
             # don't deserve.
 
@@ -107,7 +141,8 @@ class Actionable(JSObject):
 class DOEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, JSObject):
-            return obj._asdict()
+            #return obj.data
+            return dict(obj)
         elif isinstance(obj, collections.Iterator):
             return list(obj)
         else:
@@ -145,7 +180,7 @@ class DropletUpgrade(JSObject):
 
 
 class Networks(JSObjectWithDroplet):
-    def __init__(self, state={}, **extra):
+    def __init__(self, state=None, **extra):
         super(Networks, self).__init__(state, **extra)
         meta = {}
         for attr in ('doapi_manager', 'droplet'):
@@ -188,6 +223,6 @@ class DOAPIError(Exception):
             pass
         else:
             if isinstance(body, dict):
-                for k,v in body.iteritems():
+                for k,v in iteritems(body):
                     if not hasattr(self, k):
                         setattr(self, k, v)

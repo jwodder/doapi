@@ -54,6 +54,8 @@
   from a file.
     - Also give plain `doapi` a batch mode for executing arbitrary actions on
       arbitrary objects
+    - better idea: Instead of giving every command & subcommand a batch option,
+      add a `doapi-batch` command for performing batch operations
     - cf. the draft `--json <file>` option to `doapi-droplet new`:
 
         > A JSON array (or an object, which is treated as an array of one) is

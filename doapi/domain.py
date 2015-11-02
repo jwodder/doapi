@@ -22,11 +22,7 @@ class Domain(JSObject):
         self.doapi_manager.request(self.url(), method='DELETE')
 
     def record(self, obj):
-        try:
-            meta = {"doapi_manager": self.doapi_manager}
-        except AttributeError:
-            meta = {}
-        return DomainRecord(obj, domain=self, **meta)
+        return DomainRecord(obj, domain=self, doapi_manager=self.doapi_manager)
 
     def record_url(self, endpoint=''):
         return urljoin(endpoint, self.url() + '/records')

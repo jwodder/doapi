@@ -20,6 +20,8 @@
 - Look into whether I should be relying on the fetchability of
   `/v2/floating_ips/$IP_ADDR/actions`
 - Prevent classes without IDs from being initialized with an int
+    - Add a `JSObjectWithID` class that handles all initialization from ints
+      and defines `__int__`
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
@@ -28,25 +30,13 @@
 - Should `url()` and `action_url()` methods automatically use
   `self.doapi_manager.endpoint` as an endpoint when `self.doapi_manager` is
   defined?  Should they then be properties?
+- Get rid of `JSObject._asdict`?
 
 - Try to be more consistent regarding when deep copies of objects are created.
     - Passing an image, region, etc. object to `Droplet` (e.g., when copying a
       droplet) causes it to be deep-copied.
     - The droplet reference passed to a network, kernel, backup, or snapshot
       object is not deep-copied.
-
-- Make JSObject into a Mapping/MutableMapping that skips "meta" attributes,
-  eliminating the need for `_asdict`
-    - Attributes are divided into two groups, "API" (which are preserved when
-      converted to JSON and show up in iteration) and "meta" (which are not).
-      `foo.x` fetches a meta attribute if it exists, an API attribute
-      otherwise.  `foo['x']` always fetches an API attribute.  `foo.x = y`
-      always(?) sets a meta attribute; to set an API attribute, do `foo['x'] =
-      y`.
-    - API attributes are stored in a private dict meta attribute
-    - Note that, as Mappings are acceptable arguments to `dict.update`, this
-      could lead to subtle bugs when an object is passed to a constructor of a
-      different type and used successfully to update the new object's state
 
 ## Naming things
 
