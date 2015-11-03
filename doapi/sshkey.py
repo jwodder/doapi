@@ -1,14 +1,11 @@
 from urlparse import urljoin
-from .base    import JSObject
+from .base    import JSObjectWithID
 
-class SSHKey(JSObject):
+class SSHKey(JSObjectWithID):
     def __init__(self, state=None, **extra):
         if isinstance(state, basestring):
             state = {"fingerprint": state}
         super(SSHKey, self).__init__(state, **extra)
-
-    def __int__(self):
-        return self.id
 
     def __str__(self):
         return self.fingerprint

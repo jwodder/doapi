@@ -1,10 +1,7 @@
 from urlparse import urljoin
-from .base    import JSObject
+from .base    import JSObjectWithID
 
-class Action(JSObject):
-    def __int__(self):
-        return self.id
-
+class Action(JSObjectWithID):
     @property
     def completed(self):
         return self.status == 'completed'

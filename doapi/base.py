@@ -15,9 +15,7 @@ class JSObject(collections.MutableMapping):
         for attr in self._meta_attrs:
             self.__dict__[attr] = None
         self.data = {}
-        if isinstance(state, numbers.Integral):
-            state = {"id": state}
-        elif isinstance(state, self.__class__):
+        if isinstance(state, self.__class__):
             for attr in self._meta_attrs:
                 if attr != 'data':
                     setattr(self, attr, getattr(state, attr))
@@ -85,6 +83,22 @@ class JSObject(collections.MutableMapping):
             del self.__dict__[name]
         else:
             del self.data[name]
+
+
+class JSObjectWithID(JSObject):
+    """
+    A DigitalOcean API object with a unique integral ``id`` field.  Allows
+    construction from an integer and implements ``__int__`` for conversion back
+    to the integer.
+    """
+
+    def __init__(self, state=None, **extra):
+        if isinstance(state, numbers.Integral):
+            state = {"id": state}
+        super(JSObjectWithID, self).__init__(state, **extra)
+
+    def __int__(self):
+        return self.id
 
 
 class JSObjectWithDroplet(JSObject):
@@ -164,9 +178,8 @@ class Account(JSObject):
         return urljoin(endpoint, '/v2/account')
 
 
-class Kernel(JSObjectWithDroplet):
-    def __int__(self):
-        return self.id
+class Kernel(JSObjectWithDroplet, JSObjectWithID):
+    pass
 
 
 class DropletUpgrade(JSObject):

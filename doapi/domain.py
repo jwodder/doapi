@@ -1,6 +1,6 @@
 from urlparse  import urljoin
 from six.moves import map
-from .base     import JSObject
+from .base     import JSObject, JSObjectWithID
 
 class Domain(JSObject):
     def __init__(self, state=None, **extra):
@@ -47,11 +47,8 @@ class Domain(JSObject):
         })["domain_record"])
 
 
-class DomainRecord(JSObject):
-    _meta_attrs = JSObject._meta_attrs + ('domain',)
-
-    def __int__(self):
-        return self.id
+class DomainRecord(JSObjectWithID):
+    _meta_attrs = JSObjectWithID._meta_attrs + ('domain',)
 
     def url(self, endpoint=''):
         return urljoin(endpoint, self.domain.record_url() + '/' + str(self.id))

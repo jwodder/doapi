@@ -1,9 +1,9 @@
 from urlparse  import urljoin
 from six.moves import map
-from .base     import Actionable, Region, Size, Kernel, Networks
+from .base     import Actionable, JSObjectWithID, Region, Size, Kernel, Networks
 from .image    import Image
 
-class Droplet(Actionable):
+class Droplet(Actionable, JSObjectWithID):
     def __init__(self, state=None, **extra):
         super(Droplet, self).__init__(state, **extra)
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
@@ -12,9 +12,6 @@ class Droplet(Actionable):
                 self[attr] = cls(self[attr], doapi_manager=self.doapi_manager)
                 if attr in ('kernel', 'networks', 'image'):
                     self[attr].droplet = self
-
-    def __int__(self):
-        return self.id
 
     @property
     def active(self):

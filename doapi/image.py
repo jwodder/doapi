@@ -1,13 +1,10 @@
 from urlparse import urljoin
-from .base    import JSObjectWithDroplet, Actionable
+from .base    import Actionable, JSObjectWithDroplet, JSObjectWithID
 
-class Image(JSObjectWithDroplet, Actionable):
+class Image(Actionable, JSObjectWithDroplet, JSObjectWithID):
     # The `droplet` attribute is set for the "image" fields of droplets as well
     # as for the images returned by `Droplet.fetch_all_snapshots` and
     # `Droplet.fetch_all_backups`.
-
-    def __int__(self):
-        return self.id
 
     def __str__(self):
         if self.get("slug") is not None:

@@ -1,6 +1,6 @@
 - Document everything!
 - Handle all items marked with "`TODO`" or "`###`" in the code
-- Bring the code in line with PEP 8
+- Bring the code in line with PEP 8?
 - Add tests
 - A lot of the code relies on the assumption that an object cannot have more
   than one in-progress action running on it at a time.  Confirm this.
@@ -19,9 +19,6 @@
 - Look into the correctness of the naïve implementation of `fetch_last_action`
 - Look into whether I should be relying on the fetchability of
   `/v2/floating_ips/$IP_ADDR/actions`
-- Prevent classes without IDs from being initialized with an int
-    - Add a `JSObjectWithID` class that handles all initialization from ints
-      and defines `__int__`
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
