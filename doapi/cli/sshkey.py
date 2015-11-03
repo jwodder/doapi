@@ -32,7 +32,7 @@ def main(argv=None, parsed=None):
             k.delete()
     elif args.cmd == 'update':
         key = cache.get_sshkey(args.sshkey, multiple=False)
-        util.dump(key.update(args.name))
+        util.dump(key.update_sshkey(args.name))
     else:
         raise RuntimeError('No path defined for command %r' % (args.cmd,))
 

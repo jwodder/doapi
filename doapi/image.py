@@ -23,7 +23,8 @@ class Image(Actionable, JSObjectWithDroplet, JSObjectWithID):
         api = self.doapi_manager
         return api.image(api.request(self.url())["image"])
 
-    def update(self, name):
+    def update_image(self, name):
+        # The `_image` is to avoid conflicts with MutableMapping.update.
         api = self.doapi_manager
         return api.image(api.request(self.url(), method='PUT', data={"name": name})["image"])
 

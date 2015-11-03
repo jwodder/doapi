@@ -27,7 +27,8 @@ class SSHKey(JSObjectWithID):
         api = self.doapi_manager
         return api.sshkey(api.request(self.url())["ssh_key"])
 
-    def update(self, name):
+    def update_sshkey(self, name):
+        # The `_sshkey` is to avoid conflicts with MutableMapping.update.
         api = self.doapi_manager
         return api.sshkey(api.request(self.url(), method='PUT',
                                       data={"name": name})["ssh_key"])

@@ -27,8 +27,6 @@
 - Should `url()` and `action_url()` methods automatically use
   `self.doapi_manager.endpoint` as an endpoint when `self.doapi_manager` is
   defined?  Should they then be properties?
-- The `update` method of Image, DomainRecord, and SSHKey conflicts with that
-  provided by MutableMapping.  Fix this.
 
 ## Naming things
 

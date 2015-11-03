@@ -60,7 +60,8 @@ class DomainRecord(JSObjectWithID):
     def fetch_domain(self):
         return self.domain.fetch()
 
-    def update(self, **attrs):
+    def update_record(self, **attrs):
+        # The `_record` is to avoid conflicts with MutableMapping.update.
         return self.domain.record(self.doapi_manager.request(self.url(),
                                                              method='PUT',
                                                              data=attrs)\

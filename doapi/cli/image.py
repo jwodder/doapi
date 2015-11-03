@@ -64,7 +64,7 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'update':
         img = cache.get_image(args.image, multiple=False)
-        util.dump(img.update(args.name))
+        util.dump(img.update_image(args.name))
 
     elif args.cmd == 'transfer':
         img = cache.get_image(args.image, multiple=False)
