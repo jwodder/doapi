@@ -81,6 +81,10 @@
   an object by writing `object@num`, where `num` is `0` (`1`?) for the most
   recent action, `1` (`-1`? `2`?) for the action before that, etc.
 
+- For `doapi-droplet restore`, allow the user to specify a backup by how many
+  backups back to go; e.g., `@0` (`@1`?) is the most recent backup, `@1` is the
+  one before that, etc.
+
 - Let the user specify an unknown status to `doapi-droplet wait` if the
   `--force`(?) option is used
 

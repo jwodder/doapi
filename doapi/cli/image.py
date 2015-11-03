@@ -68,7 +68,6 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'transfer':
         img = cache.get_image(args.image, multiple=False)
-        ### Check that `args.region` is an actual region?
         act = img.transfer(args.region)
         if args.wait:
             act = act.wait()

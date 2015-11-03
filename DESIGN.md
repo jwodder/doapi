@@ -16,6 +16,9 @@
 - `doapi-droplet`: `show-upgrades` and `show-snapshots` are named as such
   (instead of "`upgrades`" and "`snapshots`") in order to avoid confusion with
   `upgrade` and `snapshot`.
+- Regions & sizes specified on the command line will not be checked for
+  validity before using them; you'd get an error either way, and performing the
+  check on the client side just adds more work and API requests.
 
 ## On handling duplicated names
 

@@ -74,9 +74,8 @@ class Cache(object):
                     elif len(answer) == 1:
                         return answer[0]
                     else:
-                        die('%r: ambiguous; name used by multiple %ss'
-                            % (label, key))
-                        ### Print the IDs of everything with that name?
+                        die('%r: ambiguous; name used by multiple %ss: %s'
+                            % (label, key, ','.join(str(o.id) for o in answer)))
                 elif multiple:
                     return [answer]
                 else:

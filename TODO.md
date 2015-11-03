@@ -1,17 +1,27 @@
 - Document everything!
-- Handle all items marked with "`TODO`" or "`###`" in the code
 - Bring the code in line with PEP 8?
 - Add tests
-- A lot of the code relies on the assumption that an object cannot have more
-  than one in-progress action running on it at a time.  Confirm this.
+- A lot of the code relies on the assumptions that an object cannot have more
+  than one in-progress action running on it at a time and that, if there is an
+  in-progress action, it the most recent and the first listed.  Confirm this.
 
 # Command-Line Interface
 
+- Decide on a name uniqueness policy
+- Implement `doapi-domain`
 - Add error handling
 - Use docopt instead of argparse?
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
 - Add metavars and other --help data
+- Handle fetching an action's resource when the resource no longer exists
+- Confirm the assumption that private images are the only kind of images that
+  can be acted on
+- `doapi-droplet new`:
+    - When creating an SSH key from a file, first check whether the key's
+      fingerprint is already registered with DO
+    - After creating a new SSH key, add it to the cache so that it'll be
+      available for subsequent `-K` arguments
 
 # Library
 
@@ -22,6 +32,9 @@
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
+- Look into whether fetching an action via `/v2/actions/$ACTION_ID` is always
+  equivalent to fetching via
+  `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`
 
 ## Naming things
 

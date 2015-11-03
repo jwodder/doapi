@@ -127,8 +127,8 @@ class JSObjectWithDroplet(JSObject):
 
 
 class Actionable(JSObject):
-    ### Required property: url
-    ### Required method: fetch
+    # Required property: url
+    # Required method: fetch
 
     @property
     def action_url(self):

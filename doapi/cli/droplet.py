@@ -81,7 +81,6 @@ def main(argv=None, parsed=None):
     elif args.cmd == 'new':
         params = {
             "image": cache.get_image(args.image, multiple=False),
-            ### TODO: Check that `args.size` and `args.region` are valid
             "size": args.size,
             "region": args.region,
             "backups": args.backups,
@@ -151,7 +150,6 @@ def main(argv=None, parsed=None):
     elif args.cmd == 'restore':
         drop = cache.get_droplet(args.droplet, multiple=False)
         img = cache.get_image(args.backup, multiple=False)
-        ### Check that `img` is a backup of `drop`?
         act = drop.restore(img)
         if args.wait:
             act = act.wait()
@@ -159,7 +157,6 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'resize':
         drop = cache.get_droplet(args.droplet, multiple=False)
-        ### Check that `args.size` is an actual size?
         act = drop.resize(args.size, disk=args.disk)
         if args.wait:
             act = act.wait()
@@ -192,7 +189,6 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'change-kernel':
         drop = cache.get_droplet(args.droplet, multiple=False)
-        ### Check that `kernel` is actually a kernel?
         act = drop.change_kernel(args.kernel)
         if args.wait:
             act = act.wait()

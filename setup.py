@@ -24,7 +24,7 @@ setup(
         # The use of argparse precludes support for Python 2 versions before
         # 2.7 and Python 3 versions before 3.2.
         'Programming Language :: Python :: 2.7',
-    ]
+    ],
 
     entry_points={
         "console_scripts": [

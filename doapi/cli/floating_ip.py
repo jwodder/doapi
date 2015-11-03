@@ -32,7 +32,6 @@ def main(argv=None, parsed=None):
             drop = cache.get_droplet(args.droplet, multiple=False)
             newip = client.create_floating_ip(droplet_id=drop)
         else:
-            ### Check that `args.region` is an actual region?
             newip = client.create_floating_ip(region=args.region)
         util.dump(newip)
     elif args.cmd == 'assign':

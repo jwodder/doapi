@@ -17,7 +17,8 @@ def main(argv=None, parsed=None):
     if args.paginate is not None and args.request != 'GET':
         util.die('--paginate can only be used with the GET method')
     if args.data is not None:
-        ### Complain if the request method is GET or DELETE?
+        if args.request not in ('POST', 'PUT'):
+            util.die('--data can only be used with the POST and PUT methods')
         if len(args.data) > 1 and args.data[0] == '@':
             if args.data[1:] == '-':
                 extra = {"data": sys.stdin.read()}
