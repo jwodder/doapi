@@ -9,11 +9,21 @@ Options common to all actions (including creating droplets):
     --wait-time seconds
     --wait-interval seconds
 
+Subcommands common to all "actionables" (droplets, images, & floating IPs):
+
+    doapi-TYPE actions [--last | --in-progress] <object> ...
+
+    doapi-TYPE act [-p/--params <params as JSON object>
+    		   |-P/--param-file <JSON file>]
+		   <wait options> <action type> <object>...
+
+    doapi-TYPE wait <wait options> <object> ...
+    # `doapi-droplet wait` also takes an optional `--status STATUS` argument.
+
 API token sources, in order of precedence:
  - API token or tokenfile specified on the command-line (mutually exclusive)
  - DO_API_TOKEN environment variable
  - ~/.doapi file
-
 
 <droplet> := ID or name
 <sshkey>  := ID, fingerprint, or name
@@ -23,26 +33,19 @@ API token sources, in order of precedence:
 <action>  := ID
 <ip>      := IP address in x.x.x.x form or as an integer
 
-
 doapi-droplet
 	show [<droplet> ...]
 	new
-	    -I|--image <image>
-	    -S|--size <size>
-	    -R|--region <region>
+	    -I/--image <image>
+	    -S/--size <size>
+	    -R/--region <region>
 	    <wait options>
 	    [--user-data data]
 	    # ipv6, backups, etc.
 	    <name> ...
 	delete <droplet> ...
-	wait [--status=STATUS] <wait options> <droplet> ...
-	    # No status → wait for latest action to complete
-	<action name> <wait options> <droplet> ...
 	show-upgrades [--droplets]
 	    # --droplets: return the droplets that will be upgraded instead
-	# raw action
-	# getting actions
-	# getting last action
 	show-snapshots <droplet> ...
 	backups <droplet> ...
 	kernels <droplet> ...
@@ -67,10 +70,6 @@ doapi-image
 	delete <image> ...
 	transfer <image> <region>
 	convert <image> ...
-	# raw action
-	# getting actions
-	# getting last action
-	# waiting for last action(s) (or specific actions?)
 
 doapi-action
         show [<id> ...]

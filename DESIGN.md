@@ -63,25 +63,6 @@
   snapshotting) and thus only allow you to specify one object on the command
   line should always follow policy `E`.
 
-## Actions
-
-- Raw action:
-
-        doapi-<droplet/image> act [-p|--params <params as JSON object> | -P|--param-file <JSON file>] <waitopts> <type> <obj>...
-
-- Getting actions:
-
-        doapi-<droplet/image> actions [--last | --in-progress] <obj> ...
-        doapi-action show [<id> ...]
-        doapi-action show {--last | --in-progress}
-
-- Waiting for actions (These assume that an object can't have more than one
-  in-progress action on it at a time):
-
-        doapi-droplet wait <wait options> [--status STATUS] <droplet> ...
-        doapi-image   wait <wait options>                   <image> ...
-        doapi-action  wait <wait options>                   [<id> ...]
-
 # Design Decisions Made for the Library
 
 - The following should be regarded as private:
