@@ -1,5 +1,4 @@
-from urlparse import urljoin
-from .base    import Actionable, JSObjectWithDroplet, JSObjectWithID
+from .base import Actionable, JSObjectWithDroplet, JSObjectWithID
 
 class Image(Actionable, JSObjectWithDroplet, JSObjectWithID):
     # The `droplet` attribute is set for the "image" fields of droplets as well
@@ -13,23 +12,21 @@ class Image(Actionable, JSObjectWithDroplet, JSObjectWithID):
             raise AttributeError("%r object has no attribute 'slug'"
                                  % (self.__class__.__name__,))
 
-    def url(self, endpoint=''):
-        return urljoin(endpoint, '/v2/images/' + str(self.id))
-
-    def action_url(self, endpoint=''):
-        return urljoin(endpoint, '/v2/images/' + str(self.id) + '/actions')
+    @property
+    def url(self):
+        return self._url('/v2/images/' + str(self.id))
 
     def fetch(self):
         api = self.doapi_manager
-        return api.image(api.request(self.url())["image"])
+        return api.image(api.request(self.url)["image"])
 
     def update_image(self, name):
         # The `_image` is to avoid conflicts with MutableMapping.update.
         api = self.doapi_manager
-        return api.image(api.request(self.url(), method='PUT', data={"name": name})["image"])
+        return api.image(api.request(self.url, method='PUT', data={"name": name})["image"])
 
     def delete(self):
-        self.doapi_manager.request(self.url(), method='DELETE')
+        self.doapi_manager.request(self.url, method='DELETE')
 
     def transfer(self, region):
         return self.act(type='transfer', region=region)

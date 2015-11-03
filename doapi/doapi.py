@@ -202,7 +202,7 @@ class doapi(object):
         return map(self.size, self.paginate('/v2/sizes', 'sizes'))
 
     def fetch_account(self):
-        return Account(self.request(Account.url())["account"],
+        return Account(self.request('/v2/account')["account"],
                        doapi_manager=self)
 
     def domain(self, obj):

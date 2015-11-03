@@ -84,6 +84,13 @@ class JSObject(collections.MutableMapping):
         else:
             del self.data[name]
 
+    def _url(self, path):
+        try:
+            endpoint = self.doapi_manager.endpoint
+        except (TypeError, AttributeError):
+            endpoint = ''
+        return urljoin(endpoint, path)
+
 
 class JSObjectWithID(JSObject):
     """
@@ -120,15 +127,16 @@ class JSObjectWithDroplet(JSObject):
 
 
 class Actionable(JSObject):
-    def action_url(self, endpoint=''):
-        raise NotImplementedError
+    ### Required property: url
+    ### Required method: fetch
 
-    def fetch(self):
-        raise NotImplementedError
+    @property
+    def action_url(self):
+        return self.url + '/actions'
 
     def act(self, **data):
         api = self.doapi_manager
-        return api.action(api.request(self.action_url(), method='POST',
+        return api.action(api.request(self.action_url, method='POST',
                                       data=data)["action"])
 
     def wait(self, wait_interval=None, wait_time=None):
@@ -138,12 +146,12 @@ class Actionable(JSObject):
 
     def fetch_all_actions(self):
         api = self.doapi_manager
-        return map(api.action, api.paginate(self.action_url(), 'actions'))
+        return map(api.action, api.paginate(self.action_url, 'actions'))
 
     def fetch_last_action(self):
         # Naive implementation:
         api = self.doapi_manager
-        return api.action(api.request(self.action_url())["actions"][0])
+        return api.action(api.request(self.action_url)["actions"][0])
         # Slow yet guaranteed-correct implementation:
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 
@@ -173,9 +181,9 @@ class Account(JSObject):
     def fetch(self):
         return self.doapi_manager.fetch_account()
 
-    @staticmethod
-    def url(endpoint=''):
-        return urljoin(endpoint, '/v2/account')
+    @property
+    def url(self):
+        return self._url('/v2/account')
 
 
 class Kernel(JSObjectWithDroplet, JSObjectWithID):

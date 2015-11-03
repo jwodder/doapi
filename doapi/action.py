@@ -1,5 +1,4 @@
-from urlparse import urljoin
-from .base    import JSObjectWithID
+from .base import JSObjectWithID
 
 class Action(JSObjectWithID):
     @property
@@ -18,14 +17,15 @@ class Action(JSObjectWithID):
     def errored(self):
         return self.status == 'errored'
 
-    def url(self, endpoint=''):
+    @property
+    def url(self):
         ### TODO: Look into the conditions under which this has to include the
         ### resource type & ID too
-        return urljoin(endpoint, '/v2/actions/' + str(self.id))
+        return self._url('/v2/actions/' + str(self.id))
 
     def fetch(self):
         api = self.doapi_manager
-        return api.action(api.request(self.url())["action"])
+        return api.action(api.request(self.url)["action"])
 
     def fetch_resource(self):
         if self.resource_type == "droplet":

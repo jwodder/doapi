@@ -1,5 +1,4 @@
-from urlparse import urljoin
-from .base    import JSObjectWithID
+from .base import JSObjectWithID
 
 class SSHKey(JSObjectWithID):
     def __init__(self, state=None, **extra):
@@ -19,19 +18,19 @@ class SSHKey(JSObjectWithID):
         else:
             raise TypeError('SSHKey has neither .id nor .fingerprint')
 
-    def url(self, endpoint=''):
-        return urljoin(endpoint, '/v2/account/keys/'
-                                 + str(self.id_or_fingerprint))
+    @property
+    def url(self):
+        return self._url('/v2/account/keys/' + str(self.id_or_fingerprint))
 
     def fetch(self):
         api = self.doapi_manager
-        return api.sshkey(api.request(self.url())["ssh_key"])
+        return api.sshkey(api.request(self.url)["ssh_key"])
 
     def update_sshkey(self, name):
         # The `_sshkey` is to avoid conflicts with MutableMapping.update.
         api = self.doapi_manager
-        return api.sshkey(api.request(self.url(), method='PUT',
+        return api.sshkey(api.request(self.url, method='PUT',
                                       data={"name": name})["ssh_key"])
 
     def delete(self):
-        self.doapi_manager.request(self.url(), method='DELETE')
+        self.doapi_manager.request(self.url, method='DELETE')

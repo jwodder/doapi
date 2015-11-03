@@ -1,7 +1,6 @@
 import numbers
 import socket
 import struct
-from   urlparse import urljoin
 from   .base    import Actionable, Region
 from   .droplet import Droplet
 
@@ -19,18 +18,16 @@ class FloatingIP(Actionable):
     def __str__(self):
         return self.ip
 
-    def url(self, endpoint=''):
-        return urljoin(endpoint, '/v2/floating_ips/' + self.ip)
-
-    def action_url(self, endpoint=''):
-        return urljoin(endpoint, '/v2/floating_ips/' + self.ip + '/actions')
+    @property
+    def url(self):
+        return self._url('/v2/floating_ips/' + self.ip)
 
     def fetch(self):
         api = self.doapi_manager
-        return api.floating_ip(api.request(self.url())["floating_ip"])
+        return api.floating_ip(api.request(self.url)["floating_ip"])
 
     def delete(self):
-        self.doapi_manager.request(self.url(), method='DELETE')
+        self.doapi_manager.request(self.url, method='DELETE')
 
     def assign(self, droplet_id):
         if isinstance(droplet_id, Droplet):

@@ -1,4 +1,3 @@
-from urlparse  import urljoin
 from six.moves import map
 from .base     import Actionable, JSObjectWithID, Region, Size, Kernel, Networks
 from .image    import Image
@@ -46,11 +45,9 @@ class Droplet(Actionable, JSObjectWithID):
         except IndexError:
             return None
 
-    def url(self, endpoint=''):
-        return urljoin(endpoint, '/v2/droplets/' + str(self.id))
-
-    def action_url(self, endpoint=''):
-        return urljoin(endpoint, '/v2/droplets/' + str(self.id) + '/actions')
+    @property
+    def url(self):
+        return self._url('/v2/droplets/' + str(self.id))
 
     def disable_backups(self):
         return self.act(type='disable_backups')
@@ -110,30 +107,30 @@ class Droplet(Actionable, JSObjectWithID):
         return self.act(type='upgrade')
 
     def delete(self):
-        self.doapi_manager.request(self.url(), method='DELETE')
+        self.doapi_manager.request(self.url, method='DELETE')
 
     def fetch(self):
         api = self.doapi_manager
-        return api.droplet(api.request(self.url())["droplet"])
+        return api.droplet(api.request(self.url)["droplet"])
 
     def fetch_all_neighbors(self):
         api = self.doapi_manager
-        return map(api.droplet, api.paginate(self.url() + '/neighbors',
+        return map(api.droplet, api.paginate(self.url + '/neighbors',
                                              'droplets'))
 
     def fetch_all_snapshots(self):
         api = self.doapi_manager
-        for obj in api.paginate(self.url() + '/snapshots', 'snapshots'):
+        for obj in api.paginate(self.url + '/snapshots', 'snapshots'):
             yield Image(obj, doapi_manager=api, droplet=self)
 
     def fetch_all_backups(self):
         api = self.doapi_manager
-        for obj in api.paginate(self.url() + '/backups', 'backups'):
+        for obj in api.paginate(self.url + '/backups', 'backups'):
             yield Image(obj, doapi_manager=api, droplet=self)
 
     def fetch_all_kernels(self):
         api = self.doapi_manager
-        for kern in api.paginate(self.url() + '/kernels', 'kernels'):
+        for kern in api.paginate(self.url + '/kernels', 'kernels'):
             yield Kernel(kern, doapi_manager=api, droplet=self)
 
     def wait(self, status=None, wait_interval=None, wait_time=None):

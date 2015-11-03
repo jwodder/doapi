@@ -22,11 +22,6 @@
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
-- Rethink the utility/design sense of having `_meta_attrs` for anything other
-  than `doapi_manager`
-- Should `url()` and `action_url()` methods automatically use
-  `self.doapi_manager.endpoint` as an endpoint when `self.doapi_manager` is
-  defined?  Should they then be properties?
 
 ## Naming things
 
