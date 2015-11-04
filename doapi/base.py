@@ -157,7 +157,7 @@ class Actionable(JSObject):
 
     def fetch_current_action(self):
         a = self.fetch_last_action()
-        return a if a.in_progress else return None
+        return a if a.in_progress else None
 
 
 class DOEncoder(json.JSONEncoder):

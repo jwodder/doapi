@@ -14,7 +14,7 @@ def main(argv=None, parsed=None):
     cmd_delete = cmds.add_parser('delete')
     cmd_delete.add_argument('domain', nargs='+')
     args = parser.parse_args(argv, parsed)
-    client, cache = util.mkclient(args)
+    client, _ = util.mkclient(args)
     if args.cmd == 'show':
         if args.domain:
             util.dump(map(client.fetch_domain, args.domain))
