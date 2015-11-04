@@ -14,8 +14,8 @@ Subcommands common to all "actionables" (droplets, images, & floating IPs):
     doapi-TYPE actions [--last | --current] <object> ...
 
     doapi-TYPE act [-p/--params <params as JSON object>
-    		   |-P/--param-file <JSON file>]
-		   <wait options> <action type> <object>...
+                   |-P/--param-file <JSON file>]
+                   <wait options> <action type> <object>...
 
     doapi-TYPE wait <wait options> <object> ...
     # `doapi-droplet wait` also takes an optional `--status STATUS` argument.
@@ -27,88 +27,88 @@ API token sources, in order of precedence:
 
 <droplet> := ID or name
 <sshkey>  := ID, fingerprint, or name
-	     # When creating a droplet, it should be possible to specify files
-	     # as SSH keys, causing them to be automatically registered with DO
+             # When creating a droplet, it should be possible to specify files
+             # as SSH keys, causing them to be automatically registered with DO
 <image>   := ID, slug, or name (slugs take precedence)
 <action>  := ID
 <ip>      := IP address in x.x.x.x form or as an integer
 
 doapi-droplet
-	show [<droplet> ...]
-	new
-	    -I/--image <image>
-	    -S/--size <size>
-	    -R/--region <region>
-	    <wait options>
-	    [--user-data data]
-	    # ipv6, backups, etc.
-	    <name> ...
-	delete <droplet> ...
-	show-upgrades [--droplets]
-	    # --droplets: return the droplets that will be upgraded instead
-	show-snapshots <droplet> ...
-	backups <droplet> ...
-	kernels <droplet> ...
-	neighbors [<droplet> ...]
+        show [<droplet> ...]
+        new
+            -I/--image <image>
+            -S/--size <size>
+            -R/--region <region>
+            <wait options>
+            [--user-data data]
+            # ipv6, backups, etc.
+            <name> ...
+        delete <droplet> ...
+        show-upgrades [--droplets]
+            # --droplets: return the droplets that will be upgraded instead
+        show-snapshots <droplet> ...
+        backups <droplet> ...
+        kernels <droplet> ...
+        neighbors [<droplet> ...]
 
 doapi-request  # raw request
-	[-X <method>]
-	[-d/--data <string|@file>]  # as in curl
-	[-D/--dump-header <file>]   # as in curl
-	[--paginate <key>]
-	<URL>|<path>
+        [-X <method>]
+        [-d/--data <string|@file>]  # as in curl
+        [-D/--dump-header <file>]   # as in curl
+        [--paginate <key>]
+        <URL>|<path>
 
 doapi-sshkey
-	show [<sshkey> ...]
-	new <name> [<file>; default: stdin]
-	delete <sshkey> ...
-	update <sshkey> <new name>
+        show [<sshkey> ...]
+        new <name> [<file>; default: stdin]
+        delete <sshkey> ...
+        update <sshkey> <new name>
 
 doapi-image
-	show [--type TYPE|--distribution|--application|--private] ...
-	update <image> <new name>
-	delete <image> ...
-	transfer <image> <region>
-	convert <image> ...
+        show [--type TYPE|--distribution|--application|--private] ...
+        update <image> <new name>
+        delete <image> ...
+        transfer <image> <region>
+        convert <image> ...
 
 doapi-action
         show [<id> ...]
         show {--last | --current}
         wait <wait options> [<id> ...]
-	# Not specifying any arguments means "wait on all in-progress actions"
-	resource <action> ...  # fetch resource
+        # Not specifying any arguments means "wait on all in-progress actions"
+        resource <action> ...  # fetch resource
         resource {--last | --current}
 
 doapi-domain
-	show [<name> ...]
-	new <name> <ip address>
-	delete <name> ...
+        show [<name> ...]
+        new <name> <ip address>
+        delete <name> ...
 
-	### Rethink how the domain is specified:
-	record <DOMAIN>
-		show [<id> ...]
-		### Showing by type and/or name?
-		new [--priority <X>] [--port <X>] [--weight <X>]
-		    <type> <name> <data>
-		set [--priority <X>] [--port <X>] [--weight <X>]
-		    <type> <name> <data>
-		# `set` is like `new` but deletes any & all pre-existing
-		# records with the same type & name.
-		update [--type TYPE]
-		       [--name NAME]
-		       [--data DATA]
-		       [--priority PRIORITY]
-		       [--port PORT]
-		       [--weight WEIGHT]
-		       <id>
-		delete <id> ...
+        ### Rethink how the domain is specified:
+        record <DOMAIN>
+                show [<id> ...]
+                ### Showing by type and/or name?
+                new [--priority <X>] [--port <X>] [--weight <X>]
+                    <type> <name> <data>
+                set [--priority <X>] [--port <X>] [--weight <X>]
+                    <type> <name> <data>
+                # `set` is like `new` but deletes any & all pre-existing
+                # records with the same type & name.
+                update [--type TYPE]
+                       [--name NAME]
+                       [--data DATA]
+                       [--priority PRIORITY]
+                       [--port PORT]
+                       [--weight WEIGHT]
+                       <id>
+                delete <id> ...
 
 doapi-floating-ip
-	show [<ip> ...]
-	new {--droplet <droplet> | --region <region>}
-	assign <ip> <droplet>
-	unassign <ip> ...
-	delete <ip> ...
+        show [<ip> ...]
+        new {--droplet <droplet> | --region <region>}
+        assign <ip> <droplet>
+        unassign <ip> ...
+        delete <ip> ...
 
 doapi-region
 doapi-size
