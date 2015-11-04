@@ -85,11 +85,13 @@ doapi-domain
 	delete <name> ...
 
 	### Rethink how the domain is specified:
-	record --domain=DOMAIN
+	record <DOMAIN>
 		show [<id> ...]
-		### Showing by type and/or name
-		new <type> <name> <data> [<priority> [<port> [<weight>]]]
-		set <type> <name> <data> [<priority> [<port> [<weight>]]]
+		### Showing by type and/or name?
+		new [--priority <X>] [--port <X>] [--weight <X>]
+		    <type> <name> <data>
+		set [--priority <X>] [--port <X>] [--weight <X>]
+		    <type> <name> <data>
 		# `set` is like `new` but deletes any & all pre-existing
 		# records with the same type & name.
 		update [--type TYPE]

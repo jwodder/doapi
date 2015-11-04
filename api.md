@@ -18,6 +18,8 @@
   making such requests seems to always result in a 404.
 - The "locked" field of floating IP objects is not documented (though it does
   appear in the examples).
+- The `region` field of action objects is stated to be a nullable string, but
+  it is actually an object.
 
 # Unanswered questions about the API
 
@@ -66,6 +68,8 @@
 
     These actions all seem to turn the droplet on after completing; look into.
 
+- The `enable_ipv6` action does not require the droplet to be off, and it does
+  not turn the droplet off.
 - There appear to be no constraints on having two or more droplets, images, or
   SSH keys with the same name.
 - Snapshots are allowed to have the same name as an image slug.
@@ -81,6 +85,8 @@
   happen first.
 - All of a floating IP's actions can be fetched by requesting
   `/v2/floating_ips/$IP_ADDR/actions`; this is not documented.
+- Floating IPs assigned to a droplet do not show up in the droplet's `networks`
+  field.
 
 ## Observed error responses
 
@@ -112,15 +118,23 @@
 - Attempting to create an SSH key with an invalid pubkey produces a 422
   response with the body:
 
-    {
-        "id": "unprocessable_entity",
-        "message": "Key invalid type, we support 'ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', or 'ecdsa-sha2-nistp521'"
-    }
+        {
+            "id": "unprocessable_entity",
+            "message": "Key invalid type, we support 'ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', or 'ecdsa-sha2-nistp521'"
+        }
 
 - Attempting to register an SSH key that has already been registered produces a
   422 with:
 
-    {
-        "id": "unprocessable_entity",
-        "message": "SSH Key is already in use on your account"
-    }
+        {
+            "id": "unprocessable_entity",
+            "message": "SSH Key is already in use on your account"
+        }
+
+- Attempting to assign a floating IP to a droplet in another region produces a
+  422 with:
+
+        {
+            "id": "unprocessable_entity",
+            "message": "IPs can only be assigned to Droplets in the same region."
+        }

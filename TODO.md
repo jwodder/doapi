@@ -4,6 +4,10 @@
 - A lot of the code relies on the assumptions that an object cannot have more
   than one in-progress action running on it at a time and that, if there is an
   in-progress action, it the most recent and the first listed.  Confirm this.
+    - Creating a floating IP assigned to a droplet produces two actions (create
+      & assign) that (always?) have the same start time and can be listed with
+      the 'assign' (which completes later and has a greater ID) coming after
+      the 'create'.
 
 # Command-Line Interface
 
@@ -22,6 +26,9 @@
       fingerprint is already registered with DO
     - After creating a new SSH key, add it to the cache so that it'll be
       available for subsequent `-K` arguments
+- Give `doapi-floating-ip new` a `--wait` option that waits for all actions on
+  the IP to complete
+- Rename `--in-progress` to `--current`?
 
 # Library
 
