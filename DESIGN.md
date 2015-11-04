@@ -82,7 +82,8 @@
     - `doapi._wait()`
     - `Domain.record()`
 - Classes are given `__str__` methods if & only if the resulting strings are
-  usable in API requests (except `Network`, which gets a `__str__` method that
-  returns the IP address because that's probably all you want from it anyway).
+  usable in API requests (except `NetworkInterface`, which gets a `__str__`
+  method that returns the IP address because that's probably all you want from
+  it anyway).
 - The result of mixing different `doapi` objects and their resources is
   undefined.

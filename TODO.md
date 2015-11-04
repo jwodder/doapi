@@ -45,4 +45,3 @@
 ## Naming things
 
 - Rename the `doapi` class to `Manager`?
-- Should the `Network` class be renamed `Interface` or something like that?

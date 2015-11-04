@@ -207,12 +207,14 @@ class Networks(JSObjectWithDroplet):
             "droplet": self.droplet,
         }
         if self.get("v4"):
-            self.v4 = [Network(obj, ip_version=4, **meta) for obj in self.v4]
+            self.v4 = [NetworkInterface(obj, ip_version=4, **meta)
+                       for obj in self.v4]
         if self.get("v6"):
-            self.v6 = [Network(obj, ip_version=6, **meta) for obj in self.v6]
+            self.v6 = [NetworkInterface(obj, ip_version=6, **meta)
+                       for obj in self.v6]
 
 
-class Network(JSObjectWithDroplet):
+class NetworkInterface(JSObjectWithDroplet):
     _meta_attrs = JSObjectWithDroplet._meta_attrs + ('ip_version',)
 
     def __str__(self):

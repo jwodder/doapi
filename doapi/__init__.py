@@ -1,7 +1,8 @@
 __version__ = '0.1.0.dev1'
 
 from .base        import (DOEncoder, Region, Size, Account, Kernel,
-                          DropletUpgrade, Networks, Network, DOAPIError)
+                          DropletUpgrade, Networks, NetworkInterface,
+                          DOAPIError)
 from .action      import Action
 from .doapi       import doapi
 from .domain      import Domain, DomainRecord
