@@ -109,7 +109,8 @@ def main(argv=None, parsed=None):
                     ### TODO: Add the new key to the cache so it'll be
                     ### available for subsequent `-K` arguments
             sshkeys.append(key)
-
+        if sshkeys:
+            params["ssh_keys"] = sshkeys
         drops = [client.create_droplet(n, **params) for n in args.name]
         if args.wait:
             drops = client.wait_droplets(drops, status='active')
