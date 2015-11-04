@@ -87,6 +87,12 @@
   `/v2/floating_ips/$IP_ADDR/actions`; this is not documented.
 - Floating IPs assigned to a droplet do not show up in the droplet's `networks`
   field.
+- A floating IP cannot be assigned to a droplet that already has another
+  floating IP assigned to it.  Attempting to do this as part of floating IP
+  creation will cause the creation action to succeed but the assigment action
+  to fail.
+- Destroying a droplet with an assigned floating IP causes the IP to become
+  unassigned but still remain.
 
 ## Observed error responses
 
@@ -137,4 +143,12 @@
         {
             "id": "unprocessable_entity",
             "message": "IPs can only be assigned to Droplets in the same region."
+        }
+
+- Attempting to allocate a new floating IP when you've already reached the
+  maximum amount (3 for normal accounts) produces a 422 with:
+
+        {
+            "id": "unprocessable_entity",
+            "message": "Reserving this IP will exceed your Floating IP limit"
         }

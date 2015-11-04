@@ -8,7 +8,7 @@ def main(argv=None, parsed=None):
     cmds = parser.add_subparsers(title='command', dest='cmd')
     cmd_show = cmds.add_parser('show')
     cmd_show.add_argument('ip', nargs='*')
-    cmd_new = cmds.add_parser('new')
+    cmd_new = cmds.add_parser('new', parents=[util.waitopts])
     newopts = cmd_new.add_mutually_exclusive_group(required=True)
     newopts.add_argument('-D', '--droplet')
     newopts.add_argument('-R', '--region')
@@ -33,6 +33,9 @@ def main(argv=None, parsed=None):
             newip = client.create_floating_ip(droplet_id=drop)
         else:
             newip = client.create_floating_ip(region=args.region)
+        if args.wait:
+            list(client.wait_actions(newip.fetch_all_actions()))
+            newip = newip.fetch()
         util.dump(newip)
     elif args.cmd == 'assign':
         floip = client.fetch_floating_ip(maybeInt(args.ip))

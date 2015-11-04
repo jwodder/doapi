@@ -26,8 +26,6 @@
       fingerprint is already registered with DO
     - After creating a new SSH key, add it to the cache so that it'll be
       available for subsequent `-K` arguments
-- Give `doapi-floating-ip new` a `--wait` option that waits for all actions on
-  the IP to complete
 
 # Library
 
