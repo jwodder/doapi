@@ -11,7 +11,7 @@ Options common to all actions (including creating droplets):
 
 Subcommands common to all "actionables" (droplets, images, & floating IPs):
 
-    doapi-TYPE actions [--last | --in-progress] <object> ...
+    doapi-TYPE actions [--last | --current] <object> ...
 
     doapi-TYPE act [-p/--params <params as JSON object>
     		   |-P/--param-file <JSON file>]
@@ -73,11 +73,11 @@ doapi-image
 
 doapi-action
         show [<id> ...]
-        show {--last | --in-progress}
+        show {--last | --current}
         wait <wait options> [<id> ...]
 	# Not specifying any arguments means "wait on all in-progress actions"
 	resource <action> ...  # fetch resource
-        resource {--last | --in-progress}
+        resource {--last | --current}
 
 doapi-domain
 	show [<name> ...]

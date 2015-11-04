@@ -199,7 +199,7 @@ def add_actioncmds(cmds, objtype):
     cmd_actions = cmds.add_parser('actions')
     latestopts = cmd_actions.add_mutually_exclusive_group()
     latestopts.add_argument('--last', action='store_true')
-    latestopts.add_argument('--in-progress', action='store_true')
+    latestopts.add_argument('--current', action='store_true')
     cmd_actions.add_argument(objtype, nargs='+')
     cmd_wait = cmds.add_parser('wait', parents=[waitbase])
     if objtype == 'droplet':
@@ -225,8 +225,8 @@ def do_actioncmd(args, client, objects):
             actions = client.wait_actions(actions)
         dump(actions)
     elif args.cmd == 'actions':
-        if args.last or args.in_progress:
-            if args.in_progress:
+        if args.last or args.current:
+            if args.current:
                 actions = list(currentActions(objects))
             else:
                 actions = [obj.fetch_last_action() for obj in objects]

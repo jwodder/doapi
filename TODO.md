@@ -28,7 +28,6 @@
       available for subsequent `-K` arguments
 - Give `doapi-floating-ip new` a `--wait` option that waits for all actions on
   the IP to complete
-- Rename `--in-progress` to `--current`?
 
 # Library
 
