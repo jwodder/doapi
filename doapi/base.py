@@ -155,6 +155,10 @@ class Actionable(JSObject):
         # Slow yet guaranteed-correct implementation:
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 
+    def fetch_current_action(self):
+        a = self.fetch_last_action()
+        return a if a.in_progress else return None
+
 
 class DOEncoder(json.JSONEncoder):
     def default(self, obj):

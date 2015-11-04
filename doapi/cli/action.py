@@ -72,16 +72,13 @@ def main(argv=None, parsed=None):
         raise RuntimeError('No path defined for command %r' % (args.cmd,))
 
 def all_in_progress(client):
-    for obj in chain(client.fetch_all_droplets(),
-                     ### TODO: This assumes that only private images can be
-                     ### acted on.  Confirm this.
-                     client.fetch_all_private_images(),
-                     client.fetch_all_floating_ips()):
-        ### TODO: If an object is in the process of being deleted,
-        ### `fetch_last_action` may error out.  Handle this.
-        a = obj.fetch_last_action()
-        if a.in_progress:
-            yield a
+    return util.currentActions(chain(client.fetch_all_droplets(),
+                                     ### TODO: This assumes that only private
+                                     ### images can be acted on.  Confirm this.
+                                     client.fetch_all_private_images(),
+                                     client.fetch_all_floating_ips()))
+    ### TODO: If an object is in the process of being deleted,
+    ### `fetch_current_action` may error out.  Handle this.
 
 if __name__ == '__main__':
     main()

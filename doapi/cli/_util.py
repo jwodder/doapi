@@ -183,6 +183,12 @@ def byname(iterable):
         bins[obj.name].append(obj)
     return bins
 
+def currentActions(objs):
+    for o in objs:
+        act = o.fetch_current_action()
+        if act:
+            yield act
+
 def add_actioncmds(cmds, objtype):
     cmd_act = cmds.add_parser('act', parents=[waitbase])
     paramopts = cmd_act.add_mutually_exclusive_group()
@@ -220,9 +226,10 @@ def do_actioncmd(args, client, objects):
         dump(actions)
     elif args.cmd == 'actions':
         if args.last or args.in_progress:
-            actions = [obj.fetch_last_action() for obj in objects]
             if args.in_progress:
-                actions = [a for a in actions if a.in_progress]
+                actions = list(currentActions(objects))
+            else:
+                actions = [obj.fetch_last_action() for obj in objects]
             dump(actions)
         else:
             dump(obj.fetch_all_actions() for obj in objects)
@@ -230,7 +237,7 @@ def do_actioncmd(args, client, objects):
         if getattr(args, "status", None) is not None:
             dump(client.wait_droplets(objects, status=args.status))
         else:
-            actions = [obj.fetch_last_action() for obj in objects]
+            actions = list(currentActions(objects))
             dump(client.wait_actions(actions))
     else:
         raise RuntimeError('Programmer error: do_actioncmd called with invalid'
