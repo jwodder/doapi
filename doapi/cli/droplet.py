@@ -1,6 +1,8 @@
 import argparse
+from   base64    import b64decode
 from   errno     import ENOENT
-from   six.moves import map
+from   hashlib   import md5
+from   six.moves import map, range
 from   .         import _util as util
 from   ..base    import DropletUpgrade
 from   ..droplet import Droplet
@@ -103,11 +105,21 @@ def main(argv=None, parsed=None):
                     else:
                         raise
                 else:
-                    ### TODO: First see if a key with the same fingerprint
-                    ### already exists and, if so, use that
-                    key = client.create_sshkey(kname, pubkey)
-                    ### TODO: Add the new key to the cache so it'll be
-                    ### available for subsequent `-K` arguments
+                    # First see if a key with the same fingerprint already
+                    # exists and, if so, use that.
+                    try:
+                        # <http://stackoverflow.com/a/6682934/744178>
+                        fprint = md5(b64decode(pubkey.split()[1])).hexdigest()
+                        fprint = ':'.join(fprint[i:i+2]
+                                          for i in range(0, len(fprint), 2))
+                    except (IndexError, TypeError):
+                        util.die('%s: no such SSH key' % (kname,))
+                    try:
+                        key = cache.caches["sshkey"]["fingerprint"][fprint]
+                    except KeyError:
+                        key = client.create_sshkey(kname, pubkey)
+                        ### TODO: Add the new key to the cache so it'll be
+                        ### available for subsequent `-K` arguments
             sshkeys.append(key)
         if sshkeys:
             params["ssh_keys"] = sshkeys

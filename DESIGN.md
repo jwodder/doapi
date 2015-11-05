@@ -45,8 +45,10 @@
   a given name) instead of a list of objects?
     - This would lead to problems when trying to operate with a wait.
 
-- When fetching or operating with the `F` policy, should nonexistent names be
-  ignored without an error (and represented by `[]` in list-of-list output)?
+- When fetching with the `F` policy, should nonexistent names be ignored
+  without an error (and represented by `[]` in list-of-list output)?
+    - Only do this when a flag (`--ignore`?  `--null-no-names`?) is supplied?
+    - Don't do this when operating.
 
 - Options for manipulating the duplicate name policy:
     - `--unique` — sets the policy to `EEE`
@@ -61,6 +63,9 @@
 
 - **What should the default policy be?**
     - The default creation policy should not be `F`.
+    - default fetch: ???
+    - default operate: `E`?
+    - default creation: `N`?
 
 - Operations that take mandatory extra arguments (e.g., renaming &
   snapshotting) and thus only allow you to specify one object on the command

@@ -21,8 +21,6 @@
 - Confirm the assumption that private images are the only kind of images that
   can be acted on
 - `doapi-droplet new`:
-    - When creating an SSH key from a file, first check whether the key's
-      fingerprint is already registered with DO
     - After creating a new SSH key, add it to the cache so that it'll be
       available for subsequent `-K` arguments
 - Handle fetching actions of objects that are being deleted

@@ -103,6 +103,11 @@ doapi-domain
                        <id>
                 delete <id> ...
 
+	### Alternative:
+	show-record <DOMAIN> [<id> ...]
+	new-record  <DOMAIN> <args>
+	# etc.
+
 doapi-floating-ip
         show [<ip> ...]
         new {--droplet <droplet> | --region <region>}
