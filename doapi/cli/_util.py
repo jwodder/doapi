@@ -98,6 +98,16 @@ class Cache(object):
         else:
             return [self.get_sshkey(l, False) for l in labels]
 
+    def add_sshkey(self, key):
+        cache = self.caches["sshkey"]
+        for attr in self.groupby["sshkey"]:
+            value = getattr(key, attr, None)
+            if value is not None:
+                if attr == "name":
+                    cache[attr][value].append(key)
+                else:
+                    cache[attr][value] = key
+
     def cache_droplets(self):
         self.cache(self.client.fetch_all_droplets(), "droplet")
 

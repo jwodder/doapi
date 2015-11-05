@@ -20,9 +20,6 @@
 - Add metavars and other --help data
 - Confirm the assumption that private images are the only kind of images that
   can be acted on
-- `doapi-droplet new`:
-    - After creating a new SSH key, add it to the cache so that it'll be
-      available for subsequent `-K` arguments
 - Handle fetching actions of objects that are being deleted
 
 # Library

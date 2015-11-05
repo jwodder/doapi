@@ -118,8 +118,9 @@ def main(argv=None, parsed=None):
                         key = cache.caches["sshkey"]["fingerprint"][fprint]
                     except KeyError:
                         key = client.create_sshkey(kname, pubkey)
-                        ### TODO: Add the new key to the cache so it'll be
-                        ### available for subsequent `-K` arguments
+                        cache.add_sshkey(key)
+                        ### Print a message to stderr telling the user about
+                        ### the new key?
             sshkeys.append(key)
         if sshkeys:
             params["ssh_keys"] = sshkeys
