@@ -5,7 +5,7 @@ def main():
     parser = argparse.ArgumentParser(parents=[util.universal], prog='doapi')
     parser.add_argument('command', choices="account action domain droplet"
                                            " floating-ip image region request"
-                                           " size sshkey".split())
+                                           " size ssh-key".split())
     parser.add_argument('arguments', nargs=argparse.REMAINDER)
     args = parser.parse_args()
     ### TODO: Figure out a shorter way to write this:
@@ -27,8 +27,8 @@ def main():
         from .request import main as main2
     elif args.command == 'size':
         from .size import main as main2
-    elif args.command == 'sshkey':
-        from .sshkey import main as main2
+    elif args.command == 'ssh-key':
+        from .ssh_key import main as main2
     else:
         raise RuntimeError('No path defined for command %r' % (args.command,))
     main2(args.arguments, args)

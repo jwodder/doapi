@@ -40,7 +40,7 @@
   fingerprint (for SSH keys), or slug (for images) unless some option
   (`--force`?) is given
 
-- `doapi-sshkey`:
+- `doapi-ssh-key`:
     - Add an option for only creating if there isn't already a key with the
       same fingerprint (and another for returning the pre-existing key in that
       case?)
@@ -88,7 +88,7 @@
 - Let the user specify an unknown status to `doapi-droplet wait` if the
   `--force`(?) option is used
 
-- `doapi-<sshkey/image>`: Allow `rename` as a synonym of `update`?
+- `doapi-<ssh-key/image>`: Allow `rename` as a synonym of `update`?
 - `doapi-droplet`: Allow `update` as a synonym of `rename`?
 
 - Give `doapi-region` and `doapi-size` "`show`" commands for fetching only

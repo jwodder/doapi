@@ -24,13 +24,13 @@ class SSHKey(JSObjectWithID):
 
     def fetch(self):
         api = self.doapi_manager
-        return api.sshkey(api.request(self.url)["ssh_key"])
+        return api.ssh_key(api.request(self.url)["ssh_key"])
 
-    def update_sshkey(self, name):
-        # The `_sshkey` is to avoid conflicts with MutableMapping.update.
+    def update_ssh_key(self, name):
+        # The `_ssh_key` is to avoid conflicts with MutableMapping.update.
         api = self.doapi_manager
-        return api.sshkey(api.request(self.url, method='PUT',
-                                      data={"name": name})["ssh_key"])
+        return api.ssh_key(api.request(self.url, method='PUT',
+                                       data={"name": name})["ssh_key"])
 
     def delete(self):
         self.doapi_manager.request(self.url, method='DELETE')

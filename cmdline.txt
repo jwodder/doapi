@@ -58,7 +58,7 @@ doapi-request  # raw request
         [--paginate <key>]
         <URL>|<path>
 
-doapi-sshkey
+doapi-ssh-key
         show [<sshkey> ...]
         new <name> [<file>; default: stdin]
         delete <sshkey> ...

@@ -39,7 +39,7 @@ setup(
             'doapi-region = doapi.cli.region',
             'doapi-request = doapi.cli.request',
             'doapi-size = doapi.cli.size',
-            'doapi-sshkey = doapi.cli.sshkey',
+            'doapi-ssh-key = doapi.cli.ssh_key',
         ]
     },
 )

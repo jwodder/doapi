@@ -9,7 +9,7 @@ from   .droplet     import Droplet
 from   .floating_ip import FloatingIP
 from   .image       import Image
 from   .action      import Action
-from   .sshkey      import SSHKey
+from   .ssh_key     import SSHKey
 
 class doapi(object):
     DEFAULT_ENDPOINT = 'https://api.digitalocean.com'
@@ -150,17 +150,17 @@ class doapi(object):
         return self._wait(map(self.action, actions), lambda a: a.done,
                           wait_interval, wait_time)
 
-    def sshkey(self, obj=None, **keyargs):
+    def ssh_key(self, obj=None, **keyargs):
         return SSHKey(obj, doapi_manager=self, **keyargs)
 
-    def fetch_sshkey(self, obj=None, **keyargs):
-        return self.sshkey(obj, **keyargs).fetch()
+    def fetch_ssh_key(self, obj=None, **keyargs):
+        return self.ssh_key(obj, **keyargs).fetch()
 
-    def fetch_all_sshkeys(self):
-        return map(self.sshkey, self.paginate('/v2/account/keys', 'ssh_keys'))
+    def fetch_all_ssh_keys(self):
+        return map(self.ssh_key, self.paginate('/v2/account/keys', 'ssh_keys'))
 
-    def create_sshkey(self, name, public_key):
-        return self.sshkey(self.request('/v2/account/keys', method='POST', data={"name": name, "public_key": public_key})["ssh_key"])
+    def create_ssh_key(self, name, public_key):
+        return self.ssh_key(self.request('/v2/account/keys', method='POST', data={"name": name, "public_key": public_key})["ssh_key"])
 
     def image(self, obj):
         return Image(obj, doapi_manager=self)

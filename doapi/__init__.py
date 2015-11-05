@@ -9,4 +9,4 @@ from .domain      import Domain, DomainRecord
 from .droplet     import Droplet
 from .floating_ip import FloatingIP
 from .image       import Image
-from .sshkey      import SSHKey
+from .ssh_key     import SSHKey

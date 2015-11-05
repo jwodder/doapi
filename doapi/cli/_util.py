@@ -86,7 +86,7 @@ class Cache(object):
             return [] if multiple else None
 
     def cache_sshkeys(self):
-        self.cache(self.client.fetch_all_sshkeys(), "sshkey")
+        self.cache(self.client.fetch_all_ssh_keys(), "sshkey")
 
     def get_sshkey(self, label, multiple=True, mandatory=True):
         self.cache_sshkeys()

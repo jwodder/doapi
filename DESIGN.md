@@ -77,7 +77,7 @@
     - `JSObjectWithDroplet`
     - `JSObjectWithID`
     - `Actionable`
-    - the `droplet`, `action`, `sshkey`, `image`, `region`, `size`, `domain`,
+    - the `droplet`, `action`, `ssh_key`, `image`, `region`, `size`, `domain`,
       and `floating_ip` methods of `doapi`
     - `doapi._wait()`
     - `Domain.record()`
