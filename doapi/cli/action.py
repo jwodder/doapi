@@ -50,7 +50,6 @@ def main(argv=None, parsed=None):
         util.dump(client.wait_actions(acts))
 
     elif args.cmd == 'resource':
-        ### TODO: Dump `null` when the resource no longer exists?
         if args.last:
             if args.action:
                 util.die('--last and action arguments are mutually exclusive')

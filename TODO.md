@@ -18,7 +18,6 @@
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
 - Add metavars and other --help data
-- Handle fetching an action's resource when the resource no longer exists
 - Confirm the assumption that private images are the only kind of images that
   can be acted on
 - `doapi-droplet new`:
@@ -26,6 +25,7 @@
       fingerprint is already registered with DO
     - After creating a new SSH key, add it to the cache so that it'll be
       available for subsequent `-K` arguments
+- Handle fetching actions of objects that are being deleted
 
 # Library
 

@@ -28,14 +28,21 @@ class Action(JSObjectWithID):
         return api.action(api.request(self.url)["action"])
 
     def fetch_resource(self):
-        if self.resource_type == "droplet":
-            return self.doapi_manager.fetch_droplet(self.resource_id)
-        elif self.resource_type == "image":
-            return self.doapi_manager.fetch_image(self.resource_id)
-        elif self.resource_type == "floating_ip":
-            return self.doapi_manager.fetch_floating_ip(self.resource_id)
-        else:
-            raise ValueError('Unknown resource_type: ' + repr(self.resource_type))
+        try:
+           if self.resource_type == "droplet":
+               return self.doapi_manager.fetch_droplet(self.resource_id)
+           elif self.resource_type == "image":
+               return self.doapi_manager.fetch_image(self.resource_id)
+           elif self.resource_type == "floating_ip":
+               return self.doapi_manager.fetch_floating_ip(self.resource_id)
+           else:
+               raise ValueError('%r: unknown resource_type'
+                                % (self.resource_type,))
+        except DOAPIError as e:
+            if e.response.status_code == 404:
+                return None
+            else:
+                raise
 
     def wait(self, wait_interval=None, wait_time=None):
         return next(self.doapi_manager.wait_actions([self], wait_interval,
