@@ -16,6 +16,7 @@ setup(
     version=version,
     packages=['doapi', 'doapi.cli'],
     install_requires=['requests', 'six'],
+    license='MIT',
 
     ### <https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/>
 
@@ -24,6 +25,7 @@ setup(
         # The use of argparse precludes support for Python 2 versions before
         # 2.7 and Python 3 versions before 3.2.
         'Programming Language :: Python :: 2.7',
+        'License :: OSI Approved :: MIT License',
     ],
 
     entry_points={

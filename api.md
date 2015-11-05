@@ -49,6 +49,9 @@
 - How are `next_backup_window` objects structured?
 - When fetching images, will specifying both a type and `private=true` ever
   return a nonempty list?
+- It appears that listing a floating IP's actions can also return actions from
+  when you previously owned the same IP, even if the address has been destroyed
+  & recreated in the interim.  Look into this.
 
 # Other notes
 

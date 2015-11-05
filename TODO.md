@@ -26,6 +26,7 @@
       fingerprint is already registered with DO
     - After creating a new SSH key, add it to the cache so that it'll be
       available for subsequent `-K` arguments
+- Rename `doapi-sshkey` to `doapi-ssh-key`?
 
 # Library
 
