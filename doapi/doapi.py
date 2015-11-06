@@ -2,6 +2,7 @@ import json
 from   time         import sleep, time
 from   urlparse     import urljoin
 import requests
+from   six          import iteritems
 from   six.moves    import map
 from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError
 from   .domain      import Domain
@@ -66,7 +67,7 @@ class doapi(object):
         if self.last_response is None:
             return None
         else:
-            return {k:v for k,v in self.last_response.headers.iteritems()
+            return {k:v for k,v in iteritems(self.last_response.headers)
                         if k.startswith('ratelimit')}
 
     def paginate(self, path, key, params=None):

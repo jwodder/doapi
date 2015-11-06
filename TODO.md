@@ -1,6 +1,6 @@
 - Document everything!
-- Bring the code in line with PEP 8?
 - Add tests
+- Bring the code in line with PEP 8?
 - A lot of the code relies on the assumptions that an object cannot have more
   than one in-progress action running on it at a time and that, if there is an
   in-progress action, it the most recent and the first listed.  Confirm this.
@@ -13,7 +13,6 @@
 
 - Decide on a name uniqueness policy
 - Implement `doapi-domain`
-- Add error handling
 - Use docopt instead of argparse?
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
@@ -34,7 +33,3 @@
 - Look into whether fetching an action via `/v2/actions/$ACTION_ID` is always
   equivalent to fetching via
   `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`
-
-## Naming things
-
-- Rename the `doapi` class to `Manager`?
