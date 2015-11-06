@@ -17,6 +17,12 @@ setup(
     packages=['doapi', 'doapi.cli'],
     install_requires=['requests', 'six'],
     license='MIT',
+    author='John Thorvald Wodder II',
+    author_email='jwodder@sdf.lonestar.org',
+
+    #description
+    #keywords
+    #url (GitHub repo)
 
     ### <https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/>
 
@@ -30,16 +36,16 @@ setup(
 
     entry_points={
         "console_scripts": [
-            'doapi = doapi.cli',
-            'doapi-account = doapi.cli.account',
-            'doapi-action = doapi.cli.action',
-            'doapi-domain = doapi.cli.domain',
-            'doapi-droplet = doapi.cli.droplet',
-            'doapi-image = doapi.cli.image',
-            'doapi-region = doapi.cli.region',
-            'doapi-request = doapi.cli.request',
-            'doapi-size = doapi.cli.size',
-            'doapi-ssh-key = doapi.cli.ssh_key',
+            'doapi = doapi.cli:main',
+            'doapi-account = doapi.cli.account:main',
+            'doapi-action = doapi.cli.action:main',
+            'doapi-domain = doapi.cli.domain:main',
+            'doapi-droplet = doapi.cli.droplet:main',
+            'doapi-image = doapi.cli.image:main',
+            'doapi-region = doapi.cli.region:main',
+            'doapi-request = doapi.cli.request:main',
+            'doapi-size = doapi.cli.size:main',
+            'doapi-ssh-key = doapi.cli.ssh_key:main',
         ]
     },
 )

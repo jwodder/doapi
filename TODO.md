@@ -8,6 +8,8 @@
       & assign) that (always?) have the same start time and can be listed with
       the 'assign' (which completes later and has a greater ID) coming after
       the 'create'.
+- Figure out the minimum requests & six versions required and add them to
+  setup.py
 
 # Command-Line Interface
 
