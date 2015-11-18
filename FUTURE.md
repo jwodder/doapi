@@ -97,6 +97,9 @@
 - Give the `show` commands an `--ignore` option for skipping objects that don't
   exist?
 
+- Give the `delete` commands an `--ignore` option for skipping objects that
+  don't exist
+
 - Give all commands that either have `--wait` (except 'new') or are 'wait' an
   option for dumping the manipulated objects instead of the completed actions
     - Because fetching objects while an action is still in progress on them
@@ -137,3 +140,5 @@
       or Network's `ip_version`
     - Do not show `droplet` when recursing inside a droplet
         - Only show `droplet` as an int?
+- Give `fetch_<specific object>` methods an argument to make them return `None`
+  when the object doesn't exist/returns a 404 instead of erroring?

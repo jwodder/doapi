@@ -28,7 +28,25 @@ class doapi(object):
         self.last_response = None
         self.last_meta = None
 
-    def request(self, url, params={}, data={}, method='GET'):
+    def request(self, url, params={}, data=None, method='GET'):
+        """
+        Performs an HTTP request and returns the response as a decoded JSON
+        value
+
+        :param str url: the URL to make the request of.  If ``url`` begins with
+            a forward slash, the API endpoint URL is prepended to it;
+            otherwise, ``url`` is treated as an absolute URL.
+        :param dict params: parameters to add to the URL's query string
+        :param dict data: a value to serialize as JSON and send in the body of
+            the request; only used by the POST and PUT methods
+        :param str method: the HTTP method to use: ``"GET"``, ``"POST"``,
+            ``"PUT"``, or ``"DELETE"`` (case-insensitive); default: ``"GET"``
+        :return: a decoded JSON value, or ``None`` if ``method`` was
+            ``"DELETE"``
+        :rtype: ``list`` or ``dict`` (depending on the request) or ``None``
+        :raises ValueError: if ``method`` is an invalid value
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         if url[:1] == "/":
             url = urljoin(self.endpoint, url)
         attrs = {
@@ -86,15 +104,47 @@ class doapi(object):
             page = self.request(url)
 
     def droplet(self, obj):
+        """
+        Constructs a ``Droplet`` object belonging to the ``doapi`` object.
+        ``obj`` may be a droplet ID, a dictionary of droplet fields, or another
+        ``Droplet`` object (which will be shallow-copied).  The resulting
+        ``Droplet`` will only contain the information in ``obj``; no data will
+        be fetched from the API endpoint, and no commands to create a droplet
+        will be sent to the API endpoint.
+
+        :type obj: integer, ``dict``, or ``Droplet``
+        :rtype: Droplet
+        """
         return Droplet(obj, doapi_manager=self)
 
     def fetch_droplet(self, obj):
+        """
+        Fetches a droplet by ID number
+
+        :param obj: the ID of the droplet, a ``dict`` with an ``"id"`` field,
+            or a ``Droplet`` object (to re-fetch the same droplet)
+        :type obj: integer, ``dict``, or ``Droplet``
+        :rtype: Droplet
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.droplet(obj).fetch()
 
     def fetch_all_droplets(self):
+        """
+        Returns a generator that yields all of the droplets belonging to the
+        account in the order that the API endpoint returns them
+
+        :rtype: generator of ``Droplet``s
+        """
         return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
     def fetch_all_droplet_upgrades(self):
+        """
+        Returns a generator that yields ``DropletUpgrade`` objects describing
+        droplets that are scheduled to be upgraded
+
+        :rtype: generator of ``DropletUpgrade``s
+        """
         for obj in self.request('/v2/droplet_upgrades'):
             yield DropletUpgrade(obj, doapi_manager=self)
 
@@ -133,9 +183,28 @@ class doapi(object):
                 yield d
 
     def action(self, obj):
+        """
+        Constructs an ``Action`` object belonging to the ``doapi`` object.
+        ``obj`` may be an action ID, a dictionary of action fields, or another
+        ``Action`` object (which will be shallow-copied).  The resulting
+        ``Action`` will only contain the information in ``obj``; no data will
+        be sent to or from the API endpoint.
+
+        :type obj: integer, ``dict``, or ``Action``
+        :rtype: Action
+        """
         return Action(obj, doapi_manager=self)
 
     def fetch_action(self, obj):
+        """
+        Fetches an action by ID number
+
+        :param obj: the ID of the action, a ``dict`` with an ``"id"`` field,
+            or an ``Action`` object (to re-fetch the same action)
+        :type obj: integer, ``dict``, or ``Action``
+        :rtype: Action
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.action(obj).fetch()
 
     def fetch_last_action(self):
@@ -145,6 +214,12 @@ class doapi(object):
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 
     def fetch_all_actions(self):
+        """
+        Returns a generator that yields all of the actions associated with the
+        account in the order that the API endpoint returns them
+
+        :rtype: generator of ``Action``s
+        """
         return map(self.action, self.paginate('/v2/actions', 'actions'))
 
     def wait_actions(self, actions, wait_interval=None, wait_time=None):
@@ -158,21 +233,68 @@ class doapi(object):
         return self.ssh_key(obj, **keyargs).fetch()
 
     def fetch_all_ssh_keys(self):
+        """
+        Returns a generator that yields all of the public SSH keys belonging to
+        the account in the order that the API endpoint returns them
+
+        :rtype: generator of ``SSHKey``s
+        """
         return map(self.ssh_key, self.paginate('/v2/account/keys', 'ssh_keys'))
 
     def create_ssh_key(self, name, public_key):
-        return self.ssh_key(self.request('/v2/account/keys', method='POST', data={"name": name, "public_key": public_key})["ssh_key"])
+        return self.ssh_key(self.request('/v2/account/keys', method='POST',
+                                         data={
+                                             "name": name,
+                                             "public_key": public_key
+                                         })["ssh_key"])
 
     def image(self, obj):
+        """
+        Constructs an ``Image`` object belonging to the ``doapi`` object.
+        ``obj`` may be an image ID, a dictionary of image fields, or another
+        ``Image`` object (which will be shallow-copied).  The resulting
+        ``Image`` will only contain the information in ``obj``; no data will be
+        sent to or from the API endpoint.
+
+        :type obj: integer, ``dict``, or ``Image``
+        :rtype: Image
+        """
         return Image(obj, doapi_manager=self)
 
     def fetch_image(self, obj):
+        """
+        Fetches an image by ID number
+
+        :param obj: the ID of the image, a ``dict`` with an ``"id"`` field,
+            or an ``Image`` object (to re-fetch the same image)
+        :type obj: integer, ``dict``, or ``Image``
+        :rtype: Image
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.image(obj).fetch()
 
     def fetch_image_by_slug(self, slug):
+        """
+        Fetches an image by its slug
+
+        :param str slug: the slug of the image to fetch
+        :rtype: Image
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.image(self.request('/v2/images/' + slug)["image"])
 
     def fetch_all_images(self, type=None, private=False):
+        """
+        Returns a generator that yields all of the images available to the
+        account in the order that the API endpoint returns them
+
+        :param type: the type of images to fetch: ``"distribution"``,
+            ``"application"``, or all (``None``); default: ``None``
+        :type type: string or None
+        :param bool private: whether to only return the user's private images;
+            default: ``False`` (i.e., return all images)
+        :rtype: generator of ``Image``s
+        """
         params = {}
         if type is not None:
             params["type"] = type
@@ -182,37 +304,118 @@ class doapi(object):
                                              params=params))
 
     def fetch_all_distribution_images(self):
+        """
+        Returns a generator that yields all of the distribution images
+        available to the account in the order that the API endpoint returns
+        them
+
+        :rtype: generator of ``Image``s
+        """
         return self.fetch_all_images(type='distribution')
 
     def fetch_all_application_images(self):
+        """
+        Returns a generator that yields all of the application images available
+        to the account in the order that the API endpoint returns them
+
+        :rtype: generator of ``Image``s
+        """
         return self.fetch_all_images(type='application')
 
     def fetch_all_private_images(self):
+        """
+        Returns a generator that yields all of the user's private images in the
+        order that the API endpoint returns them
+
+        :rtype: generator of ``Image``s
+        """
         return self.fetch_all_images(private=True)
 
     def region(self, obj):
+        """
+        Constructs a ``Region`` object belonging to the ``doapi`` object.
+        ``obj`` may be a dictionary of region fields or another ``Region``
+        object (which will be shallow-copied).  The resulting ``Region`` will
+        only contain the information in ``obj``; no data will be sent to or
+        from the API endpoint.
+
+        :type obj: ``dict`` or ``Region``
+        :rtype: Region
+        """
         return Region(obj, doapi_manager=self)
 
     def fetch_all_regions(self):
+        """
+        Returns a generator that yields all of the regions available to the
+        account in the order that the API endpoint returns them
+
+        :rtype: generator of ``Region``s
+        """
         return map(self.region, self.paginate('/v2/regions', 'regions'))
 
     def size(self, obj):
+        """
+        Constructs a ``Size`` object belonging to the ``doapi`` object.
+        ``obj`` may be a dictionary of size fields or another ``Size`` object
+        (which will be shallow-copied).  The resulting ``Size`` will only
+        contain the information in ``obj``; no data will be sent to or from the
+        API endpoint.
+
+        :type obj: ``dict`` or ``Size``
+        :rtype: Size
+        """
         return Size(obj, doapi_manager=self)
 
     def fetch_all_sizes(self):
+        """
+        Returns a generator that yields all of the sizes available to the
+        account in the order that the API endpoint returns them
+
+        :rtype: generator of ``Size``s
+        """
         return map(self.size, self.paginate('/v2/sizes', 'sizes'))
 
     def fetch_account(self):
+        """
+        Returns an ``Account`` object representing the user's account
+
+        :rtype: Account
+        """
         return Account(self.request('/v2/account')["account"],
                        doapi_manager=self)
 
     def domain(self, obj):
+        """
+        Constructs a ``Domain`` object belonging to the ``doapi`` object.
+        ``obj`` may be a domain name, a dictionary of domain fields, or another
+        ``Domain`` object (which will be shallow-copied).  The resulting
+        ``Domain`` will only contain the information in ``obj``; no data will
+        be sent to or from the API endpoint.
+
+        :type obj: string, ``dict``, or ``Domain``
+        :rtype: Domain
+        """
         return Domain(obj, doapi_manager=self)
 
     def fetch_domain(self, obj):
+        """
+        Fetches a domain by FQDN
+
+        :param obj: the domain name, a ``dict`` with a ``"name"`` field, or a
+            ``Domain`` object (to re-fetch the same domain)
+        :type obj: string, ``dict``, or ``Domain``
+        :rtype: Domain
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.domain(obj).fetch()
 
     def fetch_all_domains(self):
+        """
+        Returns a generator that yields all of the domains belonging to the
+        account in the order that the API endpoint returns them
+
+        :rtype: generator of ``Domain``s
+        """
         return map(self.domain, self.paginate('/v2/domains', 'domains'))
 
     def create_domain(self, name, ip_address):
@@ -222,16 +425,59 @@ class doapi(object):
         })["domain"])
 
     def floating_ip(self, obj):
+        """
+        Constructs a ``FloatingIP`` object belonging to the ``doapi`` object.
+        ``obj`` may be an IP address (as a string or 32-bit integer), a
+        dictionary of floating IP fields, or another ``FloatingIP`` object
+        (which will be shallow-copied).  The resulting ``FloatingIP`` will only
+        contain the information in ``obj``; no data will be sent to or from the
+        API endpoint.
+
+        :type obj: string, integer, ``dict``, or ``FloatingIP``
+        :rtype: FloatingIP
+        """
         return FloatingIP(obj, doapi_manager=self)
 
     def fetch_floating_ip(self, obj):
+        """
+        Fetches a floating IP
+
+        :param obj: an IP address (as a string or 32-bit integer), a ``dict``
+            with an ``"ip"`` field, or a ``FloatingIP`` object (to re-fetch the
+            same floating IP)
+        :type obj: string, integer, ``dict``, or ``FloatingIP``
+        :rtype: FloatingIP
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.floating_ip(obj).fetch()
 
     def fetch_all_floating_ips(self):
+        """
+        Returns a generator that yields all of the floating IPs belonging to
+        the account in the order that the API endpoint returns them
+
+        :rtype: generator of ``FloatingIP``s
+        """
         return map(self.floating_ip, self.paginate('/v2/floating_ips',
                                                    'floating_ips'))
 
     def create_floating_ip(self, droplet_id=None, region=None):
+        """
+        Creates a new floating IP assigned to a droplet or reserved to a
+        region.  Either ``droplet_id`` or ``region`` must be specified, but not
+        both.
+
+        :param droplet_id: the droplet to assign the floating IP to as either
+            an ID or a ``Droplet`` object
+        :type droplet_id: integer or ``Droplet``
+        :param region: the region to reserve the floating IP to as either a
+            slug or a ``Region`` object
+        :type region: string or ``Region``
+        :return: the new floating IP
+        :rtype: FloatingIP
+        :raises TypeError: if both ``droplet_id`` & ``region`` or neither of
+            them are defined
+        """
         if (droplet_id is None) == (region is None):
             ### Is TypeError the right type of error?
             raise TypeError('Exactly one of "droplet_id" and "region" must be'

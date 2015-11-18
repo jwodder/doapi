@@ -6,7 +6,7 @@
   "name" attribute
 - Descriptions for accounts are missing.
 - The example response for fetching an account omits the relatively-recently
-  added "status" and "status_message" fields.
+  added "status" and "`status_message`" fields.
 - The curl examples include an "available" field in droplet objects that is not
   documented and doesn't seem to actually exist.
 - The "neighbor" requests are underdocumented.

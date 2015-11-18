@@ -1,6 +1,7 @@
 - Document everything!
+    - Look into using Sphinx <http://sphinx-doc.org/> (and readthedocs.org?)
+      for generating documentation
 - Add tests
-- Bring the code in line with PEP 8?
 - A lot of the code relies on the assumptions that an object cannot have more
   than one in-progress action running on it at a time and that, if there is an
   in-progress action, it the most recent and the first listed.  Confirm this.
@@ -10,6 +11,7 @@
       the 'create'.
 - Figure out the minimum requests & six versions required and add them to
   setup.py
+    - doapi was developed using requests v.2.2.1 and six v.1.5.2.
 
 # Command-Line Interface
 
@@ -35,3 +37,5 @@
 - Look into whether fetching an action via `/v2/actions/$ACTION_ID` is always
   equivalent to fetching via
   `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`
+- Should `doapi` objects send all their requests through a `requests.Session`?
+- Test giving non-ASCII names to things

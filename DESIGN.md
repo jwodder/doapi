@@ -92,3 +92,6 @@
   it anyway).
 - The result of mixing different `doapi` objects and their resources is
   undefined.
+- Documentation:
+    - Only document exceptions that are expected to be raised under
+      non-pathological circumstances.
