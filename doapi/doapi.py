@@ -5,11 +5,11 @@ import requests
 from   six          import iteritems
 from   six.moves    import map
 from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError
+from   .action      import Action
 from   .domain      import Domain
 from   .droplet     import Droplet
 from   .floating_ip import FloatingIP
 from   .image       import Image
-from   .action      import Action
 from   .ssh_key     import SSHKey
 
 class doapi(object):
@@ -173,14 +173,13 @@ class doapi(object):
                                                    wait_time=None):
         droplets = map(self.droplet, droplets)
         if status is None:
-            for a in self.wait_actions([d.fetch_last_action()
-                                        for d in droplets],
-                                       wait_interval, wait_time):
-                yield a.fetch_resource()
+            return map(Action.fetch_resource,
+                       self.wait_actions(map(Droplet.fetch_last_action,
+                                             droplets),
+                                         wait_interval, wait_time))
         else:
-            for d in self._wait(droplets, lambda d: d.status == status,
-                                wait_interval, wait_time):
-                yield d
+            return self._wait(droplets, lambda d: d.status == status,
+                              wait_interval, wait_time)
 
     def action(self, obj):
         """
