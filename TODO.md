@@ -1,6 +1,6 @@
 - Document everything!
-    - Look into using Sphinx <http://sphinx-doc.org/> (and readthedocs.org?)
-      for generating documentation
+    - Set up Sphinx
+        - Set `default_role` to `py:obj`
 - Add tests
 - A lot of the code relies on the assumptions that an object cannot have more
   than one in-progress action running on it at a time and that, if there is an
@@ -12,6 +12,7 @@
 - Figure out the minimum requests & six versions required and add them to
   setup.py
     - doapi was developed using requests v.2.2.1 and six v.1.5.2.
+- Support enabling backups: https://developers.digitalocean.com/documentation/v2/#enable-backups
 
 # Command-Line Interface
 
@@ -28,6 +29,8 @@
 # Library
 
 - Add a class for droplets' `next_backup_window` fields
+    - These objects apparently consist of just `"start"` and `"end"` fields
+      containing timestamps.
 - Look into the correctness of the naïve implementation of `fetch_last_action`
 - Look into whether I should be relying on the fetchability of
   `/v2/floating_ips/$IP_ADDR/actions`
@@ -39,3 +42,7 @@
   `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`
 - Should `doapi` objects send all their requests through a `requests.Session`?
 - Test giving non-ASCII names to things
+- Wait operations should take into account the amount of time elapsed between
+  `yield`s when deciding how long to sleep
+- Add constants for the possible droplet statuses for passing to
+  `wait_droplets` and `Droplet.wait`
