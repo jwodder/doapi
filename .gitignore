@@ -1,3 +1,4 @@
-*.pyc
 *.egg-info/
+*.pyc
 *.sh
+docs/_build

@@ -17,32 +17,27 @@ class doapi(object):
     The primary class for interacting with the DigitalOcean API, used for
     creating and fetching resources.  The resource objects returned by these
     methods have methods of their own for manipulating them individually.
+
+    :param str api_token: the API token to use for authentication
+    :param string endpoint: the URL relative to which requests will be made
+    :param number timeout: the ``timeout`` value to use when making requests
+    :type timeout: float, tuple, or ``None``
+    :param number wait_interval: the default number of seconds that "wait"
+        operations will sleep for between requests
+    :param wait_time: the default number of seconds after which "wait"
+        operations will return, or ``None`` or a negative number to wait
+        indefinitely
+    :type wait_type: number or ``None``
+    :param per_page: the default number of objects that :meth:`paginate` will
+        fetch on each request, or ``None`` to leave unspecified
+    :type per_page: integer or ``None``
     """
 
-    #: ``"https://api.digitalocean.com"``, the official DigitalOcean API
-    #: endpoint
+    #: The official DigitalOcean API endpoint
     DEFAULT_ENDPOINT = 'https://api.digitalocean.com'
 
     def __init__(self, api_token, endpoint=DEFAULT_ENDPOINT, timeout=61,
                  wait_interval=5, wait_time=None, per_page=None):
-        """
-        Construct a new `doapi` object
-
-        :param str api_token: the API token to use for authentication
-        :param string endpoint: the URL relative to which requests will be made
-        :param number timeout: the ``timeout`` value to use when making
-            requests
-        :type timeout: float, tuple, or ``None``
-        :param number wait_interval: the default number of seconds that "wait"
-            operations will sleep for between requests
-        :param wait_time: the default number of seconds after which "wait"
-            operations will return, or ``None`` or a negative number to wait
-            indefinitely
-        :type wait_type: number or ``None``
-        :param per_page: the default number of objects that :meth:`paginate`
-            will fetch on each request, or ``None`` to leave unspecified
-        :type per_page: integer or ``None``
-        """
         #: The API token used for authentication
         self.api_token = api_token
         #: The API endpoint URL relative to which requests will be made
@@ -205,7 +200,7 @@ class doapi(object):
         Returns a generator that yields all of the droplets belonging to the
         account in the order that the API endpoint returns them
 
-        :rtype: generator of `Droplet`s
+        :rtype: generator of `Droplet`\ s
         """
         return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
@@ -214,7 +209,7 @@ class doapi(object):
         Returns a generator that yields `DropletUpgrade` objects describing
         droplets that are scheduled to be upgraded
 
-        :rtype: generator of `DropletUpgrade`s
+        :rtype: generator of `DropletUpgrade`\ s
         """
         for obj in self.request('/v2/droplet_upgrades'):
             yield DropletUpgrade(obj, doapi_manager=self)
@@ -280,7 +275,7 @@ class doapi(object):
         Returns a generator of all sets of multiple droplets that are running
         on the same physical hardware
 
-        :rtype: generator of lists of `Droplet`s
+        :rtype: generator of lists of `Droplet`\ s
         """
         for hood in self.paginate('/v2/reports/droplet_neighbors', 'neighbors'):
             yield list(map(self.droplet, hood))
@@ -299,8 +294,8 @@ class doapi(object):
         remaining droplets are returned immediately without waiting for
         completion.
 
-        :param iterable droplets: an iterable of `Droplet`s and/or other values
-            that are acceptable arguments to :meth:`fetch_droplet`
+        :param iterable droplets: an iterable of `Droplet`\ s and/or other
+            values that are acceptable arguments to :meth:`fetch_droplet`
         :param status: When non-``None``, the desired value for the ``status``
             field of each `Droplet`.  ``status`` should be ``"active"``,
             ``"new"``, ``"off"``, or ``"archive"``; no checks of this value are
@@ -313,7 +308,7 @@ class doapi(object):
         :param number wait_time: the total number of seconds after which the
             method will return, or a negative number to wait indefinitely;
             defaults to :attr:`wait_time` if not specified or ``None``
-        :rtype: generator of `Droplet`s
+        :rtype: generator of `Droplet`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
         droplets = map(self.droplet, droplets)
@@ -369,7 +364,7 @@ class doapi(object):
         Returns a generator that yields all of the actions associated with the
         account in the order that the API endpoint returns them
 
-        :rtype: generator of `Action`s
+        :rtype: generator of `Action`\ s
         """
         return map(self.action, self.paginate('/v2/actions', 'actions'))
 
@@ -381,7 +376,7 @@ class doapi(object):
         caught, any remaining actions are returned immediately without waiting
         for completion.
 
-        :param iterable actions: an iterable of `Action`s and/or other values
+        :param iterable actions: an iterable of `Action`\ s and/or other values
             that are acceptable arguments to :meth:`fetch_action`
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
@@ -389,7 +384,7 @@ class doapi(object):
         :param number wait_time: the total number of seconds after which the
             method will return, or a negative number to wait indefinitely;
             defaults to :attr:`wait_time` if not specified or ``None``
-        :rtype: generator of `Action`s
+        :rtype: generator of `Action`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
         return self._wait(map(self.action, actions), lambda a: a.done,
@@ -427,7 +422,7 @@ class doapi(object):
         Returns a generator that yields all of the SSH public keys belonging to
         the account in the order that the API endpoint returns them
 
-        :rtype: generator of `SSHKey`s
+        :rtype: generator of `SSHKey`\ s
         """
         return map(self.ssh_key, self.paginate('/v2/account/keys', 'ssh_keys'))
 
@@ -493,7 +488,7 @@ class doapi(object):
         :type type: string or None
         :param bool private: whether to only return the user's private images;
             default: ``False`` (i.e., return all images)
-        :rtype: generator of `Image`s
+        :rtype: generator of `Image`\ s
         """
         params = {}
         if type is not None:
@@ -509,7 +504,7 @@ class doapi(object):
         available to the account in the order that the API endpoint returns
         them
 
-        :rtype: generator of `Image`s
+        :rtype: generator of `Image`\ s
         """
         return self.fetch_all_images(type='distribution')
 
@@ -518,7 +513,7 @@ class doapi(object):
         Returns a generator that yields all of the application images available
         to the account in the order that the API endpoint returns them
 
-        :rtype: generator of `Image`s
+        :rtype: generator of `Image`\ s
         """
         return self.fetch_all_images(type='application')
 
@@ -527,7 +522,7 @@ class doapi(object):
         Returns a generator that yields all of the user's private images in the
         order that the API endpoint returns them
 
-        :rtype: generator of `Image`s
+        :rtype: generator of `Image`\ s
         """
         return self.fetch_all_images(private=True)
 
@@ -549,7 +544,7 @@ class doapi(object):
         Returns a generator that yields all of the regions available to the
         account in the order that the API endpoint returns them
 
-        :rtype: generator of `Region`s
+        :rtype: generator of `Region`\ s
         """
         return map(self.region, self.paginate('/v2/regions', 'regions'))
 
@@ -571,7 +566,7 @@ class doapi(object):
         Returns a generator that yields all of the sizes available to the
         account in the order that the API endpoint returns them
 
-        :rtype: generator of `Size`s
+        :rtype: generator of `Size`\ s
         """
         return map(self.size, self.paginate('/v2/sizes', 'sizes'))
 
@@ -614,7 +609,7 @@ class doapi(object):
         Returns a generator that yields all of the domains belonging to the
         account in the order that the API endpoint returns them
 
-        :rtype: generator of `Domain`s
+        :rtype: generator of `Domain`\ s
         """
         return map(self.domain, self.paginate('/v2/domains', 'domains'))
 
@@ -665,7 +660,7 @@ class doapi(object):
         Returns a generator that yields all of the floating IPs belonging to
         the account in the order that the API endpoint returns them
 
-        :rtype: generator of `FloatingIP`s
+        :rtype: generator of `FloatingIP`\ s
         """
         return map(self.floating_ip, self.paginate('/v2/floating_ips',
                                                    'floating_ips'))
@@ -717,7 +712,7 @@ class doapi(object):
         immediately without waiting for completion.
 
         :param iterable objects: an iterable of objects with ``fetch`` methods
-            (presumably `JSObject`s)
+            (presumably `JSObject`\ s)
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
             ``None``

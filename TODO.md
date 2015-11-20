@@ -1,10 +1,4 @@
 - Document everything!
-    - Set up Sphinx
-        - Set `default_role` to `py:obj`
-        - Define:
-
-                .. [API Docs] https://developers.digitalocean.com/documentation/v2/
-
 - Add tests
 - A lot of the code relies on the assumptions that an object cannot have more
   than one in-progress action running on it at a time and that, if there is an

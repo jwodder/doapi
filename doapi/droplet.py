@@ -26,7 +26,7 @@ class Droplet(Actionable, JSObjectWithID):
                     extra = {"droplet": self}
                     # `droplet` needs to be set when creating the objects so
                     # that the `Networks` object will pass the value to its
-                    # `NetworkInterface`s.
+                    # `NetworkInterface`\ s.
                 self[attr] = cls(self[attr], doapi_manager=self.doapi_manager,
                                  **extra)
 
@@ -354,7 +354,7 @@ class Droplet(Actionable, JSObjectWithID):
         Returns a generator that yields all of the droplets running on the same
         physical server as the droplet
 
-        :rtype: generator of `Droplet`s
+        :rtype: generator of `Droplet`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
@@ -366,7 +366,7 @@ class Droplet(Actionable, JSObjectWithID):
         Returns a generator that yields all of the snapshot images created from
         the droplet
 
-        :rtype: generator of `Image`s
+        :rtype: generator of `Image`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
@@ -378,7 +378,7 @@ class Droplet(Actionable, JSObjectWithID):
         Returns a generator that yields all of the backup images created from
         the droplet
 
-        :rtype: generator of `Image`s
+        :rtype: generator of `Image`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
@@ -390,7 +390,7 @@ class Droplet(Actionable, JSObjectWithID):
         Returns a generator that yields all of the kernels available to the
         droplet
 
-        :rtype: generator of `Kernel`s
+        :rtype: generator of `Kernel`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
