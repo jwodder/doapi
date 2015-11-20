@@ -13,6 +13,14 @@ from   .image       import Image
 from   .ssh_key     import SSHKey
 
 class doapi(object):
+    """
+    The primary class for interacting with the DigitalOcean API, used for
+    creating and fetching resources.  The resource objects returned by these
+    methods have methods of their own for manipulating them individually.
+    """
+
+    #: ``"https://api.digitalocean.com"``, the official DigitalOcean API
+    #: endpoint
     DEFAULT_ENDPOINT = 'https://api.digitalocean.com'
 
     def __init__(self, api_token, endpoint=DEFAULT_ENDPOINT, timeout=61,
