@@ -9,8 +9,9 @@ from   ..droplet import Droplet
 
 unary_acts = {
     act.replace('_', '-'): getattr(Droplet, act)
-    for act in "disable_backups reboot power_cycle shutdown power_off power_on"
-               " password_reset enable_ipv6 enable_private_networking upgrade"\
+    for act in "enable_backups disable_backups reboot power_cycle shutdown"
+               " power_off power_on password_reset enable_ipv6"
+               " enable_private_networking upgrade"\
                .split()
 }
 

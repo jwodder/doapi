@@ -49,6 +49,9 @@ class Droplet(Actionable, JSObjectWithID):
     def url(self):
         return self._url('/v2/droplets/' + str(self.id))
 
+    def enable_backups(self):
+        return self.act(type='enable_backups')
+
     def disable_backups(self):
         return self.act(type='disable_backups')
 

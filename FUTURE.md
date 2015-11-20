@@ -29,6 +29,7 @@
 - `doapi-droplet`: Add synonyms for some actions:
     - `on` = `power-on`
     - `off` = `power-off`
+    - `backups-on` = `enable-backups`
     - `backups-off` = `disable-backups`
     - `set-kernel` = `change-kernel`
     - `rekernel` = `change-kernel` ?

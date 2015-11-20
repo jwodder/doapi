@@ -12,7 +12,6 @@
 - Figure out the minimum requests & six versions required and add them to
   setup.py
     - doapi was developed using requests v.2.2.1 and six v.1.5.2.
-- Support enabling backups: https://developers.digitalocean.com/documentation/v2/#enable-backups
 
 # Command-Line Interface
 
