@@ -95,3 +95,6 @@
 - Documentation:
     - Only document exceptions that are expected to be raised under
       non-pathological circumstances.
+    - Documentation for the non-private methods & attributes will assume that
+      all objects were created using public interfaces and will not list all
+      the ways that things could go wrong with "raw" objects.
