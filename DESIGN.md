@@ -86,6 +86,7 @@
       and `floating_ip` methods of `doapi`
     - `doapi._wait()`
     - `Domain.record()`
+    - `SSHKey.id_or_fingerprint`?
 - Classes are given `__str__` methods if & only if the resulting strings are
   usable in API requests (except `NetworkInterface`, which gets a `__str__`
   method that returns the IP address because that's probably all you want from

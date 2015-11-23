@@ -1,5 +1,7 @@
 - Document everything!
     - Write a README
+    - Stop listing `DOAPIError` under (almost) every method and just say once
+      that it can be thrown by anything that uses the API (all public methods?)
 - Add tests
 - A lot of the code relies on the assumptions that an object cannot have more
   than one in-progress action running on it at a time and that, if there is an
