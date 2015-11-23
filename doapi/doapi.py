@@ -196,16 +196,16 @@ class doapi(object):
         return self.droplet(obj).fetch()
 
     def fetch_all_droplets(self):
-        """
+        r"""
         Returns a generator that yields all of the droplets belonging to the
-        account in the order that the API endpoint returns them
+        account
 
         :rtype: generator of `Droplet`\ s
         """
         return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
 
     def fetch_all_droplet_upgrades(self):
-        """
+        r"""
         Returns a generator that yields `DropletUpgrade` objects describing
         droplets that are scheduled to be upgraded
 
@@ -271,7 +271,7 @@ class doapi(object):
                                          data=data)["droplet"])
 
     def fetch_all_droplet_neighbors(self):
-        """
+        r"""
         Returns a generator of all sets of multiple droplets that are running
         on the same physical hardware
 
@@ -282,7 +282,7 @@ class doapi(object):
 
     def wait_droplets(self, droplets, status=None, wait_interval=None,
                                                    wait_time=None):
-        """
+        r"""
         Poll the server periodically until all droplets in ``droplets`` have
         reached some final state, yielding each `Droplet`'s final value when
         it's done.  If ``status`` is non-``None``, ``wait_droplets`` will wait
@@ -360,16 +360,16 @@ class doapi(object):
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 
     def fetch_all_actions(self):
-        """
+        r"""
         Returns a generator that yields all of the actions associated with the
-        account in the order that the API endpoint returns them
+        account
 
         :rtype: generator of `Action`\ s
         """
         return map(self.action, self.paginate('/v2/actions', 'actions'))
 
     def wait_actions(self, actions, wait_interval=None, wait_time=None):
-        """
+        r"""
         Poll the server periodically until all actions in ``actions`` have
         either completed or errored out, yielding each `Action`'s final value
         as it ends.  If ``wait_time`` is exceeded or a ``KeyboardInterrupt`` is
@@ -418,9 +418,9 @@ class doapi(object):
         return self.ssh_key(obj).fetch()
 
     def fetch_all_ssh_keys(self):
-        """
+        r"""
         Returns a generator that yields all of the SSH public keys belonging to
-        the account in the order that the API endpoint returns them
+        the account
 
         :rtype: generator of `SSHKey`\ s
         """
@@ -479,9 +479,9 @@ class doapi(object):
         return self.image(self.request('/v2/images/' + slug)["image"])
 
     def fetch_all_images(self, type=None, private=False):
-        """
+        r"""
         Returns a generator that yields all of the images available to the
-        account in the order that the API endpoint returns them
+        account
 
         :param type: the type of images to fetch: ``"distribution"``,
             ``"application"``, or all (``None``); default: ``None``
@@ -499,28 +499,26 @@ class doapi(object):
                                              params=params))
 
     def fetch_all_distribution_images(self):
-        """
+        r"""
         Returns a generator that yields all of the distribution images
-        available to the account in the order that the API endpoint returns
-        them
+        available to the account
 
         :rtype: generator of `Image`\ s
         """
         return self.fetch_all_images(type='distribution')
 
     def fetch_all_application_images(self):
-        """
+        r"""
         Returns a generator that yields all of the application images available
-        to the account in the order that the API endpoint returns them
+        to the account
 
         :rtype: generator of `Image`\ s
         """
         return self.fetch_all_images(type='application')
 
     def fetch_all_private_images(self):
-        """
-        Returns a generator that yields all of the user's private images in the
-        order that the API endpoint returns them
+        r"""
+        Returns a generator that yields all of the user's private images
 
         :rtype: generator of `Image`\ s
         """
@@ -540,9 +538,9 @@ class doapi(object):
         return Region(obj, doapi_manager=self)
 
     def fetch_all_regions(self):
-        """
+        r"""
         Returns a generator that yields all of the regions available to the
-        account in the order that the API endpoint returns them
+        account
 
         :rtype: generator of `Region`\ s
         """
@@ -562,9 +560,9 @@ class doapi(object):
         return Size(obj, doapi_manager=self)
 
     def fetch_all_sizes(self):
-        """
+        r"""
         Returns a generator that yields all of the sizes available to the
-        account in the order that the API endpoint returns them
+        account
 
         :rtype: generator of `Size`\ s
         """
@@ -605,9 +603,9 @@ class doapi(object):
         return self.domain(obj).fetch()
 
     def fetch_all_domains(self):
-        """
+        r"""
         Returns a generator that yields all of the domains belonging to the
-        account in the order that the API endpoint returns them
+        account
 
         :rtype: generator of `Domain`\ s
         """
@@ -656,9 +654,9 @@ class doapi(object):
         return self.floating_ip(obj).fetch()
 
     def fetch_all_floating_ips(self):
-        """
+        r"""
         Returns a generator that yields all of the floating IPs belonging to
-        the account in the order that the API endpoint returns them
+        the account
 
         :rtype: generator of `FloatingIP`\ s
         """
@@ -669,6 +667,12 @@ class doapi(object):
         """
         Create a new floating IP assigned to a droplet or reserved to a region.
         Either ``droplet_id`` or ``region`` must be specified, but not both.
+
+        The returned `FloatingIP` object will represent the IP at the moment of
+        creation; if the IP address is supposed to be assigned to a droplet,
+        the assignment may not have been completed at the time the object is
+        returned.  To wait for the assignment to complete, use the
+        `FloatingIP`'s :meth:`~FloatingIP.wait` method.
 
         :param droplet_id: the droplet to assign the floating IP to as either
             an ID or a `Droplet` object
@@ -704,7 +708,7 @@ class doapi(object):
         return not (self == other)
 
     def _wait(self, objects, isdone, wait_interval=None, wait_time=None):
-        """
+        r"""
         Calls the ``fetch`` method of each object in ``objects`` periodically
         until ``isdone`` returns true on each one, yielding the final value of
         each object as soon as it succeeds.  If ``wait_time`` is exceeded or a

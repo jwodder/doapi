@@ -24,4 +24,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. [API Docs] https://developers.digitalocean.com/documentation/v2/
+.. [APIDocs] https://developers.digitalocean.com/documentation/v2/

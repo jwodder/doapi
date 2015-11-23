@@ -36,7 +36,7 @@ class Droplet(Actionable, JSObjectWithID):
                     extra = {"droplet": self}
                     # `droplet` needs to be set when creating the objects so
                     # that the `Networks` object will pass the value to its
-                    # `NetworkInterface`\ s.
+                    # `NetworkInterface`s.
                 self[attr] = cls(self[attr], doapi_manager=self.doapi_manager,
                                  **extra)
 
@@ -112,7 +112,7 @@ class Droplet(Actionable, JSObjectWithID):
         return api.droplet(api.request(self.url)["droplet"])
 
     def fetch_all_neighbors(self):
-        """
+        r"""
         Returns a generator that yields all of the droplets running on the same
         physical server as the droplet
 
@@ -124,7 +124,7 @@ class Droplet(Actionable, JSObjectWithID):
                                              'droplets'))
 
     def fetch_all_snapshots(self):
-        """
+        r"""
         Returns a generator that yields all of the snapshot images created from
         the droplet
 
@@ -136,7 +136,7 @@ class Droplet(Actionable, JSObjectWithID):
             yield Image(obj, doapi_manager=api, droplet=self)
 
     def fetch_all_backups(self):
-        """
+        r"""
         Returns a generator that yields all of the backup images created from
         the droplet
 
@@ -148,7 +148,7 @@ class Droplet(Actionable, JSObjectWithID):
             yield Image(obj, doapi_manager=api, droplet=self)
 
     def fetch_all_kernels(self):
-        """
+        r"""
         Returns a generator that yields all of the kernels available to the
         droplet
 
@@ -187,7 +187,7 @@ class Droplet(Actionable, JSObjectWithID):
 
             A reboot action is an attempt to reboot the Droplet in a graceful
             way, similar to using the :command:`reboot` command from the
-            console. [API Docs]_
+            console. [APIDocs]_
 
         :return: an `Action` representing the in-progress operation on the
             droplet
@@ -201,7 +201,7 @@ class Droplet(Actionable, JSObjectWithID):
         Power cycle the droplet
 
             A powercycle action is similar to pushing the reset button on a
-            physical machine, it's similar to booting from scratch. [API Docs]_
+            physical machine, it's similar to booting from scratch. [APIDocs]_
 
         :return: an `Action` representing the in-progress operation on the
             droplet
@@ -220,7 +220,7 @@ class Droplet(Actionable, JSObjectWithID):
             guarantees that the command is issued, not that it succeeds.  The
             preferred way to turn off a Droplet is to attempt a shutdown, with
             a reasonable timeout, followed by a power off action to ensure the
-            Droplet is off. [API Docs]_
+            Droplet is off. [APIDocs]_
 
         :return: an `Action` representing the in-progress operation on the
             droplet
@@ -235,8 +235,8 @@ class Droplet(Actionable, JSObjectWithID):
 
             A ``power_off`` event is a hard shutdown and should only be used if
             the :meth:`shutdown` action is not successful.  It is similar to
-            cutting the power on a server and could lead to complications. [API
-            Docs]_
+            cutting the power on a server and could lead to complications.
+            [APIDocs]_
 
         :return: an `Action` representing the in-progress operation on the
             droplet
@@ -263,7 +263,7 @@ class Droplet(Actionable, JSObjectWithID):
             A Droplet restoration will rebuild an image using a backup image.
             The image ID that is passed in must be a backup of the current
             Droplet instance.  The operation will leave any embedded SSH keys
-            intact. [API Docs]_
+            intact. [APIDocs]_
 
         :param image: an image ID, an image slug, or an `Image` object
             representing a backup image of the droplet
@@ -311,7 +311,7 @@ class Droplet(Actionable, JSObjectWithID):
         """
         Rebuild the droplet with the specified image
 
-            A rebuild action functions just like a new create. [API Docs]_
+            A rebuild action functions just like a new create. [APIDocs]_
 
         :param image: an image ID, an image slug, or an `Image` object
             representing the image the droplet should use as a base

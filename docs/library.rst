@@ -3,6 +3,9 @@ Library
 
 .. module:: doapi
 
+Generators producing objects always yield them in whatever order the API
+endpoint returns them in.
+
 Client Class
 ------------
 

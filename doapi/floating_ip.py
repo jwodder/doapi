@@ -1,6 +1,7 @@
 import numbers
 import socket
 import struct
+from   six      import string_types
 from   .base    import Actionable, Region
 from   .droplet import Droplet
 
@@ -11,7 +12,7 @@ class FloatingIP(Actionable):
         """ TODO """
         if isinstance(state, numbers.Integral):
             state = {"ip": socket.inet_ntoa(struct.pack('!I', state))}
-        elif isinstance(state, basestring):
+        elif isinstance(state, string_types):
             state = {"ip": state}
         super(FloatingIP, self).__init__(state, **extra)
         for attr, cls in [('region', Region), ('droplet', Droplet)]:
@@ -51,8 +52,8 @@ class FloatingIP(Actionable):
         """
         Assign the floating IP to a droplet
 
-        :param droplet_id: a droplet ID or `Droplet` object representing the
-            droplet to assign the floating IP to
+        :param droplet_id: the droplet to assign the floating IP to as either
+            an ID or a `Droplet` object
         :type droplet_id: integer or `Droplet`
         :return: an `Action` representing the in-progress operation on the
             floating IP

@@ -112,6 +112,12 @@
 
 - Add a single-character abbreviation for `--api-token-file`
 
+- `doapi-droplet`: Give `shutdown`, `power-off`, and `power-on` options to make
+  them skip over any droplets that are already off/on (or should that be the
+  default behavior?)
+    - Add similar idempotency for `enable-backups`, `disable-backups`,
+      `enable-ipv6`, and `enable-private-networking`?
+
 ### Internals
 
 - When not all objects of a type have been cached, labels that are valid IDs

@@ -1,3 +1,4 @@
+from six   import string_types
 from .base import JSObjectWithID
 
 class SSHKey(JSObjectWithID):
@@ -5,7 +6,7 @@ class SSHKey(JSObjectWithID):
 
     def __init__(self, state=None, **extra):
         """ TODO """
-        if isinstance(state, basestring):
+        if isinstance(state, string_types):
             state = {"fingerprint": state}
         super(SSHKey, self).__init__(state, **extra)
 
@@ -14,8 +15,8 @@ class SSHKey(JSObjectWithID):
 
     @property
     def id_or_fingerprint(self):
-        """
-        The ``SSHKey``\ 's ``id`` field, or if that is not defined, its
+        r"""
+        The ``SSHKey``'s ``id`` field, or if that is not defined, its
         ``fingerprint`` field.  If neither field is defined, accessing this
         attribute raises a ``TypeError``.
         """
@@ -51,6 +52,7 @@ class SSHKey(JSObjectWithID):
         :param str name: the new name for the SSH key
         :return: an updated `SSHKey` object
         :rtype: SSHKey
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
         return api.ssh_key(api.request(self.url, method='PUT',

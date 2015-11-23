@@ -49,6 +49,7 @@ class Image(Actionable, JSObjectWithDroplet, JSObjectWithID):
         :param str name: the new name for the image
         :return: an updated `Image` object
         :rtype: Image
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
         return api.image(api.request(self.url, method='PUT',
