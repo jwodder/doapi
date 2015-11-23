@@ -425,11 +425,12 @@ class Droplet(Actionable, JSObjectWithID):
             impossible state.
         :type status: string or ``None``
         :param number wait_interval: how many seconds to sleep between
-            requests; defaults to :attr:`wait_interval` if not specified or
-            ``None``
+            requests; defaults to the `doapi` object's
+            :attr:`~doapi.wait_interval` if not specified or ``None``
         :param number wait_time: the total number of seconds after which the
             method will return, or a negative number to wait indefinitely;
-            defaults to :attr:`wait_time` if not specified or ``None``
+            defaults to the `doapi` object's :attr:`~doapi.wait_time` if not
+            specified or ``None``
         :return: the droplet's final state
         :rtype: Droplet
         :raises DOAPIError: if the API endpoint replies with an error
