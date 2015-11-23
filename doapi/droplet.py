@@ -6,6 +6,16 @@ class Droplet(Actionable, JSObjectWithID):
     """
     TODO
 
+    The DigitalOcean API specifies the following fields for ``Droplet``
+    objects:
+
+    .. :attribute:: id
+    .. :attribute:: name
+    .. :attribute:: memory
+    .. :attribute:: vcpus
+
+    TODO
+
     Note that calling a mutating method on a droplet does not cause the object
     to be updated; to get the most up to date information on a droplet, call
     the :meth:`fetch` method.
@@ -88,6 +98,66 @@ class Droplet(Actionable, JSObjectWithID):
     def url(self):
         """ The endpoint for operations on the specific droplet """
         return self._url('/v2/droplets/' + str(self.id))
+
+    def fetch(self):
+        """
+        Fetch & return a new `Droplet` object representing the droplet's
+        current state
+
+        :rtype: Droplet
+        :raises DOAPIError: if the API endpoint replies with an error (e.g., if
+            the droplet no longer exists)
+        """
+        api = self.doapi_manager
+        return api.droplet(api.request(self.url)["droplet"])
+
+    def fetch_all_neighbors(self):
+        """
+        Returns a generator that yields all of the droplets running on the same
+        physical server as the droplet
+
+        :rtype: generator of `Droplet`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        api = self.doapi_manager
+        return map(api.droplet, api.paginate(self.url + '/neighbors',
+                                             'droplets'))
+
+    def fetch_all_snapshots(self):
+        """
+        Returns a generator that yields all of the snapshot images created from
+        the droplet
+
+        :rtype: generator of `Image`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        api = self.doapi_manager
+        for obj in api.paginate(self.url + '/snapshots', 'snapshots'):
+            yield Image(obj, doapi_manager=api, droplet=self)
+
+    def fetch_all_backups(self):
+        """
+        Returns a generator that yields all of the backup images created from
+        the droplet
+
+        :rtype: generator of `Image`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        api = self.doapi_manager
+        for obj in api.paginate(self.url + '/backups', 'backups'):
+            yield Image(obj, doapi_manager=api, droplet=self)
+
+    def fetch_all_kernels(self):
+        """
+        Returns a generator that yields all of the kernels available to the
+        droplet
+
+        :rtype: generator of `Kernel`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        api = self.doapi_manager
+        for kern in api.paginate(self.url + '/kernels', 'kernels'):
+            yield Kernel(kern, doapi_manager=api, droplet=self)
 
     def enable_backups(self):
         """
@@ -336,66 +406,6 @@ class Droplet(Actionable, JSObjectWithID):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         self.doapi_manager.request(self.url, method='DELETE')
-
-    def fetch(self):
-        """
-        Fetch & return a new `Droplet` object representing the droplet's
-        current state
-
-        :rtype: Droplet
-        :raises DOAPIError: if the API endpoint replies with an error (e.g., if
-            the droplet no longer exists)
-        """
-        api = self.doapi_manager
-        return api.droplet(api.request(self.url)["droplet"])
-
-    def fetch_all_neighbors(self):
-        """
-        Returns a generator that yields all of the droplets running on the same
-        physical server as the droplet
-
-        :rtype: generator of `Droplet`\ s
-        :raises DOAPIError: if the API endpoint replies with an error
-        """
-        api = self.doapi_manager
-        return map(api.droplet, api.paginate(self.url + '/neighbors',
-                                             'droplets'))
-
-    def fetch_all_snapshots(self):
-        """
-        Returns a generator that yields all of the snapshot images created from
-        the droplet
-
-        :rtype: generator of `Image`\ s
-        :raises DOAPIError: if the API endpoint replies with an error
-        """
-        api = self.doapi_manager
-        for obj in api.paginate(self.url + '/snapshots', 'snapshots'):
-            yield Image(obj, doapi_manager=api, droplet=self)
-
-    def fetch_all_backups(self):
-        """
-        Returns a generator that yields all of the backup images created from
-        the droplet
-
-        :rtype: generator of `Image`\ s
-        :raises DOAPIError: if the API endpoint replies with an error
-        """
-        api = self.doapi_manager
-        for obj in api.paginate(self.url + '/backups', 'backups'):
-            yield Image(obj, doapi_manager=api, droplet=self)
-
-    def fetch_all_kernels(self):
-        """
-        Returns a generator that yields all of the kernels available to the
-        droplet
-
-        :rtype: generator of `Kernel`\ s
-        :raises DOAPIError: if the API endpoint replies with an error
-        """
-        api = self.doapi_manager
-        for kern in api.paginate(self.url + '/kernels', 'kernels'):
-            yield Kernel(kern, doapi_manager=api, droplet=self)
 
     def wait(self, status=None, wait_interval=None, wait_time=None):
         """

@@ -8,8 +8,8 @@ Client Class
 
 .. autoclass:: doapi
 
-Droplets
---------
+Droplets and Their Fields
+-------------------------
 
 .. autoclass:: Droplet
 

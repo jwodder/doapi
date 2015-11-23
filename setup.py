@@ -19,9 +19,9 @@ setup(
     license='MIT',
     author='John Thorvald Wodder II',
     author_email='jwodder@sdf.lonestar.org',
+    keywords='DigitalOcean',
 
     #description
-    #keywords
     #url (GitHub repo)
 
     ### <https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/>

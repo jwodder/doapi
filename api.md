@@ -60,13 +60,13 @@
   link URLs, even meaningless parameters added by the user.
 - The follow droplet actions can only be performed when the droplet is already
   on:
-    - power_off
+    - `power_off`
     - ???
 - The follow droplet actions can only be performed when the droplet is already
   off:
-    - snapshot
-    - rebuild
-    - power_on
+    - `snapshot`
+    - `rebuild`
+    - `power_on`
     - ???
 
     These actions all seem to turn the droplet on after completing; look into.

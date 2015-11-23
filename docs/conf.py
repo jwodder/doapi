@@ -55,8 +55,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'doapi'
-copyright = u'2015, John Wodder'
-author = u'John Wodder'
+copyright = u'2015 John T. Wodder II'
+author = u'John T. Wodder II'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -230,7 +230,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'doapi.tex', u'doapi Documentation', u'John Wodder', 'manual'),
+  (master_doc, 'doapi.tex', u'doapi Documentation', u'John T. Wodder II', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

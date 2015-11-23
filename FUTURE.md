@@ -110,6 +110,8 @@
 - Give `doapi-<droplet/image/floating-ip> delete` waiting options for waiting
   on each object's "destroy" action
 
+- Add a single-character abbreviation for `--api-token-file`
+
 ### Internals
 
 - When not all objects of a type have been cached, labels that are valid IDs
