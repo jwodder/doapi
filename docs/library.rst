@@ -1,42 +1,17 @@
+.. module:: doapi
+
 Library
 =======
 
-.. module:: doapi
+.. toctree::
+   library/doapi
+   library/droplets
+   library/domain
 
 Generators producing objects always yield them in whatever order the API
 endpoint returns them in.
 
-Client Class
-------------
-
-.. autoclass:: doapi
-
-Droplets and Their Fields
--------------------------
-
-.. autoclass:: Droplet
-
-   .. autoattribute:: action_url
-   .. automethod:: act
-   .. automethod:: fetch_all_actions
-   .. automethod:: fetch_last_action
-   .. automethod:: fetch_current_action
-
-.. autoclass:: DropletUpgrade
-
-   .. automethod:: fetch_droplet
-
-.. autoclass:: Kernel
-
-   .. automethod:: fetch_droplet
-
-.. autoclass:: Networks
-
-   .. automethod:: fetch_droplet
-
-.. autoclass:: NetworkInterface
-
-   .. automethod:: fetch_droplet
+All public non-magic methods perform API requests and may raise a `DOAPIError`.
 
 Other Resources
 ---------------
@@ -44,10 +19,6 @@ Other Resources
 .. autoclass:: Account
 
 .. autoclass:: Action
-
-.. autoclass:: Domain
-
-.. autoclass:: DomainRecord
 
 .. autoclass:: FloatingIP
 
@@ -74,11 +45,11 @@ Other Resources
 
 .. autoclass:: SSHKey
 
-Additional Classes
-------------------
+Non-Resource Classes
+--------------------
 
-.. autoclass:: DOAPIError
+.. autoexception:: DOAPIError
    :no-inherited-members:
 
-.. autoexception:: DOEncoder
+.. autoclass:: DOEncoder
    :no-inherited-members:

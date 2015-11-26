@@ -22,6 +22,7 @@ setup(
     keywords='DigitalOcean',
 
     #description
+    #long_description
     #url (GitHub repo)
 
     ### <https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/>

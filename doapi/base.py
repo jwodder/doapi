@@ -39,7 +39,7 @@ class JSObject(collections.MutableMapping):
         return dup
 
     def __eq__(self, other):
-        return type(self) == type(other) and vars(self) == vars(other)
+        return type(self) is type(other) and vars(self) == vars(other)
 
     def __ne__(self, other):
         return not (self == other)
@@ -132,23 +132,63 @@ class Actionable(JSObject):
 
     @property
     def action_url(self):
+        """ The endpoint for actions on the specific resource """
         return self.url + '/actions'
 
     def act(self, **data):
+        """
+        Perform an arbitrary action on the resource.  ``data`` will be
+        serialized as JSON and POSTed to the resource's :attr:`action_url`.
+        All currently-documented actions require the POST body to be a JSON
+        object containing, at a minimum, a ``"type"`` field.
+
+        :return: an `Action` representing the in-progress operation on the
+            resource
+        :rtype: Action
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         api = self.doapi_manager
         return api.action(api.request(self.action_url, method='POST',
                                       data=data)["action"])
 
     def wait(self, wait_interval=None, wait_time=None):
+        """
+        Poll the server periodically until the resource's most recent action
+        has either completed or errored out, and return the resource's final
+        state afterwards.  If ``wait_time`` is exceeded or a
+        ``KeyboardInterrupt`` is caught, the resource's current state is
+        returned immediately without waiting for completion.
+
+        :param number wait_interval: how many seconds to sleep between
+            requests; defaults to the `doapi` object's
+            :attr:`~doapi.wait_interval` if not specified or ``None``
+        :param number wait_time: the total number of seconds after which the
+            method will return, or a negative number to wait indefinitely;
+            defaults to the `doapi` object's :attr:`~doapi.wait_time` if not
+            specified or ``None``
+        :return: the resource's final state
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         list(self.doapi_manager.wait_actions([self.fetch_last_action()],
                                              wait_interval, wait_time))
         return self.fetch()
 
     def fetch_all_actions(self):
+        r"""
+        Returns a generator that yields all of the actions associated with the
+        resource
+
+        :rtype: generator of `Action`\ s
+        """
         api = self.doapi_manager
         return map(api.action, api.paginate(self.action_url, 'actions'))
 
     def fetch_last_action(self):
+        """
+        Fetch the most recent action performed on the resource
+
+        :rtype: Action
+        """
         # Naive implementation:
         api = self.doapi_manager
         return api.action(api.request(self.action_url)["actions"][0])
@@ -156,6 +196,12 @@ class Actionable(JSObject):
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 
     def fetch_current_action(self):
+        """
+        Fetch the action currently in progress on the resource, or ``None`` if
+        there is no such action
+
+        :rtype: `Action` or ``None``
+        """
         a = self.fetch_last_action()
         return a if a.in_progress else None
 
@@ -187,6 +233,7 @@ class Account(JSObject):
 
     @property
     def url(self):
+        """ The endpoint for operations on the user's account """
         return self._url('/v2/account')
 
 
@@ -196,6 +243,11 @@ class Kernel(JSObjectWithDroplet, JSObjectWithID):
 
 class DropletUpgrade(JSObject):
     def fetch_droplet(self):
+        """
+        Fetch the droplet affected by the droplet upgrade
+
+        :rtype: Droplet
+        """
         return self.doapi_manager.fetch_droplet(self.droplet_id)
 
 

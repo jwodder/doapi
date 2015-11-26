@@ -151,3 +151,4 @@
         - Only show `droplet` as an int?
 - Give `fetch_<specific object>` methods an argument to make them return `None`
   when the object doesn't exist/returns a 404 instead of erroring?
+- Store timestamps as `datetime` objects?

@@ -121,7 +121,7 @@ def main(argv=None, parsed=None):
                         key = client.create_sshkey(kname, pubkey)
                         cache.add_sshkey(key)
                         ### Print a message to stderr telling the user about
-                        ### the new key?
+                        ### the new key
             sshkeys.append(key)
         if sshkeys:
             params["ssh_keys"] = sshkeys

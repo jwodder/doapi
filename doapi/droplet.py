@@ -9,10 +9,27 @@ class Droplet(Actionable, JSObjectWithID):
     The DigitalOcean API specifies the following fields for ``Droplet``
     objects:
 
-    .. :attribute:: id
-    .. :attribute:: name
-    .. :attribute:: memory
-    .. :attribute:: vcpus
+    .. attribute:: id
+
+    .. attribute:: name
+
+    .. attribute:: memory
+
+    .. attribute:: vcpus
+    .. attribute:: disk
+    .. attribute:: locked
+    .. attribute:: created_at
+    .. attribute:: status
+    .. attribute:: backup_ids
+    .. attribute:: snapshot_ids
+    .. attribute:: features
+    .. attribute:: region
+    .. attribute:: image
+    .. attribute:: size
+    .. attribute:: size_slug
+    .. attribute:: networks
+    .. attribute:: kernel
+    .. attribute:: next_backup_window
 
     TODO
 

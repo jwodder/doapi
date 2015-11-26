@@ -1,7 +1,7 @@
 - Document everything!
     - Write a README
     - Stop listing `DOAPIError` under (almost) every method and just say once
-      that it can be thrown by anything that uses the API (all public methods?)
+      that it can be thrown by anything that uses the API?
 - Add tests
 - A lot of the code relies on the assumptions that an object cannot have more
   than one in-progress action running on it at a time and that, if there is an
@@ -25,6 +25,8 @@
 - Confirm the assumption that private images are the only kind of images that
   can be acted on
 - Handle fetching actions of objects that are being deleted
+- When `doapi-droplet` automatically creates a new SSH key from a file, should
+  it only use the file's basename for the key name?
 
 # Library
 
@@ -46,3 +48,4 @@
   `yield`s when deciding how long to sleep
 - Add constants for the possible droplet statuses for passing to
   `wait_droplets` and `Droplet.wait`
+- Rename `JSObject` etc. to `Resource` or `DOResource`?
