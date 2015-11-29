@@ -1,5 +1,4 @@
 import collections
-import copy
 import json
 import numbers
 from   urlparse  import urljoin
@@ -28,15 +27,6 @@ class JSObject(collections.MutableMapping):
             self.data.update(state)
         for k,v in iteritems(extra):
             setattr(self, k, v)
-
-    def __copy__(self):
-        return self.__class__(self)
-
-    def __deepcopy__(self, memo):
-        dup = self.__class__()
-        for attr in self._meta_attrs:
-            setattr(self, attr, copy.deepcopy(getattr(self, attr), memo))
-        return dup
 
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
