@@ -84,29 +84,21 @@ doapi-domain
         new <name> <ip address>
         delete <name> ...
 
-        ### Rethink how the domain is specified:
-        record <DOMAIN>
-                show [<id> ...]
-                ### Showing by type and/or name?
-                new [--priority <X>] [--port <X>] [--weight <X>]
-                    <type> <name> <data>
-                set [--priority <X>] [--port <X>] [--weight <X>]
-                    <type> <name> <data>
-                # `set` is like `new` but deletes any & all pre-existing
-                # records with the same type & name.
-                update [--type TYPE]
-                       [--name NAME]
-                       [--data DATA]
-                       [--priority PRIORITY]
-                       [--port PORT]
-                       [--weight WEIGHT]
-                       <id>
-                delete <id> ...
-
-	### Alternative:
 	show-record <DOMAIN> [<id> ...]
-	new-record  <DOMAIN> <args>
-	# etc.
+	new-record <DOMAIN> [--priority <X>] [--port <X>] [--weight <X>]
+	    <type> <name> <data>
+	set-record <DOMAIN> [--priority <X>] [--port <X>] [--weight <X>]
+	    <type> <name> <data>
+	# `set` is like `new` but deletes any & all pre-existing
+	# records with the same type & name.
+	update-record <DOMAIN> [--type TYPE]
+			       [--name NAME]
+			       [--data DATA]
+			       [--priority PRIORITY]
+			       [--port PORT]
+			       [--weight WEIGHT]
+			       <id>
+	delete-record <DOMAIN> <id> ...
 
 doapi-floating-ip
         show [<ip> ...]

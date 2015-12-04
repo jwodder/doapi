@@ -86,8 +86,6 @@
   not the droplets.
 - Deleting an assigned floating IP causes an "unassign" action to automatically
   happen first.
-- All of a floating IP's actions can be fetched by requesting
-  `/v2/floating_ips/$IP_ADDR/actions`; this is not documented.
 - Floating IPs assigned to a droplet do not show up in the droplet's `networks`
   field.
 - A floating IP cannot be assigned to a droplet that already has another

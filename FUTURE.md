@@ -118,6 +118,9 @@
     - Add similar idempotency for `enable-backups`, `disable-backups`,
       `enable-ipv6`, and `enable-private-networking`?
 
+- Give `doapi-domain` commands for only showing records with a given type or
+  name?
+
 ### Internals
 
 - When not all objects of a type have been cached, labels that are valid IDs

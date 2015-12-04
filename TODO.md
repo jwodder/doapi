@@ -18,7 +18,7 @@
 
 - Decide on a name uniqueness policy
 - Implement `doapi-domain`
-- Use docopt instead of argparse?
+- Use docopt or argh instead of argparse?
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
 - Add metavars and other --help data
@@ -49,3 +49,5 @@
 - Add constants for the possible droplet statuses for passing to
   `wait_droplets` and `Droplet.wait`
 - Rename `JSObject` etc. to `Resource` or `DOResource`?
+- Add a public function/static method for getting the user's API token using
+  the same rules as the command-line programs?
