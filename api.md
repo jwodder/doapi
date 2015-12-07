@@ -153,3 +153,11 @@
             "id": "unprocessable_entity",
             "message": "Reserving this IP will exceed your Floating IP limit"
         }
+
+- Attempting to create a CNAME record with an invalid value produces a 422
+  with:
+
+        {
+            "id": "unprocessable_entity",
+            "message": "Data needs to end with a dot (.)"
+        }

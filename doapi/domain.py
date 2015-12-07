@@ -104,7 +104,8 @@ class Domain(JSObject):
         :rtype: DomainRecord
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.record(self.request(self.record_url, method='POST', data={
+        api = self.doapi_manager
+        return self.record(api.request(self.record_url, method='POST', data={
             "type": type,
             "name": name,
             "data": data,
