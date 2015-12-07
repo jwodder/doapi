@@ -44,9 +44,10 @@
   of lists of objects (each sublist containing the results for all objects with
   a given name) instead of a list of objects?
     - This would lead to problems when trying to operate with a wait.
+    - Answer: No.
 
 - When fetching with the `F` policy, should nonexistent names be ignored
-  without an error (and represented by `[]` in list-of-list output)?
+  without an error?
     - Only do this when a flag (`--ignore`?  `--null-no-names`?) is supplied?
     - Don't do this when operating.
 

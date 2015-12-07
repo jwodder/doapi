@@ -84,7 +84,7 @@ class doapi(object):
         :raises ValueError: if ``method`` is an invalid value
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        if url[:1] == "/":
+        if url.startswith('/'):
             url = urljoin(self.endpoint, url)
         attrs = {
             "headers": {

@@ -85,19 +85,19 @@ doapi-domain
         delete <name> ...
 
 	show-record <DOMAIN> [<id> ...]
-	new-record <DOMAIN> [--priority <X>] [--port <X>] [--weight <X>]
-	    <type> <name> <data>
-	set-record <DOMAIN> [--priority <X>] [--port <X>] [--weight <X>]
-	    <type> <name> <data>
+	new-record [--priority <X>] [--port <X>] [--weight <X>]
+	    <DOMAIN> <type> <name> <data>
+	set-record [--priority <X>] [--port <X>] [--weight <X>]
+	    <DOMAIN> <type> <name> <data>
 	# `set` is like `new` but deletes any & all pre-existing
 	# records with the same type & name.
-	update-record <DOMAIN> [--type TYPE]
-			       [--name NAME]
-			       [--data DATA]
-			       [--priority PRIORITY]
-			       [--port PORT]
-			       [--weight WEIGHT]
-			       <id>
+	update-record [--type TYPE]
+		      [--name NAME]
+		      [--data DATA]
+		      [--priority PRIORITY]
+		      [--port PORT]
+		      [--weight WEIGHT]
+		      <DOMAIN> <id>
 	delete-record <DOMAIN> <id> ...
 
 doapi-floating-ip

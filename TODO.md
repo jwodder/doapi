@@ -17,7 +17,6 @@
 # Command-Line Interface
 
 - Decide on a name uniqueness policy
-- Implement `doapi-domain`
 - Use docopt or argh instead of argparse?
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
@@ -27,6 +26,9 @@
 - Handle fetching actions of objects that are being deleted
 - When `doapi-droplet` automatically creates a new SSH key from a file, should
   it only use the file's basename for the key name?
+- Give `doapi-domain update-record` a way to set priority, port, & weight to
+  `null`?
+- Look into whether priority and/or weight of domain records can be nonintegral
 
 # Library
 
@@ -51,3 +53,6 @@
 - Rename `JSObject` etc. to `Resource` or `DOResource`?
 - Add a public function/static method for getting the user's API token using
   the same rules as the command-line programs?
+- The `region` field of `Actions` should be stored as a `Region` object
+- I don't think request URLs will be constructed correctly when the API
+  endpoint has a nonempty path component.  Address this.
