@@ -22,7 +22,7 @@
   `doapi-TYPE show`.
 
 - `doapi-droplet new`: Add an option for not creating a droplet if the name is
-  already in use but instead return the pre-existing droplet
+  already in use but instead returning the pre-existing droplet
     - Only do this when there's only one pre-existing object (erroring
       otherwise) ?
 
@@ -36,6 +36,9 @@
     - `chkernel` = `change-kernel` ?
     - [SOMETHING shorter than "enable-private-networking"]
     - [others?]
+
+- `doapi-<ssh-key/image>`: Allow `rename` as a synonym of `update`?
+- `doapi-droplet`: Allow `update` as a synonym of `rename`?
 
 - Prevent creation of objects whose name could be confused with an ID,
   fingerprint (for SSH keys), or slug (for images) unless some option
@@ -88,9 +91,6 @@
 
 - Let the user specify an unknown status to `doapi-droplet wait` if the
   `--force`(?) option is used
-
-- `doapi-<ssh-key/image>`: Allow `rename` as a synonym of `update`?
-- `doapi-droplet`: Allow `update` as a synonym of `rename`?
 
 - Give `doapi-region` and `doapi-size` "`show`" commands for fetching only
   specific regions/sizes
@@ -155,3 +155,4 @@
 - Give `fetch_<specific object>` methods an argument to make them return `None`
   when the object doesn't exist/returns a 404 instead of erroring?
 - Store timestamps as `datetime` objects?
+- Give `JSObject` a "`to_json`" method?

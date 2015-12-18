@@ -29,7 +29,7 @@
 - Possible responses to being asked to create an object with a name already in
   use:
     - `E` — Error out
-    - `N` — Create the object normally
+    - `N` — Create the object normally (possibly with a warning?)
     - `F` — Don't create anything, but do return all of the preexisting objects
       with that name
         - only do this when there's only one preexisting object?
@@ -53,20 +53,19 @@
 
 - Options for manipulating the duplicate name policy:
     - `--unique` — sets the policy to `EEE`
-    - `--multiple` [Come up with something better] — sets the fetch & operate
-      policies to `F`
-    - `--mkmany` [Come up with something better] — sets the creation policy to
-      `N`
-    - Merge `--multiple` and `--mkmany` into a `FFN` switch?
+    - `--multiple`/`-M` [Come up with something better] — sets the fetch &
+      operate policies to `F`
+        - also sets the creation policy to `N`
     - `--new-or-old` [Come up with something better] — sets the creation policy
       to `F` (but still errors when there's more than one pre-existing
       namesake?)
+    - ??? — disables warnings when creating a droplet with a duplicate name
 
 - **What should the default policy be?**
     - The default creation policy should not be `F`.
-    - default fetch: ???
-    - default operate: `E`?
-    - default creation: `N`?
+    - default fetch: `E`?
+    - default operate: `E`
+    - default creation: `N` (with warning?)
 
 - Operations that take mandatory extra arguments (e.g., renaming &
   snapshotting) and thus only allow you to specify one object on the command
