@@ -20,6 +20,7 @@ def main(argv=None, parsed=None):
     cmd_delete.add_argument('image', nargs='+')
 
     cmd_update = cmds.add_parser('update')
+    cmd_update.add_argument('--unique', action='store_true')
     cmd_update.add_argument('image')
     cmd_update.add_argument('name')
 
@@ -63,6 +64,8 @@ def main(argv=None, parsed=None):
             i.delete()
 
     elif args.cmd == 'update':
+        if args.unique and cache.name_exists("image", args.name):
+            util.die('%s: name already in use' % (args.name,))
         img = cache.get_image(args.image, multiple=False)
         util.dump(img.update_image(args.name))
 
