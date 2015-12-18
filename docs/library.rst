@@ -16,9 +16,18 @@ All public non-magic methods perform API requests and may raise a `DOAPIError`.
 Other Resources
 ---------------
 
+Account
+^^^^^^^
+
 .. autoclass:: Account
 
+Action
+^^^^^^
+
 .. autoclass:: Action
+
+FloatingIP
+^^^^^^^^^^
 
 .. autoclass:: FloatingIP
 
@@ -28,6 +37,9 @@ Other Resources
    .. automethod:: fetch_all_actions
    .. automethod:: fetch_last_action
    .. automethod:: fetch_current_action
+
+Image
+^^^^^
 
 .. autoclass:: Image
 
@@ -39,17 +51,32 @@ Other Resources
    .. automethod:: fetch_current_action
    .. automethod:: fetch_droplet
 
+Region
+^^^^^^
+
 .. autoclass:: Region
 
+Size
+^^^^
+
 .. autoclass:: Size
+
+SSHKey
+^^^^^^
 
 .. autoclass:: SSHKey
 
 Non-Resource Classes
 --------------------
 
+DOAPIError
+^^^^^^^^^^
+
 .. autoexception:: DOAPIError
    :no-inherited-members:
+
+DOEncoder
+^^^^^^^^^
 
 .. autoclass:: DOEncoder
    :no-inherited-members:
