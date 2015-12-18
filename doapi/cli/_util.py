@@ -134,6 +134,15 @@ class Cache(object):
         else:
             return [self.get_image(l, False) for l in labels]
 
+    def name_exists(self, key, name):
+        if key == "sshkey":
+            self.cache_sshkeys()
+        elif key == "droplet":
+            self.cache_droplets()
+        elif key == "image":
+            self.cache_images()
+        return name in self.caches[key]["name"]
+
 
 def mkclient(args):
     if args.api_token is not None:

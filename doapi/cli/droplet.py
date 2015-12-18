@@ -32,6 +32,7 @@ def main(argv=None, parsed=None):
     cmd_new.add_argument('-P', '--private-networking', action='store_true')
     cmd_new.add_argument('-U', '--user-data')
     cmd_new.add_argument('-K', '--ssh-key', action='append', default=[])
+    cmd_new.add_argument('--unique', action='store_true')
     cmd_new.add_argument('name', nargs='+')
 
     util.add_actioncmds(cmds, 'droplet')
@@ -92,7 +93,10 @@ def main(argv=None, parsed=None):
         }
         if args.user_data is not None:
             params["user_data"] = args.user_data
-        ### TODO: name uniqueness
+        if args.unique:
+            for n in args.name:
+                if cache.name_exists("droplet", n):
+                    util.die('%s: name already in use' % (n,))
         sshkeys = []
         for kname in args.ssh_key:
             key = cache.get_sshkey(kname, multiple=False, mandatory=False)
