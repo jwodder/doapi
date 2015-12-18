@@ -18,7 +18,7 @@ setup(
     install_requires=['requests', 'six'],
     license='MIT',
     author='John Thorvald Wodder II',
-    author_email='jwodder@sdf.lonestar.org',
+    author_email='doapi@varonathe.org',
     keywords='DigitalOcean',
 
     #description
