@@ -63,10 +63,12 @@ def main(argv=None, parsed=None):
     cmd_rebuild.add_argument('droplet', nargs='+')
 
     cmd_rename = cmds.add_parser('rename', parents=[util.waitopts])
+    cmd_rename.add_argument('--unique', action='store_true')
     cmd_rename.add_argument('droplet')
     cmd_rename.add_argument('name')
 
     cmd_snapshot = cmds.add_parser('snapshot', parents=[util.waitopts])
+    cmd_snapshot.add_argument('--unique', action='store_true')
     cmd_snapshot.add_argument('droplet')
     cmd_snapshot.add_argument('name')
 
@@ -193,6 +195,8 @@ def main(argv=None, parsed=None):
         util.dump(acts)
 
     elif args.cmd == 'rename':
+        if args.unique and cache.name_exists("droplet", args.name):
+            util.die('%s: name already in use' % (args.name,))
         drop = cache.get_droplet(args.droplet, multiple=False)
         act = drop.rename(args.name)
         if args.wait:
@@ -200,6 +204,8 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'snapshot':
+        if args.unique and cache.name_exists("image", args.name):
+            util.die('%s: name already in use' % (args.name,))
         drop = cache.get_droplet(args.droplet, multiple=False)
         act = drop.snapshot(args.name)
         if args.wait:
