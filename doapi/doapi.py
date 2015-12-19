@@ -2,7 +2,7 @@ import json
 from   time         import sleep, time
 from   urlparse     import urljoin
 import requests
-from   six          import iteritems
+from   six          import iteritems, string_types
 from   six.moves    import map
 from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError
 from   .action      import Action
@@ -74,8 +74,9 @@ class doapi(object):
             a forward slash, :attr:`endpoint` is prepended to it; otherwise,
             ``url`` is treated as an absolute URL.
         :param dict params: parameters to add to the URL's query string
-        :param data: a value to serialize as JSON and send in the body of the
-            request; only used by the POST and PUT methods
+        :param data: a value to send in the body of the request; only used by
+            the POST and PUT methods.  If ``data`` is not a string, it will be
+            serialized as JSON before sending.
         :param str method: the HTTP method to use: ``"GET"``, ``"POST"``,
             ``"PUT"``, or ``"DELETE"`` (case-insensitive); default: ``"GET"``
         :return: a decoded JSON value, or ``None`` if ``method`` was
@@ -94,13 +95,15 @@ class doapi(object):
             "params": params,
             "timeout": self.timeout,
         }
+        if not isinstance(data, string_types):
+            data = json.dumps(data)
         method = method.upper()
         if method == 'GET':
             r = requests.get(url, **attrs)
         elif method == 'POST':
-            r = requests.post(url, data=json.dumps(data), **attrs)
+            r = requests.post(url, data=data, **attrs)
         elif method == 'PUT':
-            r = requests.put(url, data=json.dumps(data), **attrs)
+            r = requests.put(url, data=data, **attrs)
         elif method == 'DELETE':
             r = requests.delete(url, **attrs)
         else:

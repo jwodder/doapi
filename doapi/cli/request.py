@@ -19,7 +19,7 @@ def main(argv=None, parsed=None):
     if args.data is not None:
         if args.request not in ('POST', 'PUT'):
             util.die('--data can only be used with the POST and PUT methods')
-        if len(args.data) > 1 and args.data[0] == '@':
+        if args.data.startswith("@"):
             if args.data[1:] == '-':
                 extra = {"data": sys.stdin.read()}
             else:

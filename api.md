@@ -94,6 +94,8 @@
   to fail.
 - Destroying a droplet with an assigned floating IP causes the IP to become
   unassigned but still remain.
+- Droplets have an undocumented `"tags"` field corresponding to an array of ...
+  something.  When was that added?
 
 ## Observed error responses
 
