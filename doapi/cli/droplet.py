@@ -11,9 +11,10 @@ unary_acts = {
     act.replace('_', '-'): getattr(Droplet, act)
     for act in "enable_backups disable_backups reboot power_cycle shutdown"
                " power_off power_on password_reset enable_ipv6"
-               " enable_private_networking upgrade"\
-               .split()
+               " enable_private_networking upgrade".split()
 }
+
+create_rate = 10  # maximum number of droplets to create at once
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
@@ -126,12 +127,15 @@ def main(argv=None, parsed=None):
                     except KeyError:
                         key = client.create_sshkey(kname, pubkey)
                         cache.add_sshkey(key)
-                        ### Print a message to stderr telling the user about
-                        ### the new key
+                        ### TODO: Print a message to stderr telling the user
+                        ### about the new key
             sshkeys.append(key)
         if sshkeys:
             params["ssh_keys"] = sshkeys
-        drops = [client.create_droplet(n, **params) for n in args.name]
+        drops = []
+        for i in range(0, len(args.name), create_rate):
+            drops.extend(client.create_droplets(args.name[i:i+create_rate],
+                                                **params))
         if args.wait:
             drops = client.wait_droplets(drops, status='active')
             ### Note: This will cause problems when fetching a pre-existing

@@ -330,7 +330,7 @@ class doapi(object):
             data["user_data"] = user_data
         return list(map(self.droplet, self.request('/v2/droplets',
                                                    method='POST',
-                                                   data=data)["droplets"])))
+                                                   data=data)["droplets"]))
 
     def fetch_all_droplet_neighbors(self):
         r"""

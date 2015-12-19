@@ -7,7 +7,6 @@
 - Figure out the minimum requests & six versions required and add them to
   setup.py
     - doapi was developed using requests v.2.2.1 and six v.1.5.2.
-- Support creating multiple droplets at once: <https://developers.digitalocean.com/documentation/v2/#create-multiple-droplets>
 
 # Command-Line Interface
 
@@ -17,10 +16,15 @@
   on the command line twice
 - Add metavars and other --help data
 - Handle fetching actions of objects that are being deleted
-- When `doapi-droplet` automatically creates a new SSH key from a file, should
-  it only use the file's basename for the key name?
-    - Doing this would then bring up the issue of whether passing `--unique` to
-      `doapi-droplet new` should cause SSH key creation to be --unique as well
+- `doapi-droplet new`:
+    - When a new SSH key is automatically created from a file, should only the
+      file's basename be used for the key name?
+        - Doing this would then bring up the issue of whether `--unique` should
+          make SSH key creation --unique as well
+    - Whenever a new SSH key is created, a message should be printed to stderr
+    - If an error occurs in the middle of creating droplets (e.g., if the
+      user's droplet limit is exceeded), print out the droplets that have been
+      created so far
 - Give `doapi-domain update-record` a way to set priority, port, & weight to
   `null`?
 
