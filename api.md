@@ -5,13 +5,11 @@
 - The input attribute table for the "Snapshot a Droplet" action omits the
   "name" attribute
 - Descriptions for accounts are missing.
-- The example response for fetching an account omits the relatively-recently
-  added "status" and "`status_message`" fields.
 - The curl examples include an "available" field in droplet objects that is not
   documented and doesn't seem to actually exist.
 - The "neighbor" requests are underdocumented.
-- The curl (and Ruby and Go) example for "List all Droplet Neighbors" shows the
-  API returning an array of objects instead of just an object.
+- The examples for "List all Droplet Neighbors" show the API returning an array
+  of objects instead of just an object.
 - The path for getting a droplet's neighbors is actually
   `/v2/droplets/$DROPLET_ID/neighbors`.
 - The documentation claims that the API accepts HEAD requests, but actually
@@ -46,7 +44,6 @@
 - How are error responses structured?
 - Can floating IPs be IPv6?  If so, how are they converted to `resource_id`s of
   actions?
-- How are `next_backup_window` objects structured?
 - When fetching images, will specifying both a type and `private=true` ever
   return a nonempty list?
 - It appears that listing a floating IP's actions can also return actions from
@@ -96,6 +93,11 @@
   unassigned but still remain.
 - Droplets have an undocumented `"tags"` field corresponding to an array of ...
   something.  When was that added?
+- Responses to actions now include an undocumented `.links.actions` field
+  containing an array of objects with `"href"` (action endpoint), `"id"`
+  (action ID), and `"rel"` (description of the action) fields.
+- `next_backup_window` objects apparently consist of just `"start"` and `"end"`
+  fields containing timestamps.
 
 ## Observed error responses
 
@@ -162,4 +164,13 @@
         {
             "id": "unprocessable_entity",
             "message": "Data needs to end with a dot (.)"
+        }
+
+- The feature for creating multiple droplets at once won't let you create more
+  than ten droplets at a time.  If you try to exceed this amount, you get a 422
+  with:
+
+        {
+            "id": "unprocessable_entity",
+            "message": "You cannot create more than 10 droplets at a time"
         }
