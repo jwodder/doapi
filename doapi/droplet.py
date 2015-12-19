@@ -9,27 +9,65 @@ class Droplet(Actionable, JSObjectWithID):
     The DigitalOcean API specifies the following fields for ``Droplet``
     objects:
 
-    .. attribute:: id
+    :var id: a unique identifier for the droplet
+    :vartype id: int
 
-    .. attribute:: name
+    :var backup_ids: image IDs of backups taken of the droplet
+    :vartype backup_ids: list
 
-    .. attribute:: memory
+    :var created_at: date & time of the droplet's creation as an ISO 8601
+        timestamp
+    :vartype created_at: string
 
-    .. attribute:: vcpus
-    .. attribute:: disk
-    .. attribute:: locked
-    .. attribute:: created_at
-    .. attribute:: status
-    .. attribute:: backup_ids
-    .. attribute:: snapshot_ids
-    .. attribute:: features
-    .. attribute:: region
-    .. attribute:: image
-    .. attribute:: size
-    .. attribute:: size_slug
-    .. attribute:: networks
-    .. attribute:: kernel
-    .. attribute:: next_backup_window
+    :var disk: size of the droplet's disk in gigabytes
+    :vartype disk: number
+
+    :var features: a list of strings naming the features enabled on the droplet
+    :vartype features: list
+
+    :var image: the base image used to create the droplet
+    :vartype image: `Image`
+
+    :var kernel: the droplet's current kernel
+    :vartype kernel: `Kernel` or ``None``
+
+    :var locked: whether the droplet is currently locked, preventing actions on
+        it
+    :vartype locked: bool
+
+    :var memory: memory of the droplet in megabytes
+    :vartype memory: number
+
+    :var name: a human-readable name for the droplet
+    :vartype name: string
+
+    :var networks: the network interfaces configured for the droplet
+    :vartype networks: `Networks`
+
+    :var next_backup_window: a dictionary with ``"start"`` and ``"end"`` fields
+        containing ISO 8601 timestamps for the start & end of the next window
+        in which the droplet will be backed up; only defined if backups are
+        enabled on the droplet
+    :vartype next_backup_window: ``dict`` or ``None``
+
+    :var region: the region in which the droplet is located
+    :vartype region: `Region`
+
+    :var size: the current size of the droplet
+    :vartype size: `Size`
+
+    :var size_slug: the slug identifying the droplet's size
+    :vartype size_slug: string
+
+    :var snapshot_ids: image IDs of snapshots taken of the droplet
+    :vartype snapshot_ids: list
+
+    :var status: the current state of the droplet: ``"new"``, ``"active"``,
+        ``"off"``, or ``"archive"``
+    :vartype status: string
+
+    :var vcpus: number of virtual CPUs
+    :vartype vcpus: int
 
     TODO
 

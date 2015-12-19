@@ -18,6 +18,8 @@
 - Handle fetching actions of objects that are being deleted
 - When `doapi-droplet` automatically creates a new SSH key from a file, should
   it only use the file's basename for the key name?
+    - Doing this would then bring up the issue of whether passing `--unique` to
+      `doapi-droplet new` should cause SSH key creation to be --unique as well
 - Give `doapi-domain update-record` a way to set priority, port, & weight to
   `null`?
 
