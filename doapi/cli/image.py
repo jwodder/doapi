@@ -87,7 +87,7 @@ def main(argv=None, parsed=None):
         util.dump(acts)
 
     elif args.cmd in ('act', 'actions', 'wait'):
-        imgs = cache.get_images(args.image, multiple=False)
+        imgs = cache.get_images(args.image, multiple=args.multiple)
         util.do_actioncmd(args, client, imgs)
 
     else:

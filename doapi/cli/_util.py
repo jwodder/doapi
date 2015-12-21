@@ -208,22 +208,28 @@ def currentActions(objs):
         if act:
             yield act
 
-def add_actioncmds(cmds, objtype):
+def add_actioncmds(cmds, objtype, multiple=True):
     cmd_act = cmds.add_parser('act', parents=[waitbase])
     paramopts = cmd_act.add_mutually_exclusive_group()
     paramopts.add_argument('-p', '--params', metavar='JSON dict')
     paramopts.add_argument('-P', '--param-file', type=argparse.FileType('r'))
+    if multiple:
+        cmd_act.add_argument('-M', '--multiple', action='store_true')
     cmd_act.add_argument('type')
     cmd_act.add_argument(objtype, nargs='+')
     cmd_actions = cmds.add_parser('actions')
     latestopts = cmd_actions.add_mutually_exclusive_group()
     latestopts.add_argument('--last', action='store_true')
     latestopts.add_argument('--current', action='store_true')
+    if multiple:
+        cmd_actions.add_argument('-M', '--multiple', action='store_true')
     cmd_actions.add_argument(objtype, nargs='+')
     cmd_wait = cmds.add_parser('wait', parents=[waitbase])
     if objtype == 'droplet':
         cmd_wait.add_argument('-S', '--status', type=str.lower,
                               choices=['active', 'new', 'off', 'archive'])
+    if multiple:
+        cmd_wait.add_argument('-M', '--multiple', action='store_true')
     cmd_wait.add_argument(objtype, nargs='+')
 
 def do_actioncmd(args, client, objects):

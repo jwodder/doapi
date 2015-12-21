@@ -149,7 +149,7 @@ def main(argv=None, parsed=None):
         util.dump(drops)
 
     elif args.cmd in ('act', 'actions', 'wait'):
-        drops = cache.get_droplets(args.droplet, multiple=False)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         util.do_actioncmd(args, client, drops)
 
     elif args.cmd in unary_acts:
