@@ -75,12 +75,12 @@
 
 - The following should be regarded as private:
     - constructors for everything other than `doapi`
-    - `JSObject`
-    - `JSObject._meta_attrs`
-    - `JSObject._url`
-    - `JSObject.data`?
-    - `JSObjectWithDroplet`
-    - `JSObjectWithID`
+    - `Resource`
+    - `Resource._meta_attrs`
+    - `Resource._url`
+    - `Resource.data`?
+    - `ResourceWithDroplet`
+    - `ResourceWithID`
     - `Actionable`
     - the `droplet`, `action`, `ssh_key`, `image`, `region`, `size`, `domain`,
       and `floating_ip` methods of `doapi`

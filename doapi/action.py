@@ -1,6 +1,6 @@
-from .base import JSObjectWithID, DOAPIError
+from .base import ResourceWithID, DOAPIError
 
-class Action(JSObjectWithID):
+class Action(ResourceWithID):
     """
     TODO
 

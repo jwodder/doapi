@@ -34,7 +34,6 @@
 - Add a class for droplets' `next_backup_window` fields
     - These objects apparently consist of just `"start"` and `"end"` fields
       containing timestamps.
-- Rename `JSObject` etc. to `Resource` or `DOResource`?
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out

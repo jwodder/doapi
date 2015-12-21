@@ -1,8 +1,8 @@
 from six       import string_types
 from six.moves import map
-from .base     import JSObject, JSObjectWithID
+from .base     import Resource, ResourceWithID
 
-class Domain(JSObject):
+class Domain(Resource):
     """
     TODO
 
@@ -115,10 +115,10 @@ class Domain(JSObject):
         })["domain_record"])
 
 
-class DomainRecord(JSObjectWithID):
+class DomainRecord(ResourceWithID):
     """ TODO """
 
-    _meta_attrs = JSObjectWithID._meta_attrs + ('domain',)
+    _meta_attrs = ResourceWithID._meta_attrs + ('domain',)
 
     @property
     def url(self):

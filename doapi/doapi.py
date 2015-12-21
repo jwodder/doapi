@@ -778,7 +778,7 @@ class doapi(object):
         immediately without waiting for completion.
 
         :param iterable objects: an iterable of objects with ``fetch`` methods
-            (presumably `JSObject`\ s)
+            (presumably `Resource`\ s)
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
             ``None``

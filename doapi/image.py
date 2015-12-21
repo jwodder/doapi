@@ -1,6 +1,6 @@
-from .base import Actionable, JSObjectWithDroplet, JSObjectWithID
+from .base import Actionable, ResourceWithDroplet, ResourceWithID
 
-class Image(Actionable, JSObjectWithDroplet, JSObjectWithID):
+class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     """
     TODO
 

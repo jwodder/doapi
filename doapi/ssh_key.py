@@ -1,7 +1,7 @@
 from six   import string_types
-from .base import JSObjectWithID
+from .base import ResourceWithID
 
-class SSHKey(JSObjectWithID):
+class SSHKey(ResourceWithID):
     """ TODO """
 
     def __init__(self, state=None, **extra):

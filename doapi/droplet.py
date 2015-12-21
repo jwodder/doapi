@@ -1,8 +1,8 @@
 from six.moves import map
-from .base     import Actionable, JSObjectWithID, Region, Size, Kernel, Networks
+from .base     import Actionable, ResourceWithID, Region, Size, Kernel, Networks
 from .image    import Image
 
-class Droplet(Actionable, JSObjectWithID):
+class Droplet(Actionable, ResourceWithID):
     """
     TODO
 

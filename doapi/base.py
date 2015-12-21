@@ -5,7 +5,7 @@ from   urlparse  import urljoin
 from   six       import iteritems
 from   six.moves import map
 
-class JSObject(collections.MutableMapping):
+class Resource(collections.MutableMapping):
     _meta_attrs = ('data', 'doapi_manager')
 
     def __init__(self, state=None, **extra):
@@ -19,7 +19,7 @@ class JSObject(collections.MutableMapping):
                 if attr != 'data':
                     setattr(self, attr, getattr(state, attr))
             state = state.data
-        elif isinstance(state, JSObject):
+        elif isinstance(state, Resource):
             raise TypeError('%r object passed to %r constructor'
                             % (state.__class__.__name__,
                                self.__class__.__name__))
@@ -82,7 +82,7 @@ class JSObject(collections.MutableMapping):
         return urljoin(endpoint, path)
 
 
-class JSObjectWithID(JSObject):
+class ResourceWithID(Resource):
     """
     A DigitalOcean API object with a unique integral ``id`` field.  Allows
     construction from an integer and implements ``__int__`` for conversion back
@@ -92,16 +92,16 @@ class JSObjectWithID(JSObject):
     def __init__(self, state=None, **extra):
         if isinstance(state, numbers.Integral):
             state = {"id": state}
-        super(JSObjectWithID, self).__init__(state, **extra)
+        super(ResourceWithID, self).__init__(state, **extra)
 
     def __int__(self):
         return self.id
 
 
-class JSObjectWithDroplet(JSObject):
-    """A JSObject with a "`droplet`" meta attribute"""
+class ResourceWithDroplet(Resource):
+    """A Resource with a "`droplet`" meta attribute"""
 
-    _meta_attrs = JSObject._meta_attrs + ('droplet',)
+    _meta_attrs = Resource._meta_attrs + ('droplet',)
 
     def fetch_droplet(self):
         if self.droplet is None:
@@ -116,7 +116,7 @@ class JSObjectWithDroplet(JSObject):
             # AttributeError they don't deserve.
 
 
-class Actionable(JSObject):
+class Actionable(Resource):
     # Required property: url
     # Required method: fetch
 
@@ -198,7 +198,7 @@ class Actionable(JSObject):
 
 class DOEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, JSObject):
+        if isinstance(obj, Resource):
             return obj.data
         elif isinstance(obj, collections.Iterator):
             return list(obj)
@@ -207,17 +207,17 @@ class DOEncoder(json.JSONEncoder):
             return super(DOEncoder, self).default(obj)
 
 
-class Region(JSObject):
+class Region(Resource):
     def __str__(self):
         return self.slug
 
 
-class Size(JSObject):
+class Size(Resource):
     def __str__(self):
         return self.slug
 
 
-class Account(JSObject):
+class Account(Resource):
     def fetch(self):
         return self.doapi_manager.fetch_account()
 
@@ -227,11 +227,11 @@ class Account(JSObject):
         return self._url('/v2/account')
 
 
-class Kernel(JSObjectWithDroplet, JSObjectWithID):
+class Kernel(ResourceWithDroplet, ResourceWithID):
     pass
 
 
-class DropletUpgrade(JSObject):
+class DropletUpgrade(Resource):
     def fetch_droplet(self):
         """
         Fetch the droplet affected by the droplet upgrade
@@ -241,7 +241,7 @@ class DropletUpgrade(JSObject):
         return self.doapi_manager.fetch_droplet(self.droplet_id)
 
 
-class Networks(JSObjectWithDroplet):
+class Networks(ResourceWithDroplet):
     def __init__(self, state=None, **extra):
         super(Networks, self).__init__(state, **extra)
         meta = {
@@ -256,8 +256,8 @@ class Networks(JSObjectWithDroplet):
                        for obj in self.v6]
 
 
-class NetworkInterface(JSObjectWithDroplet):
-    _meta_attrs = JSObjectWithDroplet._meta_attrs + ('ip_version',)
+class NetworkInterface(ResourceWithDroplet):
+    _meta_attrs = ResourceWithDroplet._meta_attrs + ('ip_version',)
 
     def __str__(self):
         return self.ip_address

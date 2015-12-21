@@ -136,16 +136,16 @@
   recent actions on a set of objects to complete
 - Make `DomainRecord` more robust with regards to potentially lacking a
   `doapi_manager` and/or `domain` object or having a string for a `domain`
-  object (cf. `JSObjectWithDroplet`)
+  object (cf. `ResourceWithDroplet`)
 - Give `doapi` `account`, `kernel`, etc. methods?
 - Give `doapi` a `wait_objects` method that fetches each input object's last
   action, waits for it to complete, and returns the object fetched anew?
     - Add special handling for Actions that just waits on & returns them
       normally?
-- Add a function (or method?) for recursively converting a JSObject to a `dict`
+- Add a function (or method?) for recursively converting a Resource to a `dict`
     - name: `.primitive()`?
     - The resulting dicts should lack any meta attributes.
-- Fix `JSObject.__repr__`'s handling of meta attributes
+- Fix `Resource.__repr__`'s handling of meta attributes
     - Show `doapi_manager` and DomainRecord's `domain`
         - Should `doapi_manager` be omitted from nested objects?
     - Do not show `_meta_attrs` (which isn't supposed to be in `vars()` anyway)
@@ -155,4 +155,4 @@
 - Give `fetch_<specific object>` methods an argument to make them return `None`
   when the object doesn't exist/returns a 404 instead of erroring?
 - Store timestamps as `datetime` objects?
-- Give `JSObject` a "`to_json`" method?
+- Give `Resource` a "`to_json`" method?
