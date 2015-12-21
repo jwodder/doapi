@@ -27,6 +27,9 @@
       created so far
 - Give `doapi-domain update-record` a way to set priority, port, & weight to
   `null`?
+- Switch the order of arguments to `doapi-droplet`'s `resize` and/or
+  `change-kernel` commands so that they can operate on multiple droplets at
+  once?
 
 # Library
 

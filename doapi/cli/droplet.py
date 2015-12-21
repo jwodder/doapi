@@ -39,13 +39,18 @@ def main(argv=None, parsed=None):
     util.add_actioncmds(cmds, 'droplet')
 
     for act in sorted(unary_acts):
-        cmds.add_parser(act, parents=[util.waitopts])\
-            .add_argument('droplet', nargs='+')
+        c = cmds.add_parser(act, parents=[util.waitopts])
+        c.add_argument('-M', '--multiple', action='store_true')
+        c.add_argument('droplet', nargs='+')
 
     for act in "show-snapshots backups kernels delete".split():
-        cmds.add_parser(act).add_argument('droplet', nargs='+')
+        c = cmds.add_parser(act)
+        c.add_argument('-M', '--multiple', action='store_true')
+        c.add_argument('droplet', nargs='+')
 
-    cmds.add_parser('neighbors').add_argument('droplet', nargs='*')
+    c = cmds.add_parser('neighbors')
+    c.add_argument('-M', '--multiple', action='store_true')
+    c.add_argument('droplet', nargs='*')
 
     cmds.add_parser('show-upgrades').add_argument('--droplets',
                                                  action='store_true')
@@ -61,6 +66,7 @@ def main(argv=None, parsed=None):
 
     cmd_rebuild = cmds.add_parser('rebuild', parents=[util.waitopts])
     cmd_rebuild.add_argument('-I', '--image')
+    cmd_rebuild.add_argument('-M', '--multiple', action='store_true')
     cmd_rebuild.add_argument('droplet', nargs='+')
 
     cmd_rename = cmds.add_parser('rename', parents=[util.waitopts])
@@ -149,7 +155,7 @@ def main(argv=None, parsed=None):
     elif args.cmd in unary_acts:
         # Fetch all of the droplets first so that an invalid droplet
         # specification won't cause some actions to start and others not.
-        drops = cache.get_droplets(args.droplet, multiple=False)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         acts = map(unary_acts[args.cmd], drops)
         if args.wait:
             acts = client.wait_actions(acts)
@@ -157,18 +163,18 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'show-snapshots':
         util.dump(map(Droplet.fetch_all_snapshots,
-                      cache.get_droplets(args.droplet, multiple=False)))
+                      cache.get_droplets(args.droplet, multiple=args.multiple)))
 
     elif args.cmd == 'backups':
         util.dump(map(Droplet.fetch_all_backups,
-                      cache.get_droplets(args.droplet, multiple=False)))
+                      cache.get_droplets(args.droplet, multiple=args.multiple)))
 
     elif args.cmd == 'kernels':
         util.dump(map(Droplet.fetch_all_kernels,
-                      cache.get_droplets(args.droplet, multiple=False)))
+                      cache.get_droplets(args.droplet, multiple=args.multiple)))
 
     elif args.cmd == 'delete':
-        drops = cache.get_droplets(args.droplet, multiple=False)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         for d in drops:
             d.delete()
 
@@ -188,7 +194,7 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'rebuild':
-        drops = cache.get_droplets(args.droplet, multiple=False)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         if args.image is not None:
             img = cache.get_image(args.image, multiple=False)
             acts = [d.rebuild(img) for d in drops]
@@ -226,7 +232,8 @@ def main(argv=None, parsed=None):
     elif args.cmd == 'neighbors':
         if args.droplet:
             util.dump(map(Droplet.fetch_all_neighbors,
-                          cache.get_droplets(args.droplet, multiple=False)))
+                          cache.get_droplets(args.droplet,
+                                             multiple=args.multiple)))
         else:
             util.dump(client.fetch_all_droplet_neighbors())
 
