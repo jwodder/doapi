@@ -14,6 +14,7 @@ def main(argv=None, parsed=None):
     cmd_new.add_argument('pubkey', type=argparse.FileType('r'), nargs='?',
                          default=sys.stdin)
     cmd_delete = cmds.add_parser('delete')
+    cmd_delete.add_argument('-M', '--multiple', action='store_true')
     cmd_delete.add_argument('ssh_key', nargs='+')
     cmd_update = cmds.add_parser('update')
     cmd_update.add_argument('--unique', action='store_true')
@@ -31,7 +32,7 @@ def main(argv=None, parsed=None):
             util.die('%s: name already in use' % (args.name,))
         util.dump(client.create_ssh_key(args.name, args.pubkey.read().strip()))
     elif args.cmd == 'delete':
-        keys = cache.get_sshkeys(args.ssh_key, multiple=False)
+        keys = cache.get_sshkeys(args.ssh_key, multiple=args.multiple)
         for k in keys:
             k.delete()
     elif args.cmd == 'update':

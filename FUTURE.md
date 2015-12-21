@@ -78,6 +78,13 @@
     - whether to wait/what operations to wait on?
     - whether & when to enforce name uniqueness among droplets, SSH keys, &
       images
+        - This will necessitate also adding (or overloading?) command-line
+          options for overriding the config file's uniqueness policies and
+          setting the policies back to their defaults.
+            - Make `--unique` also set fetch & operate commands back to
+              erroring on duplicate names
+            - Make `--multiple`(?) also set creation commands back to allowing
+              non-unique names
     - default parameters to pass when creating a droplet
     - whether to allow misleading-looking names for objects
 
