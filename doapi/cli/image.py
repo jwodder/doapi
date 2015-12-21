@@ -26,8 +26,9 @@ def main(argv=None, parsed=None):
     cmd_update.add_argument('name')
 
     cmd_transfer = cmds.add_parser('transfer', parents=[util.waitopts])
-    cmd_transfer.add_argument('image')
+    cmd_transfer.add_argument('-M', '--multiple', action='store_true')
     cmd_transfer.add_argument('region')
+    cmd_transfer.add_argument('image', nargs='+')
 
     cmd_convert = cmds.add_parser('convert')
     cmd_convert.add_argument('-M', '--multiple', action='store_true')
@@ -72,11 +73,11 @@ def main(argv=None, parsed=None):
         util.dump(img.update_image(args.name))
 
     elif args.cmd == 'transfer':
-        img = cache.get_image(args.image, multiple=False)
-        act = img.transfer(args.region)
+        imgs = cache.get_images(args.image, multiple=args.multiple)
+        acts = (i.transfer(args.region) for i in imgs)
         if args.wait:
-            act = act.wait()
-        util.dump(act)
+            acts = client.wait_actions(acts)
+        util.dump(acts)
 
     elif args.cmd == 'convert':
         imgs = cache.get_images(args.image, multiple=args.multiple)
