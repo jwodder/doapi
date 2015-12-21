@@ -17,6 +17,7 @@ def main(argv=None, parsed=None):
     cmd_show.add_argument('image', nargs='*')
 
     cmd_delete = cmds.add_parser('delete')
+    cmd_delete.add_argument('-M', '--multiple', action='store_true')
     cmd_delete.add_argument('image', nargs='+')
 
     cmd_update = cmds.add_parser('update')
@@ -29,6 +30,7 @@ def main(argv=None, parsed=None):
     cmd_transfer.add_argument('region')
 
     cmd_convert = cmds.add_parser('convert')
+    cmd_convert.add_argument('-M', '--multiple', action='store_true')
     cmd_convert.add_argument('image', nargs='+')
 
     util.add_actioncmds(cmds, 'image')
@@ -59,7 +61,7 @@ def main(argv=None, parsed=None):
             util.dump(client.fetch_all_images())
 
     elif args.cmd == 'delete':
-        imgs = cache.get_images(args.image, multiple=False)
+        imgs = cache.get_images(args.image, multiple=args.multiple)
         for i in imgs:
             i.delete()
 
@@ -77,7 +79,7 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'convert':
-        imgs = cache.get_images(args.image, multiple=False)
+        imgs = cache.get_images(args.image, multiple=args.multiple)
         acts = map(Image.convert, imgs)
         if args.wait:
             acts = client.wait_actions(acts)
