@@ -61,8 +61,9 @@ def main(argv=None, parsed=None):
 
     cmd_resize = cmds.add_parser('resize', parents=[util.waitopts])
     cmd_resize.add_argument('--disk', action='store_true')
-    cmd_resize.add_argument('droplet')
+    cmd_resize.add_argument('-M', '--multiple', action='store_true')
     cmd_resize.add_argument('size')
+    cmd_resize.add_argument('droplet', nargs='+')
 
     cmd_rebuild = cmds.add_parser('rebuild', parents=[util.waitopts])
     cmd_rebuild.add_argument('-I', '--image')
@@ -80,8 +81,9 @@ def main(argv=None, parsed=None):
     cmd_snapshot.add_argument('name')
 
     cmd_chkernel = cmds.add_parser('change-kernel', parents=[util.waitopts])
-    cmd_chkernel.add_argument('droplet')
+    cmd_chkernel.add_argument('-M', '--multiple', action='store_true')
     cmd_chkernel.add_argument('kernel', type=int)
+    cmd_chkernel.add_argument('droplet', nargs='+')
 
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
@@ -187,11 +189,11 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'resize':
-        drop = cache.get_droplet(args.droplet, multiple=False)
-        act = drop.resize(args.size, disk=args.disk)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+        acts = [d.resize(args.size, disk=args.disk) for d in drops]
         if args.wait:
-            act = act.wait()
-        util.dump(act)
+            acts = client.wait_actions(acts)
+        util.dump(acts)
 
     elif args.cmd == 'rebuild':
         drops = cache.get_droplets(args.droplet, multiple=args.multiple)
@@ -223,11 +225,11 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'change-kernel':
-        drop = cache.get_droplet(args.droplet, multiple=False)
-        act = drop.change_kernel(args.kernel)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+        acts = [d.change_kernel(args.kernel) for d in drops]
         if args.wait:
-            act = act.wait()
-        util.dump(act)
+            acts = client.wait_actions(acts)
+        util.dump(acts)
 
     elif args.cmd == 'neighbors':
         if args.droplet:
