@@ -42,6 +42,7 @@ setup(
             'doapi-action = doapi.cli.action:main',
             'doapi-domain = doapi.cli.domain:main',
             'doapi-droplet = doapi.cli.droplet:main',
+            'doapi-floating-ip = doapi.cli.floating_ip:main',
             'doapi-image = doapi.cli.image:main',
             'doapi-region = doapi.cli.region:main',
             'doapi-request = doapi.cli.request:main',

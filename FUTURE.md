@@ -128,6 +128,9 @@
 - Give `doapi-domain` commands for only showing records with a given type or
   name?
 
+- Add a way to force `-K` arguments to `doapi-droplet new` to always be
+  interpreted as filenames
+
 ### Internals
 
 - When not all objects of a type have been cached, labels that are valid IDs

@@ -53,7 +53,7 @@ def main(argv=None, parsed=None):
     c.add_argument('droplet', nargs='*')
 
     cmds.add_parser('show-upgrades').add_argument('--droplets',
-                                                 action='store_true')
+                                                  action='store_true')
 
     cmd_restore = cmds.add_parser('restore', parents=[util.waitopts])
     cmd_restore.add_argument('droplet')
