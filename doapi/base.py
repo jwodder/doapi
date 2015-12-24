@@ -1,7 +1,6 @@
 import collections
 import json
 import numbers
-from   urlparse  import urljoin
 from   six       import iteritems
 from   six.moves import map
 
@@ -79,7 +78,7 @@ class Resource(collections.MutableMapping):
             endpoint = self.doapi_manager.endpoint
         except (TypeError, AttributeError):
             endpoint = ''
-        return urljoin(endpoint, path)
+        return endpoint + path
 
 
 class ResourceWithID(Resource):

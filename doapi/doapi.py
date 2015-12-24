@@ -1,6 +1,5 @@
 import json
 from   time         import sleep, time
-from   urlparse     import urljoin
 import requests
 from   six          import iteritems, string_types
 from   six.moves    import map
@@ -86,7 +85,7 @@ class doapi(object):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         if url.startswith('/'):
-            url = urljoin(self.endpoint, url)
+            url = self.endpoint + url
         attrs = {
             "headers": {
                 "Authorization": "Bearer " + self.api_token,

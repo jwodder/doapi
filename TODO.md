@@ -40,15 +40,12 @@
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
 - Should `doapi` objects send all their requests through a `requests.Session`?
+  Should the user be able to supply their own `Session` object to use?
 - Wait operations should take into account the amount of time elapsed between
   `yield`s when deciding how long to sleep
 - Add constants for the possible droplet statuses for passing to
   `wait_droplets` and `Droplet.wait`
-- Add a public function/static method for getting the user's API token using
-  the same rules as the command-line programs?
 - The `region` field of `Actions` should be stored as a `Region` object
-- I don't think request URLs will be constructed correctly when the API
-  endpoint has a nonempty path component.  Address this.
 
 # API Compatibility & Correctness
 

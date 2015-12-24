@@ -48,7 +48,7 @@
   return a nonempty list?
 - It appears that listing a floating IP's actions can also return actions from
   when you previously owned the same IP, even if the address has been destroyed
-  & recreated in the interim.  Look into this.
+  & recreated in the interim.  Look into this.  (Or maybe they fixed it?)
 
 # Other notes
 

@@ -131,6 +131,9 @@
 - Add a way to force `-K` arguments to `doapi-droplet new` to always be
   interpreted as filenames
 
+- Add an option to cause error results to be returned alongside non-errors in
+  output lists?
+
 ### Internals
 
 - When not all objects of a type have been cached, labels that are valid IDs
@@ -142,8 +145,6 @@
 - Should slugs be allowed as alternative identifiers for images the same way
   fingerprints are for SSH keys?  (This depends on the circumstances under
   which the API will allow a slug in place of an ID in the first place.)
-- Give doapi a `wait_objects` (Rethink name) method for waiting for the most
-  recent actions on a set of objects to complete
 - Make `DomainRecord` more robust with regards to potentially lacking a
   `doapi_manager` and/or `domain` object or having a string for a `domain`
   object (cf. `ResourceWithDroplet`)
@@ -153,7 +154,7 @@
     - Add special handling for Actions that just waits on & returns them
       normally?
 - Add a function (or method?) for recursively converting a Resource to a `dict`
-    - name: `.primitive()`?
+    - name: `.primitive()`? `to_json`?
     - The resulting dicts should lack any meta attributes.
 - Fix `Resource.__repr__`'s handling of meta attributes
     - Show `doapi_manager` and DomainRecord's `domain`
@@ -165,4 +166,5 @@
 - Give `fetch_<specific object>` methods an argument to make them return `None`
   when the object doesn't exist/returns a 404 instead of erroring?
 - Store timestamps as `datetime` objects?
-- Give `Resource` a "`to_json`" method?
+- Add a public function/static method for getting the user's API token using
+  the same rules as the command-line programs?
