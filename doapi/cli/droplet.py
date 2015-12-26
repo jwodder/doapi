@@ -1,11 +1,13 @@
+from   __future__ import print_function
 import argparse
-from   base64    import b64decode
-from   errno     import ENOENT
-from   hashlib   import md5
-from   six.moves import map, range
-from   .         import _util as util
-from   ..base    import DropletUpgrade
-from   ..droplet import Droplet
+from   base64     import b64decode
+from   errno      import ENOENT
+from   hashlib    import md5
+import sys
+from   six.moves  import map, range
+from   .          import _util as util
+from   ..base     import DropletUpgrade
+from   ..droplet  import Droplet
 
 unary_acts = {
     act.replace('_', '-'): getattr(Droplet, act)
@@ -133,10 +135,11 @@ def main(argv=None, parsed=None):
                     try:
                         key = cache.caches["sshkey"]["fingerprint"][fprint]
                     except KeyError:
-                        key = client.create_sshkey(kname, pubkey)
+                        key = client.create_ssh_key(kname, pubkey)
                         cache.add_sshkey(key)
-                        ### TODO: Print a message to stderr telling the user
-                        ### about the new key
+                        print('New SSH key %r registered with ID %d and'
+                              ' fingerprint %s' % (kname, key.id, fprint),
+                              file=sys.stderr)
             sshkeys.append(key)
         if sshkeys:
             params["ssh_keys"] = sshkeys
