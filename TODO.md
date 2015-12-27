@@ -4,9 +4,6 @@
       that it can be thrown by anything that uses the API?
 - Add tests
     - Test giving non-ASCII names to things
-- Figure out the minimum requests & six versions required and add them to
-  setup.py
-    - doapi was developed using requests v.2.2.1 and six v.1.5.2.
 
 # Command-Line Interface
 
