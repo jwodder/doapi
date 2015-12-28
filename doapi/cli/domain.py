@@ -92,12 +92,14 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'set-record':
         domain = client.fetch_domain(args.domain)
+        newrec = domain.create_record(args.type, args.name, args.data,
+                                      args.priority, args.port, args.weight)
         recs = [r for r in domain.fetch_all_records()
-                  if r.type == args.type and r.name == args.name]
+                  if r.type == args.type and r.name == args.name and \
+                     r.id != newrec.id]
         for r in recs:
             r.delete()
-        util.dump(domain.create_record(args.type, args.name, args.data,
-                                       args.priority, args.port, args.weight))
+        util.dump(newrec)
 
     elif args.cmd == 'update-record':
         rec = client.fetch_domain(args.domain).fetch_record(args.record_id)
