@@ -45,9 +45,15 @@ def main(argv=None, parsed=None):
     cmd_modrec.add_argument('--type')
     cmd_modrec.add_argument('--name')
     cmd_modrec.add_argument('--data')
-    cmd_modrec.add_argument('--priority', type=int)  ### float instead?
-    cmd_modrec.add_argument('--port', type=int)
-    cmd_modrec.add_argument('--weight', type=int)  ### float instead?
+    modrec_priority = cmd_modrec.add_mutually_exclusive_group()
+    modrec_priority.add_argument('--priority', type=int)  ### float instead?
+    modrec_priority.add_argument('--no-priority', action='store_true')
+    modrec_port = cmd_modrec.add_mutually_exclusive_group()
+    modrec_port.add_argument('--port', type=int)
+    modrec_port.add_argument('--no-port', action='store_true')
+    modrec_weight = cmd_modrec.add_mutually_exclusive_group()
+    modrec_weight.add_argument('--weight', type=int)  ### float instead?
+    modrec_weight.add_argument('--no-weight', action='store_true')
     cmd_modrec.add_argument('domain')
     cmd_modrec.add_argument('record_id', type=int)
 
@@ -99,6 +105,9 @@ def main(argv=None, parsed=None):
         for a in 'type name data priority port weight'.split():
             if getattr(args, a, None) is not None:
                 attrs[a] = getattr(args, a)
+        for a in 'priority port weight'.split():
+            if getattr(args, 'no_' + a, None):
+                attrs[a] = None
         util.dump(rec.update_record(**attrs))
 
     elif args.cmd == 'delete-record':
