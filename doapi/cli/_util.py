@@ -55,7 +55,7 @@ class Cache(object):
                                      if getattr(obj, attr, None) is not None}
             self.caches[key] = grouped
 
-    def get(self, key, label, multiple=True, mandatory=True):
+    def get(self, key, label, multiple=True, mandatory=True, hasM=False):
         grouped = self.caches[key]
         for attr in self.groupby[key]:
             if attr == "id":
@@ -74,8 +74,12 @@ class Cache(object):
                     elif len(answer) == 1:
                         return answer[0]
                     else:
-                        die('%r: ambiguous; name used by multiple %ss: %s'
-                            % (label, key, ','.join(str(o.id) for o in answer)))
+                        msg = '%r: ambiguous; name used by multiple %ss: %s' \
+                            % (label, key, ','.join(str(o.id) for o in answer))
+                        if hasM:
+                            msg += '\nUse the -M/--multiple option to use all' \
+                                   ' of them at once.'
+                        die(msg)
                 elif multiple:
                     return [answer]
                 else:
@@ -88,15 +92,15 @@ class Cache(object):
     def cache_sshkeys(self):
         self.cache(self.client.fetch_all_ssh_keys(), "sshkey")
 
-    def get_sshkey(self, label, multiple=True, mandatory=True):
+    def get_sshkey(self, label, multiple=True, mandatory=True, hasM=False):
         self.cache_sshkeys()
-        return self.get("sshkey", label, multiple, mandatory)
+        return self.get("sshkey", label, multiple, mandatory, hasM)
 
-    def get_sshkeys(self, labels, multiple=True):
+    def get_sshkeys(self, labels, multiple=True, hasM=False):
         if multiple:
             return [key for l in labels for key in self.get_sshkey(l, True)]
         else:
-            return [self.get_sshkey(l, False) for l in labels]
+            return [self.get_sshkey(l, False, hasM=hasM) for l in labels]
 
     def add_sshkey(self, key):
         cache = self.caches["sshkey"]
@@ -111,28 +115,28 @@ class Cache(object):
     def cache_droplets(self):
         self.cache(self.client.fetch_all_droplets(), "droplet")
 
-    def get_droplet(self, label, multiple=True, mandatory=True):
+    def get_droplet(self, label, multiple=True, mandatory=True, hasM=False):
         self.cache_droplets()
-        return self.get("droplet", label, multiple, mandatory)
+        return self.get("droplet", label, multiple, mandatory, hasM)
 
-    def get_droplets(self, labels, multiple=True):
+    def get_droplets(self, labels, multiple=True, hasM=False):
         if multiple:
             return [drop for l in labels for drop in self.get_droplet(l, True)]
         else:
-            return [self.get_droplet(l, False) for l in labels]
+            return [self.get_droplet(l, False, hasM=hasM) for l in labels]
 
     def cache_images(self):
         self.cache(self.client.fetch_all_images(), "image")
 
-    def get_image(self, label, multiple=True, mandatory=True):
+    def get_image(self, label, multiple=True, mandatory=True, hasM=False):
         self.cache_images()
-        return self.get("image", label, multiple, mandatory)
+        return self.get("image", label, multiple, mandatory, hasM)
 
-    def get_images(self, labels, multiple=True):
+    def get_images(self, labels, multiple=True, hasM=False):
         if multiple:
             return [img for l in labels for img in self.get_image(l, True)]
         else:
-            return [self.get_image(l, False) for l in labels]
+            return [self.get_image(l, False, hasM=hasM) for l in labels]
 
     def name_exists(self, key, name):
         if key == "sshkey":

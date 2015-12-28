@@ -32,7 +32,8 @@ def main(argv=None, parsed=None):
             util.die('%s: name already in use' % (args.name,))
         util.dump(client.create_ssh_key(args.name, args.pubkey.read().strip()))
     elif args.cmd == 'delete':
-        keys = cache.get_sshkeys(args.ssh_key, multiple=args.multiple)
+        keys = cache.get_sshkeys(args.ssh_key, multiple=args.multiple,
+                                               hasM=True)
         for k in keys:
             k.delete()
     elif args.cmd == 'update':

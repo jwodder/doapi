@@ -62,7 +62,7 @@ def main(argv=None, parsed=None):
             util.dump(client.fetch_all_images())
 
     elif args.cmd == 'delete':
-        imgs = cache.get_images(args.image, multiple=args.multiple)
+        imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
         for i in imgs:
             i.delete()
 
@@ -73,21 +73,21 @@ def main(argv=None, parsed=None):
         util.dump(img.update_image(args.name))
 
     elif args.cmd == 'transfer':
-        imgs = cache.get_images(args.image, multiple=args.multiple)
+        imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
         acts = (i.transfer(args.region) for i in imgs)
         if args.wait:
             acts = client.wait_actions(acts)
         util.dump(acts)
 
     elif args.cmd == 'convert':
-        imgs = cache.get_images(args.image, multiple=args.multiple)
+        imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
         acts = map(Image.convert, imgs)
         if args.wait:
             acts = client.wait_actions(acts)
         util.dump(acts)
 
     elif args.cmd in ('act', 'actions', 'wait'):
-        imgs = cache.get_images(args.image, multiple=args.multiple)
+        imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
         util.do_actioncmd(args, client, imgs)
 
     else:

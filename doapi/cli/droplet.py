@@ -154,13 +154,15 @@ def main(argv=None, parsed=None):
         util.dump(drops)
 
     elif args.cmd in ('act', 'actions', 'wait'):
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                 hasM=True)
         util.do_actioncmd(args, client, drops)
 
     elif args.cmd in unary_acts:
         # Fetch all of the droplets first so that an invalid droplet
         # specification won't cause some actions to start and others not.
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                 hasM=True)
         acts = map(unary_acts[args.cmd], drops)
         if args.wait:
             acts = client.wait_actions(acts)
@@ -168,18 +170,22 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'show-snapshots':
         util.dump(map(Droplet.fetch_all_snapshots,
-                      cache.get_droplets(args.droplet, multiple=args.multiple)))
+                      cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                       hasM=True)))
 
     elif args.cmd == 'backups':
         util.dump(map(Droplet.fetch_all_backups,
-                      cache.get_droplets(args.droplet, multiple=args.multiple)))
+                      cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                       hasM=True)))
 
     elif args.cmd == 'kernels':
         util.dump(map(Droplet.fetch_all_kernels,
-                      cache.get_droplets(args.droplet, multiple=args.multiple)))
+                      cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                       hasM=True)))
 
     elif args.cmd == 'delete':
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                 hasM=True)
         for d in drops:
             d.delete()
 
@@ -192,14 +198,16 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'resize':
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                 hasM=True)
         acts = [d.resize(args.size, disk=args.disk) for d in drops]
         if args.wait:
             acts = client.wait_actions(acts)
         util.dump(acts)
 
     elif args.cmd == 'rebuild':
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                 hasM=True)
         if args.image is not None:
             img = cache.get_image(args.image, multiple=False)
             acts = [d.rebuild(img) for d in drops]
@@ -228,7 +236,8 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'change-kernel':
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                 hasM=True)
         acts = [d.change_kernel(args.kernel) for d in drops]
         if args.wait:
             acts = client.wait_actions(acts)
@@ -238,7 +247,8 @@ def main(argv=None, parsed=None):
         if args.droplet:
             util.dump(map(Droplet.fetch_all_neighbors,
                           cache.get_droplets(args.droplet,
-                                             multiple=args.multiple)))
+                                             multiple=args.multiple,
+                                             hasM=True)))
         else:
             util.dump(client.fetch_all_droplet_neighbors())
 
