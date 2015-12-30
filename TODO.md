@@ -7,7 +7,6 @@
 
 # Command-Line Interface
 
-- Decide on a name uniqueness policy
 - Use docopt or argh instead of argparse?
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
@@ -23,6 +22,8 @@
       created so far
 - Warn whenever the user creates a droplet, image, or SSH key with a name
   that's already in use (with an option to turn off the warnings?)
+- `doapi-image show`: Forbid using `--multiple` with `--type`, `--private`,
+  etc.
 
 # Library
 

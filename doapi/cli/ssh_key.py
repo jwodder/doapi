@@ -7,6 +7,7 @@ def main(argv=None, parsed=None):
                                      prog='doapi-ssh-key')
     cmds = parser.add_subparsers(title='command', dest='cmd')
     cmd_show = cmds.add_parser('show')
+    cmd_show.add_argument('-M', '--multiple', action='store_true')
     cmd_show.add_argument('ssh_key', nargs='*')
     cmd_new = cmds.add_parser('new')
     cmd_new.add_argument('--unique', action='store_true')
@@ -24,7 +25,8 @@ def main(argv=None, parsed=None):
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
         if args.ssh_key:
-            util.dump(cache.get_sshkeys(args.ssh_key, multiple=True))
+            util.dump(cache.get_sshkeys(args.ssh_key, multiple=args.multiple,
+                                                      hasM=True))
         else:
             util.dump(client.fetch_all_ssh_keys())
     elif args.cmd == 'new':

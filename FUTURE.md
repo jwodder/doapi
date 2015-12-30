@@ -11,6 +11,9 @@
 - Droplet action commands that require the droplet to be off should have a flag
   for ensuring it's off beforehand
 
+- Give `doapi-droplet` commands that simply ensure that their arguments are
+  on/off
+
 - Add `--all` options for everything that takes a list of objects to operate
   on? (except the "delete" commands; that'd be bad)
     - At the very least, this should be done for all of the commands that
@@ -168,3 +171,9 @@
 - Store timestamps as `datetime` objects?
 - Add a public function/static method for getting the user's API token using
   the same rules as the command-line programs?
+- Give `Droplet` methods for simply ensuring that the droplet is on/off? (i.e.,
+  that don't error if it's already on/off)
+- Give `Droplet` one or more methods that combine a "power off/on" action with
+  a regular droplet action so that the user can execute the latter action
+  properly without too much code
+    - Doing this on multiple droplets in parallel _must_ be supported

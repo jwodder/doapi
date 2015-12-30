@@ -14,6 +14,7 @@ def main(argv=None, parsed=None):
     showopts.add_argument('--application', action='store_true')
     showopts.add_argument('--type')
     showopts.add_argument('--private', action='store_true')
+    cmd_show.add_argument('-M', '--multiple', action='store_true')
     cmd_show.add_argument('image', nargs='*')
 
     cmd_delete = cmds.add_parser('delete')
@@ -57,7 +58,8 @@ def main(argv=None, parsed=None):
                 util.die('--private and image arguments are mutually exclusive')
             util.dump(client.fetch_all_private_images())
         elif args.image:
-            util.dump(cache.get_images(args.image, multiple=True))
+            util.dump(cache.get_images(args.image, multiple=args.multiple,
+                                                   hasM=True))
         else:
             util.dump(client.fetch_all_images())
 

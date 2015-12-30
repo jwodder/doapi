@@ -24,6 +24,7 @@ def main(argv=None, parsed=None):
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
     cmd_show = cmds.add_parser('show')
+    cmd_show.add_argument('-M', '--multiple', action='store_true')
     cmd_show.add_argument('droplet', nargs='*')
 
     cmd_new = cmds.add_parser('new', parents=[util.waitopts])
@@ -91,7 +92,8 @@ def main(argv=None, parsed=None):
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
         if args.droplet:
-            util.dump(cache.get_droplets(args.droplet, multiple=True))
+            util.dump(cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                       hasM=True))
         else:
             util.dump(client.fetch_all_droplets())
 
