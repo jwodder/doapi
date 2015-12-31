@@ -136,6 +136,9 @@
 - Add an option to cause error results to be returned alongside non-errors in
   output lists?
 
+- Add an option (`--quiet`?) to disable warnings about creating objects with
+  names that are already taken
+
 ### Internals
 
 - When not all objects of a type have been cached, labels that are valid IDs

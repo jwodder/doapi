@@ -69,8 +69,7 @@ def main(argv=None, parsed=None):
             i.delete()
 
     elif args.cmd == 'update':
-        if args.unique and cache.name_exists("image", args.name):
-            util.die('%s: name already in use' % (args.name,))
+        cache.check_name_dup("image", args.name, args.unique)
         img = cache.get_image(args.image, multiple=False)
         util.dump(img.update_image(args.name))
 

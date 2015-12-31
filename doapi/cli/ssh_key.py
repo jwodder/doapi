@@ -30,8 +30,7 @@ def main(argv=None, parsed=None):
         else:
             util.dump(client.fetch_all_ssh_keys())
     elif args.cmd == 'new':
-        if args.unique and cache.name_exists("sshkey", args.name):
-            util.die('%s: name already in use' % (args.name,))
+        cache.check_name_dup("sshkey", args.name, args.unique)
         util.dump(client.create_ssh_key(args.name, args.pubkey.read().strip()))
     elif args.cmd == 'delete':
         keys = cache.get_sshkeys(args.ssh_key, multiple=args.multiple,
@@ -39,8 +38,7 @@ def main(argv=None, parsed=None):
         for k in keys:
             k.delete()
     elif args.cmd == 'update':
-        if args.unique and cache.name_exists("sshkey", args.name):
-            util.die('%s: name already in use' % (args.name,))
+        cache.check_name_dup("sshkey", args.name, args.unique)
         key = cache.get_sshkey(args.ssh_key, multiple=False)
         util.dump(key.update_ssh_key(args.name))
     else:

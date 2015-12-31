@@ -138,14 +138,19 @@ class Cache(object):
         else:
             return [self.get_image(l, False, hasM=hasM) for l in labels]
 
-    def name_exists(self, key, name):
+    def check_name_dup(self, key, name, fatal):
         if key == "sshkey":
             self.cache_sshkeys()
         elif key == "droplet":
             self.cache_droplets()
         elif key == "image":
             self.cache_images()
-        return name in self.caches[key]["name"]
+        if name in self.caches[key]["name"]:
+            msg = 'There is already another %s named %r' % (key, name)
+            if fatal:
+                die(msg)
+            else:
+                sys.stderr.write('Warning: ' + msg + '\n')
 
 
 def mkclient(args):

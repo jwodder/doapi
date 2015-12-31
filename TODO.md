@@ -20,8 +20,6 @@
     - If an error occurs in the middle of creating droplets (e.g., if the
       user's droplet limit is exceeded), print out the droplets that have been
       created so far
-- Warn whenever the user creates a droplet, image, or SSH key with a name
-  that's already in use (with an option to turn off the warnings?)
 - `doapi-image show`: Forbid using `--multiple` with `--type`, `--private`,
   etc.
 - Come up with a better name for `--multiple`?

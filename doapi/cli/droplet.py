@@ -108,10 +108,8 @@ def main(argv=None, parsed=None):
         }
         if args.user_data is not None:
             params["user_data"] = args.user_data
-        if args.unique:
-            for n in args.name:
-                if cache.name_exists("droplet", n):
-                    util.die('%s: name already in use' % (n,))
+        for n in args.name:
+            cache.check_name_dup("droplet", n, args.unique)
         sshkeys = []
         for kname in args.ssh_key:
             key = cache.get_sshkey(kname, multiple=False, mandatory=False)
@@ -220,8 +218,7 @@ def main(argv=None, parsed=None):
         util.dump(acts)
 
     elif args.cmd == 'rename':
-        if args.unique and cache.name_exists("droplet", args.name):
-            util.die('%s: name already in use' % (args.name,))
+        cache.check_name_dup("droplet", args.name, args.unique)
         drop = cache.get_droplet(args.droplet, multiple=False)
         act = drop.rename(args.name)
         if args.wait:
@@ -229,8 +226,7 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'snapshot':
-        if args.unique and cache.name_exists("image", args.name):
-            util.die('%s: name already in use' % (args.name,))
+        cache.check_name_dup("image", args.name, args.unique)
         drop = cache.get_droplet(args.droplet, multiple=False)
         act = drop.snapshot(args.name)
         if args.wait:
