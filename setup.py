@@ -20,12 +20,10 @@ setup(
     author='John Thorvald Wodder II',
     author_email='doapi@varonathe.org',
     keywords='DigitalOcean',
+    description='DigitalOcean API library & CLI',
+    url='https://github.com/jwodder/doapi',
 
-    #description
-    #long_description
-    #url (GitHub repo)
-
-    ### <https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/>
+    ###long_description
 
     classifiers=[
         'Programming Language :: Python :: 2',
