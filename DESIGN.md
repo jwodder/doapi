@@ -19,57 +19,9 @@
 - Regions & sizes specified on the command line will not be checked for
   validity before using them; you'd get an error either way, and performing the
   check on the client side just adds more work and API requests.
-
-## On handling duplicated names
-
-- Possible responses to being given a duplicated name to fetch or operate on:
-    - `E` — Error out
-    - `F` — Fetch/operate on all objects with that name
-
-- Possible responses to being asked to create an object with a name already in
-  use:
-    - `E` — Error out
-    - `N` — Create the object normally (possibly with a warning?)
-    - `F` — Don't create anything, but do return all of the preexisting objects
-      with that name
-        - only do this when there's only one preexisting object?
-
-- Possible duplicate name policies are here represented by the letter for the
-  "fetch" policy, the letter for the "operate" policy, and the letter for the
-  "create" policy; e.g., the current policy is `FEN`.
-
-- Ignoring any non-unique names given on the command line is a bad idea.
-
-- When fetching or operating with the `F` policy, should the output be a list
-  of lists of objects (each sublist containing the results for all objects with
-  a given name) instead of a list of objects?
-    - This would lead to problems when trying to operate with a wait.
-    - Answer: No.
-
-- When fetching with the `F` policy, should nonexistent names be ignored
-  without an error?
-    - Only do this when a flag (`--ignore`?  `--null-no-names`?) is supplied?
-    - Don't do this when operating.
-
-- Options for manipulating the duplicate name policy:
-    - `--unique` — sets the policy to `EEE`
-    - `--multiple`/`-M` [Come up with something better] — sets the fetch &
-      operate policies to `F`
-        - also sets the creation policy to `N`
-    - `--new-or-old` [Come up with something better] — sets the creation policy
-      to `F` (but still errors when there's more than one pre-existing
-      namesake?)
-    - ??? — disables warnings when creating a droplet with a duplicate name
-
-- **What should the default policy be?**
-    - The default creation policy should not be `F`.
-    - default fetch: `E`?
-    - default operate: `E`
-    - default creation: `N` (with warning?)
-
 - Operations that take mandatory extra arguments (e.g., renaming &
   snapshotting) and thus only allow you to specify one object on the command
-  line should always follow policy `E`.
+  line should not be given `--multiple` options.
 
 # Design Decisions Made for the Library
 

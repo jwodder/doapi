@@ -10,7 +10,7 @@
 - Use docopt or argh instead of argparse?
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
-- Add metavars and other --help data
+- Add metavars and other `--help` data
 - Handle fetching actions of objects that are being deleted
 - `doapi-droplet new`:
     - When a new SSH key is automatically created from a file, should only the
@@ -24,6 +24,7 @@
   that's already in use (with an option to turn off the warnings?)
 - `doapi-image show`: Forbid using `--multiple` with `--type`, `--private`,
   etc.
+- Come up with a better name for `--multiple`?
 
 # Library
 

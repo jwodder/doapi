@@ -80,7 +80,8 @@
     - wait interval
     - whether to wait/what operations to wait on?
     - whether & when to enforce name uniqueness among droplets, SSH keys, &
-      images
+      images (including erroring out when asked to fetch or operate on a
+      non-unique name versus fetching/operating on all objects with that name)
         - This will necessitate also adding (or overloading?) command-line
           options for overriding the config file's uniqueness policies and
           setting the policies back to their defaults.
@@ -105,11 +106,9 @@
 - Give `doapi-region` and `doapi-size` "`show`" commands for fetching only
   specific regions/sizes
 
-- Give the `show` commands an `--ignore` option for skipping objects that don't
-  exist?
-
-- Give the `delete` commands an `--ignore` option for skipping objects that
-  don't exist
+- Give commands that fetch/operate on multiple objects `--ignore` options for
+  skipping objects that don't exist?
+    - Only support this option when `--multiple` is also supplied?
 
 - Give all commands that either have `--wait` (except 'new') or are 'wait' an
   option for dumping the manipulated objects instead of the completed actions
