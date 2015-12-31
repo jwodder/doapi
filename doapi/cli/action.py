@@ -15,7 +15,7 @@ def main(argv=None, parsed=None):
     showopts.add_argument('--current', action='store_true')
     cmd_show.add_argument('action', nargs='*', type=int)
 
-    cmd_wait = cmds.add_parser('wait')
+    cmd_wait = cmds.add_parser('wait', parents=[util.waitbase])
     cmd_wait.add_argument('action', nargs='*', type=int)
 
     cmd_resource = cmds.add_parser('resource')
