@@ -218,7 +218,7 @@ def currentActions(objs):
             yield act
 
 def add_actioncmds(cmds, objtype, multiple=True):
-    cmd_act = cmds.add_parser('act', parents=[waitbase])
+    cmd_act = cmds.add_parser('act', parents=[waitopts])
     paramopts = cmd_act.add_mutually_exclusive_group()
     paramopts.add_argument('-p', '--params', metavar='JSON dict')
     paramopts.add_argument('-P', '--param-file', type=argparse.FileType('r'))
