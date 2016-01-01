@@ -23,6 +23,13 @@
 - `doapi-image show`: Forbid using `--multiple` with `--type`, `--private`,
   etc.
 - Come up with a better name for `--multiple`?
+- When `--multiple` is in effect, should image slugs that are also names of
+  available images be interpreted as both? (and likewise for SSH keys &
+  fingerprints?)
+    - What about IDs that are also valid names for droplets/images/SSH keys?
+      Are such names even allowed?
+- Eliminate `doapi-domain set-record` and give `doapi-domain new-record` an
+  option for enabling `set-record`'s behavior instead?
 
 # Library
 

@@ -3,8 +3,6 @@ import sys
 from   . import _util as util
 
 def main(argv=None, parsed=None):
-    ### DOC NOTE: --dump-header dumps as JSON, because it's much easier that
-    ### way.
     parser = argparse.ArgumentParser(parents=[util.universal],
                                      prog='doapi-request')
     parser.add_argument('-X', '--request', type=str.upper, default='GET',
