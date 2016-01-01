@@ -12,7 +12,7 @@ Synopsis
 
     doapi-action show [<id> ...]
     doapi-action show {--last | --current}
-    doapi-action wait <wait options> [<id> ...]
+    doapi-action wait [--wait-time <seconds>] [--wait-interval <seconds>] [<id> ...]
         # Not specifying any arguments means "wait on all in-progress actions"
     doapi-action resource <id> ...  # fetch resource
     doapi-action resource {--last | --current}

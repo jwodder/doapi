@@ -31,7 +31,7 @@ def main(argv=None, parsed=None):
     cmd_transfer.add_argument('region')
     cmd_transfer.add_argument('image', nargs='+')
 
-    cmd_convert = cmds.add_parser('convert')
+    cmd_convert = cmds.add_parser('convert', parents=[util.waitopts])
     cmd_convert.add_argument('-M', '--multiple', action='store_true')
     cmd_convert.add_argument('image', nargs='+')
 

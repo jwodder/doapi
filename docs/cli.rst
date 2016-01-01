@@ -24,8 +24,7 @@ Universal options common to all commands::
     --timeout int
     --endpoint URL
 
-Options common to all actions (including creating droplets) (I think I left
-some of these out of a few synopses)::
+Options common to all actions (including creating droplets)::
 
     --wait
     --wait-time seconds
