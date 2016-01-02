@@ -55,7 +55,7 @@ class doapi(object):
         #: each request, or ``None`` to leave unspecified
         self.per_page = per_page
         #: The `requests.Response
-        #: <http://docs.python-requests.org/en/latest/api/#requests.Response>`
+        #: <http://docs.python-requests.org/en/latest/api/#requests.Response>`_
         #: object returned for the most recent request, or ``None`` if no
         #: requests have been made yet
         self.last_response = None
