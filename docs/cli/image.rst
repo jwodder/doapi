@@ -3,7 +3,12 @@
 ``doapi-image``
 ---------------
 
-Synopsis
+NAME
+^^^^
+
+``doapi-image`` — manage DigitalOcean droplet images
+
+SYNOPSIS
 ^^^^^^^^
 
 .. Add ``doapi-image [<universal options>]`` once "implicit show" is supported

@@ -1,3 +1,5 @@
+.. module:: doapi
+
 Command-Line Programs
 =====================
 

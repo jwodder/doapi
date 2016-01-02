@@ -3,7 +3,12 @@
 ``doapi-ssh-key``
 -----------------
 
-Synopsis
+NAME
+^^^^
+
+``doapi-ssh-key`` — manage SSH public keys on DigitalOcean
+
+SYNOPSIS
 ^^^^^^^^
 
 .. Add ``doapi-ssh-key [<universal options>]`` once "implicit show" is supported

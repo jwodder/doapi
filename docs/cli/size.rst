@@ -3,7 +3,12 @@
 ``doapi-size``
 --------------
 
-Synopsis
+NAME
+^^^^
+
+``doapi-size`` — list available DigitalOcean droplet sizes
+
+SYNOPSIS
 ^^^^^^^^
 
 ::

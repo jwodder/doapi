@@ -3,7 +3,12 @@
 ``doapi-region``
 ----------------
 
-Synopsis
+NAME
+^^^^
+
+``doapi-region`` — list available DigitalOcean droplet regions
+
+SYNOPSIS
 ^^^^^^^^
 
 ::

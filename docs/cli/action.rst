@@ -3,7 +3,12 @@
 ``doapi-action``
 ----------------
 
-Synopsis
+NAME
+^^^^
+
+``doapi-action`` — manage DigitalOcean API actions
+
+SYNOPSIS
 ^^^^^^^^
 
 .. Add ``doapi-action [<universal options>]`` once "implicit show" is supported

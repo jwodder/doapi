@@ -3,7 +3,12 @@
 ``doapi-domain``
 ----------------
 
-Synopsis
+NAME
+^^^^
+
+``doapi-domain`` — manage DigitalOcean domains & domain records
+
+SYNOPSIS
 ^^^^^^^^
 
 .. Add ``doapi-domain [<universal options>]`` once "implicit show" is supported

@@ -3,7 +3,12 @@
 ``doapi-droplet``
 -----------------
 
-Synopsis
+NAME
+^^^^
+
+``doapi-droplet`` — manage DigitalOcean droplets
+
+SYNOPSIS
 ^^^^^^^^
 
 .. Add ``doapi-droplet [<universal options>]`` once "implicit show" is supported

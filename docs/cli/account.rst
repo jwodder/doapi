@@ -3,7 +3,12 @@
 ``doapi-account``
 -----------------
 
-Synopsis
+NAME
+^^^^
+
+``doapi-account`` — fetch DigitalOcean account data
+
+SYNOPSIS
 ^^^^^^^^
 
 ::

@@ -3,7 +3,12 @@
 ``doapi-floating-ip``
 ---------------------
 
-Synopsis
+NAME
+^^^^
+
+``doapi-floating-ip`` — manage DigitalOcean floating IP addresses
+
+SYNOPSIS
 ^^^^^^^^
 
 .. Add ``doapi-floating-ip [<universal options>]`` once "implicit show" is supported

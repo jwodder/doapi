@@ -3,12 +3,12 @@
 ``doapi-request``
 -----------------
 
-Name
+NAME
 ^^^^
 
 ``doapi-request`` — perform a raw DigitalOcean API request
 
-Synopsis
+SYNOPSIS
 ^^^^^^^^
 
 ::
