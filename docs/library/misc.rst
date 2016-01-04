@@ -6,17 +6,17 @@ Other Resources
 Account
 ^^^^^^^
 
-.. autoclass:: Account
+.. autoclass:: Account()
 
 Action
 ^^^^^^
 
-.. autoclass:: Action
+.. autoclass:: Action()
 
 FloatingIP
 ^^^^^^^^^^
 
-.. autoclass:: FloatingIP
+.. autoclass:: FloatingIP()
 
    .. autoattribute:: action_url
    .. automethod:: act
@@ -28,7 +28,7 @@ FloatingIP
 Image
 ^^^^^
 
-.. autoclass:: Image
+.. autoclass:: Image()
 
    .. autoattribute:: action_url
    .. automethod:: act
@@ -41,14 +41,14 @@ Image
 Region
 ^^^^^^
 
-.. autoclass:: Region
+.. autoclass:: Region()
 
 Size
 ^^^^
 
-.. autoclass:: Size
+.. autoclass:: Size()
 
 SSHKey
 ^^^^^^
 
-.. autoclass:: SSHKey
+.. autoclass:: SSHKey()

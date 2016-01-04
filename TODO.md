@@ -13,10 +13,10 @@
 - Add metavars and other `--help` data
 - Handle fetching actions of objects that are being deleted
 - `doapi-droplet new`:
-    - When a new SSH key is automatically created from a file, should only the
-      file's basename be used for the key name?
-        - Doing this would then bring up the issue of whether `--unique` should
-          make SSH key creation --unique as well
+    - When automatically creating SSH keys, use the key's comment field (when
+      it exists) instead of the filename for the key name
+        - This brings up the issue of whether `--unique` should make SSH key
+          creation --unique as well
     - If an error occurs in the middle of creating droplets (e.g., if the
       user's droplet limit is exceeded), print out the droplets that have been
       created so far

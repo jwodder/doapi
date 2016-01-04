@@ -6,7 +6,7 @@ Droplets
 Droplet
 ^^^^^^^
 
-.. autoclass:: Droplet
+.. autoclass:: Droplet()
 
    .. autoattribute:: action_url
    .. automethod:: act
@@ -17,25 +17,25 @@ Droplet
 DropletUpgrade
 ^^^^^^^^^^^^^^
 
-.. autoclass:: DropletUpgrade
+.. autoclass:: DropletUpgrade()
 
 Kernel
 ^^^^^^
 
-.. autoclass:: Kernel
+.. autoclass:: Kernel()
 
    .. automethod:: fetch_droplet
 
 Networks
 ^^^^^^^^
 
-.. autoclass:: Networks
+.. autoclass:: Networks()
 
    .. automethod:: fetch_droplet
 
 NetworkInterface
 ^^^^^^^^^^^^^^^^
 
-.. autoclass:: NetworkInterface
+.. autoclass:: NetworkInterface()
 
    .. automethod:: fetch_droplet

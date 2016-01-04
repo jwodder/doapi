@@ -6,9 +6,9 @@ Domains
 Domain
 ^^^^^^
 
-.. autoclass:: Domain
+.. autoclass:: Domain()
 
 DomainRecord
 ^^^^^^^^^^^^
 
-.. autoclass:: DomainRecord
+.. autoclass:: DomainRecord()
