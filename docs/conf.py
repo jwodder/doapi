@@ -55,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'doapi'
-copyright = u'2015 John T. Wodder II'
+copyright = u'2015-2016 John T. Wodder II'
 author = u'John T. Wodder II'
 
 # The version info for the project you're documenting, acts as replacement for
