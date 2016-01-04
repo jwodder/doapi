@@ -164,7 +164,7 @@ class Droplet(Actionable, ResourceWithID):
             the droplet no longer exists)
         """
         api = self.doapi_manager
-        return api.droplet(api.request(self.url)["droplet"])
+        return api._droplet(api.request(self.url)["droplet"])
 
     def fetch_all_neighbors(self):
         r"""
@@ -175,7 +175,7 @@ class Droplet(Actionable, ResourceWithID):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
-        return map(api.droplet, api.paginate(self.url + '/neighbors',
+        return map(api._droplet, api.paginate(self.url + '/neighbors',
                                              'droplets'))
 
     def fetch_all_snapshots(self):

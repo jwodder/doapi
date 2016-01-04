@@ -34,7 +34,7 @@ class Domain(Resource):
             the domain no longer exists)
         """
         api = self.doapi_manager
-        return api.domain(api.request(self.url)["domain"])
+        return api._domain(api.request(self.url)["domain"])
 
     def delete(self):
         """
@@ -45,7 +45,7 @@ class Domain(Resource):
         """
         self.doapi_manager.request(self.url, method='DELETE')
 
-    def record(self, obj):
+    def _record(self, obj):
         """
         Construct a `DomainRecord` object belonging to the domain's `doapi`
         object.  ``obj`` may be a domain record ID, a dictionary of domain
@@ -74,7 +74,7 @@ class Domain(Resource):
         :rtype: DomainRecord
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.record(obj).fetch()
+        return self._record(obj).fetch()
 
     def fetch_all_records(self):
         r"""
@@ -83,7 +83,7 @@ class Domain(Resource):
         :rtype: generator of `DomainRecord`\ s
         """
         api = self.doapi_manager
-        return map(self.record, api.paginate(self.record_url, 'domain_records'))
+        return map(self._record, api.paginate(self.record_url, 'domain_records'))
 
     def create_record(self, type, name, data, priority=None, port=None,
                       weight=None):
@@ -105,7 +105,7 @@ class Domain(Resource):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
-        return self.record(api.request(self.record_url, method='POST', data={
+        return self._record(api.request(self.record_url, method='POST', data={
             "type": type,
             "name": name,
             "data": data,
@@ -123,7 +123,7 @@ class DomainRecord(ResourceWithID):
     @property
     def url(self):
         """ The endpoint for operations on the specific domain record """
-        return self.domain.record_url + '/' + str(self.id)
+        return self._domain.record_url + '/' + str(self.id)
 
     def fetch(self):
         """
@@ -134,8 +134,8 @@ class DomainRecord(ResourceWithID):
         :raises DOAPIError: if the API endpoint replies with an error (e.g., if
             the domain record no longer exists)
         """
-        return self.domain.record(self.doapi_manager.request(self.url)\
-                                                            ["domain_record"])
+        return self._domain._record(self.doapi_manager.request(self.url)\
+                                                              ["domain_record"])
 
     def fetch_domain(self):
         """
@@ -144,7 +144,7 @@ class DomainRecord(ResourceWithID):
         :rtype: Domain
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.domain.fetch()
+        return self._domain.fetch()
 
     def update_record(self, **attrs):
         # The `_record` is to avoid conflicts with MutableMapping.update.
@@ -158,10 +158,10 @@ class DomainRecord(ResourceWithID):
         :rtype: DomainRecord
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.domain.record(self.doapi_manager.request(self.url,
-                                                             method='PUT',
-                                                             data=attrs)\
-                                                            ["domain_record"])
+        return self._domain._record(self.doapi_manager.request(self.url,
+                                                               method='PUT',
+                                                               data=attrs)\
+                                                              ["domain_record"])
 
     def delete(self):
         """

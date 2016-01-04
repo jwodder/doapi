@@ -39,7 +39,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
             the image no longer exists)
         """
         api = self.doapi_manager
-        return api.image(api.request(self.url)["image"])
+        return api._image(api.request(self.url)["image"])
 
     def update_image(self, name):
         # The `_image` is to avoid conflicts with MutableMapping.update.
@@ -52,7 +52,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
-        return api.image(api.request(self.url, method='PUT',
+        return api._image(api.request(self.url, method='PUT',
                                                data={"name": name})["image"])
 
     def delete(self):

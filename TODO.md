@@ -2,6 +2,8 @@
     - Write a README
     - Stop listing `DOAPIError` under (almost) every method and just say once
       that it can be thrown by anything that uses the API?
+    - Add a separate section to the documentation for private/internal methods
+      & classes
 - Add tests
     - Test giving non-ASCII names to things
 
@@ -61,8 +63,6 @@
   images that can be acted on
 - Look into whether priority and/or weight of domain records can be nonintegral
 - Look into the correctness of the naïve implementation of `fetch_last_action`
-- Look into whether I should be relying on the fetchability of
-  `/v2/floating_ips/$IP_ADDR/actions`
 - Look into whether fetching an action via `/v2/actions/$ACTION_ID` is always
   equivalent to fetching via
   `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`

@@ -43,7 +43,7 @@ class Action(ResourceWithID):
         :rtype: Action
         """
         api = self.doapi_manager
-        return api.action(api.request(self.url)["action"])
+        return api._action(api.request(self.url)["action"])
 
     def fetch_resource(self):
         """

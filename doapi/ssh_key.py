@@ -42,7 +42,7 @@ class SSHKey(ResourceWithID):
             the SSH key no longer exists)
         """
         api = self.doapi_manager
-        return api.ssh_key(api.request(self.url)["ssh_key"])
+        return api._ssh_key(api.request(self.url)["ssh_key"])
 
     def update_ssh_key(self, name):
         # The `_ssh_key` is to avoid conflicts with MutableMapping.update.
@@ -55,7 +55,7 @@ class SSHKey(ResourceWithID):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
-        return api.ssh_key(api.request(self.url, method='PUT',
+        return api._ssh_key(api.request(self.url, method='PUT',
                                        data={"name": name})["ssh_key"])
 
     def delete(self):

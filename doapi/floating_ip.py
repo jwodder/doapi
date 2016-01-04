@@ -37,7 +37,7 @@ class FloatingIP(Actionable):
             the floating IP no longer exists)
         """
         api = self.doapi_manager
-        return api.floating_ip(api.request(self.url)["floating_ip"])
+        return api._floating_ip(api.request(self.url)["floating_ip"])
 
     def delete(self):
         """

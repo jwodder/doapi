@@ -137,8 +137,8 @@ class Actionable(Resource):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
-        return api.action(api.request(self.action_url, method='POST',
-                                      data=data)["action"])
+        return api._action(api.request(self.action_url, method='POST',
+                                       data=data)["action"])
 
     def wait(self, wait_interval=None, wait_time=None):
         """
@@ -170,7 +170,7 @@ class Actionable(Resource):
         :rtype: generator of `Action`\ s
         """
         api = self.doapi_manager
-        return map(api.action, api.paginate(self.action_url, 'actions'))
+        return map(api._action, api.paginate(self.action_url, 'actions'))
 
     def fetch_last_action(self):
         """
@@ -180,7 +180,7 @@ class Actionable(Resource):
         """
         # Naive implementation:
         api = self.doapi_manager
-        return api.action(api.request(self.action_url)["actions"][0])
+        return api._action(api.request(self.action_url)["actions"][0])
         # Slow yet guaranteed-correct implementation:
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 

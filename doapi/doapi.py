@@ -172,7 +172,7 @@ class doapi(object):
                 break
             page = self.request(url)
 
-    def droplet(self, obj):
+    def _droplet(self, obj):
         """
         Construct a `Droplet` object belonging to the `doapi` object.  ``obj``
         may be a droplet ID, a dictionary of droplet fields, or another
@@ -195,7 +195,7 @@ class doapi(object):
         :rtype: Droplet
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.droplet(obj).fetch()
+        return self._droplet(obj).fetch()
 
     def fetch_all_droplets(self):
         r"""
@@ -204,7 +204,7 @@ class doapi(object):
 
         :rtype: generator of `Droplet`\ s
         """
-        return map(self.droplet, self.paginate('/v2/droplets', 'droplets'))
+        return map(self._droplet, self.paginate('/v2/droplets', 'droplets'))
 
     def fetch_all_droplet_upgrades(self):
         r"""
@@ -269,8 +269,8 @@ class doapi(object):
             data["private_networking"] = private_networking
         if user_data is not None:
             data["user_data"] = user_data
-        return self.droplet(self.request('/v2/droplets', method='POST',
-                                         data=data)["droplet"])
+        return self._droplet(self.request('/v2/droplets', method='POST',
+                                          data=data)["droplet"])
 
     def create_droplets(self, names, image, size, region, ssh_keys=None,
                         backups=None, ipv6=None, private_networking=None,
@@ -327,9 +327,9 @@ class doapi(object):
             data["private_networking"] = private_networking
         if user_data is not None:
             data["user_data"] = user_data
-        return list(map(self.droplet, self.request('/v2/droplets',
-                                                   method='POST',
-                                                   data=data)["droplets"]))
+        return list(map(self._droplet, self.request('/v2/droplets',
+                                                    method='POST',
+                                                    data=data)["droplets"]))
 
     def fetch_all_droplet_neighbors(self):
         r"""
@@ -339,7 +339,7 @@ class doapi(object):
         :rtype: generator of lists of `Droplet`\ s
         """
         for hood in self.paginate('/v2/reports/droplet_neighbors', 'neighbors'):
-            yield list(map(self.droplet, hood))
+            yield list(map(self._droplet, hood))
 
     def wait_droplets(self, droplets, status=None, wait_interval=None,
                                                    wait_time=None):
@@ -372,7 +372,7 @@ class doapi(object):
         :rtype: generator of `Droplet`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        droplets = map(self.droplet, droplets)
+        droplets = map(self._droplet, droplets)
         if status is None:
             return map(Action.fetch_resource,
                        self.wait_actions(map(Droplet.fetch_last_action,
@@ -382,7 +382,7 @@ class doapi(object):
             return self._wait(droplets, lambda d: d.status == status,
                               wait_interval, wait_time)
 
-    def action(self, obj):
+    def _action(self, obj):
         """
         Construct an `Action` object belonging to the `doapi` object.  ``obj``
         may be an action ID, a dictionary of action fields, or another `Action`
@@ -405,7 +405,7 @@ class doapi(object):
         :rtype: Action
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.action(obj).fetch()
+        return self._action(obj).fetch()
 
     def fetch_last_action(self):
         """
@@ -416,7 +416,7 @@ class doapi(object):
         :rtype: Action
         """
         # Naive implementation:
-        return self.action(self.request('/v2/actions')["actions"][0])
+        return self._action(self.request('/v2/actions')["actions"][0])
         # Slow yet guaranteed-correct implementation:
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 
@@ -427,7 +427,7 @@ class doapi(object):
 
         :rtype: generator of `Action`\ s
         """
-        return map(self.action, self.paginate('/v2/actions', 'actions'))
+        return map(self._action, self.paginate('/v2/actions', 'actions'))
 
     def wait_actions(self, actions, wait_interval=None, wait_time=None):
         r"""
@@ -448,10 +448,10 @@ class doapi(object):
         :rtype: generator of `Action`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self._wait(map(self.action, actions), lambda a: a.done,
+        return self._wait(map(self._action, actions), lambda a: a.done,
                           wait_interval, wait_time)
 
-    def ssh_key(self, obj):
+    def _ssh_key(self, obj):
         """
         Construct an `SSHKey` object belonging to the `doapi` object.  ``obj``
         may be an SSH key ID number, an SSH key fingerprint, a dictionary of
@@ -476,7 +476,7 @@ class doapi(object):
         :rtype: SSHKey
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.ssh_key(obj).fetch()
+        return self._ssh_key(obj).fetch()
 
     def fetch_all_ssh_keys(self):
         r"""
@@ -485,7 +485,7 @@ class doapi(object):
 
         :rtype: generator of `SSHKey`\ s
         """
-        return map(self.ssh_key, self.paginate('/v2/account/keys', 'ssh_keys'))
+        return map(self._ssh_key, self.paginate('/v2/account/keys', 'ssh_keys'))
 
     def create_ssh_key(self, name, public_key):
         """
@@ -498,13 +498,13 @@ class doapi(object):
         :rtype: SSHKey
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.ssh_key(self.request('/v2/account/keys', method='POST',
-                                         data={
-                                             "name": name,
-                                             "public_key": public_key
-                                         })["ssh_key"])
+        return self._ssh_key(self.request('/v2/account/keys', method='POST',
+                                          data={
+                                              "name": name,
+                                              "public_key": public_key
+                                          })["ssh_key"])
 
-    def image(self, obj):
+    def _image(self, obj):
         """
         Construct an `Image` object belonging to the `doapi` object.  ``obj``
         may be an image ID, a dictionary of image fields, or another `Image`
@@ -527,7 +527,7 @@ class doapi(object):
         :rtype: Image
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.image(obj).fetch()
+        return self._image(obj).fetch()
 
     def fetch_image_by_slug(self, slug):
         """
@@ -537,7 +537,7 @@ class doapi(object):
         :rtype: Image
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.image(self.request('/v2/images/' + slug)["image"])
+        return self._image(self.request('/v2/images/' + slug)["image"])
 
     def fetch_all_images(self, type=None, private=False):
         r"""
@@ -556,8 +556,8 @@ class doapi(object):
             params["type"] = type
         if private:
             params["private"] = 'true'
-        return map(self.image, self.paginate('/v2/images', 'images',
-                                             params=params))
+        return map(self._image, self.paginate('/v2/images', 'images',
+                                              params=params))
 
     def fetch_all_distribution_images(self):
         r"""
@@ -585,7 +585,7 @@ class doapi(object):
         """
         return self.fetch_all_images(private=True)
 
-    def region(self, obj):
+    def _region(self, obj):
         """
         Construct a `Region` object belonging to the `doapi` object.  ``obj``
         may be a dictionary of region fields or another `Region` object (which
@@ -605,9 +605,9 @@ class doapi(object):
 
         :rtype: generator of `Region`\ s
         """
-        return map(self.region, self.paginate('/v2/regions', 'regions'))
+        return map(self._region, self.paginate('/v2/regions', 'regions'))
 
-    def size(self, obj):
+    def _size(self, obj):
         """
         Construct a `Size` object belonging to the `doapi` object.  ``obj`` may
         be a dictionary of size fields or another `Size` object (which will be
@@ -627,7 +627,7 @@ class doapi(object):
 
         :rtype: generator of `Size`\ s
         """
-        return map(self.size, self.paginate('/v2/sizes', 'sizes'))
+        return map(self._size, self.paginate('/v2/sizes', 'sizes'))
 
     def fetch_account(self):
         """
@@ -638,7 +638,7 @@ class doapi(object):
         return Account(self.request('/v2/account')["account"],
                        doapi_manager=self)
 
-    def domain(self, obj):
+    def _domain(self, obj):
         """
         Construct a `Domain` object belonging to the `doapi` object.  ``obj``
         may be a domain name, a dictionary of domain fields, or another
@@ -661,7 +661,7 @@ class doapi(object):
         :rtype: Domain
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.domain(obj).fetch()
+        return self._domain(obj).fetch()
 
     def fetch_all_domains(self):
         r"""
@@ -670,7 +670,7 @@ class doapi(object):
 
         :rtype: generator of `Domain`\ s
         """
-        return map(self.domain, self.paginate('/v2/domains', 'domains'))
+        return map(self._domain, self.paginate('/v2/domains', 'domains'))
 
     def create_domain(self, name, ip_address):
         """
@@ -682,12 +682,12 @@ class doapi(object):
         :rtype: Domain
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.domain(self.request('/v2/domains', method='POST', data={
+        return self._domain(self.request('/v2/domains', method='POST', data={
             "name": name,
             "ip_address": ip_address,
         })["domain"])
 
-    def floating_ip(self, obj):
+    def _floating_ip(self, obj):
         """
         Construct a `FloatingIP` object belonging to the `doapi` object.
         ``obj`` may be an IP address (as a string or 32-bit integer), a
@@ -712,7 +712,7 @@ class doapi(object):
         :rtype: FloatingIP
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self.floating_ip(obj).fetch()
+        return self._floating_ip(obj).fetch()
 
     def fetch_all_floating_ips(self):
         r"""
@@ -721,8 +721,8 @@ class doapi(object):
 
         :rtype: generator of `FloatingIP`\ s
         """
-        return map(self.floating_ip, self.paginate('/v2/floating_ips',
-                                                   'floating_ips'))
+        return map(self._floating_ip, self.paginate('/v2/floating_ips',
+                                                    'floating_ips'))
 
     def create_floating_ip(self, droplet_id=None, region=None):
         """
@@ -759,8 +759,8 @@ class doapi(object):
             if isinstance(region, Region):
                 region = region.slug
             data = {"region": region}
-        return self.floating_ip(self.request('/v2/floating_ips', method='POST',
-                                             data=data)["floating_ip"])
+        return self._floating_ip(self.request('/v2/floating_ips', method='POST',
+                                              data=data)["floating_ip"])
 
     def __eq__(self, other):
         return type(self) == type(other) and vars(self) == vars(other)
