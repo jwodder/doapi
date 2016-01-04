@@ -46,7 +46,6 @@
   `yield`s when deciding how long to sleep
 - Add constants for the possible droplet statuses for passing to
   `wait_droplets` and `Droplet.wait`
-- The `region` field of `Actions` should be stored as a `Region` object
 - Rename `doapi.create_droplets` to `doapi.create_multiple_droplets`?
 
 # API Compatibility & Correctness

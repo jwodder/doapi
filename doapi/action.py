@@ -1,4 +1,4 @@
-from .base import ResourceWithID, DOAPIError
+from .base import ResourceWithID, Region, DOAPIError
 
 class Action(ResourceWithID):
     """
@@ -50,6 +50,13 @@ class Action(ResourceWithID):
     Under normal/non-pathological circumstances, none of these methods should
     ever raise a `DOAPIError`.
     """
+
+    def __init__(self, state=None, **extra):
+        """ TODO """
+        super(Action, self).__init__(state, **extra)
+        if self.get('region') is not None and \
+                not isinstance(self.region, Region):
+            self.region = Region(self.region, doapi_manager=self.doapi_manager)
 
     @property
     def completed(self):
