@@ -168,6 +168,7 @@ class Actionable(Resource):
         resource
 
         :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
         return map(api._action, api.paginate(self.action_url, 'actions'))
@@ -177,6 +178,7 @@ class Actionable(Resource):
         Fetch the most recent action performed on the resource
 
         :rtype: Action
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         # Naive implementation:
         api = self.doapi_manager
@@ -190,6 +192,7 @@ class Actionable(Resource):
         there is no such action
 
         :rtype: `Action` or ``None``
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         a = self.fetch_last_action()
         return a if a.in_progress else None
@@ -236,6 +239,7 @@ class DropletUpgrade(Resource):
         Fetch the droplet affected by the droplet upgrade
 
         :rtype: Droplet
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return self.doapi_manager.fetch_droplet(self.droplet_id)
 

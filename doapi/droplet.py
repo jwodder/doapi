@@ -72,8 +72,8 @@ class Droplet(Actionable, ResourceWithID):
     TODO
 
     Note that calling a mutating method on a droplet does not cause the object
-    to be updated; to get the most up to date information on a droplet, call
-    the :meth:`fetch` method.
+    to be updated; to get the most up to date information on a droplet, you
+    must always use the :meth:`fetch` method.
 
     Under normal circumstances, the "fetch" methods will only raise a
     `DOAPIError` if the droplet no longer exists.

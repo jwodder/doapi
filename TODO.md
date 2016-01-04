@@ -1,7 +1,5 @@
 - Document everything!
     - Write a README
-    - Stop listing `DOAPIError` under (almost) every method and just say once
-      that it can be thrown by anything that uses the API?
     - Add a separate section to the documentation for private/internal methods
       & classes
 - Add tests

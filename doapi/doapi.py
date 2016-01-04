@@ -203,6 +203,7 @@ class doapi(object):
         account
 
         :rtype: generator of `Droplet`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return map(self._droplet, self.paginate('/v2/droplets', 'droplets'))
 
@@ -212,6 +213,7 @@ class doapi(object):
         droplets that are scheduled to be upgraded
 
         :rtype: generator of `DropletUpgrade`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         for obj in self.request('/v2/droplet_upgrades'):
             yield DropletUpgrade(obj, doapi_manager=self)
@@ -337,6 +339,7 @@ class doapi(object):
         on the same physical hardware
 
         :rtype: generator of lists of `Droplet`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         for hood in self.paginate('/v2/reports/droplet_neighbors', 'neighbors'):
             yield list(map(self._droplet, hood))
@@ -414,6 +417,7 @@ class doapi(object):
         undefined.
 
         :rtype: Action
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         # Naive implementation:
         return self._action(self.request('/v2/actions')["actions"][0])
@@ -426,6 +430,7 @@ class doapi(object):
         account
 
         :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return map(self._action, self.paginate('/v2/actions', 'actions'))
 
@@ -484,6 +489,7 @@ class doapi(object):
         the account
 
         :rtype: generator of `SSHKey`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return map(self._ssh_key, self.paginate('/v2/account/keys', 'ssh_keys'))
 
@@ -550,6 +556,7 @@ class doapi(object):
         :param bool private: whether to only return the user's private images;
             default: ``False`` (i.e., return all images)
         :rtype: generator of `Image`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         params = {}
         if type is not None:
@@ -565,6 +572,7 @@ class doapi(object):
         available to the account
 
         :rtype: generator of `Image`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return self.fetch_all_images(type='distribution')
 
@@ -574,6 +582,7 @@ class doapi(object):
         to the account
 
         :rtype: generator of `Image`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return self.fetch_all_images(type='application')
 
@@ -582,6 +591,7 @@ class doapi(object):
         Returns a generator that yields all of the user's private images
 
         :rtype: generator of `Image`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return self.fetch_all_images(private=True)
 
@@ -604,6 +614,7 @@ class doapi(object):
         account
 
         :rtype: generator of `Region`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return map(self._region, self.paginate('/v2/regions', 'regions'))
 
@@ -626,6 +637,7 @@ class doapi(object):
         account
 
         :rtype: generator of `Size`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return map(self._size, self.paginate('/v2/sizes', 'sizes'))
 
@@ -634,6 +646,7 @@ class doapi(object):
         Returns an `Account` object representing the user's account
 
         :rtype: Account
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return Account(self.request('/v2/account')["account"],
                        doapi_manager=self)
@@ -669,6 +682,7 @@ class doapi(object):
         account
 
         :rtype: generator of `Domain`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return map(self._domain, self.paginate('/v2/domains', 'domains'))
 
@@ -720,6 +734,7 @@ class doapi(object):
         the account
 
         :rtype: generator of `FloatingIP`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
         """
         return map(self._floating_ip, self.paginate('/v2/floating_ips',
                                                     'floating_ips'))
