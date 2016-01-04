@@ -4,7 +4,11 @@ from .image    import Image
 
 class Droplet(Actionable, ResourceWithID):
     """
-    TODO
+    A droplet resource, representing a virtual machine made available to you by
+    DigitalOcean.  New droplets are created via the
+    :meth:`doapi.create_droplet` and :meth:`doapi.create_droplets` methods and
+    can be retrieved with the :meth:`doapi.fetch_droplet` and
+    :meth:`doapi.fetch_all_droplets` methods.
 
     The DigitalOcean API specifies the following fields for ``Droplet``
     objects:
@@ -68,16 +72,6 @@ class Droplet(Actionable, ResourceWithID):
 
     :var vcpus: number of virtual CPUs
     :vartype vcpus: int
-
-    TODO
-
-    Note that calling a mutating method on a droplet does not cause the object
-    to be updated; to get the most up to date information on a droplet, you
-    must always use the :meth:`fetch` method.
-
-    Under normal circumstances, the "fetch" methods will only raise a
-    `DOAPIError` if the droplet no longer exists.
-
     """
 
     def __init__(self, state=None, **extra):

@@ -4,13 +4,6 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     """
     TODO
 
-    Note that calling a mutating method on an image does not cause the object
-    to be updated; to get the most up to date information on an image, call
-    the :meth:`fetch` method.
-
-    Under normal circumstances, the "fetch" methods will only raise a
-    `DOAPIError` if the image no longer exists.
-
     """
 
     # The `droplet` attribute is set for the "image" fields of droplets as well

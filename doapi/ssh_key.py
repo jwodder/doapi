@@ -2,7 +2,28 @@ from six   import string_types
 from .base import ResourceWithID
 
 class SSHKey(ResourceWithID):
-    """ TODO """
+    """
+    An SSH key resource, representing an SSH public key that can be
+    automatically added to the ``/root/.ssh/authorized_keys`` files of new
+    droplets.  New SSH keys are created via the :meth:`doapi.create_ssh_key`
+    method and can be retrieved with the :meth:`doapi.fetch_ssh_key` and
+    :meth:`doapi.fetch_all_ssh_keys` methods.
+
+    The DigitalOcean API specifies the following fields for ``SSHKey`` objects:
+
+    :var id: a unique identifier for the SSH key
+    :vartype id: int
+
+    :var fingerprint: the unique fingerprint of the SSH key
+    :vartype fingerprint: string
+
+    :var public_key: the entire SSH public key as it was uploaded to
+        DigitalOcean
+    :vartype public_key: string
+
+    :var name: a human-readable name for the SSH key
+    :vartype name: string
+    """
 
     def __init__(self, state=None, **extra):
         """ TODO """
