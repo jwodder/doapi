@@ -6,7 +6,27 @@ from   .base    import Actionable, Region
 from   .droplet import Droplet
 
 class FloatingIP(Actionable):
-    """ TODO """
+    """
+    A floating IP resource, representing a public IP address that can be
+    (re)assigned at any time to any droplet in a certain region.
+
+    New floating IPs are created via the :meth:`doapi.create_floating_ip`
+    method and can be retrieved with the :meth:`doapi.fetch_floating_ip` and
+    :meth:`doapi.fetch_all_floating_ips` methods.
+
+    The DigitalOcean API specifies the following fields for floating IP
+    objects:
+
+    :var ip: the IP address
+    :vartype ip: string
+
+    :var region: the region the floating IP is reserved to
+    :vartype region: `Region`
+
+    :var droplet: the droplet the floating IP is currently assigned to, or
+        ``None`` if the address is currently unassigned
+    :vartype droplet: `Droplet` or ``None``
+    """
 
     def __init__(self, state=None, **extra):
         """ TODO """

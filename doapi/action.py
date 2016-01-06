@@ -3,6 +3,7 @@ from .base import ResourceWithID, Region, DOAPIError
 class Action(ResourceWithID):
     """
     An action resource, representing a change made to another resource.
+
     Actions are created in response to almost all mutating requests on
     droplets, images, and floating IPs, and they can be retrieved with the
     :meth:`doapi.fetch_action`, :meth:`doapi.fetch_last_action`,
@@ -10,7 +11,7 @@ class Action(ResourceWithID):
     ``fetch_all_actions``, ``fetch_last_action``, and ``fetch_current_action``
     methods of `Droplet`, `Image`, and `FloatingIP`.
 
-    The DigitalOcean API specifies the following fields for ``Action`` objects:
+    The DigitalOcean API specifies the following fields for action objects:
 
     :var id: a unique identifier for the action
     :vartype id: int
@@ -43,8 +44,8 @@ class Action(ResourceWithID):
     :var region: the region in which the action occurred
     :vartype region: `Region`
 
-    :var region_slug: the slug identifying the region in which the action
-        occurred
+    :var region_slug: the unique slug identifier for the region in which the
+        action occurred
     :vartype region_slug: string
 
     Under normal/non-pathological circumstances, none of these methods should

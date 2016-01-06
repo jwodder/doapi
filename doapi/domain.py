@@ -4,11 +4,27 @@ from .base     import Resource, ResourceWithID
 
 class Domain(Resource):
     """
-    TODO
+    A domain resource, representing a domain name whose DNS is managed by
+    DigitalOcean's nameservers.
 
-    [Mention that passing another Domain's DomainRecord to a Domain results in
-    undefined behavior.]
+    New domains are created via the :meth:`doapi.create_domain` method and can
+    be retrieved with the :meth:`doapi.fetch_domain` and
+    :meth:`doapi.fetch_all_domains` methods.
+
+    The DigitalOcean API specifies the following fields for domain objects:
+
+    :var name: the domain name
+    :vartype name: string
+
+    :var ttl: the time-to-live for the domain's records, in seconds
+    :vartype ttl: number
+
+    :var zone_file: the complete zone file for the domain
+    :vartype zone_file: string
     """
+
+    ### TODO: Mention somewhere that passing a Domain's DomainRecord to another
+    ### Domain results in undefined behavior.
 
     def __init__(self, state=None, **extra):
         """ TODO """
@@ -117,7 +133,33 @@ class Domain(Resource):
 
 
 class DomainRecord(ResourceWithID):
-    """ TODO """
+    """
+    TODO
+
+    The DigitalOcean API specifies the following fields for domain record
+    objects:
+
+    :var id: a unique identifier for the domain record
+    :vartype id: int
+
+    :var type: the type of the DNS record
+    :vartype type: string
+
+    :var name: the name of the DNS record
+    :vartype name: string
+
+    :var value: the value of the DNS record
+    :vartype value: string
+
+    :var priority: the priority of the record (SRV and MX records only)
+    :vartype priority: number or ``None``
+
+    :var port: the port of the record (SRV records only)
+    :vartype port: number or ``None``
+
+    :var weight: the weight of the record (SRV records only)
+    :vartype weight: number or ``None``
+    """
 
     _meta_attrs = ResourceWithID._meta_attrs + ('domain',)
 

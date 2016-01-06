@@ -23,3 +23,11 @@ most up-to-date information on a resource, you must call the resource object's
 
 Under normal circumstances, the ``fetch`` and ``fetch_all_*`` methods of a
 resource will only raise a `DOAPIError` if the resource no longer exists.
+
+
+[Note that resource objects have whatever attributes the API returns them with,
+which may or may not be the same set of attributes as the documentation says
+they should have.]
+
+Passing objects produced by one `doapi` object to methods of another results in
+undefined behavior.

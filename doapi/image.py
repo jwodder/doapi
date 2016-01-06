@@ -4,8 +4,41 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     """
     TODO
 
+    The DigitalOcean API specifies the following fields for domain objects:
+
+    :var id: a unique identifier for the image
+    :vartype id: int
+
+    :var name: a human-readable name for the image
+    :vartype name: string
+
+    :var type: the type of the image: ``"snapshot"`` or ``"backup"``
+    :vartype type: string
+
+    :var distribution: the base Linux distribution used for the image
+    :vartype distribution: string
+
+    :var slug: the unique slug identifier for the image (only defined for
+        public images)
+    :vartype slug: string or ``None``
+
+    :var public: whether the image is public (i.e., available to all accounts)
+        or not (i.e., only accessible from your account)
+    :vartype public: bool
+
+    :var regions: the slugs of the regions in which the image is available
+    :vartype regions: list of strings
+
+    :var min_disk_size: the minimum ``disk`` size required for a droplet to use
+        the image
+    :vartype min_disk_size: number
+
+    :var created_at: date & time of the image's creation as an ISO 8601
+        timestamp
+    :vartype created_at: string
     """
 
+    ### TODO: Document:
     # The `droplet` attribute is set for the "image" fields of droplets as well
     # as for the images returned by `Droplet.fetch_all_snapshots` and
     # `Droplet.fetch_all_backups`.

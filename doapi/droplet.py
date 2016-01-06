@@ -4,20 +4,20 @@ from .image    import Image
 
 class Droplet(Actionable, ResourceWithID):
     """
-    A droplet resource, representing a virtual machine made available to you by
-    DigitalOcean.  New droplets are created via the
-    :meth:`doapi.create_droplet` and :meth:`doapi.create_droplets` methods and
-    can be retrieved with the :meth:`doapi.fetch_droplet` and
-    :meth:`doapi.fetch_all_droplets` methods.
+    A droplet resource, representing a virtual machine provided by
+    DigitalOcean.
+    
+    New droplets are created via the :meth:`doapi.create_droplet` and
+    :meth:`doapi.create_droplets` methods and can be retrieved with the
+    :meth:`doapi.fetch_droplet` and :meth:`doapi.fetch_all_droplets` methods.
 
-    The DigitalOcean API specifies the following fields for ``Droplet``
-    objects:
+    The DigitalOcean API specifies the following fields for droplet objects:
 
     :var id: a unique identifier for the droplet
     :vartype id: int
 
     :var backup_ids: image IDs of backups taken of the droplet
-    :vartype backup_ids: list
+    :vartype backup_ids: list of integers
 
     :var created_at: date & time of the droplet's creation as an ISO 8601
         timestamp
@@ -27,7 +27,7 @@ class Droplet(Actionable, ResourceWithID):
     :vartype disk: number
 
     :var features: a list of strings naming the features enabled on the droplet
-    :vartype features: list
+    :vartype features: list of strings
 
     :var image: the base image used to create the droplet
     :vartype image: `Image`
@@ -60,11 +60,11 @@ class Droplet(Actionable, ResourceWithID):
     :var size: the current size of the droplet
     :vartype size: `Size`
 
-    :var size_slug: the slug identifying the droplet's size
+    :var size_slug: the unique slug identifier for the droplet's size
     :vartype size_slug: string
 
     :var snapshot_ids: image IDs of snapshots taken of the droplet
-    :vartype snapshot_ids: list
+    :vartype snapshot_ids: list of integers
 
     :var status: the current state of the droplet: ``"new"``, ``"active"``,
         ``"off"``, or ``"archive"``
