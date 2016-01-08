@@ -43,7 +43,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     # as for the images returned by `Droplet.fetch_all_snapshots` and
     # `Droplet.fetch_all_backups`.
 
-    def __str__(self):
+    def __str__(self):  ### TODO: Document
         if self.get("slug") is not None:
             return self.slug
         else:

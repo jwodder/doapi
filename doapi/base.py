@@ -210,17 +210,123 @@ class DOEncoder(json.JSONEncoder):
 
 
 class Region(Resource):
-    def __str__(self):
+    """
+    A region resource, representing a physical datacenter in which droplets can
+    be located.
+
+    Available regions can be retreived with the :meth:`doapi.fetch_all_regions`
+    method.
+
+    The DigitalOcean API specifies the following fields for region objects:
+
+    :var slug: the unique slug identifier for the region
+    :vartype slug: string
+
+    :var name: a human-readable name for the region
+    :vartype name: string
+
+    :var sizes: the slugs of the sizes available in the region
+    :vartype sizes: list of strings
+
+    :var available: whether new droplets can be created in the region
+    :vartype available: bool
+
+    :var features: a list of strings naming the features available in the region
+    :vartype features: list of strings
+    """
+
+    def __str__(self):  ### TODO: Document
         return self.slug
 
 
 class Size(Resource):
-    def __str__(self):
+    """
+    A size resource, representing an option for the amount of RAM, disk space,
+    etc. provisioned for a droplet.
+
+    Available sizes can be retreived with the :meth:`doapi.fetch_all_sizes`
+    method.
+
+    The DigitalOcean API specifies the following fields for size objects:
+
+    :var slug: the unique slug identifier for the size
+    :vartype slug: string
+
+    :var available: whether new droplets can be created with this size
+    :vartype available: bool
+
+    :var transfer: the amount of transfer bandwidth in terabytes available for
+        a droplet of this size
+    :vartype transfer: number
+
+    :var price_monthly: the monthly cost for a droplet of this size in USD
+    :vartype price_monthly: number
+
+    :var price_hourly: the hourly cost for a droplet of this size in USD
+    :vartype price_hourly: number
+
+    :var memory: RAM of a droplet of this size in megabytes
+    :vartype memory: number
+
+    :var vcpus: the number of virtual CPUs on a droplet of this size
+    :vartype vcpus: int
+
+    :var disk: disk size of a droplet of this size in gigabytes
+    :vartype disk: number
+
+    :var regions: the slugs of the regions in which this size is available
+    :vartype regions: list of strings
+    """
+    
+    def __str__(self):  ### TODO: Document
         return self.slug
 
 
 class Account(Resource):
+    """
+    An account resource describing the user's DigitalOcean account.
+
+    Current details on the user's account can be retrieved with the
+    :meth:`doapi.fetch_account` method.
+
+    The DigitalOcean API specifies the following fields for account objects:
+
+    :var droplet_limit: the maximum number of droplets the account may have at
+        any one time
+    :vartype droplet_limit: int
+
+    :var floating_ip_limit: the maximum number of floating IPs the account may
+        have at any one time
+    :vartype floating_ip_limit: int
+
+    :var email: the e-mail address the account used to register for
+        DigitalOcean
+    :vartype email: string
+
+    :var uuid: a UUID for the user
+    :vartype uuid: alphanumeric string
+
+    :var email_verified: whether the user's account has been verified via
+        e-mail
+    :vartype email_verified: bool
+
+    :var status: the status of the account: ``"active"``, ``"warning"``, or
+        ``"locked"``
+    :vartype status: string
+
+    :var status_message: a human-readable string describing the status of the
+        account
+    :vartype status: string
+    """
+
     def fetch(self):
+        """
+        Fetch & return a new `Account` object representing the account's
+        current state
+
+        :rtype: Accounr
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.doapi_manager.fetch_account()
 
     @property
@@ -262,7 +368,7 @@ class Networks(ResourceWithDroplet):
 class NetworkInterface(ResourceWithDroplet):
     _meta_attrs = ResourceWithDroplet._meta_attrs + ('ip_version',)
 
-    def __str__(self):
+    def __str__(self):  ### TODO: Document
         return self.ip_address
 
 

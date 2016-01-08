@@ -42,7 +42,9 @@ class doapi(object):
         #: The API endpoint URL relative to which requests will be made
         self.endpoint = endpoint
         #: The ``timeout`` value to use when making requests; see
-        #: http://www.python-requests.org/en/latest/user/advanced/#timeouts
+        #: `the requests documentation
+        #: <http://www.python-requests.org/en/latest/user/advanced/#timeouts>`_
+        #: for more information
         self.timeout = timeout
         #: The default number of seconds that :meth:`wait_droplets`,
         #: :meth:`wait_actions`, and the ``wait`` methods of `Action`,
@@ -126,6 +128,7 @@ class doapi(object):
         response, or ``None`` if no requests have been made yet.  The ``dict``
         consists of all headers whose names begin with ``"ratelimit"``.
         """
+        ### TODO: Document the individual ratelimit headers
         if self.last_response is None:
             return None
         else:

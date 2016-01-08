@@ -39,7 +39,7 @@ class Droplet(Actionable, ResourceWithID):
         it
     :vartype locked: bool
 
-    :var memory: memory of the droplet in megabytes
+    :var memory: RAM of the droplet in megabytes
     :vartype memory: number
 
     :var name: a human-readable name for the droplet
