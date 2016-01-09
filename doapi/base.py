@@ -103,6 +103,7 @@ class ResourceWithDroplet(Resource):
     _meta_attrs = Resource._meta_attrs + ('droplet',)
 
     def fetch_droplet(self):
+        """ TODO """
         if self.droplet is None:
             return None
         if self.doapi_manager is None:
@@ -199,6 +200,7 @@ class Actionable(Resource):
 
 
 class DOEncoder(json.JSONEncoder):
+    """ TODO """
     def default(self, obj):
         if isinstance(obj, Resource):
             return obj.data
@@ -336,10 +338,49 @@ class Account(Resource):
 
 
 class Kernel(ResourceWithDroplet, ResourceWithID):
+    """
+    A kernel resource, representing a kernel version that can be installed on a
+    given droplet.
+
+    A `Droplet`'s current kernel is stored in its ``kernel`` attribute, and the
+    set of kernels available to a given `Droplet` can be retrieved with the
+    :meth:`droplet.fetch_all_kernels` method.
+
+    The DigitalOcean API specifies the following fields for kernel objects:
+
+    :var id: a unique identifier for the kernel
+    :vartype id: int
+
+    :var name: a human-readable name for the kernel
+    :vartype name: string
+
+    :var version: the version string for the kernel
+    :vartype version: string
+    """
     pass
 
 
 class DropletUpgrade(Resource):
+    """
+    A droplet upgrade resource, representing a scheduled upgrade of a droplet.
+
+    The set of all currently-scheduled upgrades can be retrieved with the
+    :meth:`doapi.fetch_all_droplet_upgrades` method.
+
+    The DigitalOcean API specifies the following fields for droplet upgrade
+    objects:
+
+    :var droplet_id: the ID of the affected droplet
+    :vartype droplet_id: int
+
+    :var date_of_migration: date & time that the droplet will be migrated as an
+        ISO 8601 timestamp
+    :vartype date_of_migration: string
+
+    :var url: the endpoint for operations on the affected droplet
+    :vartype url: string
+    """
+
     def fetch_droplet(self):
         """
         Fetch the droplet affected by the droplet upgrade
@@ -351,6 +392,21 @@ class DropletUpgrade(Resource):
 
 
 class Networks(ResourceWithDroplet):
+    r"""
+    A networks resource, representing a set of network interfaces configured
+    for a specific droplet.
+
+    A `Droplet`'s network information is stored in its ``networks`` attribute.
+
+    The DigitalOcean API implicitly specifies the following fields for networks
+    objects:
+
+    :var v4: a list of IPv4 interfaces allocated for a droplet
+    :vartype v4: list of `NetworkInterface`\ s
+
+    :var v6: a list of IPv6 interfaces allocated for a droplet
+    :vartype v6: list of `NetworkInterface`\ s
+    """
     def __init__(self, state=None, **extra):
         super(Networks, self).__init__(state, **extra)
         meta = {
@@ -366,6 +422,29 @@ class Networks(ResourceWithDroplet):
 
 
 class NetworkInterface(ResourceWithDroplet):
+    """
+    A network interface resource, representing an IP address allocated to a
+    specific droplet.
+
+    A `Droplet`'s network interfaces are listed in its ``networks`` attribute.
+
+    The DigitalOcean API implicitly specifies the following fields for network
+    interface objects:
+
+    :var gateway: gateway
+    :vartype gateway: string
+
+    :var ip_address: IP address
+    :vartype ip_address: string
+
+    :var netmask: netmask
+    :vartype ip_address: string
+
+    :var type: ``"public"`` or ``"private"``
+    :vartype ip_address: string
+    """
+
+    ### TODO: Document `.ip_version`
     _meta_attrs = ResourceWithDroplet._meta_attrs + ('ip_version',)
 
     def __str__(self):  ### TODO: Document
@@ -373,6 +452,7 @@ class NetworkInterface(ResourceWithDroplet):
 
 
 class DOAPIError(Exception):
+    """ TODO """
     # Note that this class is only for representing errors reported by the
     # endpoint in response to API requests.  Everything else that can go wrong
     # uses the normal Python exceptions.

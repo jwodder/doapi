@@ -2,8 +2,18 @@
     - Write a README
     - Add a separate section to the documentation for private/internal methods
       & classes
+    - Document the basic attributes of all resource classes (`.data`,
+      `.doapi_manager`, use as a dict, conversion to a dict, etc.)
+    - Document the `droplet` attribute of `ResourceWithDroplet`s
+    - Document the `int`ability of `ResourceWithID`s
+    - Document the `str`ability of the relevant types
+    - Put each class's list of fields in alphabetical order (except for unique
+      identifier fields, which should be listed first)
+    - Better organize the methods of each class (Alphabetize them?)
+    - Get `DropletUpgrade.url` and `NetworkInterface.ip_address` to not be
+      hyperlinks
 - Add tests
-    - Test giving non-ASCII names to things
+    - Test giving non-ASCII names to things in both Python 2 and Python 3
 
 # Command-Line Interface
 
@@ -34,9 +44,12 @@
 # Library
 
 - Look into BCP for naming of REST API "manager" objects like `doapi`
+    - Rename to `Manager`?  `DOAPIClient`?  `DOClient`?
+    - Rename `doapi_manager` to just `manager`?
 - Add a class for droplets' `next_backup_window` fields
     - These objects apparently consist of just `"start"` and `"end"` fields
       containing timestamps.
+- Store timestamps as `datetime` objects?
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out

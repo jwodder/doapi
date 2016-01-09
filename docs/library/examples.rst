@@ -9,9 +9,9 @@ Examples
 
     actions = []
 
-    for drop in manager.fetch_all_droplets():
-        if drop.active:
-            actions.append(drop.shutdown())
+    for droplet in manager.fetch_all_droplets():
+        if droplet.active:  # Only droplets that are already up can be shut down.
+            actions.append(droplet.shutdown())
 
     # `list` forces the generator returned by `wait_actions` to be fully
     # evaluated, thereby making Python wait until all of the shutdown actions

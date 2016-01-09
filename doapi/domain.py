@@ -32,7 +32,7 @@ class Domain(Resource):
             state = {"name": state}
         super(Domain, self).__init__(state, **extra)
 
-    def __str__(self):
+    def __str__(self):  ### TODO: Document
         return self.name
 
     @property
@@ -161,6 +161,7 @@ class DomainRecord(ResourceWithID):
     :vartype weight: number or ``None``
     """
 
+    ### TODO: Document `.domain`
     _meta_attrs = ResourceWithID._meta_attrs + ('domain',)
 
     @property

@@ -39,7 +39,7 @@ class FloatingIP(Actionable):
             if self.get(attr) is not None and not isinstance(self[attr], cls):
                 self[attr] = cls(self[attr], doapi_manager=self.doapi_manager)
 
-    def __str__(self):
+    def __str__(self):  ### TODO: Document
         return self.ip
 
     @property
