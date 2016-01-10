@@ -13,6 +13,7 @@ Droplet
    .. automethod:: fetch_all_actions
    .. automethod:: fetch_last_action
    .. automethod:: fetch_current_action
+   .. automethod:: __int__
 
 DropletUpgrade
 ^^^^^^^^^^^^^^
@@ -25,6 +26,7 @@ Kernel
 .. autoclass:: Kernel()
 
    .. automethod:: fetch_droplet
+   .. automethod:: __int__
 
 Networks
 ^^^^^^^^
@@ -37,5 +39,6 @@ NetworkInterface
 ^^^^^^^^^^^^^^^^
 
 .. autoclass:: NetworkInterface()
+   :special-members: __str__
 
    .. automethod:: fetch_droplet

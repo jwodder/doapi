@@ -33,7 +33,8 @@ class SSHKey(ResourceWithID):
             state = {"fingerprint": state}
         super(SSHKey, self).__init__(state, **extra)
 
-    def __str__(self):  ### TODO: Document
+    def __str__(self):
+        """ Convert the SSH key to its fingerprint """
         return self.fingerprint
 
     @property

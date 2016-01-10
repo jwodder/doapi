@@ -292,4 +292,6 @@ texinfo_documents = [
 # -----------------------------------------------------------------------------
 
 autodoc_default_flags = ['members', 'undoc-members']
+# NOTE: Do not set 'inherited-members', as it will cause all of the
+# MutableMapping methods to be listed under each & every resource.
 autodoc_member_order = 'bysource'

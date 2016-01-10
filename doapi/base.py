@@ -94,6 +94,7 @@ class ResourceWithID(Resource):
         super(ResourceWithID, self).__init__(state, **extra)
 
     def __int__(self):
+        """ Convert the resource to its unique ID """
         return self.id
 
 
@@ -237,7 +238,8 @@ class Region(Resource):
     :vartype features: list of strings
     """
 
-    def __str__(self):  ### TODO: Document
+    def __str__(self):
+        """ Convert the region to its slug representation """
         return self.slug
 
 
@@ -280,7 +282,8 @@ class Size(Resource):
     :vartype regions: list of strings
     """
     
-    def __str__(self):  ### TODO: Document
+    def __str__(self):
+        """ Convert the size to its slug representation """
         return self.slug
 
 
@@ -447,7 +450,8 @@ class NetworkInterface(ResourceWithDroplet):
     ### TODO: Document `.ip_version`
     _meta_attrs = ResourceWithDroplet._meta_attrs + ('ip_version',)
 
-    def __str__(self):  ### TODO: Document
+    def __str__(self):
+        """ Show just the IP address of the interface """
         return self.ip_address
 
 

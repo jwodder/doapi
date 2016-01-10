@@ -82,8 +82,6 @@ class Action(ResourceWithID):
     @property
     def url(self):
         """ The endpoint for operations on the specific action """
-        ### TODO: Look into the conditions under which this has to include the
-        ### resource type & ID too
         return self._url('/v2/actions/' + str(self.id))
 
     def fetch(self):

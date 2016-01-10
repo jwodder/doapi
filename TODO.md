@@ -5,11 +5,9 @@
     - Document the basic attributes of all resource classes (`.data`,
       `.doapi_manager`, use as a dict, conversion to a dict, etc.)
     - Document the `droplet` attribute of `ResourceWithDroplet`s
-    - Document the `int`ability of `ResourceWithID`s
-    - Document the `str`ability of the relevant types
     - Put each class's list of fields in alphabetical order (except for unique
       identifier fields, which should be listed first)
-    - Better organize the methods of each class (Alphabetize them?)
+    - Better organize the methods & properties of each class (Alphabetize them?)
     - Get `DropletUpgrade.url` and `NetworkInterface.ip_address` to not be
       hyperlinks
 - Add tests

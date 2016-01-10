@@ -43,7 +43,11 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     # as for the images returned by `Droplet.fetch_all_snapshots` and
     # `Droplet.fetch_all_backups`.
 
-    def __str__(self):  ### TODO: Document
+    def __str__(self):
+        """
+        Convert the image to its slug representation.  If the image does not
+        have a slug, an ``AttributeError`` is raised.
+        """
         if self.get("slug") is not None:
             return self.slug
         else:

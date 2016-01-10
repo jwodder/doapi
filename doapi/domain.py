@@ -32,7 +32,8 @@ class Domain(Resource):
             state = {"name": state}
         super(Domain, self).__init__(state, **extra)
 
-    def __str__(self):  ### TODO: Document
+    def __str__(self):
+        """ Convert the domain to just the actual domain name """
         return self.name
 
     @property
