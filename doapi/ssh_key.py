@@ -28,7 +28,6 @@ class SSHKey(ResourceWithID):
     """
 
     def __init__(self, state=None, **extra):
-        """ TODO """
         if isinstance(state, string_types):
             state = {"fingerprint": state}
         super(SSHKey, self).__init__(state, **extra)

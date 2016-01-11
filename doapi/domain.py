@@ -27,7 +27,6 @@ class Domain(Resource):
     ### Domain results in undefined behavior.
 
     def __init__(self, state=None, **extra):
-        """ TODO """
         if isinstance(state, string_types):
             state = {"name": state}
         super(Domain, self).__init__(state, **extra)
@@ -135,7 +134,12 @@ class Domain(Resource):
 
 class DomainRecord(ResourceWithID):
     """
-    TODO
+    A domain record resource, representing an individual DNS record that can be
+    set & modified by the user of the DigitalOcean API.
+
+    New domain records are created via the :meth:`Domain.create_record` method
+    and can be retrieved with the :meth:`Domain.fetch_record` and
+    :meth:`Domain.fetch_all_records` methods.
 
     The DigitalOcean API specifies the following fields for domain record
     objects:

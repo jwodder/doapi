@@ -29,7 +29,6 @@ class FloatingIP(Actionable):
     """
 
     def __init__(self, state=None, **extra):
-        """ TODO """
         if isinstance(state, numbers.Integral):
             state = {"ip": socket.inet_ntoa(struct.pack('!I', state))}
         elif isinstance(state, string_types):

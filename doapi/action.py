@@ -53,7 +53,6 @@ class Action(ResourceWithID):
     """
 
     def __init__(self, state=None, **extra):
-        """ TODO """
         super(Action, self).__init__(state, **extra)
         if self.get('region') is not None and \
                 not isinstance(self.region, Region):

@@ -2,6 +2,7 @@
     - Write a README
     - Add a separate section to the documentation for private/internal methods
       & classes
+        - Document `__init__` methods
     - Document the basic attributes of all resource classes (`.data`,
       `.doapi_manager`, use as a dict, conversion to a dict, etc.)
     - Put each class's list of fields in alphabetical order (except for unique

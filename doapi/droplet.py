@@ -75,7 +75,6 @@ class Droplet(Actionable, ResourceWithID):
     """
 
     def __init__(self, state=None, **extra):
-        """ TODO """
         super(Droplet, self).__init__(state, **extra)
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
                           ('kernel', Kernel), ('networks', Networks)]:
