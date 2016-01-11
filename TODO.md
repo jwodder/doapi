@@ -8,8 +8,8 @@
     - Put each class's list of fields in alphabetical order (except for unique
       identifier fields, which should be listed first)
     - Better organize the methods & properties of each class (Alphabetize them?)
-    - Get `DropletUpgrade.url` and `NetworkInterface.ip_address` to not be
-      hyperlinks
+    - Get `DropletUpgrade.url`, `NetworkInterface.ip_address`, and
+      `Action.region_slug` to not be hyperlinks
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 

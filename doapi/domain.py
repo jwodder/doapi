@@ -160,9 +160,12 @@ class DomainRecord(ResourceWithID):
 
     :var weight: the weight of the record (SRV records only)
     :vartype weight: number or ``None``
+
+    .. attribute:: domain
+
+       The `Domain` to which the record belongs
     """
 
-    ### TODO: Document `.domain`
     _meta_attrs = ResourceWithID._meta_attrs + ('domain',)
 
     @property

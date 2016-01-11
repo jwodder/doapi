@@ -445,9 +445,12 @@ class NetworkInterface(ResourceWithDroplet):
 
     :var type: ``"public"`` or ``"private"``
     :vartype ip_address: string
+
+    .. attribute:: ip_version
+
+       The IP version used by the interface: ``4`` or ``6``
     """
 
-    ### TODO: Document `.ip_version`
     _meta_attrs = ResourceWithDroplet._meta_attrs + ('ip_version',)
 
     def __str__(self):

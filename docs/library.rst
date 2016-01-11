@@ -27,7 +27,9 @@ resource will only raise a `DOAPIError` if the resource no longer exists.
 
 [Note that resource objects have whatever attributes the API returns them with,
 which may or may not be the same set of attributes as the documentation says
-they should have.]
+they should have.  Also note that any extra attributes that a resource may have
+that are not specified in the API docs will not be processed into non-JSON
+types.]
 
 Passing objects produced by one `doapi` object to methods of another results in
 undefined behavior.
