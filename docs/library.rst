@@ -33,3 +33,6 @@ types.]
 
 Passing objects produced by one `doapi` object to methods of another results in
 undefined behavior.
+
+[Document potential weirdness when accessing ``doapi.last_*`` while a generator
+is being evaluated]

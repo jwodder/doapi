@@ -126,9 +126,18 @@ class doapi(object):
         """
         A ``dict`` of the rate limit information returned in the most recent
         response, or ``None`` if no requests have been made yet.  The ``dict``
-        consists of all headers whose names begin with ``"ratelimit"``.
+        consists of all headers whose names begin with ``"ratelimit"``.  All
+        header names are lowercase.
+
+        The DigitalOcean API specifies the following rate limit headers:
+
+        :var string ratelimit-limit: the number of requests that can be made
+            per hour
+        :var string ratelimit-remaining: the number of requests remaining until
+            the limit is reached
+        :var string ratelimit-reset: the Unix timestamp for the time when the
+            oldest request will expire from rate limit consideration
         """
-        ### TODO: Document the individual ratelimit headers
         if self.last_response is None:
             return None
         else:
