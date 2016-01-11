@@ -1,7 +1,7 @@
 .. module:: doapi
 
-Non-Resource Classes
---------------------
+Utility Classes
+---------------
 
 DOAPIError
 ^^^^^^^^^^

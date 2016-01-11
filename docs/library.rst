@@ -7,8 +7,11 @@ Library
    library/doapi
    library/droplets
    library/domain
-   library/misc
-   library/extra
+   library/floating_ip
+   library/image
+   library/sshkey
+   library/immutable
+   library/utils
    library/examples
 
 Generators producing objects always yield them in whatever order the API
