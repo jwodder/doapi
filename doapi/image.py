@@ -36,12 +36,15 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     :var created_at: date & time of the image's creation as an ISO 8601
         timestamp
     :vartype created_at: string
-    """
 
-    ### TODO: Document:
-    # The `droplet` attribute is set for the "image" fields of droplets as well
-    # as for the images returned by `Droplet.fetch_all_snapshots` and
-    # `Droplet.fetch_all_backups`.
+    .. attribute:: droplet
+
+       The `Droplet` to which the image belongs.  This attribute is only
+       defined for ``Droplet.image`` attributes and the images returned by the
+       :meth:`Droplet.fetch_all_backups` and the
+       :meth:`Droplet.fetch_all_snapshots` methods.  Images obtained by any
+       other means have this attribute set to ``None``.
+    """
 
     def __str__(self):
         """

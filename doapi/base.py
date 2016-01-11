@@ -104,7 +104,13 @@ class ResourceWithDroplet(Resource):
     _meta_attrs = Resource._meta_attrs + ('droplet',)
 
     def fetch_droplet(self):
-        """ TODO """
+        """
+        Fetch the droplet to which the resource belongs, or return ``None`` if
+        the resource's ``droplet`` attribute is ``None``
+
+        :rtype: `Droplet` or ``None``
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         if self.droplet is None:
             return None
         if self.doapi_manager is None:
@@ -359,7 +365,12 @@ class Kernel(ResourceWithDroplet, ResourceWithID):
 
     :var version: the version string for the kernel
     :vartype version: string
+
+    .. attribute:: droplet
+
+       The `Droplet` associated with the kernel
     """
+
     pass
 
 
@@ -409,6 +420,10 @@ class Networks(ResourceWithDroplet):
 
     :var v6: a list of IPv6 interfaces allocated for a droplet
     :vartype v6: list of `NetworkInterface`\ s
+
+    .. attribute:: droplet
+
+       The `Droplet` associated with the networks resource
     """
     def __init__(self, state=None, **extra):
         super(Networks, self).__init__(state, **extra)
@@ -445,6 +460,10 @@ class NetworkInterface(ResourceWithDroplet):
 
     :var type: ``"public"`` or ``"private"``
     :vartype ip_address: string
+
+    .. attribute:: droplet
+
+       The `Droplet` to which the network interface belongs
 
     .. attribute:: ip_version
 
