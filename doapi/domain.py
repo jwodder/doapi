@@ -175,7 +175,7 @@ class DomainRecord(ResourceWithID):
     @property
     def url(self):
         """ The endpoint for operations on the specific domain record """
-        return self._domain.record_url + '/' + str(self.id)
+        return self.domain.record_url + '/' + str(self.id)
 
     def fetch(self):
         """
@@ -186,8 +186,8 @@ class DomainRecord(ResourceWithID):
         :raises DOAPIError: if the API endpoint replies with an error (e.g., if
             the domain record no longer exists)
         """
-        return self._domain._record(self.doapi_manager.request(self.url)\
-                                                              ["domain_record"])
+        return self.domain._record(self.doapi_manager.request(self.url)\
+                                                             ["domain_record"])
 
     def fetch_domain(self):
         """
@@ -196,7 +196,7 @@ class DomainRecord(ResourceWithID):
         :rtype: Domain
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self._domain.fetch()
+        return self.domain.fetch()
 
     def update_record(self, **attrs):
         # The `_record` is to avoid conflicts with MutableMapping.update.
@@ -210,10 +210,10 @@ class DomainRecord(ResourceWithID):
         :rtype: DomainRecord
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self._domain._record(self.doapi_manager.request(self.url,
-                                                               method='PUT',
-                                                               data=attrs)\
-                                                              ["domain_record"])
+        return self.domain._record(self.doapi_manager.request(self.url,
+                                                              method='PUT',
+                                                              data=attrs)\
+                                                             ["domain_record"])
 
     def delete(self):
         """
