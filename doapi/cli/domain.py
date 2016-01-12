@@ -22,9 +22,9 @@ def main(argv=None, parsed=None):
     cmd_showrec.add_argument('record_id', type=int, nargs='*')
 
     cmd_newrec = cmds.add_parser('new-record')
-    cmd_newrec.add_argument('--priority', type=int)  ### float instead?
+    cmd_newrec.add_argument('--priority', type=int)
     cmd_newrec.add_argument('--port', type=int)
-    cmd_newrec.add_argument('--weight', type=int)  ### float instead?
+    cmd_newrec.add_argument('--weight', type=int)
     cmd_newrec.add_argument('domain')
     cmd_newrec.add_argument('type')
     cmd_newrec.add_argument('name')
@@ -33,9 +33,9 @@ def main(argv=None, parsed=None):
     cmd_setrec = cmds.add_parser('set-record')
     # `set` is like `new` but deletes any & all pre-existing records with the
     # same type & name.
-    cmd_setrec.add_argument('--priority', type=int)  ### float instead?
+    cmd_setrec.add_argument('--priority', type=int)
     cmd_setrec.add_argument('--port', type=int)
-    cmd_setrec.add_argument('--weight', type=int)  ### float instead?
+    cmd_setrec.add_argument('--weight', type=int)
     cmd_setrec.add_argument('domain')
     cmd_setrec.add_argument('type')
     cmd_setrec.add_argument('name')
@@ -46,13 +46,13 @@ def main(argv=None, parsed=None):
     cmd_modrec.add_argument('--name')
     cmd_modrec.add_argument('--data')
     modrec_priority = cmd_modrec.add_mutually_exclusive_group()
-    modrec_priority.add_argument('--priority', type=int)  ### float instead?
+    modrec_priority.add_argument('--priority', type=int)
     modrec_priority.add_argument('--no-priority', action='store_true')
     modrec_port = cmd_modrec.add_mutually_exclusive_group()
     modrec_port.add_argument('--port', type=int)
     modrec_port.add_argument('--no-port', action='store_true')
     modrec_weight = cmd_modrec.add_mutually_exclusive_group()
-    modrec_weight.add_argument('--weight', type=int)  ### float instead?
+    modrec_weight.add_argument('--weight', type=int)
     modrec_weight.add_argument('--no-weight', action='store_true')
     cmd_modrec.add_argument('domain')
     cmd_modrec.add_argument('record_id', type=int)

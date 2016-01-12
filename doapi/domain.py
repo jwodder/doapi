@@ -111,11 +111,11 @@ class Domain(Resource):
             etc.)
         :param str name: the name (hostname, alias, etc.) of the new record
         :param str data: the value of the new record
-        :param number priority: the priority of the new record (SRV and MX
+        :param int priority: the priority of the new record (SRV and MX records
+            only)
+        :param int port: the port that the service is accessible on (SRV
             records only)
-        :param number port: the port that the service is accessible on (SRV
-            records only)
-        :param number weight: the weight of records with the same priority (SRV
+        :param int weight: the weight of records with the same priority (SRV
             records only)
         :return: the new domain record
         :rtype: DomainRecord

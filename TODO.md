@@ -70,7 +70,6 @@
       the 'create'.
 - [For the CLI] Confirm the assumption that private images are the only kind of
   images that can be acted on
-- Look into whether priority and/or weight of domain records can be nonintegral
 - Look into the correctness of the naïve implementation of `fetch_last_action`
 - Look into whether fetching an action via `/v2/actions/$ACTION_ID` is always
   equivalent to fetching via
