@@ -36,6 +36,7 @@ from   doapi import __version__
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
 ]
 
@@ -295,3 +296,8 @@ autodoc_default_flags = ['members', 'undoc-members']
 # NOTE: Do not set 'inherited-members', as it will cause all of the
 # MutableMapping methods to be listed under each & every resource.
 autodoc_member_order = 'bysource'
+
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/2.7", None),
+    "requests": ("http://docs.python-requests.org/en/latest", None),
+}

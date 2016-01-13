@@ -207,7 +207,10 @@ class Actionable(Resource):
 
 
 class DOEncoder(json.JSONEncoder):
-    """ TODO """
+    """
+    A :class:`json.JSONEncoder` subclass that converts resource objects to
+    ``dict``\ s for JSONification.  It also converts iterators to lists.
+    """
     def default(self, obj):
         if isinstance(obj, Resource):
             return obj.data
@@ -483,8 +486,10 @@ class DOAPIError(Exception):
     # endpoint in response to API requests.  Everything else that can go wrong
     # uses the normal Python exceptions.
     def __init__(self, response):
+        #: TODO
         self.response = response
         # Taken from requests' raise_for_status:
+        #: TODO
         self.http_error_msg = ''
         if 400 <= response.status_code < 500:
             self.http_error_msg = '%s Client Error: %s for url: %s\n' \

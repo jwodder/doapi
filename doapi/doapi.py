@@ -56,10 +56,8 @@ class doapi(object):
         #: The default number of objects that :meth:`paginate` will fetch on
         #: each request, or ``None`` to leave unspecified
         self.per_page = per_page
-        #: The `requests.Response
-        #: <http://docs.python-requests.org/en/latest/api/#requests.Response>`_
-        #: object returned for the most recent request, or ``None`` if no
-        #: requests have been made yet
+        #: The :class:`requests.Response` object returned for the most recent
+        #: request, or ``None`` if no requests have been made yet
         self.last_response = None
         #: The ``meta`` field in the body of the most recent response, or
         #: ``None`` if there was no such field, no requests have been made yet,
