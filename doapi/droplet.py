@@ -1,7 +1,7 @@
 from datetime  import datetime
 from six.moves import map
 from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
-                        Networks, fromISO8601
+                        Networks, BackupWindow, ResourceWithDroplet, fromISO8601
 from .image    import Image
 
 class Droplet(Actionable, ResourceWithID):
@@ -49,11 +49,10 @@ class Droplet(Actionable, ResourceWithID):
     :var networks: the network interfaces configured for the droplet
     :vartype networks: `Networks`
 
-    :var next_backup_window: a dictionary with ``"start"`` and ``"end"`` fields
-        containing ISO 8601 timestamps for the start & end of the next window
-        in which the droplet will be backed up; only defined if backups are
-        enabled on the droplet
-    :vartype next_backup_window: ``dict`` or ``None``
+    :var next_backup_window: the start & end of the next timeframe in which the
+        droplet will be backed up; only defined if backups are enabled on the
+        droplet
+    :vartype next_backup_window: `BackupWindow` or ``None``
 
     :var region: the region in which the droplet is located
     :vartype region: `Region`
@@ -78,10 +77,11 @@ class Droplet(Actionable, ResourceWithID):
     def __init__(self, state=None, **extra):
         super(Droplet, self).__init__(state, **extra)
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
-                          ('kernel', Kernel), ('networks', Networks)]:
+                          ('kernel', Kernel), ('networks', Networks),
+                          ('next_backup_window', BackupWindow)]:
             if self.get(attr) is not None and not isinstance(self[attr], cls):
                 extra = {}
-                if attr in ('kernel', 'networks', 'image'):
+                if isinstance(cls, ResourceWithDroplet):
                     extra = {"droplet": self}
                     # `droplet` needs to be set when creating the objects so
                     # that the `Networks` object will pass the value to its

@@ -15,6 +15,13 @@ Droplet
    .. automethod:: fetch_current_action
    .. automethod:: __int__
 
+BackupWindow
+^^^^^^^^^^^^
+
+.. autoclass:: BackupWindow()
+
+   .. automethod:: fetch_droplet
+
 DropletUpgrade
 ^^^^^^^^^^^^^^
 

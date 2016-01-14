@@ -44,9 +44,6 @@
 - Look into BCP for naming of REST API "manager" objects like `doapi`
     - Rename to `Manager`?  `DOAPIClient`?  `DOClient`?
     - Rename `doapi_manager` to just `manager`?
-- Add a class for droplets' `next_backup_window` fields
-    - These objects apparently consist of just `"start"` and `"end"` fields
-      containing timestamps.
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
@@ -57,6 +54,7 @@
 - Add constants for the possible droplet statuses for passing to
   `wait_droplets` and `Droplet.wait`
 - Rename `doapi.create_droplets` to `doapi.create_multiple_droplets`?
+- Eliminate duplication of type-conversion code in initializers
 
 # API Compatibility & Correctness
 

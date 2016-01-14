@@ -489,6 +489,38 @@ class NetworkInterface(ResourceWithDroplet):
         return self.ip_address
 
 
+class BackupWindow(ResourceWithDroplet):
+    """
+    A backup window resource, representing an upcoming timeframe in which a
+    droplet is scheduled to be backed up.
+
+    A `Droplet`'s next backup window is stored in its ``next_backup_window``
+    attribute.
+
+    The DigitalOcean API implicitly specifies the following fields for backup
+    window objects:
+
+    :var start: beginning of the window
+    :vartype start: datetime.datetime
+
+    :var end: end of the window
+    :vartype end: datetime.datetime
+
+    .. attribute:: droplet
+
+       The `Droplet` associated with the backup window
+    """
+
+    def __init__(self, state=None, **extra):
+        super(BackupWindow, self).__init__(state, **extra)
+        if self.get('start') is not None and \
+                not isinstance(self.start, datetime):
+            self.start = fromISO8601(self.start)
+        if self.get('end') is not None and \
+                not isinstance(self.end, datetime):
+            self.end = fromISO8601(self.end)
+
+
 class DOAPIError(Exception):
     """ TODO """
     # Note that this class is only for representing errors reported by the
