@@ -1,6 +1,8 @@
 import collections
+from   datetime  import datetime
 import json
 import numbers
+from   time      import strftime
 from   six       import iteritems
 from   six.moves import map
 
@@ -207,13 +209,15 @@ class Actionable(Resource):
 
 
 class DOEncoder(json.JSONEncoder):
-    """
+    r"""
     A :class:`json.JSONEncoder` subclass that converts resource objects to
     ``dict``\ s for JSONification.  It also converts iterators to lists.
     """
     def default(self, obj):
         if isinstance(obj, Resource):
             return obj.data
+        elif isinstance(obj, datetime):
+            return toISO8601(obj)
         elif isinstance(obj, collections.Iterator):
             return list(obj)
         else:
@@ -290,7 +294,7 @@ class Size(Resource):
     :var regions: the slugs of the regions in which this size is available
     :vartype regions: list of strings
     """
-    
+
     def __str__(self):
         """ Convert the size to its slug representation """
         return self.slug
@@ -390,13 +394,18 @@ class DropletUpgrade(Resource):
     :var droplet_id: the ID of the affected droplet
     :vartype droplet_id: int
 
-    :var date_of_migration: date & time that the droplet will be migrated as an
-        ISO 8601 timestamp
-    :vartype date_of_migration: string
+    :var date_of_migration: date & time that the droplet will be migrated
+    :vartype date_of_migration: datetime.datetime
 
     :var url: the endpoint for operations on the affected droplet
     :vartype url: string
     """
+
+    def __init__(self, state=None, **extra):
+        super(DropletUpgrade, self).__init__(state, **extra)
+        if self.get('date_of_migration') is not None and \
+                not isinstance(self.date_of_migration, datetime):
+            self.date_of_migration = fromISO8601(self.date_of_migration)
 
     def fetch_droplet(self):
         """
@@ -510,3 +519,12 @@ class DOAPIError(Exception):
                 for k,v in iteritems(body):
                     if not hasattr(self, k):
                         setattr(self, k, v)
+
+def fromISO8601(stamp):
+    try:
+        return datetime.strptime('%Y-%m-%dT%H:%M:%SZ', stamp)
+    except ValueError:
+        return stamp
+
+def toISO8601(dt):
+    return strftime('%Y-%m-%dT%H:%M:%SZ', dt.utctimetuple())

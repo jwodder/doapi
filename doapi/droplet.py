@@ -1,5 +1,7 @@
+from datetime  import datetime
 from six.moves import map
-from .base     import Actionable, ResourceWithID, Region, Size, Kernel, Networks
+from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
+                        Networks, fromISO8601
 from .image    import Image
 
 class Droplet(Actionable, ResourceWithID):
@@ -19,9 +21,8 @@ class Droplet(Actionable, ResourceWithID):
     :var backup_ids: image IDs of backups taken of the droplet
     :vartype backup_ids: list of integers
 
-    :var created_at: date & time of the droplet's creation as an ISO 8601
-        timestamp
-    :vartype created_at: string
+    :var created_at: date & time of the droplet's creation
+    :vartype created_at: datetime.datetime
 
     :var disk: size of the droplet's disk in gigabytes
     :vartype disk: number
@@ -87,6 +88,9 @@ class Droplet(Actionable, ResourceWithID):
                     # `NetworkInterface`s.
                 self[attr] = cls(self[attr], doapi_manager=self.doapi_manager,
                                  **extra)
+        if self.get('created_at') is not None and \
+                not isinstance(self.created_at, datetime):
+            self.created_at = fromISO8601(self.created_at)
 
     @property
     def active(self):

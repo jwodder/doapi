@@ -1,4 +1,5 @@
-from .base import ResourceWithID, Region, DOAPIError
+from datetime import datetime
+from .base    import ResourceWithID, Region, DOAPIError, fromISO8601
 
 class Action(ResourceWithID):
     """
@@ -23,13 +24,11 @@ class Action(ResourceWithID):
     :var type: the type of action performed
     :vartype type: string
 
-    :var started_at: date & time of the action's initiation as an ISO 8601
-        timestamp
-    :vartype started_at: string
+    :var started_at: date & time of the action's initiation
+    :vartype started_at: datetime.datetime
 
-    :var completed_at: date & time of the action's completion as an ISO 8601
-        timestamp
-    :vartype completed_at: string
+    :var completed_at: date & time of the action's completion
+    :vartype completed_at: datetime.datetime
 
     :var resource_id: the unique ID of the resource that the action operated
         on.  If the resource was a droplet or image, this will be its ``id``
@@ -57,6 +56,12 @@ class Action(ResourceWithID):
         if self.get('region') is not None and \
                 not isinstance(self.region, Region):
             self.region = Region(self.region, doapi_manager=self.doapi_manager)
+        if self.get('started_at') is not None and \
+                not isinstance(self.started_at, datetime):
+            self.started_at = fromISO8601(self.started_at)
+        if self.get('completed_at') is not None and \
+                not isinstance(self.completed_at, datetime):
+            self.completed_at = fromISO8601(self.completed_at)
 
     @property
     def completed(self):

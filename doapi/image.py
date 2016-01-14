@@ -1,4 +1,6 @@
-from .base import Actionable, ResourceWithDroplet, ResourceWithID
+from datetime import datetime
+from .base    import Actionable, ResourceWithDroplet, ResourceWithID, \
+                        fromISO8601
 
 class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     """
@@ -33,9 +35,8 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
         the image
     :vartype min_disk_size: number
 
-    :var created_at: date & time of the image's creation as an ISO 8601
-        timestamp
-    :vartype created_at: string
+    :var created_at: date & time of the image's creation
+    :vartype created_at: datetime.datetime
 
     .. attribute:: droplet
 
@@ -45,6 +46,12 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
        :meth:`Droplet.fetch_all_snapshots` methods.  Images obtained by any
        other means have this attribute set to ``None``.
     """
+
+    def __init__(self, state=None, **extra):
+        super(Image, self).__init__(state, **extra)
+        if self.get('created_at') is not None and \
+                not isinstance(self.created_at, datetime):
+            self.created_at = fromISO8601(self.created_at)
 
     def __str__(self):
         """

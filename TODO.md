@@ -9,6 +9,7 @@
       identifier fields, which should be listed first)
     - Better organize the methods & properties of each class (Alphabetize them?)
     - Keep Sphinx from turning `:var:`s into hyperlinks
+    - Don't list `SSHKey.id_or_fingerprint` in the documentation
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 
@@ -46,7 +47,6 @@
 - Add a class for droplets' `next_backup_window` fields
     - These objects apparently consist of just `"start"` and `"end"` fields
       containing timestamps.
-- Store timestamps as `datetime` objects?
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
