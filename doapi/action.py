@@ -24,10 +24,10 @@ class Action(ResourceWithID):
     :var type: the type of action performed
     :vartype type: string
 
-    :var started_at: date & time of the action's initiation
+    :var started_at: date & time of the action's initiation (UTC)
     :vartype started_at: datetime.datetime
 
-    :var completed_at: date & time of the action's completion
+    :var completed_at: date & time of the action's completion (UTC)
     :vartype completed_at: datetime.datetime
 
     :var resource_id: the unique ID of the resource that the action operated

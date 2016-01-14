@@ -394,7 +394,7 @@ class DropletUpgrade(Resource):
     :var droplet_id: the ID of the affected droplet
     :vartype droplet_id: int
 
-    :var date_of_migration: date & time that the droplet will be migrated
+    :var date_of_migration: date & time that the droplet will be migrated (UTC)
     :vartype date_of_migration: datetime.datetime
 
     :var url: the endpoint for operations on the affected droplet
@@ -500,10 +500,10 @@ class BackupWindow(ResourceWithDroplet):
     The DigitalOcean API implicitly specifies the following fields for backup
     window objects:
 
-    :var start: beginning of the window
+    :var start: beginning of the window (UTC)
     :vartype start: datetime.datetime
 
-    :var end: end of the window
+    :var end: end of the window (UTC)
     :vartype end: datetime.datetime
 
     .. attribute:: droplet

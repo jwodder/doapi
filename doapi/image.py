@@ -35,7 +35,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
         the image
     :vartype min_disk_size: number
 
-    :var created_at: date & time of the image's creation
+    :var created_at: date & time of the image's creation (UTC)
     :vartype created_at: datetime.datetime
 
     .. attribute:: droplet

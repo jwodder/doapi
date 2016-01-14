@@ -21,7 +21,7 @@ class Droplet(Actionable, ResourceWithID):
     :var backup_ids: image IDs of backups taken of the droplet
     :vartype backup_ids: list of integers
 
-    :var created_at: date & time of the droplet's creation
+    :var created_at: date & time of the droplet's creation (UTC)
     :vartype created_at: datetime.datetime
 
     :var disk: size of the droplet's disk in gigabytes
