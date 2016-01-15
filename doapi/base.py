@@ -522,15 +522,25 @@ class BackupWindow(ResourceWithDroplet):
 
 
 class DOAPIError(Exception):
-    """ TODO """
-    # Note that this class is only for representing errors reported by the
-    # endpoint in response to API requests.  Everything else that can go wrong
-    # uses the normal Python exceptions.
+    r"""
+    An exception raised in reaction to the API endpoint responding with a 4xx
+    or 5xx error.  If the body of the response is a JSON object, its fields
+    will be added to the ``DOAPIError``\ 's attributes (except where a
+    pre-existing attribute would be overwritten).  DigitalOcean error response
+    bodies have been observed to consist of an object with two string fields,
+    ``"id"`` and ``"message"``.
+
+    Note that this class is only for representing errors reported by the
+    endpoint in response to API requests.  Everything else that can go wrong
+    uses the normal Python exceptions.
+    """
     def __init__(self, response):
-        #: TODO
+        #: The :class:`requests.Response` object
         self.response = response
         # Taken from requests' raise_for_status:
-        #: TODO
+        #: An error message that should be appropriate for human consumption,
+        #: containing the type of HTTP error, the URL that was requested, and
+        #: the body of the response.
         self.http_error_msg = ''
         if 400 <= response.status_code < 500:
             self.http_error_msg = '%s Client Error: %s for url: %s\n' \

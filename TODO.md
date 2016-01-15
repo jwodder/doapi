@@ -10,6 +10,8 @@
     - Better organize the methods & properties of each class (Alphabetize them?)
     - Keep Sphinx from turning `:var:`s into hyperlinks
     - Don't list `SSHKey.id_or_fingerprint` in the documentation
+    - Mention that timestamps can be strings instead of `datetime` objects if
+      they're in a format I didn't expect?
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 
@@ -55,6 +57,7 @@
   `wait_droplets` and `Droplet.wait`
 - Rename `doapi.create_droplets` to `doapi.create_multiple_droplets`?
 - Eliminate duplication of type-conversion code in initializers
+- Use an ISO8601/RFC3339 library for handling timestamps?
 
 # API Compatibility & Correctness
 
