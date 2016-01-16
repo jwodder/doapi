@@ -37,7 +37,7 @@ class SSHKey(ResourceWithID):
         return self.fingerprint
 
     @property
-    def id_or_fingerprint(self):
+    def _id(self):
         r"""
         The ``SSHKey``'s ``id`` field, or if that is not defined, its
         ``fingerprint`` field.  If neither field is defined, accessing this
@@ -53,7 +53,7 @@ class SSHKey(ResourceWithID):
     @property
     def url(self):
         """ The endpoint for operations on the specific SSH key """
-        return self._url('/v2/account/keys/' + str(self.id_or_fingerprint))
+        return self._url('/v2/account/keys/' + str(self._id))
 
     def fetch(self):
         """

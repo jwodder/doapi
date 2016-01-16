@@ -271,8 +271,8 @@ class doapi(object):
             "region": str(region),
         }
         if ssh_keys is not None:
-            data["ssh_keys"] = [k.id_or_fingerprint if isinstance(k, SSHKey)
-                                                    else k for k in ssh_keys]
+            data["ssh_keys"] = [k._id if isinstance(k, SSHKey) else k
+                                      for k in ssh_keys]
         if backups is not None:
             data["backups"] = backups
         if ipv6 is not None:
@@ -329,8 +329,8 @@ class doapi(object):
             "region": str(region),
         }
         if ssh_keys is not None:
-            data["ssh_keys"] = [k.id_or_fingerprint if isinstance(k, SSHKey)
-                                                    else k for k in ssh_keys]
+            data["ssh_keys"] = [k._id if isinstance(k, SSHKey) else k
+                                      for k in ssh_keys]
         if backups is not None:
             data["backups"] = backups
         if ipv6 is not None:

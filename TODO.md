@@ -9,9 +9,9 @@
       identifier fields, which should be listed first)
     - Better organize the methods & properties of each class (Alphabetize them?)
     - Keep Sphinx from turning `:var:`s into hyperlinks
-    - Don't list `SSHKey.id_or_fingerprint` in the documentation
     - Mention that timestamps can be strings instead of `datetime` objects if
       they're in a format I didn't expect?
+    - Show inheritance trees for DOEncoder and DOAPIError?
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 
