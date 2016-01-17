@@ -454,7 +454,7 @@ class Droplet(Actionable, ResourceWithID):
         """
         Delete the droplet
 
-        :rtype: None
+        :return: `None`
         :raises DOAPIError: if the API endpoint replies with an error
         """
         self.doapi_manager.request(self.url, method='DELETE')

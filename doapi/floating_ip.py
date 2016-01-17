@@ -63,7 +63,7 @@ class FloatingIP(Actionable):
         """
         Delete the floating IP
 
-        :rtype: None
+        :return: `None`
         :raises DOAPIError: if the API endpoint replies with an error
         """
         self.doapi_manager.request(self.url, method='DELETE')

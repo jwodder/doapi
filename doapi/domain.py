@@ -53,7 +53,7 @@ class Domain(Resource):
         """
         Delete the domain
 
-        :rtype: None
+        :return: `None`
         :raises DOAPIError: if the API endpoint replies with an error
         """
         self.doapi_manager.request(self.url, method='DELETE')
@@ -216,7 +216,7 @@ class DomainRecord(ResourceWithID):
         """
         Delete the domain record
 
-        :rtype: None
+        :return: `None`
         :raises DOAPIError: if the API endpoint replies with an error
         """
         self.doapi_manager.request(self.url, method='DELETE')
