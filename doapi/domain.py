@@ -23,9 +23,6 @@ class Domain(Resource):
     :vartype zone_file: string
     """
 
-    ### TODO: Mention somewhere that passing a Domain's DomainRecord to another
-    ### Domain results in undefined behavior.
-
     def __init__(self, state=None, **extra):
         if isinstance(state, string_types):
             state = {"name": state}

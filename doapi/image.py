@@ -4,7 +4,13 @@ from .base    import Actionable, ResourceWithDroplet, ResourceWithID, \
 
 class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     """
-    TODO
+    An image resource, representing an OS image that can be used to create or
+    reset a droplet.
+
+    New images can be created via the :meth:`Droplet.snapshot` method.  They
+    are also automatically created regularly for droplets that have backups
+    enabled.  Images can be retrieved with the :meth:`doapi.fetch_image` and
+    :meth:`doapi.fetch_all_images` methods, among others.
 
     The DigitalOcean API specifies the following fields for domain objects:
 
