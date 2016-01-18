@@ -4,6 +4,7 @@ from   base64     import b64decode
 from   errno      import ENOENT
 from   hashlib    import md5
 import sys
+from   time       import time
 from   six.moves  import map, range
 from   .          import _util as util
 from   ..base     import DropletUpgrade
@@ -125,9 +126,10 @@ def main(argv=None, parsed=None):
                 else:
                     # First see if a key with the same fingerprint already
                     # exists and, if so, use that.
+                    keyparts = pubkey.split(None, 2)
                     try:
                         # <http://stackoverflow.com/a/6682934/744178>
-                        fprint = md5(b64decode(pubkey.split()[1])).hexdigest()
+                        fprint = md5(b64decode(keyparts[1])).hexdigest()
                         fprint = ':'.join(fprint[i:i+2]
                                           for i in range(0, len(fprint), 2))
                     except (IndexError, TypeError):
@@ -135,10 +137,15 @@ def main(argv=None, parsed=None):
                     try:
                         key = cache.caches["sshkey"]["fingerprint"][fprint]
                     except KeyError:
-                        key = client.create_ssh_key(kname, pubkey)
+                        if len(keyparts) > 2 and keyparts[2] != '':
+                            newname = keyparts[2]
+                        else:
+                            newname = 'doapi-' + kname + '-' + str(int(time()))
+                        cache.check_name_dup("sshkey", newname, args.unique)
+                        key = client.create_ssh_key(newname, pubkey)
                         cache.add_sshkey(key)
                         print('New SSH key %r registered with ID %d and'
-                              ' fingerprint %s' % (kname, key.id, fprint),
+                              ' fingerprint %s' % (newname, key.id, fprint),
                               file=sys.stderr)
             sshkeys.append(key)
         if sshkeys:

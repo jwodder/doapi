@@ -77,8 +77,8 @@ class Cache(object):
                         msg = '%r: ambiguous; name used by multiple %ss: %s' \
                             % (label, key, ','.join(str(o.id) for o in answer))
                         if hasM:
-                            msg += '\nUse the -M/--multiple option to use all' \
-                                   ' of them at once.'
+                            msg += '\nUse the -M/--multiple option to specify' \
+                                   ' all of them at once.'
                         die(msg)
                 elif multiple:
                     return [answer]
