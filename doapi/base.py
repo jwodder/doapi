@@ -235,8 +235,11 @@ class Region(Resource):
 
     The DigitalOcean API specifies the following fields for region objects:
 
-    :var slug: the unique slug identifier for the region
-    :vartype slug: string
+    :var available: whether new droplets can be created in the region
+    :vartype available: bool
+
+    :var features: a list of strings naming the features available in the region
+    :vartype features: list of strings
 
     :var name: a human-readable name for the region
     :vartype name: string
@@ -244,11 +247,8 @@ class Region(Resource):
     :var sizes: the slugs of the sizes available in the region
     :vartype sizes: list of strings
 
-    :var available: whether new droplets can be created in the region
-    :vartype available: bool
-
-    :var features: a list of strings naming the features available in the region
-    :vartype features: list of strings
+    :var slug: the unique slug identifier for the region
+    :vartype slug: string
     """
 
     def __str__(self):
@@ -266,33 +266,33 @@ class Size(Resource):
 
     The DigitalOcean API specifies the following fields for size objects:
 
-    :var slug: the unique slug identifier for the size
-    :vartype slug: string
-
     :var available: whether new droplets can be created with this size
     :vartype available: bool
+
+    :var disk: disk size of a droplet of this size in gigabytes
+    :vartype disk: number
+
+    :var memory: RAM of a droplet of this size in megabytes
+    :vartype memory: number
+
+    :var price_hourly: the hourly cost for a droplet of this size in USD
+    :vartype price_hourly: number
+
+    :var price_monthly: the monthly cost for a droplet of this size in USD
+    :vartype price_monthly: number
+
+    :var regions: the slugs of the regions in which this size is available
+    :vartype regions: list of strings
+
+    :var slug: the unique slug identifier for the size
+    :vartype slug: string
 
     :var transfer: the amount of transfer bandwidth in terabytes available for
         a droplet of this size
     :vartype transfer: number
 
-    :var price_monthly: the monthly cost for a droplet of this size in USD
-    :vartype price_monthly: number
-
-    :var price_hourly: the hourly cost for a droplet of this size in USD
-    :vartype price_hourly: number
-
-    :var memory: RAM of a droplet of this size in megabytes
-    :vartype memory: number
-
     :var vcpus: the number of virtual CPUs on a droplet of this size
     :vartype vcpus: int
-
-    :var disk: disk size of a droplet of this size in gigabytes
-    :vartype disk: number
-
-    :var regions: the slugs of the regions in which this size is available
-    :vartype regions: list of strings
     """
 
     def __str__(self):
@@ -313,20 +313,17 @@ class Account(Resource):
         any one time
     :vartype droplet_limit: int
 
-    :var floating_ip_limit: the maximum number of floating IPs the account may
-        have at any one time
-    :vartype floating_ip_limit: int
-
     :var email: the e-mail address the account used to register for
         DigitalOcean
     :vartype email: string
 
-    :var uuid: a UUID for the user
-    :vartype uuid: alphanumeric string
-
     :var email_verified: whether the user's account has been verified via
         e-mail
     :vartype email_verified: bool
+
+    :var floating_ip_limit: the maximum number of floating IPs the account may
+        have at any one time
+    :vartype floating_ip_limit: int
 
     :var status: the status of the account: ``"active"``, ``"warning"``, or
         ``"locked"``
@@ -335,6 +332,9 @@ class Account(Resource):
     :var status_message: a human-readable string describing the status of the
         account
     :vartype status: string
+
+    :var uuid: a UUID for the user
+    :vartype uuid: alphanumeric string
     """
 
     def fetch(self):
@@ -391,11 +391,11 @@ class DropletUpgrade(Resource):
     The DigitalOcean API specifies the following fields for droplet upgrade
     objects:
 
-    :var droplet_id: the ID of the affected droplet
-    :vartype droplet_id: int
-
     :var date_of_migration: date & time that the droplet will be migrated (UTC)
     :vartype date_of_migration: datetime.datetime
+
+    :var droplet_id: the ID of the affected droplet
+    :vartype droplet_id: int
 
     :var url: the endpoint for operations on the affected droplet
     :vartype url: string

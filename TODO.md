@@ -5,8 +5,6 @@
         - Document `__init__` methods
     - Document the basic attributes of all resource classes (`.data`,
       `.doapi_manager`, use as a dict, conversion to a dict, etc.)
-    - Put each class's list of fields in alphabetical order (except for unique
-      identifier fields, which should be listed first)
     - Better organize the methods & properties of each class (Alphabetize them?)
     - Keep Sphinx from turning `:var:`s into hyperlinks
     - Mention that timestamps can be strings instead of `datetime` objects if

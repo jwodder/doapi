@@ -17,18 +17,15 @@ class Action(ResourceWithID):
     :var id: a unique identifier for the action
     :vartype id: int
 
-    :var status: the current status of the action: ``"in-progress"``,
-        ``"completed"``, or ``"errored"``
-    :vartype status: string
-
-    :var type: the type of action performed
-    :vartype type: string
-
-    :var started_at: date & time of the action's initiation (UTC)
-    :vartype started_at: datetime.datetime
-
     :var completed_at: date & time of the action's completion (UTC)
     :vartype completed_at: datetime.datetime
+
+    :var region: the region in which the action occurred
+    :vartype region: `Region`
+
+    :var region_slug: the unique slug identifier for the region in which the
+        action occurred
+    :vartype region_slug: string
 
     :var resource_id: the unique ID of the resource that the action operated
         on.  If the resource was a droplet or image, this will be its ``id``
@@ -40,15 +37,15 @@ class Action(ResourceWithID):
         ``"droplet"``, ``"image"``, or ``"floating_ip"``
     :vartype resource_type: string
 
-    :var region: the region in which the action occurred
-    :vartype region: `Region`
+    :var started_at: date & time of the action's initiation (UTC)
+    :vartype started_at: datetime.datetime
 
-    :var region_slug: the unique slug identifier for the region in which the
-        action occurred
-    :vartype region_slug: string
+    :var status: the current status of the action: ``"in-progress"``,
+        ``"completed"``, or ``"errored"``
+    :vartype status: string
 
-    Under normal/non-pathological circumstances, none of these methods should
-    ever raise a `DOAPIError`.
+    :var type: the type of action performed
+    :vartype type: string
     """
 
     def __init__(self, state=None, **extra):

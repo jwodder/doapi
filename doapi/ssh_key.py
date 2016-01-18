@@ -19,12 +19,12 @@ class SSHKey(ResourceWithID):
     :var fingerprint: the unique fingerprint of the SSH key
     :vartype fingerprint: string
 
+    :var name: a human-readable name for the SSH key
+    :vartype name: string
+
     :var public_key: the entire SSH public key as it was uploaded to
         DigitalOcean
     :vartype public_key: string
-
-    :var name: a human-readable name for the SSH key
-    :vartype name: string
     """
 
     def __init__(self, state=None, **extra):

@@ -17,18 +17,18 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     :var id: a unique identifier for the image
     :vartype id: int
 
-    :var name: a human-readable name for the image
-    :vartype name: string
-
-    :var type: the type of the image: ``"snapshot"`` or ``"backup"``
-    :vartype type: string
+    :var created_at: date & time of the image's creation (UTC)
+    :vartype created_at: datetime.datetime
 
     :var distribution: the base Linux distribution used for the image
     :vartype distribution: string
 
-    :var slug: the unique slug identifier for the image (only defined for
-        public images)
-    :vartype slug: string or ``None``
+    :var min_disk_size: the minimum ``disk`` size required for a droplet to use
+        the image
+    :vartype min_disk_size: number
+
+    :var name: a human-readable name for the image
+    :vartype name: string
 
     :var public: whether the image is public (i.e., available to all accounts)
         or not (i.e., only accessible from your account)
@@ -37,12 +37,12 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     :var regions: the slugs of the regions in which the image is available
     :vartype regions: list of strings
 
-    :var min_disk_size: the minimum ``disk`` size required for a droplet to use
-        the image
-    :vartype min_disk_size: number
+    :var slug: the unique slug identifier for the image (only defined for
+        public images)
+    :vartype slug: string or ``None``
 
-    :var created_at: date & time of the image's creation (UTC)
-    :vartype created_at: datetime.datetime
+    :var type: the type of the image: ``"snapshot"`` or ``"backup"``
+    :vartype type: string
 
     .. attribute:: droplet
 

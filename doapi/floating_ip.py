@@ -20,12 +20,12 @@ class FloatingIP(Actionable):
     :var ip: the IP address
     :vartype ip: string
 
-    :var region: the region the floating IP is reserved to
-    :vartype region: `Region`
-
     :var droplet: the droplet the floating IP is currently assigned to, or
         ``None`` if the address is currently unassigned
     :vartype droplet: `Droplet` or ``None``
+
+    :var region: the region the floating IP is reserved to
+    :vartype region: `Region`
     """
 
     def __init__(self, state=None, **extra):
