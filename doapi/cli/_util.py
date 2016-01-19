@@ -11,19 +11,27 @@ from   ..doapi     import doapi
 
 universal = argparse.ArgumentParser(add_help=False)
 tokenopts = universal.add_mutually_exclusive_group()
-tokenopts.add_argument('--api-token')
-tokenopts.add_argument('--api-token-file', type=argparse.FileType('r'))
-universal.add_argument('--timeout', type=float, metavar='seconds')
-universal.add_argument('--endpoint', metavar='URL')
+tokenopts.add_argument('--api-token', metavar='TOKEN',
+                       help='DigitalOcean API token')
+tokenopts.add_argument('--api-token-file', type=argparse.FileType('r'),
+                       metavar='FILE',
+                       help='file containing DigitalOcean API token')
+universal.add_argument('--timeout', type=float, metavar='SECONDS',
+                       help='HTTP request timeout')
+universal.add_argument('--endpoint', metavar='URL',
+                       help='where to make API requests')
 universal.add_argument('-V', '--version', action='version',
                                           version='doapi ' + __version__)
 
 waitbase = argparse.ArgumentParser(add_help=False)
-waitbase.add_argument('--wait-time', type=float, metavar='seconds')
-waitbase.add_argument('--wait-interval', type=float, metavar='seconds')
+waitbase.add_argument('--wait-time', type=float, metavar='SECONDS',
+                      help='maximum length of time to wait')
+waitbase.add_argument('--wait-interval', type=float, metavar='SECONDS',
+                      help='how often to check progress')
 
 waitopts = argparse.ArgumentParser(parents=[waitbase], add_help=False)
-waitopts.add_argument('--wait', action='store_true')
+waitopts.add_argument('--wait', action='store_true',
+                      help='wait for the operation to finish')
 
 
 class Cache(object):

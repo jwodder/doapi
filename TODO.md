@@ -10,6 +10,7 @@
     - Mention that timestamps can be strings instead of `datetime` objects if
       they're in a format I didn't expect?
     - Show inheritance trees for DOEncoder and DOAPIError?
+    - Add a docstring to `__init__.py` for displaying in pydoc
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 
