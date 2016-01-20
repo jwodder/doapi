@@ -16,7 +16,7 @@
 
 # Command-Line Interface
 
-- Use docopt or argh instead of argparse?
+- Use argh instead of argparse
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
 - Add metavars and other `--help` data
@@ -71,3 +71,5 @@
 - Look into whether fetching an action via `/v2/actions/$ACTION_ID` is always
   equivalent to fetching via
   `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`
+- Look into whether DO accepts public keys with options and, if so, update
+  `doapi-droplet new` to parse them correctly

@@ -4,11 +4,14 @@ from   . import _util as util
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
-                                     prog='doapi-request')
+                                     prog='doapi-request',
+                                     description='Perform a raw DigitalOcean'
+                                                 ' API request')
     parser.add_argument('-X', '--request', type=str.upper, default='GET',
                         choices=['GET', 'POST', 'PUT', 'DELETE'])
     parser.add_argument('-d', '--data', metavar='string|@file')
-    parser.add_argument('-D', '--dump-header', type=argparse.FileType('w'))
+    parser.add_argument('-D', '--dump-header', type=argparse.FileType('w'),
+                        metavar='FILE')
     parser.add_argument('--paginate', metavar='key')
     parser.add_argument('path', metavar='URL|path')
     args = parser.parse_args(argv, parsed)

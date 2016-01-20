@@ -4,7 +4,9 @@ from   .         import _util as util
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
-                                     prog='doapi-floating-ip')
+                                     prog='doapi-floating-ip',
+                                     description='Manage DigitalOcean floating'
+                                                 ' IP addresses')
     cmds = parser.add_subparsers(title='command', dest='cmd')
     cmd_show = cmds.add_parser('show')
     cmd_show.add_argument('ip', nargs='*')

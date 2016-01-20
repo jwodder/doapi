@@ -5,7 +5,9 @@ from   ..image   import Image
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
-                                     prog='doapi-image')
+                                     prog='doapi-image',
+                                     description='Manage DigitalOcean droplet'
+                                                 ' images')
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
     cmd_show = cmds.add_parser('show')

@@ -6,7 +6,9 @@ from   ..action  import Action
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
-                                     prog='doapi-action')
+                                     prog='doapi-action',
+                                     description='Manage DigitalOcean API'
+                                                 ' actions')
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
     cmd_show = cmds.add_parser('show')

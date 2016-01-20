@@ -21,7 +21,8 @@ create_rate = 10  # maximum number of droplets to create at once
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
-                                     prog='doapi-droplet')
+                                     prog='doapi-droplet',
+                                     description='Manage DigitalOcean droplets')
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
     cmd_show = cmds.add_parser('show')

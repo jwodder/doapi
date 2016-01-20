@@ -4,7 +4,9 @@ from   .         import _util as util
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
-                                     prog='doapi-domain')
+                                     prog='doapi-domain',
+                                     description='Manage DigitalOcean domains'
+                                                 ' & domain records')
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
     cmd_show = cmds.add_parser('show')
