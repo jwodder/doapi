@@ -3,6 +3,7 @@ from   datetime  import datetime
 import json
 import numbers
 from   time      import strftime
+import pyrfc3339
 from   six       import iteritems
 from   six.moves import map
 
@@ -391,7 +392,7 @@ class DropletUpgrade(Resource):
     The DigitalOcean API specifies the following fields for droplet upgrade
     objects:
 
-    :var date_of_migration: date & time that the droplet will be migrated (UTC)
+    :var date_of_migration: date & time that the droplet will be migrated
     :vartype date_of_migration: datetime.datetime
 
     :var droplet_id: the ID of the affected droplet
@@ -500,10 +501,10 @@ class BackupWindow(ResourceWithDroplet):
     The DigitalOcean API implicitly specifies the following fields for backup
     window objects:
 
-    :var start: beginning of the window (UTC)
+    :var start: beginning of the window
     :vartype start: datetime.datetime
 
-    :var end: end of the window (UTC)
+    :var end: end of the window
     :vartype end: datetime.datetime
 
     .. attribute:: droplet
@@ -563,10 +564,7 @@ class DOAPIError(Exception):
                         setattr(self, k, v)
 
 def fromISO8601(stamp):
-    try:
-        return datetime.strptime('%Y-%m-%dT%H:%M:%SZ', stamp)
-    except ValueError:
-        return stamp
+    return pyrfc3339.parse(stamp)
 
 def toISO8601(dt):
-    return strftime('%Y-%m-%dT%H:%M:%SZ', dt.utctimetuple())
+    return pyrfc3339.generate(dt, accept_naive=True)

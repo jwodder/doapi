@@ -17,7 +17,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     :var id: a unique identifier for the image
     :vartype id: int
 
-    :var created_at: date & time of the image's creation (UTC)
+    :var created_at: date & time of the image's creation
     :vartype created_at: datetime.datetime
 
     :var distribution: the base Linux distribution used for the image

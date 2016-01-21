@@ -15,7 +15,11 @@ setup(
     name='doapi',
     version=version,
     packages=['doapi', 'doapi.cli'],
-    install_requires=['requests>=2.2.0,<3', 'six>=1.5.0,<2'],
+    install_requires=[
+        'requests>=2.2.0,<3',
+        'six>=1.5.0,<2',
+        'pyRFC3339>=1.0,<2',
+    ],
     license='MIT',
     author='John Thorvald Wodder II',
     author_email='doapi@varonathe.org',

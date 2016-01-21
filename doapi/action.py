@@ -17,7 +17,7 @@ class Action(ResourceWithID):
     :var id: a unique identifier for the action
     :vartype id: int
 
-    :var completed_at: date & time of the action's completion (UTC)
+    :var completed_at: date & time of the action's completion
     :vartype completed_at: datetime.datetime
 
     :var region: the region in which the action occurred
@@ -37,7 +37,7 @@ class Action(ResourceWithID):
         ``"droplet"``, ``"image"``, or ``"floating_ip"``
     :vartype resource_type: string
 
-    :var started_at: date & time of the action's initiation (UTC)
+    :var started_at: date & time of the action's initiation
     :vartype started_at: datetime.datetime
 
     :var status: the current status of the action: ``"in-progress"``,
