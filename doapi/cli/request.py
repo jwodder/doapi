@@ -8,12 +8,17 @@ def main(argv=None, parsed=None):
                                      description='Perform a raw DigitalOcean'
                                                  ' API request')
     parser.add_argument('-X', '--request', type=str.upper, default='GET',
-                        choices=['GET', 'POST', 'PUT', 'DELETE'])
-    parser.add_argument('-d', '--data', metavar='string|@file')
+                        choices=['GET', 'POST', 'PUT', 'DELETE'],
+                        help='HTTP method to use')
+    parser.add_argument('-d', '--data', metavar='string|@file',
+                        help='Send the given data in the body of the request')
     parser.add_argument('-D', '--dump-header', type=argparse.FileType('w'),
-                        metavar='FILE')
-    parser.add_argument('--paginate', metavar='key')
-    parser.add_argument('path', metavar='URL|path')
+                        metavar='FILE',
+                        help='Dump final HTTP response headers as JSON to FILE')
+    parser.add_argument('--paginate', metavar='KEY',
+                        help='JSON field for paginated values')
+    parser.add_argument('path', metavar='URL|path',
+                        help='absolute or relative URL to send request to')
     args = parser.parse_args(argv, parsed)
     if args.paginate is not None and args.request != 'GET':
         util.die('--paginate can only be used with the GET method')
@@ -42,7 +47,6 @@ def main(argv=None, parsed=None):
         util.dump(dict(client.last_response.headers), fp=args.dump_header)
     if args.request != 'DELETE':
         util.dump(response)
-
 
 if __name__ == '__main__':
     main()
