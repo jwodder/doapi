@@ -11,20 +11,36 @@ def main(argv=None, parsed=None):
                                                  ' actions')
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
-    cmd_show = cmds.add_parser('show')
+    cmd_show = cmds.add_parser('show', help='List actions',
+                               description='List actions')
     showopts = cmd_show.add_mutually_exclusive_group()
-    showopts.add_argument('--last', action='store_true')
-    showopts.add_argument('--current', action='store_true')
-    cmd_show.add_argument('action', nargs='*', type=int)
+    showopts.add_argument('--last', action='store_true',
+                          help='Show only the most recent action')
+    showopts.add_argument('--current', action='store_true',
+                          help='Show all in-progress actions')
+    cmd_show.add_argument('action', nargs='*', type=int,
+                          help='ID of an action; omit to list all')
 
-    cmd_wait = cmds.add_parser('wait', parents=[util.waitbase])
-    cmd_wait.add_argument('action', nargs='*', type=int)
+    cmd_wait = cmds.add_parser('wait', parents=[util.waitbase],
+                               help='Wait for an action to complete',
+                               description='Wait for an action to complete')
+    cmd_wait.add_argument('action', nargs='*', type=int,
+                          help='ID of an action; omit to wait on all in'
+                               ' progress')
 
-    cmd_resource = cmds.add_parser('resource')
+    cmd_resource = cmds.add_parser('resource',
+                                   help='Show the resource that an action'
+                                        ' operated on',
+                                   description='''\
+Show the resource that an action operated on.  Resources that no longer exist
+are shown as `null`.''')
     resopts = cmd_resource.add_mutually_exclusive_group(required=True)
-    resopts.add_argument('--last', action='store_true')
-    resopts.add_argument('--current', action='store_true')
-    cmd_resource.add_argument('action', nargs='*', type=int)
+    resopts.add_argument('--last', action='store_true',
+                         help='Show only the most recent action')
+    resopts.add_argument('--current', action='store_true',
+                         help='Show all in-progress actions')
+    cmd_resource.add_argument('action', nargs='*', type=int,
+                              help='ID of an action; omit to list all')
 
     args = parser.parse_args(argv, parsed)
     client, _ = util.mkclient(args)

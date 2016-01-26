@@ -35,6 +35,7 @@
 - Eliminate `doapi-domain set-record` and give `doapi-domain new-record` an
   option for enabling `set-record`'s behavior instead?
 - Give `doapi-ssh-key` a way to create an SSH key without specifying a name?
+- Rename `--current` back to `--in-progress`?
 
 # Library
 

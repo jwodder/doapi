@@ -6,7 +6,9 @@ def main(argv=None, parsed=None):
                                      prog='doapi-account',
                                      description='Fetch DigitalOcean account'
                                                  ' data')
-    parser.add_argument('-R', '--rate-limit', action='store_true')
+    parser.add_argument('-R', '--rate-limit', action='store_true',
+                        help='Fetch current rate limit statistics instead of'
+                             ' account data')
     args = parser.parse_args(argv, parsed)
     client, _ = util.mkclient(args)
     me = client.fetch_account()
