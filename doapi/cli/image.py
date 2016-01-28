@@ -10,32 +10,58 @@ def main(argv=None, parsed=None):
                                                  ' images')
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
-    cmd_show = cmds.add_parser('show')
+    cmd_show = cmds.add_parser('show', help='List images',
+                               description='List images')
     showopts = cmd_show.add_mutually_exclusive_group()
-    showopts.add_argument('--distribution', action='store_true')
-    showopts.add_argument('--application', action='store_true')
-    showopts.add_argument('--type')
-    showopts.add_argument('--private', action='store_true')
-    cmd_show.add_argument('-M', '--multiple', action='store_true')
-    cmd_show.add_argument('image', nargs='*')
+    showopts.add_argument('--distribution', action='store_true',
+                          help='List distribution images')
+    showopts.add_argument('--application', action='store_true',
+                          help='List application images')
+    showopts.add_argument('--type',
+                          help='List all images of the given type'
+                               ' (usually "distribution" or "application")')
+    showopts.add_argument('--private', action='store_true',
+                          help="List all of the user's private images")
+    cmd_show.add_argument('-M', '--multiple', action='store_true',
+                          help='Show multiple images with the same name instead'
+                               ' of erroring')
+    cmd_show.add_argument('image', nargs='*',
+                          help='ID, slug, or name of an image; omit to list all')
 
-    cmd_delete = cmds.add_parser('delete')
-    cmd_delete.add_argument('-M', '--multiple', action='store_true')
-    cmd_delete.add_argument('image', nargs='+')
+    cmd_delete = cmds.add_parser('delete', help='Delete an image',
+                                 description='Delete an image')
+    cmd_delete.add_argument('-M', '--multiple', action='store_true',
+                            help='Delete multiple images with the same name'
+                                 ' instead of erroring')
+    cmd_delete.add_argument('image', nargs='+',
+                            help='ID, slug, or name of an image')
 
-    cmd_update = cmds.add_parser('update')
-    cmd_update.add_argument('--unique', action='store_true')
-    cmd_update.add_argument('image')
-    cmd_update.add_argument('name')
+    cmd_update = cmds.add_parser('update', help='Rename an image',
+                                 description='Rename an image')
+    cmd_update.add_argument('--unique', action='store_true',
+                            help='Error if the new name is already in use')
+    cmd_update.add_argument('image', help='ID, slug, or name of an image')
+    cmd_update.add_argument('name', help='new name for the image')
 
-    cmd_transfer = cmds.add_parser('transfer', parents=[util.waitopts])
-    cmd_transfer.add_argument('-M', '--multiple', action='store_true')
-    cmd_transfer.add_argument('region')
-    cmd_transfer.add_argument('image', nargs='+')
+    cmd_transfer = cmds.add_parser('transfer', parents=[util.waitopts],
+                                   help='Transfer images to another region',
+                                   description='Transfer images to another region')
+    cmd_transfer.add_argument('-M', '--multiple', action='store_true',
+                              help='Transfer multiple images with the same name'
+                                   ' instead of erroring')
+    cmd_transfer.add_argument('region',
+                              help='slug of the region to transfer images to')
+    cmd_transfer.add_argument('image', nargs='+',
+                              help='ID, slug, or name of an image')
 
-    cmd_convert = cmds.add_parser('convert', parents=[util.waitopts])
-    cmd_convert.add_argument('-M', '--multiple', action='store_true')
-    cmd_convert.add_argument('image', nargs='+')
+    cmd_convert = cmds.add_parser('convert', parents=[util.waitopts],
+                                  help='Convert images to snapshots',
+                                  description='Convert images to snapshots')
+    cmd_convert.add_argument('-M', '--multiple', action='store_true',
+                             help='Convert multiple images with the same name'
+                                  ' instead of erroring')
+    cmd_convert.add_argument('image', nargs='+',
+                             help='ID, slug, or name of an image')
 
     util.add_actioncmds(cmds, 'image')
 
