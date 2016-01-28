@@ -31,7 +31,7 @@ waitbase.add_argument('--wait-interval', type=float, metavar='SECONDS',
 
 waitopts = argparse.ArgumentParser(parents=[waitbase], add_help=False)
 waitopts.add_argument('--wait', action='store_true',
-                      help='wait for the operation to finish')
+                      help='Wait for the operation to finish')
 
 
 class Cache(object):
@@ -226,28 +226,56 @@ def currentActions(objs):
             yield act
 
 def add_actioncmds(cmds, objtype, multiple=True):
-    cmd_act = cmds.add_parser('act', parents=[waitopts])
+    cmd_act = cmds.add_parser('act', parents=[waitopts],
+                              help='Perform an arbitrary action',
+                              description='Perform an arbitrary action')
     paramopts = cmd_act.add_mutually_exclusive_group()
-    paramopts.add_argument('-p', '--params', metavar='JSON dict')
-    paramopts.add_argument('-P', '--param-file', type=argparse.FileType('r'))
+    paramopts.add_argument('-p', '--params', metavar='JSON-OBJECT',
+                           help='JSON object of action arguments')
+    paramopts.add_argument('-P', '--param-file', type=argparse.FileType('r'),
+                           metavar='JSON-FILE',
+                           help='JSON object of action arguments')
     if multiple:
-        cmd_act.add_argument('-M', '--multiple', action='store_true')
-    cmd_act.add_argument('type')
-    cmd_act.add_argument(objtype, nargs='+')
-    cmd_actions = cmds.add_parser('actions')
+        cmd_act.add_argument('-M', '--multiple', action='store_true',
+                             help='Act on multiple resources with the same name'
+                                  ' instead of erroring')
+    cmd_act.add_argument('type', help='type of action to perform')
+    cmd_act.add_argument(objtype, nargs='+',
+                         help='identifier for a resource to act on')
+
+    cmd_actions = cmds.add_parser('actions',
+                                  help='List actions performed on resources',
+                                  description='List actions performed on'
+                                              ' resources')
     latestopts = cmd_actions.add_mutually_exclusive_group()
-    latestopts.add_argument('--last', action='store_true')
-    latestopts.add_argument('--current', action='store_true')
+    latestopts.add_argument('--last', action='store_true',
+                            help='Show only the most recent action on each'
+                                 ' resource')
+    latestopts.add_argument('--current', action='store_true',
+                            help='Show only in-progress actions')
     if multiple:
-        cmd_actions.add_argument('-M', '--multiple', action='store_true')
-    cmd_actions.add_argument(objtype, nargs='+')
-    cmd_wait = cmds.add_parser('wait', parents=[waitbase])
+        cmd_actions.add_argument('-M', '--multiple', action='store_true',
+                                 help='Act on multiple resources with the same'
+                                      ' name instead of erroring')
+    cmd_actions.add_argument(objtype, nargs='+',
+                             help='identifier for a resource to fetch data for')
+
+    cmd_wait = cmds.add_parser('wait', parents=[waitbase],
+                               help="Wait for resources' most recent actions"
+                                    " to complete",
+                               description="Wait for resources' most recent"
+                                           " actions to complete")
     if objtype == 'droplet':
         cmd_wait.add_argument('-S', '--status', type=str.lower,
-                              choices=['active', 'new', 'off', 'archive'])
+                              choices=['active', 'new', 'off', 'archive'],
+                              help="Wait for the droplets' statuses to reach"
+                                   " the given value instead")
     if multiple:
-        cmd_wait.add_argument('-M', '--multiple', action='store_true')
-    cmd_wait.add_argument(objtype, nargs='+')
+        cmd_wait.add_argument('-M', '--multiple', action='store_true',
+                              help='Act on multiple resources with the same'
+                                   ' name instead of erroring')
+    cmd_wait.add_argument(objtype, nargs='+',
+                          help='identifier for a resource to wait on')
 
 def do_actioncmd(args, client, objects):
     if args.cmd == 'act':

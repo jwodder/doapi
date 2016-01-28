@@ -11,6 +11,7 @@
     - Add a docstring to `__init__.py` for displaying in pydoc
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
+- Split `doapi.cli` into a separate project?
 
 # Command-Line Interface
 
