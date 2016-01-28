@@ -266,7 +266,7 @@ def main(argv=None, parsed=None):
             util.dump(upgrades)
 
     else:
-        raise RuntimeError('No path defined for command %r' % (args.cmd,))
+        assert False, 'No path defined for command %r' % (args.cmd,)
 
 
 if __name__ == '__main__':

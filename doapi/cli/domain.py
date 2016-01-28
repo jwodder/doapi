@@ -121,7 +121,7 @@ def main(argv=None, parsed=None):
             r.delete()
 
     else:
-        raise RuntimeError('No path defined for command %r' % (args.cmd,))
+        assert False, 'No path defined for command %r' % (args.cmd,)
 
 if __name__ == '__main__':
     main()

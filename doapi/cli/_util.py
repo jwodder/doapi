@@ -310,5 +310,4 @@ def do_actioncmd(args, client, objects):
             actions = list(currentActions(objects))
             dump(client.wait_actions(actions))
     else:
-        raise RuntimeError('Programmer error: do_actioncmd called with invalid'
-                           ' command')
+        assert False, 'do_actioncmd called with invalid command'

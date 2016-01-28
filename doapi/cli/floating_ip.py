@@ -84,7 +84,7 @@ def main(argv=None, parsed=None):
         util.do_actioncmd(args, client, floips)
 
     else:
-        raise RuntimeError('No path defined for command %r' % (args.cmd,))
+        assert False, 'No path defined for command %r' % (args.cmd,)
 
 def maybeInt(s):
     try:

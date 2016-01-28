@@ -30,7 +30,7 @@ def main():
     elif args.command == 'ssh-key':
         from .ssh_key import main as main2
     else:
-        raise RuntimeError('No path defined for command %r' % (args.command,))
+        assert False, 'No path defined for command %r' % (args.cmd,)
     main2(args.arguments, args)
 
 if __name__ == '__main__':
