@@ -153,7 +153,8 @@ class Cache(object):
             self.cache_droplets()
         elif key == "image":
             self.cache_images()
-        if name in self.caches[key]["name"]:
+        if name in self.caches[key]["name"] or \
+                (key == "image" and name in self.caches[key]["slug"]):
             msg = 'There is already another %s named %r' % (key, name)
             if fatal:
                 die(msg)
