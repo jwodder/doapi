@@ -69,3 +69,5 @@
   `/v2/$RESOURCE_TYPE/$RESOURCE_ID/actions/$ACTION_ID`
 - Look into whether DO accepts public keys with options and, if so, update
   `doapi-droplet new` to parse them correctly
+- Is it actually possible to unset a DNS record's port/priority/weight by
+  "updating" it to `null`?

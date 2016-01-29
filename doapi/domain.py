@@ -198,8 +198,8 @@ class DomainRecord(ResourceWithID):
     def update_record(self, **attrs):
         # The `_record` is to avoid conflicts with MutableMapping.update.
         """
-        Update the record, modifying any number of its attributes.
-        ``update_record`` takes the same keyword arguments as
+        Update the record, modifying any number of its attributes (except
+        ``id``).  ``update_record`` takes the same keyword arguments as
         :meth:`Domain.create_record`; pass in only those attributes that you
         want to update.
 
