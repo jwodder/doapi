@@ -33,8 +33,6 @@
   fingerprints?)
     - What about IDs that are also valid names for droplets/images/SSH keys?
       Are such names even allowed?
-- Eliminate `doapi-domain set-record` and give `doapi-domain new-record` an
-  option for enabling `set-record`'s behavior instead?
 - Rename `--current` back to `--in-progress`?
 
 # Library

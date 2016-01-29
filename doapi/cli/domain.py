@@ -24,6 +24,7 @@ def main(argv=None, parsed=None):
     cmd_showrec.add_argument('record_id', type=int, nargs='*')
 
     cmd_newrec = cmds.add_parser('new-record')
+    cmd_newrec.add_argument('--delete', action='store_true')
     cmd_newrec.add_argument('--priority', type=int)
     cmd_newrec.add_argument('--port', type=int)
     cmd_newrec.add_argument('--weight', type=int)
@@ -31,17 +32,6 @@ def main(argv=None, parsed=None):
     cmd_newrec.add_argument('type')
     cmd_newrec.add_argument('name')
     cmd_newrec.add_argument('data')
-
-    cmd_setrec = cmds.add_parser('set-record')
-    # `set` is like `new` but deletes any & all pre-existing records with the
-    # same type & name.
-    cmd_setrec.add_argument('--priority', type=int)
-    cmd_setrec.add_argument('--port', type=int)
-    cmd_setrec.add_argument('--weight', type=int)
-    cmd_setrec.add_argument('domain')
-    cmd_setrec.add_argument('type')
-    cmd_setrec.add_argument('name')
-    cmd_setrec.add_argument('data')
 
     cmd_modrec = cmds.add_parser('update-record')
     cmd_modrec.add_argument('--type')
@@ -89,18 +79,14 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'new-record':
         domain = client.fetch_domain(args.domain)
-        util.dump(domain.create_record(args.type, args.name, args.data,
-                                       args.priority, args.port, args.weight))
-
-    elif args.cmd == 'set-record':
-        domain = client.fetch_domain(args.domain)
         newrec = domain.create_record(args.type, args.name, args.data,
                                       args.priority, args.port, args.weight)
-        recs = [r for r in domain.fetch_all_records()
-                  if r.type == args.type and r.name == args.name and \
-                     r.id != newrec.id]
-        for r in recs:
-            r.delete()
+        if args.delete:
+            recs = [r for r in domain.fetch_all_records()
+                      if r.type == args.type and r.name == args.name and \
+                         r.id != newrec.id]
+            for r in recs:
+                r.delete()
         util.dump(newrec)
 
     elif args.cmd == 'update-record':
