@@ -22,7 +22,7 @@ SYNOPSIS
             -S|--size <size>
             -R|--region <region>
             [-B|--backups]
-            [--ipv6]
+            [-6|--ipv6]
             [-P|--private-networking]
             [-U|--user-data <data>]
             [-K|--ssh-key <key>] ...

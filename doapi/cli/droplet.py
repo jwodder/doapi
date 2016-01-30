@@ -34,7 +34,7 @@ def main(argv=None, parsed=None):
     cmd_new.add_argument('-S', '--size', required=True)
     cmd_new.add_argument('-R', '--region', required=True)
     cmd_new.add_argument('-B', '--backups', action='store_true')
-    cmd_new.add_argument('--ipv6', action='store_true')
+    cmd_new.add_argument('-6', '--ipv6', action='store_true')
     cmd_new.add_argument('-P', '--private-networking', action='store_true')
     cmd_new.add_argument('-U', '--user-data')
     cmd_new.add_argument('-K', '--ssh-key', action='append', default=[])
