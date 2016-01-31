@@ -16,7 +16,7 @@ def main(argv=None, parsed=None):
     showopts = cmd_show.add_mutually_exclusive_group()
     showopts.add_argument('--last', action='store_true',
                           help='Show only the most recent action')
-    showopts.add_argument('--current', action='store_true',
+    showopts.add_argument('--in-progress', action='store_true',
                           help='Show all in-progress actions')
     cmd_show.add_argument('action', nargs='*', type=int,
                           help='ID of an action; omit to list all')
@@ -37,7 +37,7 @@ are shown as `null`.''')
     resopts = cmd_resource.add_mutually_exclusive_group(required=True)
     resopts.add_argument('--last', action='store_true',
                          help='Show only the most recent action')
-    resopts.add_argument('--current', action='store_true',
+    resopts.add_argument('--in-progress', action='store_true',
                          help='Show all in-progress actions')
     cmd_resource.add_argument('action', nargs='*', type=int,
                               help='ID of an action; omit to list all')
@@ -50,9 +50,9 @@ are shown as `null`.''')
             if args.action:
                 util.die('--last and action arguments are mutually exclusive')
             util.dump(client.fetch_last_action())
-        elif args.current:
+        elif args.in_progress:
             if args.action:
-                util.die('--current and action arguments are mutually'
+                util.die('--in-progress and action arguments are mutually'
                          ' exclusive')
             util.dump(all_in_progress(client))
         elif args.action:
@@ -73,16 +73,16 @@ are shown as `null`.''')
                 util.die('--last and action arguments are mutually exclusive')
             util.dump(client.fetch_last_action().fetch_resource())
         else:
-            if args.current:
+            if args.in_progress:
                 if args.action:
-                    util.die('--current and action arguments are mutually'
+                    util.die('--in-progress and action arguments are mutually'
                              ' exclusive')
                 acts = all_in_progress(client)
             elif args.action:
                 acts = map(client.fetch_action, args.action)
             else:
-                util.die('You must specify one of --last, --current, or one or'
-                         ' more actions')
+                util.die('You must specify one of --last, --in-progress, or'
+                         ' one or more actions')
             util.dump(map(Action.fetch_resource, acts))
 
     else:

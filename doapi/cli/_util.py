@@ -252,7 +252,7 @@ def add_actioncmds(cmds, objtype, multiple=True):
     latestopts.add_argument('--last', action='store_true',
                             help='Show only the most recent action on each'
                                  ' resource')
-    latestopts.add_argument('--current', action='store_true',
+    latestopts.add_argument('--in-progress', action='store_true',
                             help='Show only in-progress actions')
     if multiple:
         cmd_actions.add_argument('-M', '--multiple', action='store_true',
@@ -296,8 +296,8 @@ def do_actioncmd(args, client, objects):
             actions = client.wait_actions(actions)
         dump(actions)
     elif args.cmd == 'actions':
-        if args.last or args.current:
-            if args.current:
+        if args.last or args.in_progress:
+            if args.in_progress:
                 actions = list(currentActions(objects))
             else:
                 actions = [obj.fetch_last_action() for obj in objects]

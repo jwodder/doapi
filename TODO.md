@@ -11,7 +11,7 @@
     - Add a docstring to `__init__.py` for displaying in pydoc
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
-- Split `doapi.cli` into a separate project?
+- Split `doapi.cli` into a separate project or package?
 
 # Command-Line Interface
 
@@ -33,7 +33,6 @@
   fingerprints?)
     - What about IDs that are also valid names for droplets/images/SSH keys?
       Are such names even allowed?
-- Rename `--current` back to `--in-progress`?
 
 # Library
 
@@ -51,6 +50,7 @@
   `wait_droplets` and `Droplet.wait`
 - Rename `doapi.create_droplets` to `doapi.create_multiple_droplets`?
 - Eliminate duplication of type-conversion code in initializers
+- Rename `fetch_current_action` to `fetch_in_progress_action`?
 
 # API Compatibility & Correctness
 
