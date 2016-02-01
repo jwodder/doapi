@@ -16,6 +16,7 @@
 # Command-Line Interface
 
 - Use argh instead of argparse
+- Get `doapi CMD --help` to have the same output as `doapi-CMD --help`
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
 - Add metavars and other `--help` data
