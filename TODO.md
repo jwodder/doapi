@@ -11,7 +11,6 @@
     - Add a docstring to `__init__.py` for displaying in pydoc
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
-- Split `doapi.cli` into a separate project or package?
 
 # Command-Line Interface
 
@@ -34,6 +33,8 @@
   fingerprints?)
     - What about IDs that are also valid names for droplets/images/SSH keys?
       Are such names even allowed?
+- Eliminate `act --params-file` by allowing `--params` to take a `@file`
+  argument?
 
 # Library
 

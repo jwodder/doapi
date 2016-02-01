@@ -233,7 +233,7 @@ def add_actioncmds(cmds, objtype, multiple=True):
     paramopts = cmd_act.add_mutually_exclusive_group()
     paramopts.add_argument('-p', '--params', metavar='JSON-OBJECT',
                            help='JSON object of action arguments')
-    paramopts.add_argument('-P', '--param-file', type=argparse.FileType('r'),
+    paramopts.add_argument('-P', '--params-file', type=argparse.FileType('r'),
                            metavar='JSON-FILE',
                            help='JSON object of action arguments')
     if multiple:
@@ -284,11 +284,11 @@ def do_actioncmd(args, client, objects):
             params = json.loads(args.params)
             if not isinstance(params, dict):
                 die('--params must be a JSON dictionary/object')
-        elif args.param_file:
-            with args.param_file:
-                params = json.load(args.param_file)
+        elif args.params_file:
+            with args.params_file:
+                params = json.load(args.params_file)
             if not isinstance(params, dict):
-                die('--param-file contents must be a JSON dictionary/object')
+                die('--params-file contents must be a JSON dictionary/object')
         else:
             params = {}
         actions = [obj.act(type=args.type, **params) for obj in objects]
