@@ -19,26 +19,34 @@ Command-Line Programs
 
 TODO
 
-[Document the plain ``doapi`` command]
+[Document the plain :program:`doapi` command]
 
 ----
 
-All commands take the following options:
+Universal Options
+-----------------
 
-``--api-token <token>``
+All commands take the following options in addition to those listed in their
+individual documentation:
+
+.. option:: --api-token <token>
+
     Use ``<token>`` as an OAuth token for authentication with the API; mutually
     exclusive with ``--api-token-file``
 
-``--api-token-file <file>``
+.. option:: --api-token-file <file>
+
     Use the contents of ``<file>`` as an OAuth token for authentication with
     the API; mutually exclusive with ``--api-token``
 
-``--timeout <seconds>``
+.. option:: --timeout <seconds>
+
     The ``timeout`` value to use when making API requests; default value: 61.
     See http://www.python-requests.org/en/latest/user/advanced/#timeouts for
     more information.
 
-``--endpoint <URL>``
+.. option:: --endpoint <URL>
+
     Use ``<URL>`` as the base URL for all API requests; default value:
     ``https://api.digitalocean.com`` (the official DigitalOcean API endpoint)
 
@@ -50,18 +58,18 @@ Note that these options cannot be attached to subcommands::
 
 ----
 
-In order to perform API requests, an OAuth token must be supplied to ``doapi``
-so that it can authenticate with the DigitalOcean server.  You can generate an
-OAuth token for your account via the `"Apps & API" section
+In order to perform API requests, an OAuth token must be supplied to
+:program:`doapi` so that it can authenticate with the DigitalOcean server.  You
+can generate an OAuth token for your account via the `"Apps & API" section
 <https://cloud.digitalocean.com/settings/applications>`_ of your DigitalOcean
 account's control panel.
 
-The ``doapi`` commands will look for an OAuth token in the following locations,
-in order:
+The :program:`doapi` commands will look for an OAuth token in the following
+locations, in order:
 
 1. Specified on the command line with ``--api-token <token>`` or
    ``--api-token-file <file>``
-2. The value of the ``DO_API_TOKEN`` environment variable
+2. The value of the :envvar:`DO_API_TOKEN` environment variable
 3. The contents of a ``.doapi`` file in your home directory
 
 ----

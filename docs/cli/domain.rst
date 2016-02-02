@@ -1,12 +1,12 @@
 .. module:: doapi
 
-``doapi-domain``
-----------------
+:program:`doapi-domain`
+-----------------------
 
 NAME
 ^^^^
 
-``doapi-domain`` — manage DigitalOcean domains & domain records
+:program:`doapi-domain` — manage DigitalOcean domains & domain records
 
 SYNOPSIS
 ^^^^^^^^

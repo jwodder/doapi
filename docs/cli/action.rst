@@ -1,12 +1,12 @@
 .. module:: doapi
 
-``doapi-action``
-----------------
+:program:`doapi-action`
+-----------------------
 
 NAME
 ^^^^
 
-``doapi-action`` — manage DigitalOcean API actions
+:program:`doapi-action` — manage DigitalOcean API actions
 
 SYNOPSIS
 ^^^^^^^^

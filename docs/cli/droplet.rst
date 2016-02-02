@@ -1,12 +1,12 @@
 .. module:: doapi
 
-``doapi-droplet``
------------------
+:program:`doapi-droplet`
+------------------------
 
 NAME
 ^^^^
 
-``doapi-droplet`` — manage DigitalOcean droplets
+:program:`doapi-droplet` — manage DigitalOcean droplets
 
 SYNOPSIS
 ^^^^^^^^

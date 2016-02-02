@@ -8,7 +8,7 @@ class Droplet(Actionable, ResourceWithID):
     """
     A droplet resource, representing a virtual machine provided by
     DigitalOcean.
-    
+
     New droplets are created via the :meth:`doapi.create_droplet` and
     :meth:`doapi.create_droplets` methods and can be retrieved with the
     :meth:`doapi.fetch_droplet` and :meth:`doapi.fetch_all_droplets` methods.

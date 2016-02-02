@@ -1,12 +1,12 @@
 .. module:: doapi
 
-``doapi-size``
---------------
+:program:`doapi-size`
+---------------------
 
 NAME
 ^^^^
 
-``doapi-size`` — list available DigitalOcean droplet sizes
+:program:`doapi-size` — list available DigitalOcean droplet sizes
 
 SYNOPSIS
 ^^^^^^^^

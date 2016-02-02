@@ -1,12 +1,12 @@
 .. module:: doapi
 
-``doapi-floating-ip``
----------------------
+:program:`doapi-floating-ip`
+----------------------------
 
 NAME
 ^^^^
 
-``doapi-floating-ip`` — manage DigitalOcean floating IP addresses
+:program:`doapi-floating-ip` — manage DigitalOcean floating IP addresses
 
 SYNOPSIS
 ^^^^^^^^

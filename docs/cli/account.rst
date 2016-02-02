@@ -1,12 +1,12 @@
 .. module:: doapi
 
-``doapi-account``
------------------
+:program:`doapi-account`
+------------------------
 
 NAME
 ^^^^
 
-``doapi-account`` — fetch DigitalOcean account data
+:program:`doapi-account` — fetch DigitalOcean account data
 
 SYNOPSIS
 ^^^^^^^^

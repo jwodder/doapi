@@ -1,12 +1,12 @@
 .. module:: doapi
 
-``doapi-ssh-key``
------------------
+:program:`doapi-ssh-key`
+------------------------
 
 NAME
 ^^^^
 
-``doapi-ssh-key`` — manage SSH public keys on DigitalOcean
+:program:`doapi-ssh-key` — manage SSH public keys on DigitalOcean
 
 SYNOPSIS
 ^^^^^^^^

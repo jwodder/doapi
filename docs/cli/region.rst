@@ -1,12 +1,12 @@
 .. module:: doapi
 
-``doapi-region``
-----------------
+:program:`doapi-region`
+-----------------------
 
 NAME
 ^^^^
 
-``doapi-region`` — list available DigitalOcean droplet regions
+:program:`doapi-region` — list available DigitalOcean droplet regions
 
 SYNOPSIS
 ^^^^^^^^

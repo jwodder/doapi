@@ -1,12 +1,12 @@
 .. module:: doapi
 
-``doapi-image``
----------------
+:program:`doapi-image`
+----------------------
 
 NAME
 ^^^^
 
-``doapi-image`` — manage DigitalOcean droplet images
+:program:`doapi-image` — manage DigitalOcean droplet images
 
 SYNOPSIS
 ^^^^^^^^
