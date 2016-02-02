@@ -11,6 +11,8 @@
     - Add a docstring to `__init__.py` for displaying in pydoc
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
+- Convert the CLI documentation to manpages?
+- Add the CLI documentation to each command's source file as a docstring?
 
 # Command-Line Interface
 
@@ -35,6 +37,9 @@
       Are such names even allowed?
 - Eliminate `act --params-file` by allowing `--params` to take a `@file`
   argument?
+- `doapi-request`: Make `-D-` dump to stderr instead of stdout?
+- `doapi-request`: When an error response is returned, should the response body
+  still be output? (instead of or in addition to the traceback?)
 
 # Library
 
