@@ -230,12 +230,8 @@ def add_actioncmds(cmds, objtype, multiple=True):
     cmd_act = cmds.add_parser('act', parents=[waitopts],
                               help='Perform an arbitrary action',
                               description='Perform an arbitrary action')
-    paramopts = cmd_act.add_mutually_exclusive_group()
-    paramopts.add_argument('-p', '--params', metavar='JSON-OBJECT',
-                           help='JSON object of action arguments')
-    paramopts.add_argument('-P', '--params-file', type=argparse.FileType('r'),
-                           metavar='JSON-FILE',
-                           help='JSON object of action arguments')
+    cmd_act.add_argument('-p', '--params', metavar='JSON|@file',
+                         help='JSON object of action arguments')
     if multiple:
         cmd_act.add_argument('-M', '--multiple', action='store_true',
                              help='Act on multiple resources with the same name'
@@ -280,15 +276,17 @@ def add_actioncmds(cmds, objtype, multiple=True):
 
 def do_actioncmd(args, client, objects):
     if args.cmd == 'act':
-        if args.params:
-            params = json.loads(args.params)
+        if args.params is not None:
+            if args.params.startswith("@") and len(args.params) > 1:
+                if args.params[1:] == '-':
+                    params = json.load(sys.stdin)
+                else:
+                    with open(args.params[1:]) as fp:
+                        params = json.load(fp)
+            else:
+                params = json.loads(args.params)
             if not isinstance(params, dict):
                 die('--params must be a JSON dictionary/object')
-        elif args.params_file:
-            with args.params_file:
-                params = json.load(args.params_file)
-            if not isinstance(params, dict):
-                die('--params-file contents must be a JSON dictionary/object')
         else:
             params = {}
         actions = [obj.act(type=args.type, **params) for obj in objects]
