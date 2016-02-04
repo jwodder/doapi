@@ -14,14 +14,15 @@
 - Convert the CLI documentation to manpages?
 - Add the CLI documentation to each command's source file as a docstring?
 - Unset the default timeout?
+- Improve the appearance of the "APIDocs" citations in the documentation
 
 # Command-Line Interface
 
-- Use argh instead of argparse
+- Use argh instead of argparse (or at least do _something_ to clean up the
+  argument-processing code)
 - Get `doapi CMD --help` to have the same output as `doapi-CMD --help`
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
-- Add metavars and other `--help` data
 - Handle fetching actions of objects that are being deleted
 - `doapi-droplet new`:
     - If an error occurs in the middle of creating droplets (e.g., if the

@@ -3,18 +3,25 @@ import argparse
 from   base64     import b64decode
 from   errno      import ENOENT
 from   hashlib    import md5
+from   operator   import methodcaller
 import sys
 from   time       import time
 from   six.moves  import map, range
 from   .          import _util as util
 from   ..base     import DropletUpgrade
-from   ..droplet  import Droplet
 
 unary_acts = {
-    act.replace('_', '-'): getattr(Droplet, act)
-    for act in "enable_backups disable_backups reboot power_cycle shutdown"
-               " power_off power_on password_reset enable_ipv6"
-               " enable_private_networking upgrade".split()
+    "disable-backups":           "Disable automatic backups on a droplet",
+    "enable-backups":            "Enable automatic backups on a droplet",
+    "enable-ipv6":               "Enable IPv6 networking on a droplet",
+    "enable-private-networking": "Enable private networking on a droplet",
+    "password-reset":            "Reset the root password for a droplet",
+    "power-cycle":               "Forcibly powercycle a droplet",
+    "power-off":                 "Forcibly power off a droplet",
+    "power-on":                  "Power on a droplet",
+    "reboot":                    "Attempt to gracefully reboot a droplet",
+    "shutdown":                  "Attempt to gracefully shut down a droplet",
+    "upgrade":                   "Upgrade a droplet",
 }
 
 create_rate = 10  # maximum number of droplets to create at once
@@ -25,70 +32,134 @@ def main(argv=None, parsed=None):
                                      description='Manage DigitalOcean droplets')
     cmds = parser.add_subparsers(title='command', dest='cmd')
 
-    cmd_show = cmds.add_parser('show')
-    cmd_show.add_argument('-M', '--multiple', action='store_true')
-    cmd_show.add_argument('droplet', nargs='*')
+    cmd_show = cmds.add_parser('show', help='List droplets',
+                               description='List droplets')
+    cmd_show.add_argument('-M', '--multiple', action='store_true',
+                          help='Show multiple droplets with the same name'
+                               ' instead of erroring')
+    cmd_show.add_argument('droplet', nargs='*',
+                          help='ID or name of a droplet; omit to list all')
 
-    cmd_new = cmds.add_parser('new', parents=[util.waitopts])
-    cmd_new.add_argument('-I', '--image', required=True)
-    cmd_new.add_argument('-S', '--size', required=True)
-    cmd_new.add_argument('-R', '--region', required=True)
-    cmd_new.add_argument('-B', '--backups', action='store_true')
-    cmd_new.add_argument('-6', '--ipv6', action='store_true')
-    cmd_new.add_argument('-P', '--private-networking', action='store_true')
-    cmd_new.add_argument('-U', '--user-data')
-    cmd_new.add_argument('-K', '--ssh-key', action='append', default=[])
-    cmd_new.add_argument('--unique', action='store_true')
-    cmd_new.add_argument('name', nargs='+')
+    cmd_new = cmds.add_parser('new', parents=[util.waitopts],
+                              help='Create a new droplet',
+                              description='Create a new droplet')
+    cmd_new.add_argument('-I', '--image', required=True,
+                         help="ID, slug, or name for the droplet's base image")
+    cmd_new.add_argument('-S', '--size', required=True,
+                         help="slug for the droplet's size")
+    cmd_new.add_argument('-R', '--region', required=True,
+                         help="slug for the droplet's region")
+    cmd_new.add_argument('-B', '--backups', action='store_true',
+                         help='Enable automatic backups on the new droplet')
+    cmd_new.add_argument('-6', '--ipv6', action='store_true',
+                         help='Enable IPv6 on the new droplet')
+    cmd_new.add_argument('-P', '--private-networking', action='store_true',
+                         help='Enable private networking on the new droplet')
+    cmd_new.add_argument('-U', '--user-data',
+                         help='user data for the new droplet')
+    cmd_new.add_argument('-K', '--ssh-key', action='append', default=[],
+                         help='ID, fingerprint, name, or local filepath of an'
+                              ' SSH public key to add to the droplet')
+    cmd_new.add_argument('--unique', action='store_true',
+                         help='Error if the name is already in use')
+    cmd_new.add_argument('name', nargs='+', help='name for the new droplet')
 
     util.add_actioncmds(cmds, 'droplet')
 
     for act in sorted(unary_acts):
-        c = cmds.add_parser(act, parents=[util.waitopts])
-        c.add_argument('-M', '--multiple', action='store_true')
-        c.add_argument('droplet', nargs='+')
+        c = cmds.add_parser(act, parents=[util.waitopts], help=unary_acts[act],
+                            description=unary_acts[act])
+        c.add_argument('-M', '--multiple', action='store_true',
+                       help='Operate on multiple droplets with the same name'
+                            ' instead of erroring')
+        c.add_argument('droplet', nargs='+', help='ID or name of a droplet')
 
-    for act in "show-snapshots backups kernels delete".split():
-        c = cmds.add_parser(act)
-        c.add_argument('-M', '--multiple', action='store_true')
-        c.add_argument('droplet', nargs='+')
+    for act, about in [
+        ('show-snapshots', "List a droplet's snapshot images"),
+        ('backups', "List a droplet's backup images"),
+        ('kernels', 'List the kernels available to a droplet'),
+        ('delete', 'Delete a droplet'),
+    ]:
+        c = cmds.add_parser(act, help=about, description=about)
+        c.add_argument('-M', '--multiple', action='store_true',
+                       help='Operate on multiple droplets with the same name'
+                            ' instead of erroring')
+        c.add_argument('droplet', nargs='+', help='ID or name of a droplet')
 
-    c = cmds.add_parser('neighbors')
-    c.add_argument('-M', '--multiple', action='store_true')
-    c.add_argument('droplet', nargs='*')
+    c = cmds.add_parser('neighbors',
+                        help='Show groups of droplets that are running on the'
+                             ' same physical hardware',
+                        description='Show groups of droplets that are running'
+                                    ' on the same physical hardware')
+    c.add_argument('-M', '--multiple', action='store_true',
+                   help='Fetch data for multiple droplets with the same name'
+                        ' instead of erroring')
+    c.add_argument('droplet', nargs='*',
+                   help='Only show neighbors of these droplets (specified by'
+                        ' ID or name)')
 
-    cmds.add_parser('show-upgrades').add_argument('--droplets',
-                                                  action='store_true')
+    cmds.add_parser('show-upgrades',
+        help='List pending droplet upgrades',
+        description='List pending droplet upgrades',
+    ).add_argument('--droplets', action='store_true',
+                   help='Describe the droplets instead of their upgrades')
 
-    cmd_restore = cmds.add_parser('restore', parents=[util.waitopts])
-    cmd_restore.add_argument('droplet')
-    cmd_restore.add_argument('backup')
+    cmd_restore = cmds.add_parser('restore', parents=[util.waitopts],
+                                  help='Restore a droplet from a backup',
+                                  description='Restore a droplet from a backup')
+    cmd_restore.add_argument('droplet', help='ID or name of a droplet')
+    cmd_restore.add_argument('backup', help='ID or name of a backup image')
 
-    cmd_resize = cmds.add_parser('resize', parents=[util.waitopts])
-    cmd_resize.add_argument('--disk', action='store_true')
-    cmd_resize.add_argument('-M', '--multiple', action='store_true')
-    cmd_resize.add_argument('size')
-    cmd_resize.add_argument('droplet', nargs='+')
+    cmd_resize = cmds.add_parser('resize', parents=[util.waitopts],
+                                 help='Resize a droplet',
+                                 description='Resize a droplet')
+    cmd_resize.add_argument('--disk', action='store_true',
+                            help='Also resize the disk')
+    cmd_resize.add_argument('-M', '--multiple', action='store_true',
+                            help='Operate on multiple droplets with the same'
+                                 ' name instead of erroring')
+    cmd_resize.add_argument('size', help="slug for the droplet's new size")
+    cmd_resize.add_argument('droplet', nargs='+',
+                            help='ID or name of a droplet')
 
-    cmd_rebuild = cmds.add_parser('rebuild', parents=[util.waitopts])
-    cmd_rebuild.add_argument('-I', '--image')
-    cmd_rebuild.add_argument('-M', '--multiple', action='store_true')
-    cmd_rebuild.add_argument('droplet', nargs='+')
+    cmd_rebuild = cmds.add_parser('rebuild', parents=[util.waitopts],
+                                  help='Rebuild a droplet from an image',
+                                  description='Rebuild a droplet from an image')
+    cmd_rebuild.add_argument('-I', '--image',
+                             help="ID, slug, or name of an image; defaults to"
+                                  " the droplet's current image")
+    cmd_rebuild.add_argument('-M', '--multiple', action='store_true',
+                             help='Operate on multiple droplets with the same'
+                                  ' name instead of erroring')
+    cmd_rebuild.add_argument('droplet', nargs='+',
+                             help='ID or name of a droplet')
 
-    cmd_rename = cmds.add_parser('rename', parents=[util.waitopts])
-    cmd_rename.add_argument('--unique', action='store_true')
-    cmd_rename.add_argument('droplet')
-    cmd_rename.add_argument('name')
+    cmd_rename = cmds.add_parser('rename', parents=[util.waitopts],
+                                 help='Rename a droplet',
+                                 description='Rename a droplet')
+    cmd_rename.add_argument('--unique', action='store_true',
+                            help='Error if the name is already in use')
+    cmd_rename.add_argument('droplet', help='ID or name of a droplet')
+    cmd_rename.add_argument('name', help='new name for the droplet')
 
-    cmd_snapshot = cmds.add_parser('snapshot', parents=[util.waitopts])
-    cmd_snapshot.add_argument('--unique', action='store_true')
-    cmd_snapshot.add_argument('droplet')
-    cmd_snapshot.add_argument('name')
+    cmd_snapshot = cmds.add_parser('snapshot', parents=[util.waitopts],
+                                   help='Create a snapshot image of a droplet',
+                                   description='Create a snapshot image of a'
+                                               ' droplet')
+    cmd_snapshot.add_argument('--unique', action='store_true',
+                              help='Error if the name is already in use')
+    cmd_snapshot.add_argument('droplet', help='ID or name of a droplet')
+    cmd_snapshot.add_argument('name', help='name for the snapshot image')
 
-    cmd_chkernel = cmds.add_parser('change-kernel', parents=[util.waitopts])
-    cmd_chkernel.add_argument('-M', '--multiple', action='store_true')
-    cmd_chkernel.add_argument('kernel', type=int)
-    cmd_chkernel.add_argument('droplet', nargs='+')
+    cmd_chkernel = cmds.add_parser('change-kernel', parents=[util.waitopts],
+                                   help="Change a droplet's kernel",
+                                   description="Change a droplet's kernel")
+    cmd_chkernel.add_argument('-M', '--multiple', action='store_true',
+                              help='Operate on multiple droplets with the same'
+                                   ' name instead of erroring')
+    cmd_chkernel.add_argument('kernel', type=int, help='ID of a kernel')
+    cmd_chkernel.add_argument('droplet', nargs='+',
+                              help='ID or name of a droplet')
 
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
@@ -171,23 +242,13 @@ def main(argv=None, parsed=None):
         # specification won't cause some actions to start and others not.
         drops = cache.get_droplets(args.droplet, multiple=args.multiple,
                                                  hasM=True)
-        acts = map(unary_acts[args.cmd], drops)
+        acts = map(methodcaller(args.cmd.replace('-', '_')), drops)
         if args.wait:
             acts = client.wait_actions(acts)
         util.dump(acts)
 
-    elif args.cmd == 'show-snapshots':
-        util.dump(map(Droplet.fetch_all_snapshots,
-                      cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                       hasM=True)))
-
-    elif args.cmd == 'backups':
-        util.dump(map(Droplet.fetch_all_backups,
-                      cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                       hasM=True)))
-
-    elif args.cmd == 'kernels':
-        util.dump(map(Droplet.fetch_all_kernels,
+    elif args.cmd in ('show-snapshots', 'backups', 'kernels'):
+        util.dump(map(methodcaller(args.cmd.replace('-', '_')),
                       cache.get_droplets(args.droplet, multiple=args.multiple,
                                                        hasM=True)))
 
@@ -251,7 +312,7 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'neighbors':
         if args.droplet:
-            util.dump(map(Droplet.fetch_all_neighbors,
+            util.dump(map(methodcaller('fetch_all_neighbors'),
                           cache.get_droplets(args.droplet,
                                              multiple=args.multiple,
                                              hasM=True)))
