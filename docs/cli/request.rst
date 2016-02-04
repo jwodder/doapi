@@ -34,8 +34,8 @@ A request can be made either to an absolute URL or to a path like
 OPTIONS
 ^^^^^^^
 
-In addition to the universal options common to all :program:`doapi` commands,
-:program:`doapi-request` takes the following:
+In addition to the :ref:`universal options <universal>` common to all
+:program:`doapi` commands, :program:`doapi-request` takes the following:
 
 .. program:: doapi-request
 

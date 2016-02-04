@@ -23,6 +23,8 @@ TODO
 
 ----
 
+.. _universal:
+
 Universal Options
 -----------------
 
@@ -39,16 +41,16 @@ individual documentation:
     Use the contents of ``<file>`` as an OAuth token for authentication with
     the API; mutually exclusive with ``--api-token``
 
+.. option:: --endpoint <URL>
+
+    Use ``<URL>`` as the base URL for all API requests; default value:
+    ``https://api.digitalocean.com`` (the official DigitalOcean API endpoint)
+
 .. option:: --timeout <seconds>
 
     The ``timeout`` value to use when making API requests; default value: 61.
     See http://www.python-requests.org/en/latest/user/advanced/#timeouts for
     more information.
-
-.. option:: --endpoint <URL>
-
-    Use ``<URL>`` as the base URL for all API requests; default value:
-    ``https://api.digitalocean.com`` (the official DigitalOcean API endpoint)
 
 Note that these options cannot be attached to subcommands::
 
