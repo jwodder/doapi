@@ -343,7 +343,7 @@ class Account(Resource):
         Fetch & return a new `Account` object representing the account's
         current state
 
-        :rtype: Accounr
+        :rtype: Account
         :raises DOAPIError: if the API endpoint replies with an error
         """
         return self.doapi_manager.fetch_account()
