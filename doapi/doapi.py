@@ -35,7 +35,7 @@ class doapi(object):
     #: The official DigitalOcean API endpoint
     DEFAULT_ENDPOINT = 'https://api.digitalocean.com'
 
-    def __init__(self, api_token, endpoint=DEFAULT_ENDPOINT, timeout=61,
+    def __init__(self, api_token, endpoint=DEFAULT_ENDPOINT, timeout=None,
                  wait_interval=5, wait_time=None, per_page=None):
         #: The API token used for authentication
         self.api_token = api_token

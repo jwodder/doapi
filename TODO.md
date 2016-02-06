@@ -13,7 +13,6 @@
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 - Convert the CLI documentation to manpages?
 - Add the CLI documentation to each command's source file as a docstring?
-- Unset the default timeout?
 - Improve the appearance of the "APIDocs" citations in the documentation
 
 # Command-Line Interface

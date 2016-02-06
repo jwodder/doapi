@@ -48,9 +48,8 @@ individual documentation:
 
 .. option:: --timeout <seconds>
 
-    The ``timeout`` value to use when making API requests; default value: 61.
-    See http://www.python-requests.org/en/latest/user/advanced/#timeouts for
-    more information.
+    The maximum number of seconds to wait when attempting to connect to or read
+    from the remote endpoint; default value: no timeout
 
 Note that these options cannot be attached to subcommands::
 
