@@ -34,7 +34,7 @@ def main(argv=None, parsed=None):
                                    description='''\
 Show the resource that an action operated on.  Resources that no longer exist
 are shown as `null`.''')
-    resopts = cmd_resource.add_mutually_exclusive_group(required=True)
+    resopts = cmd_resource.add_mutually_exclusive_group()
     resopts.add_argument('--last', action='store_true',
                          help='Show only the most recent action')
     resopts.add_argument('--in-progress', action='store_true',
