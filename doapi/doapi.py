@@ -87,22 +87,22 @@ class doapi(object):
         if url.startswith('/'):
             url = self.endpoint + url
         attrs = {
-            "headers": {
-                "Authorization": "Bearer " + self.api_token,
-                "Content-Type": "application/json"
-            },
+            "headers": {"Authorization": "Bearer " + self.api_token},
             "params": params if params is not None else {},
             "timeout": self.timeout,
         }
-        if not isinstance(data, string_types):
-            data = json.dumps(data)
         method = method.upper()
+        if method == 'POST' or method == 'PUT':
+            if not isinstance(data, string_types):
+                data = json.dumps(data)
+            attrs["data"] = data
+            attrs["headers"]["Content-Type"] = "application/json"
         if method == 'GET':
             r = requests.get(url, **attrs)
         elif method == 'POST':
-            r = requests.post(url, data=data, **attrs)
+            r = requests.post(url, **attrs)
         elif method == 'PUT':
-            r = requests.put(url, data=data, **attrs)
+            r = requests.put(url, **attrs)
         elif method == 'DELETE':
             r = requests.delete(url, **attrs)
         else:
