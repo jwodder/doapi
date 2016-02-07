@@ -42,7 +42,7 @@
 
 # Library
 
-- Look into BCP for naming of REST API "manager" objects like `doapi`
+- Look into BCP for naming of API "manager" objects like `doapi`
     - Rename to `Manager`?  `DOAPIClient`?  `DOClient`?
     - Rename `doapi_manager` to just `manager`?
 - If an error occurs inside `_wait`, it should return the remaining objects

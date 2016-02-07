@@ -64,7 +64,7 @@ class doapi(object):
         #: or the last response was an error
         self.last_meta = None
 
-    def request(self, url, params={}, data=None, method='GET'):
+    def request(self, url, params=None, data=None, method='GET'):
         """
         Perform an HTTP request and return the response body as a decoded JSON
         value
@@ -91,7 +91,7 @@ class doapi(object):
                 "Authorization": "Bearer " + self.api_token,
                 "Content-Type": "application/json"
             },
-            "params": params,
+            "params": params if params is not None else {},
             "timeout": self.timeout,
         }
         if not isinstance(data, string_types):
