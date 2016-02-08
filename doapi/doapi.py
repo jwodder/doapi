@@ -63,6 +63,18 @@ class doapi(object):
         #: ``None`` if there was no such field, no requests have been made yet,
         #: or the last response was an error
         self.last_meta = None
+        #: The :class:`requests.Session` object through which all requests are
+        #: performed
+        self.session = requests.Session()
+
+    def close(self):
+        """
+        Close the session.  All API methods will be unusable after calling this
+        method.
+
+        :return: `None`
+        """
+        self.session.close()
 
     def request(self, url, params=None, data=None, method='GET'):
         """
@@ -98,13 +110,13 @@ class doapi(object):
             attrs["data"] = data
             attrs["headers"]["Content-Type"] = "application/json"
         if method == 'GET':
-            r = requests.get(url, **attrs)
+            r = self.session.get(url, **attrs)
         elif method == 'POST':
-            r = requests.post(url, **attrs)
+            r = self.session.post(url, **attrs)
         elif method == 'PUT':
-            r = requests.put(url, **attrs)
+            r = self.session.put(url, **attrs)
         elif method == 'DELETE':
-            r = requests.delete(url, **attrs)
+            r = self.session.delete(url, **attrs)
         else:
             raise ValueError('Unrecognized HTTP method: ' + repr(method))
         self.last_response = r
