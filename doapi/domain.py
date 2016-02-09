@@ -150,8 +150,8 @@ class DomainRecord(ResourceWithID):
     :var name: the name of the DNS record
     :vartype name: string
 
-    :var value: the value of the DNS record
-    :vartype value: string
+    :var data: the value of the DNS record
+    :vartype data: string
 
     :var priority: the priority of the record (SRV and MX records only)
     :vartype priority: number or ``None``
