@@ -9,6 +9,7 @@
     - Keep Sphinx from turning `:var:`s into hyperlinks
     - Show inheritance trees for DOEncoder and DOAPIError?
     - Add a docstring to `__init__.py` for displaying in pydoc
+    - Try to improve the layout of subcommand documentation
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 - Convert the CLI documentation to manpages?
@@ -48,8 +49,6 @@
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
-- Should `doapi` objects send all their requests through a `requests.Session`?
-  Should the user be able to supply their own `Session` object to use?
 - Wait operations should take into account the amount of time elapsed between
   `yield`s when deciding how long to sleep
 - Add constants for the possible droplet statuses for passing to
