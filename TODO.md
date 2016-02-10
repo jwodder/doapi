@@ -10,6 +10,7 @@
     - Show inheritance trees for DOEncoder and DOAPIError?
     - Add a docstring to `__init__.py` for displaying in pydoc
     - Try to improve the layout of subcommand documentation
+    - Add index entries for commands
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 - Convert the CLI documentation to manpages?
@@ -56,6 +57,8 @@
 - Rename `doapi.create_droplets` to `doapi.create_multiple_droplets`?
 - Eliminate duplication of type-conversion code in initializers
 - Rename `fetch_current_action` to `fetch_in_progress_action`?
+- Do something about the fact that domain records' "data" fields conflict with
+  `Resource`'s `data` dictionary
 
 # API Compatibility & Correctness
 

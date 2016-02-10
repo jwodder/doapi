@@ -220,11 +220,13 @@ def byname(iterable):
         bins[obj.name].append(obj)
     return bins
 
-def currentActions(objs):
+def currentActions(objs, withnulls=False):
     for o in objs:
         act = o.fetch_current_action()
         if act:
             yield act
+        elif withnulls:
+            yield None
 
 def add_actioncmds(cmds, objtype, multiple=True):
     cmd_act = cmds.add_parser('act', parents=[waitopts],
@@ -296,7 +298,7 @@ def do_actioncmd(args, client, objects):
     elif args.cmd == 'actions':
         if args.last or args.in_progress:
             if args.in_progress:
-                actions = list(currentActions(objects))
+                actions = list(currentActions(objects, withnulls=True))
             else:
                 actions = [obj.fetch_last_action() for obj in objects]
             dump(actions)
