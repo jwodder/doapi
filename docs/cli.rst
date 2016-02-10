@@ -75,6 +75,8 @@ locations, in order:
 
 ----
 
+.. _waitopts:
+
 Options common to all subcommands that produce `Action` objects::
 
     --wait

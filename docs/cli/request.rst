@@ -69,7 +69,8 @@ In addition to the :ref:`universal options <universal>` common to all
 .. option:: -X <method>, --request <method>
 
     Specifies the HTTP method to use for the request.  Valid options are
-    ``GET``, ``POST``, ``PUT``, and ``DELETE`` (case insensitive).
+    ``GET`` (the default), ``POST``, ``PUT``, and ``DELETE`` (case
+    insensitive).
 
     When the ``DELETE`` method is used, no output (other than that for
     :option:`--dump-header`, if specified) will be produced.
