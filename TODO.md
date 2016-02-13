@@ -52,8 +52,6 @@
   letting the error propagate out
 - Wait operations should take into account the amount of time elapsed between
   `yield`s when deciding how long to sleep
-- Add constants for the possible droplet statuses for passing to
-  `wait_droplets` and `Droplet.wait`
 - Rename `doapi.create_droplets` to `doapi.create_multiple_droplets`?
 - Eliminate duplication of type-conversion code in initializers
 - Rename `fetch_current_action` to `fetch_in_progress_action`?

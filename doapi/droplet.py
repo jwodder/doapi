@@ -74,6 +74,18 @@ class Droplet(Actionable, ResourceWithID):
     :vartype vcpus: int
     """
 
+    #: The status of droplets that are powered on and operating
+    STATUS_ACTIVE = 'active'
+
+    #: The status of "archived" droplets
+    STATUS_ARCHIVE = 'archive'
+
+    #: The status of recently-created droplets that are not yet usable
+    STATUS_NEW = 'new'
+
+    #: The status of droplets that are powered off
+    STATUS_OFF = 'off'
+
     def __init__(self, state=None, **extra):
         super(Droplet, self).__init__(state, **extra)
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
@@ -95,22 +107,22 @@ class Droplet(Actionable, ResourceWithID):
     @property
     def active(self):
         """ ``True`` iff the droplet's status is ``"active"`` """
-        return self.status == 'active'
+        return self.status == self.STATUS_ACTIVE
 
     @property
     def new(self):
         """ ``True`` iff the droplet's status is ``"new"`` """
-        return self.status == 'new'
+        return self.status == self.STATUS_NEW
 
     @property
     def off(self):
         """ ``True`` iff the droplet's status is ``"off"`` """
-        return self.status == 'off'
+        return self.status == self.STATUS_OFF
 
     @property
     def archive(self):
         """ ``True`` iff the droplet's status is ``"archive"`` """
-        return self.status == 'archive'
+        return self.status == self.STATUS_ARCHIVE
 
     @property
     def region_slug(self):
@@ -466,15 +478,15 @@ class Droplet(Actionable, ResourceWithID):
         droplet's ``status`` field to equal the given value; otherwise, it will
         wait for the most recent action on the droplet to finish.
 
-        If ``wait_time`` is exceeded or a ``KeyboardInterrupt`` is caught,
-        the droplet's most recently fetched state is returned immediately
-        without waiting for completion.
+        If ``wait_time`` is exceeded or a `KeyboardInterrupt` is caught, the
+        droplet's most recently fetched state is returned immediately without
+        waiting for completion.
 
         :param status: When non-``None``, the desired value for the ``status``
-            field of the droplet.  ``status`` should be ``"active"``,
-            ``"new"``, ``"off"``, or ``"archive"``; no checks of this value are
-            performed, so it is possible to inadvertently wait forever for an
-            impossible state.
+            field of the droplet, which should be one of
+            `Droplet.STATUS_ACTIVE`, `Droplet.STATUS_ARCHIVE`,
+            `Droplet.STATUS_NEW`, and `Droplet.STATUS_OFF`.  (For the sake of
+            forwards-compatibility, any other value is accepted as well.)
         :type status: string or ``None``
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's

@@ -383,10 +383,10 @@ class doapi(object):
         :param iterable droplets: an iterable of `Droplet`\ s and/or other
             values that are acceptable arguments to :meth:`fetch_droplet`
         :param status: When non-``None``, the desired value for the ``status``
-            field of each `Droplet`.  ``status`` should be ``"active"``,
-            ``"new"``, ``"off"``, or ``"archive"``; no checks of this value are
-            performed, so it is possible to inadvertently wait forever for an
-            impossible state.
+            field of each `Droplet`, which should be one of
+            `Droplet.STATUS_ACTIVE`, `Droplet.STATUS_ARCHIVE`,
+            `Droplet.STATUS_NEW`, and `Droplet.STATUS_OFF`.  (For the sake of
+            forwards-compatibility, any other value is accepted as well.)
         :type status: string or ``None``
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
