@@ -22,8 +22,7 @@ class Resource(collections.MutableMapping):
             state = state.data
         elif isinstance(state, Resource):
             raise TypeError('{0!r} object passed to {1!r} constructor'\
-                            .format(state.__class__.__name__,
-                                    self.__class__.__name__))
+                            .format(state._class(), self._class()))
         if state is not None:
             self.data.update(state)
         for k,v in iteritems(extra):
@@ -38,7 +37,7 @@ class Resource(collections.MutableMapping):
     def __repr__(self):
         # Meta attributes have to be omitted or else infinite recursion will
         # occur when trying to print a Droplet.
-        return '{0}({1})'.format(self.__class__.__name__,
+        return '{0}({1})'.format(self._class(),
                                  ', '.join('{0}={1!r}'.format(k,v)
                                            for k,v in iteritems(self)))
 
@@ -62,7 +61,7 @@ class Resource(collections.MutableMapping):
             return self.data[name]
         except KeyError:
             raise AttributeError('{0!r} object has no attribute {1!r}'\
-                                 .format(self.__class__.__name__, name))
+                                 .format(self._class(), name))
 
     def __setattr__(self, name, value):
         if name in self.__dict__:
@@ -82,6 +81,9 @@ class Resource(collections.MutableMapping):
         except (TypeError, AttributeError):
             endpoint = ''
         return endpoint + path
+
+    def _class(self):
+        return self.__class__.__name__
 
 
 class ResourceWithID(Resource):

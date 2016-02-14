@@ -68,7 +68,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
             return self.slug
         else:
             raise AttributeError("{0!r} object has no attribute 'slug'"\
-                                 .format(self.__class__.__name__))
+                                 .format(self._class()))
 
     @property
     def url(self):
