@@ -839,6 +839,7 @@ class doapi(object):
             else:
                 end_time = time() + wait_time
         while end_time is None or time() < end_time:
+            loop_start = time()
             next_objs = []
             for o in objects:
                 obj = o.fetch()
@@ -849,12 +850,14 @@ class doapi(object):
             objects = next_objs
             if not objects:
                 break
-            try:
-                if end_time is None:
-                    sleep(wait_interval)
-                else:
-                    sleep(min(wait_interval, end_time - time()))
-            except KeyboardInterrupt:
-                break
+            loop_end = time()
+            time_left = wait_interval - (loop_end - loop_start)
+            if end_time is not None:
+                time_left = min(time_left, end_time - loop_end)
+            if time_left > 0:
+                try:
+                    sleep(time_left)
+                except KeyboardInterrupt:
+                    break
         for o in objects:
             yield o

@@ -50,8 +50,6 @@
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
-- Wait operations should take into account the amount of time elapsed between
-  `yield`s when deciding how long to sleep
 - Rename `doapi.create_droplets` to `doapi.create_multiple_droplets`?
 - Eliminate duplication of type-conversion code in initializers
 - Rename `fetch_current_action` to `fetch_in_progress_action`?
