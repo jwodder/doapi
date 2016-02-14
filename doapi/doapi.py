@@ -185,7 +185,8 @@ class doapi(object):
             try:
                 objects = page[key]
             except (KeyError, TypeError):
-                raise ValueError('%r: not a key of the response body' % (key,))
+                raise ValueError('{0!r}: not a key of the response body'\
+                                 .format(key))
             for obj in objects:
                 yield obj
             try:

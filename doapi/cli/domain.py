@@ -134,7 +134,7 @@ def main(argv=None, parsed=None):
             r.delete()
 
     else:
-        assert False, 'No path defined for command %r' % (args.cmd,)
+        assert False, 'No path defined for command {0!r}'.format(args.cmd)
 
 if __name__ == '__main__':
     main()

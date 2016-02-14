@@ -82,8 +82,7 @@ class Cache(object):
                     elif len(answer) == 1:
                         return answer[0]
                     else:
-                        msg = '%r: ambiguous; name used by multiple %ss: %s' \
-                            % (label, key, ','.join(str(o.id) for o in answer))
+                        msg = '{0!r}: ambiguous; name used by multiple {1}s: {2}'.format(label, key, ', '.join(str(o.id) for o in answer))
                         if hasM:
                             msg += '\nUse the -M/--multiple option to specify' \
                                    ' all of them at once.'
@@ -93,7 +92,7 @@ class Cache(object):
                 else:
                     return answer
         if mandatory:
-            die('%r: no such %s' % (label, key))
+            die('{0!r}: no such {1}'.format(label, key))
         else:
             return [] if multiple else None
 
@@ -155,7 +154,7 @@ class Cache(object):
             self.cache_images()
         if name in self.caches[key]["name"] or \
                 (key == "image" and name in self.caches[key]["slug"]):
-            msg = 'There is already another %s named %r' % (key, name)
+            msg = 'There is already another {0} named {1!r}'.format(key, name)
             if fatal:
                 die(msg)
             else:
@@ -211,8 +210,8 @@ def dump(obj, fp=sys.stdout):
                   separators=(',', ': '))
         fp.write('\n')
 
-def die(msg, *va_arg):
-    raise SystemExit(sys.argv[0] + ': ' + msg % va_arg)
+def die(msg):
+    raise SystemExit(sys.argv[0] + ': ' + msg)
 
 def byname(iterable):
     bins = defaultdict(list)

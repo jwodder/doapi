@@ -192,7 +192,7 @@ def main(argv=None, parsed=None):
                         pubkey = fp.read().strip()
                 except IOError as e:
                     if e.errno == ENOENT:
-                        util.die('%s: no such SSH key' % (kname,))
+                        util.die('{0}: no such SSH key'.format(kname))
                     else:
                         raise
                 else:
@@ -205,7 +205,7 @@ def main(argv=None, parsed=None):
                         fprint = ':'.join(fprint[i:i+2]
                                           for i in range(0, len(fprint), 2))
                     except (IndexError, TypeError):
-                        util.die('%s: no such SSH key' % (kname,))
+                        util.die('{0}: no such SSH key'.format(kname))
                     try:
                         key = cache.caches["sshkey"]["fingerprint"][fprint]
                     except KeyError:
@@ -216,8 +216,8 @@ def main(argv=None, parsed=None):
                         cache.check_name_dup("sshkey", newname, args.unique)
                         key = client.create_ssh_key(newname, pubkey)
                         cache.add_sshkey(key)
-                        print('New SSH key %r registered with ID %d and'
-                              ' fingerprint %s' % (newname, key.id, fprint),
+                        print('New SSH key {0!r} registered with ID {1.id} and'
+                              ' fingerprint {2}'.format(newname, key, fprint),
                               file=sys.stderr)
             sshkeys.append(key)
         if sshkeys:
@@ -327,7 +327,7 @@ def main(argv=None, parsed=None):
             util.dump(upgrades)
 
     else:
-        assert False, 'No path defined for command %r' % (args.cmd,)
+        assert False, 'No path defined for command {0!r}'.format(args.cmd)
 
 
 if __name__ == '__main__':

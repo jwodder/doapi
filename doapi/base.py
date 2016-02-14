@@ -2,7 +2,6 @@ import collections
 from   datetime  import datetime
 import json
 import numbers
-from   time      import strftime
 import pyrfc3339
 from   six       import iteritems
 from   six.moves import map
@@ -22,9 +21,9 @@ class Resource(collections.MutableMapping):
                     setattr(self, attr, getattr(state, attr))
             state = state.data
         elif isinstance(state, Resource):
-            raise TypeError('%r object passed to %r constructor'
-                            % (state.__class__.__name__,
-                               self.__class__.__name__))
+            raise TypeError('{0!r} object passed to {1!r} constructor'\
+                            .format(state.__class__.__name__,
+                                    self.__class__.__name__))
         if state is not None:
             self.data.update(state)
         for k,v in iteritems(extra):
@@ -39,8 +38,9 @@ class Resource(collections.MutableMapping):
     def __repr__(self):
         # Meta attributes have to be omitted or else infinite recursion will
         # occur when trying to print a Droplet.
-        return '%s(%s)' % (self.__class__.__name__,
-                           ', '.join('%s=%r' % kv for kv in self.items()))
+        return '{0}({1})'.format(self.__class__.__name__,
+                                 ', '.join('{0}={1!r}'.format(k,v)
+                                           for k,v in iteritems(self)))
 
     def __getitem__(self, key):
         return self.data[key]
@@ -61,8 +61,8 @@ class Resource(collections.MutableMapping):
         try:
             return self.data[name]
         except KeyError:
-            raise AttributeError('%r object has no attribute %r'
-                                 % (self.__class__.__name__, name))
+            raise AttributeError('{0!r} object has no attribute {1!r}'\
+                                 .format(self.__class__.__name__, name))
 
     def __setattr__(self, name, value):
         if name in self.__dict__:
@@ -544,13 +544,11 @@ class DOAPIError(Exception):
         #: the body of the response.
         self.http_error_msg = ''
         if 400 <= response.status_code < 500:
-            self.http_error_msg = '%s Client Error: %s for url: %s\n' \
-                                  % (response.status_code, response.reason,
-                                     response.url)
+            self.http_error_msg = '{0.status_code} Client Error: {0.reason}'\
+                                  ' for url: {0.url}\n'.format(response)
         elif 500 <= response.status_code < 600:
-            self.http_error_msg = '%s Server Error: %s for url: %s\n' \
-                                  % (response.status_code, response.reason,
-                                     response.url)
+            self.http_error_msg = '{0.status_code} Server Error: {0.reason}'\
+                                  ' for url: {0.url}\n'.format(response)
         self.http_error_msg += response.text
         super(DOAPIError, self).__init__(self.http_error_msg)
         try:

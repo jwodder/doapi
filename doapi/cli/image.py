@@ -120,7 +120,7 @@ def main(argv=None, parsed=None):
         util.do_actioncmd(args, client, imgs)
 
     else:
-        assert False, 'No path defined for command %r' % (args.cmd,)
+        assert False, 'No path defined for command {0!r}'.format(args.cmd)
 
 
 if __name__ == '__main__':

@@ -86,7 +86,7 @@ are shown as `null`.''')
             util.dump(map(Action.fetch_resource, acts))
 
     else:
-        assert False, 'No path defined for command %r' % (args.cmd,)
+        assert False, 'No path defined for command {0!r}'.format(args.cmd)
 
 def all_in_progress(client):
     return util.currentActions(chain(client.fetch_all_droplets(),

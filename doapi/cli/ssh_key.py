@@ -71,7 +71,7 @@ def main(argv=None, parsed=None):
         util.dump(key.update_ssh_key(args.name))
 
     else:
-        assert False, 'No path defined for command %r' % (args.cmd,)
+        assert False, 'No path defined for command {0!r}'.format(args.cmd)
 
 if __name__ == '__main__':
     main()

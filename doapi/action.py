@@ -114,8 +114,8 @@ class Action(ResourceWithID):
             elif self.resource_type == "floating_ip":
                 return self.doapi_manager.fetch_floating_ip(self.resource_id)
             else:
-                raise ValueError('%r: unknown resource_type'
-                                 % (self.resource_type,))
+                raise ValueError('{0.resource_type!r}: unknown resource_type'\
+                                 .format(self))
         except DOAPIError as e:
             if e.response.status_code == 404:
                 return None
