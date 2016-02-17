@@ -188,7 +188,9 @@ class Actionable(Resource):
 
     def fetch_last_action(self):
         """
-        Fetch the most recent action performed on the resource
+        Fetch the most recent action performed on the resource.  If multiple
+        actions were triggered simultaneously, the choice of which to return is
+        undefined.
 
         :rtype: Action
         :raises DOAPIError: if the API endpoint replies with an error
