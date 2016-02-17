@@ -435,15 +435,16 @@ class doapi(object):
 
     def fetch_last_action(self):
         """
-        Fetch the most recent action performed on the account.  If multiple
-        actions were triggered simultaneously, the choice of which to return is
-        undefined.
+        Fetch the most recent action performed on the account, or ``None`` if
+        no actions have been performed yet.  If multiple actions were triggered
+        simultaneously, the choice of which to return is undefined.
 
-        :rtype: Action
+        :rtype: `Action` or ``None``
         :raises DOAPIError: if the API endpoint replies with an error
         """
         # Naive implementation:
-        return self._action(self.request('/v2/actions')["actions"][0])
+        acts = self.request('/v2/actions')["actions"]
+        return self._action(acts[0]) if acts else None
         # Slow yet guaranteed-correct implementation:
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 

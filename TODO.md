@@ -22,7 +22,7 @@
 - Use argh instead of argparse (or at least do _something_ to clean up the
   argument-processing code)
 - Get `doapi CMD --help` to have the same output as `doapi-CMD --help`
-    - Also unbreak `doapi account --rate-limit`
+    - Also unbreak `doapi account --rate-limit` and `doapi request`
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
 - Handle fetching actions of objects that are being deleted
@@ -39,7 +39,6 @@
   fingerprints?)
     - What about IDs that are also valid names for droplets/images/SSH keys?
       Are such names even allowed?
-- `doapi-request`: Make `-D-` dump to stderr instead of stdout?
 - `doapi-request`: When an error response is returned, should the response body
   still be output? (instead of or in addition to the traceback?)
 
@@ -48,14 +47,14 @@
 - Look into BCP for naming of API "manager" objects like `doapi`
     - Rename to `Manager`?  `DOAPIClient`?  `DOClient`?
     - Rename `doapi_manager` to just `manager`?
-- If an error occurs inside `_wait`, it should return the remaining objects
-  somehow (by yielding them? by attaching them to the exception?) before
-  letting the error propagate out
 - Rename `doapi.create_droplets` to `doapi.create_multiple_droplets`?
-- Eliminate duplication of type-conversion code in initializers
 - Rename `fetch_current_action` to `fetch_in_progress_action`?
 - Do something about the fact that domain records' "data" fields conflict with
   `Resource`'s `data` dictionary
+- If an error occurs inside `_wait`, it should return the remaining objects
+  somehow (by yielding them? by attaching them to the exception?) before
+  letting the error propagate out
+- Eliminate duplication of type-conversion code in initializers
 
 # API Compatibility & Correctness
 
@@ -76,3 +75,5 @@
   `doapi-droplet new` to parse them correctly
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
+- Confirm whether extant actionable resources always have at least one action
+  in their history
