@@ -7,24 +7,24 @@ from   six       import iteritems
 from   six.moves import map
 
 class Resource(collections.MutableMapping):
-    _meta_attrs = ('data', 'doapi_manager')
+    _meta_attrs = ('fields', 'doapi_manager')
 
     def __init__(self, state=None, **extra):
         # Note that meta attributes in `state` are not recognized as such, but
         # they are in `extra`.
         for attr in self._meta_attrs:
             self.__dict__[attr] = None
-        self.data = {}
+        self.fields = {}
         if isinstance(state, self.__class__):
             for attr in self._meta_attrs:
-                if attr != 'data':
+                if attr != 'fields':
                     setattr(self, attr, getattr(state, attr))
-            state = state.data
+            state = state.fields
         elif isinstance(state, Resource):
             raise TypeError('{0!r} object passed to {1!r} constructor'\
                             .format(state._class(), self._class()))
         if state is not None:
-            self.data.update(state)
+            self.fields.update(state)
         for k,v in iteritems(extra):
             setattr(self, k, v)
 
@@ -42,23 +42,23 @@ class Resource(collections.MutableMapping):
                                            for k,v in iteritems(self)))
 
     def __getitem__(self, key):
-        return self.data[key]
+        return self.fields[key]
 
     def __setitem__(self, key, value):
-        self.data[key] = value
+        self.fields[key] = value
 
     def __delitem__(self, key):
-        del self.data[key]
+        del self.fields[key]
 
     def __iter__(self):
-        return iter(self.data)
+        return iter(self.fields)
 
     def __len__(self):
-        return len(self.data)
+        return len(self.fields)
 
     def __getattr__(self, name):
         try:
-            return self.data[name]
+            return self.fields[name]
         except KeyError:
             raise AttributeError('{0!r} object has no attribute {1!r}'\
                                  .format(self._class(), name))
@@ -67,13 +67,13 @@ class Resource(collections.MutableMapping):
         if name in self.__dict__:
             self.__dict__[name] = value
         else:
-            self.data[name] = value
+            self.fields[name] = value
 
     def __delattr__(self, name):
         if name in self.__dict__:
             del self.__dict__[name]
         else:
-            del self.data[name]
+            del self.fields[name]
 
     def _url(self, path):
         try:
@@ -220,7 +220,7 @@ class DOEncoder(json.JSONEncoder):
     """
     def default(self, obj):
         if isinstance(obj, Resource):
-            return obj.data
+            return obj.fields
         elif isinstance(obj, datetime):
             return toISO8601(obj)
         elif isinstance(obj, collections.Iterator):

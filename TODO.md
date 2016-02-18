@@ -2,7 +2,7 @@
 
 - Document everything!
     - Write a README
-    - Document the basic attributes of all resource classes (`.data`,
+    - Document the basic attributes of all resource classes (`.fields`,
       `.doapi_manager`, use as a dict, conversion to a dict, etc.)
     - Add a docstring to `__init__.py` for displaying in pydoc
 - Get `doapi CMD --help` to have the same output as `doapi-CMD --help`
@@ -14,8 +14,6 @@
       Are such names even allowed?
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
-- Do something about the fact that domain records' "data" fields conflict with
-  `Resource`'s `data` dictionary?
 
 ## Naming Things
 
