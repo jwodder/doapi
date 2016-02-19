@@ -58,9 +58,9 @@ class Cache(object):
                 if attr == "name":
                     grouped[attr] = byname(objects)
                 else:
-                    grouped[attr] = {getattr(obj, attr): obj
+                    grouped[attr] = {obj[attr]: obj
                                      for obj in objects
-                                     if getattr(obj, attr, None) is not None}
+                                     if obj.get(attr) is not None}
             self.caches[key] = grouped
 
     def get(self, key, label, multiple=True, mandatory=True, hasM=False):
@@ -112,7 +112,7 @@ class Cache(object):
     def add_sshkey(self, key):
         cache = self.caches["sshkey"]
         for attr in self.groupby["sshkey"]:
-            value = getattr(key, attr, None)
+            value = key.get(attr)
             if value is not None:
                 if attr == "name":
                     cache[attr][value].append(key)
