@@ -5,8 +5,6 @@
     - Document the basic attributes of all resource classes (`.fields`,
       `.doapi_manager`, use as a dict, conversion to a dict, etc.)
     - Add a docstring to `__init__.py` for displaying in pydoc
-- Get `doapi CMD --help` to have the same output as `doapi-CMD --help`
-    - Also unbreak `doapi account --rate-limit` and `doapi request`
 - When `--multiple` is in effect, should image slugs that are also names of
   available images be interpreted as both? (and likewise for SSH keys &
   fingerprints?)
@@ -14,6 +12,7 @@
       Are such names even allowed?
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
+- Eliminate the `doapi` command?
 
 ## Naming Things
 
@@ -44,8 +43,8 @@
 
 # Command-Line Interface
 
-- Use argh instead of argparse (or at least do _something_ to clean up the
-  argument-processing code)
+- Use argh (or cmdpy?) instead of argparse (or at least do _something_ to clean
+  up the argument-processing code)
 - Add checks to mutating commands to ensure that the same object isn't listed
   on the command line twice
 - Handle fetching actions of objects that are being deleted
@@ -65,6 +64,7 @@
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
 - Eliminate duplication of type-conversion code in initializers
+- Make `Actionable` an ABC?
 
 # API Compatibility & Correctness
 
