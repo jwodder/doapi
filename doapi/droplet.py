@@ -10,8 +10,9 @@ class Droplet(Actionable, ResourceWithID):
     DigitalOcean.
 
     New droplets are created via the :meth:`doapi.create_droplet` and
-    :meth:`doapi.create_droplets` methods and can be retrieved with the
-    :meth:`doapi.fetch_droplet` and :meth:`doapi.fetch_all_droplets` methods.
+    :meth:`doapi.create_multiple_droplets` methods and can be retrieved with
+    the :meth:`doapi.fetch_droplet` and :meth:`doapi.fetch_all_droplets`
+    methods.
 
     The DigitalOcean API specifies the following fields for droplet objects:
 

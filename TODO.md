@@ -19,7 +19,6 @@
 - Look into BCP for naming of API "manager" objects like `doapi`
     - Rename to `Manager`?  `DOAPIClient`?  `DOClient`?
     - Rename `doapi_manager` to just `manager`?
-- Rename `doapi.create_droplets` to `doapi.create_multiple_droplets`?
 - Rename `fetch_current_action` to `fetch_in_progress_action`?
 - Come up with a better name for `--multiple`?
 

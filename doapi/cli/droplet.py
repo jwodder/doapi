@@ -224,8 +224,7 @@ def main(argv=None, parsed=None):
             params["ssh_keys"] = sshkeys
         drops = []
         for i in range(0, len(args.name), create_rate):
-            drops.extend(client.create_droplets(args.name[i:i+create_rate],
-                                                **params))
+            drops.extend(client.create_multiple_droplets(args.name[i:i+create_rate], **params))
         if args.wait:
             drops = client.wait_droplets(drops, status='active')
             ### Note: This will cause problems when fetching a pre-existing

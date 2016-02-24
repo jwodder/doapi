@@ -297,9 +297,9 @@ class doapi(object):
         return self._droplet(self.request('/v2/droplets', method='POST',
                                           data=data)["droplet"])
 
-    def create_droplets(self, names, image, size, region, ssh_keys=None,
-                        backups=None, ipv6=None, private_networking=None,
-                        user_data=None):
+    def create_multiple_droplets(self, names, image, size, region,
+                                 ssh_keys=None, backups=None, ipv6=None,
+                                 private_networking=None, user_data=None):
         r"""
         Create multiple new droplets at once with the same image, size, etc.,
         differing only in name.  All fields other than ``names``, ``image``,
