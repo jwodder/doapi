@@ -209,8 +209,20 @@ class Actionable(Resource):
         :rtype: `Action` or ``None``
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        a = self.fetch_last_action()
-        return a if a.in_progress else None
+        lasttime = None
+        for a in self.fetch_all_actions():
+            # Return the first in-progress Action listed that started on (or
+            # after???) the first Action listed.  This is to handle creation of
+            # floating IPs assigned to a droplet, as that can cause the assign
+            # action to be listed after the reserve/create action, even though
+            # the assignment finishes later.
+            if lasttime is None:
+                lasttime = a.started_at
+            elif lasttime > a.started_at:
+                return None
+            if a.in_progress:
+                return a
+        return None
 
 
 class DOEncoder(json.JSONEncoder):
