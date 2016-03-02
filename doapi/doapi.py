@@ -802,7 +802,7 @@ class doapi(object):
                                               data=data)["floating_ip"])
 
     def __eq__(self, other):
-        return type(self) == type(other) and vars(self) == vars(other)
+        return type(self) is type(other) and vars(self) == vars(other)
 
     def __ne__(self, other):
         return not (self == other)

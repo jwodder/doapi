@@ -55,12 +55,10 @@ class Cache(object):
             objects = list(objects)
             grouped = {key: objects}
             for attr in self.groupby[key]:
-                if attr == "name":
-                    grouped[attr] = byname(objects)
-                else:
-                    grouped[attr] = {obj[attr]: obj
-                                     for obj in objects
-                                     if obj.get(attr) is not None}
+                grouped[attr] = defaultdict(list)
+                for obj in objects:
+                    if obj.get(attr) is not None:
+                        grouped[attr][obj[attr]].append(obj)
             self.caches[key] = grouped
 
     def get(self, key, label, multiple=True, mandatory=True, hasM=False):
@@ -72,25 +70,20 @@ class Cache(object):
                 except ValueError:
                     continue
                 else:
-                    answer = grouped[attr].get(idno)
+                    answer = grouped[attr][idno]
             else:
-                answer = grouped[attr].get(label)
-            if answer is not None:
-                if attr == "name":
-                    if multiple:
-                        return answer
-                    elif len(answer) == 1:
-                        return answer[0]
-                    else:
-                        msg = '{0!r}: ambiguous; name used by multiple {1}s: {2}'.format(label, key, ', '.join(str(o.id) for o in answer))
-                        if hasM:
-                            msg += '\nUse the -M/--multiple option to specify' \
-                                   ' all of them at once.'
-                        die(msg)
-                elif multiple:
-                    return [answer]
-                else:
+                answer = grouped[attr][label]
+            if answer:
+                if multiple:
                     return answer
+                elif len(answer) == 1:
+                    return answer[0]
+                else:
+                    msg = '{0!r}: ambiguous; name used by multiple {1}s: {2}'.format(label, key, ', '.join(str(o.id) for o in answer))
+                    if hasM:
+                        msg += '\nUse the -M/--multiple option to specify' \
+                               ' all of them at once.'
+                    die(msg)
         if mandatory:
             die('{0!r}: no such {1}'.format(label, key))
         else:
@@ -114,10 +107,7 @@ class Cache(object):
         for attr in self.groupby["sshkey"]:
             value = key.get(attr)
             if value is not None:
-                if attr == "name":
-                    cache[attr][value].append(key)
-                else:
-                    cache[attr][value] = key
+                cache[attr][value].append(key)
 
     def cache_droplets(self):
         self.cache(self.client.fetch_all_droplets(), "droplet")
@@ -212,12 +202,6 @@ def dump(obj, fp=sys.stdout):
 
 def die(msg):
     raise SystemExit(sys.argv[0] + ': ' + msg)
-
-def byname(iterable):
-    bins = defaultdict(list)
-    for obj in iterable:
-        bins[obj.name].append(obj)
-    return bins
 
 def currentActions(objs, withnulls=False):
     for o in objs:
