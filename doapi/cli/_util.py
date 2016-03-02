@@ -63,6 +63,7 @@ class Cache(object):
 
     def get(self, key, label, multiple=True, mandatory=True, hasM=False):
         grouped = self.caches[key]
+        matches = []
         for attr in self.groupby[key]:
             if attr == "id":
                 try:
@@ -70,21 +71,25 @@ class Cache(object):
                 except ValueError:
                     continue
                 else:
-                    answer = grouped[attr][idno]
+                    matches.append(grouped[attr][idno])
             else:
-                answer = grouped[attr][label]
-            if answer:
-                if multiple:
-                    return answer
-                elif len(answer) == 1:
-                    return answer[0]
-                else:
-                    msg = '{0!r}: ambiguous; name used by multiple {1}s: {2}'.format(label, key, ', '.join(str(o.id) for o in answer))
-                    if hasM:
-                        msg += '\nUse the -M/--multiple option to specify' \
-                               ' all of them at once.'
-                    die(msg)
-        if mandatory:
+                matches.append(grouped[attr][label])
+        matches = [m for m in matches if m != []]
+        allmatch = sum(matches, [])
+        if matches:
+            if multiple:
+                return allmatch
+            elif len(matches[0]) == 1:
+                return matches[0][0]
+            else:
+                msg = '{0!r}: ambiguous; name used by multiple {1}s: {2}'\
+                      .format(label, key, ', '.join(str(o.id)
+                                                    for o in allmatch))
+                if hasM:
+                    msg += '\nUse the -M/--multiple option to specify' \
+                           ' all of them at once.'
+                die(msg)
+        elif mandatory:
             die('{0!r}: no such {1}'.format(label, key))
         else:
             return [] if multiple else None
