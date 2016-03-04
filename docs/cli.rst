@@ -46,12 +46,21 @@ individual documentation:
     Use ``<URL>`` as the base URL for all API requests; default value:
     ``https://api.digitalocean.com`` (the official DigitalOcean API endpoint)
 
+.. option:: --help
+
+    Show command usage and exit
+
 .. option:: --timeout <seconds>
 
     The maximum number of seconds to wait when attempting to connect to or read
     from the remote endpoint; default value: no timeout
 
-Note that these options cannot be attached to subcommands::
+.. option:: --version
+
+    Show doapi version and exit
+
+Note that these options (other than :option:`--help`) cannot be attached to
+subcommands::
 
     doapi-droplet --timeout 1000 show  # Good
     doapi --timeout 1000 droplet show  # Good
