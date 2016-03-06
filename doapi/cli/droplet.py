@@ -24,6 +24,14 @@ unary_acts = {
     "upgrade":                   "Upgrade a droplet",
 }
 
+unary_other = {
+    'show-snapshots': ("List a droplet's snapshot images",
+                       'fetch_all_snapshots'),
+    'backups': ("List a droplet's backup images", 'fetch_all_backups'),
+    'kernels': ('List the kernels available to a droplet', 'fetch_all_kernels'),
+    'delete':  ('Delete a droplet', 'delete'),
+}
+
 create_rate = 10  # maximum number of droplets to create at once
 
 def main(argv=None, parsed=None):
@@ -74,12 +82,8 @@ def main(argv=None, parsed=None):
                             ' instead of erroring')
         c.add_argument('droplet', nargs='+', help='ID or name of a droplet')
 
-    for act, about in [
-        ('show-snapshots', "List a droplet's snapshot images"),
-        ('backups', "List a droplet's backup images"),
-        ('kernels', 'List the kernels available to a droplet'),
-        ('delete', 'Delete a droplet'),
-    ]:
+    for act in sorted(unary_other):
+        about = unary_other[act][0]
         c = cmds.add_parser(act, help=about, description=about)
         c.add_argument('-M', '--multiple', action='store_true',
                        help='Operate on multiple droplets with the same name'
@@ -246,16 +250,16 @@ def main(argv=None, parsed=None):
             acts = client.wait_actions(acts)
         util.dump(acts)
 
-    elif args.cmd in ('show-snapshots', 'backups', 'kernels'):
-        util.dump(map(methodcaller(args.cmd.replace('-', '_')),
-                      cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                       hasM=True)))
-
     elif args.cmd == 'delete':
         drops = cache.get_droplets(args.droplet, multiple=args.multiple,
                                                  hasM=True)
         for d in drops:
             d.delete()
+
+    elif args.cmd in unary_other:
+        util.dump(map(methodcaller(unary_other[args.cmd][1]),
+                      cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                       hasM=True)))
 
     elif args.cmd == 'restore':
         drop = cache.get_droplet(args.droplet, multiple=False)
