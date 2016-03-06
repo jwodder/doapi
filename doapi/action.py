@@ -48,6 +48,15 @@ class Action(ResourceWithID):
     :vartype type: string
     """
 
+    #: The status of actions that are currently still in progress
+    STATUS_IN_PROGRESS = 'in-progress'
+
+    #: The status of actions that have completed successfully
+    STATUS_COMPLETED = 'completed'
+
+    #: The status of actions that failed to complete successfully
+    STATUS_ERRORED = 'errored'
+
     def __init__(self, state=None, **extra):
         super(Action, self).__init__(state, **extra)
         if self.get('region') is not None and \
@@ -63,22 +72,22 @@ class Action(ResourceWithID):
     @property
     def completed(self):
         """ ``True`` iff the action's status is ``"completed"`` """
-        return self.status == 'completed'
+        return self.status == self.STATUS_COMPLETED
 
     @property
     def in_progress(self):
         """ ``True`` iff the action's status is ``"in-progress"`` """
-        return self.status == 'in-progress'
+        return self.status == self.STATUS_IN_PROGRESS
 
     @property
     def done(self):
         """ ``True`` iff the action's status is *not* ``"in-progress"`` """
-        return self.status != 'in-progress'
+        return self.status != self.STATUS_IN_PROGRESS
 
     @property
     def errored(self):
         """ ``True`` iff the action's status is ``"errored"`` """
-        return self.status == 'errored'
+        return self.status == self.STATUS_ERRORED
 
     @property
     def url(self):
