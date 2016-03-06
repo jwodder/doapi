@@ -354,6 +354,16 @@ class Account(Resource):
     :vartype uuid: alphanumeric string
     """
 
+    #: The status of an account that is currently active and warning-free
+    STATUS_ACTIVE = 'active'
+
+    #: The status of an account that is currently in a "warning" state, e.g.,
+    #: from having reached the droplet limit
+    STATUS_WARNING = 'warning'
+
+    #: The status of a locked account
+    STATUS_LOCKED = 'locked'
+
     def fetch(self):
         """
         Fetch & return a new `Account` object representing the account's
