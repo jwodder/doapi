@@ -17,8 +17,9 @@ class Action(ResourceWithID):
     :var id: a unique identifier for the action
     :vartype id: int
 
-    :var completed_at: date & time of the action's completion
-    :vartype completed_at: datetime.datetime
+    :var completed_at: date & time of the action's completion, or ``None`` if
+        the action has not completed yet
+    :vartype completed_at: `datetime.datetime` or ``None``
 
     :var region: the region in which the action occurred
     :vartype region: `Region`
