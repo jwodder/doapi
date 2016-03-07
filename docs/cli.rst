@@ -23,6 +23,22 @@ TODO
 
 ----
 
+In order to perform API requests, an OAuth token must be supplied to
+:program:`doapi` so that it can authenticate with the DigitalOcean server.  You
+can generate an OAuth token for your account via the `"Apps & API" section
+<https://cloud.digitalocean.com/settings/applications>`_ of your DigitalOcean
+account's control panel.
+
+The :program:`doapi` commands will look for an OAuth token in the following
+locations, in order:
+
+1. Specified on the command line with :samp:`--api-token {token}` or
+   :samp:`--api-token-file {file}`
+2. The value of the :envvar:`DO_API_TOKEN` environment variable
+3. The contents of a :file:`.doapi` file in your home directory
+
+----
+
 .. _universal:
 
 Universal Options
@@ -97,21 +113,3 @@ returning:
 
     If :option:`--wait` is specified but this option is not, the subcommand
     will wait indefinitely.
-
-----
-
-In order to perform API requests, an OAuth token must be supplied to
-:program:`doapi` so that it can authenticate with the DigitalOcean server.  You
-can generate an OAuth token for your account via the `"Apps & API" section
-<https://cloud.digitalocean.com/settings/applications>`_ of your DigitalOcean
-account's control panel.
-
-The :program:`doapi` commands will look for an OAuth token in the following
-locations, in order:
-
-1. Specified on the command line with ``--api-token <token>`` or
-   ``--api-token-file <file>``
-2. The value of the :envvar:`DO_API_TOKEN` environment variable
-3. The contents of a ``.doapi`` file in your home directory
-
-----
