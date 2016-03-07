@@ -66,6 +66,38 @@ subcommands::
     doapi --timeout 1000 droplet show  # Good
     doapi-droplet show --timeout 1000  # Bad!
 
+
+.. _waitopts:
+
+Waiting Options
+---------------
+
+All subcommands that perform non-atomic actions on resources can take the
+following options in order to wait for the actions to complete before
+returning:
+
+.. option:: --wait
+
+    Periodically poll the server for the current status of all actions until
+    they all complete or error out or until the time limit specified by
+    :option:`--wait-time` is exceeded.  If this action is not specified, the
+    subcommand will exit immediately after initiating the actions.
+
+.. option:: --wait-interval <seconds>
+
+    How often to poll the server for the actions' current statuses; default
+    value: 5 seconds
+
+.. option:: --wait-time <seconds>
+
+    The maximum number of seconds to wait for all actions to complete.  After
+    this much time has passed since program invocation, any remaining
+    in-progress actions will be output immediately without waiting for them to
+    finish.
+
+    If :option:`--wait` is specified but this option is not, the subcommand
+    will wait indefinitely.
+
 ----
 
 In order to perform API requests, an OAuth token must be supplied to
@@ -83,21 +115,3 @@ locations, in order:
 3. The contents of a ``.doapi`` file in your home directory
 
 ----
-
-.. _waitopts:
-
-Options common to all subcommands that produce `Action` objects::
-
-    --wait
-    --wait-time seconds
-    --wait-interval seconds
-
-----
-
-::
-
-    <droplet> := ID or name
-    <sshkey>  := ID, fingerprint, or name
-    <image>   := ID, slug, or name (slugs take precedence)
-    <action>  := ID
-    <ip>      := IP address in x.x.x.x form or as an integer
