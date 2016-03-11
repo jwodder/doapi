@@ -165,7 +165,8 @@ Options
 Wait for the currently in-progress actions on the given floating IP(s) to
 either complete or error out.  The finished actions are output as a list of
 `Action` objects converted to JSON, with each action output (roughly) as soon
-as it finishes.
+as it finishes.  If there are no actions currently in progress on a given
+floating IP, nothing will be output for it.
 
 Options
 '''''''
