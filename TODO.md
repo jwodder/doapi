@@ -7,6 +7,8 @@
     - Add a docstring to `__init__.py` for displaying in pydoc
     - Mention how the CLI deals with overloaded object names (including always
       erroring if the command doesn't support `--multiple`)
+    - Add a note about `create_domain`/`doapi-domain new` not actually bringing
+      a new domain name into existence
 - When `--multiple` is in effect, should image slugs that are also names of
   available images be interpreted as both? (and likewise for SSH keys &
   fingerprints?)
@@ -57,6 +59,7 @@
   etc.
 - `doapi-request`: When an error response is returned, should the response body
   still be output? (instead of or in addition to the traceback?)
+- `doapi-domain update-record`: Error if no fields to update are given
 
 # Library
 
