@@ -32,10 +32,14 @@ SYNOPSIS
                                [--weight   <int> | --no-weight]
                                <domain> <record id>
 
-    doapi-domain delete-record <domain> <record id> ...
+    doapi-domain delete-record <domain> <record id> [<record id> ...]
 
 :program:`doapi-domain` also takes the :ref:`universal options <universal>`
 common to all :program:`doapi` commands.
+
+Domains are specified as the base domain name without any subdomains (e.g.,
+``example.com``, never ``www.example.com``).  Records of a given domain are
+specified by ID number.
 
 
 :command:`new`
@@ -181,6 +185,6 @@ Options
 
 ::
 
-    doapi-domain delete-record <domain> <record id> ...
+    doapi-domain delete-record <domain> <record id> [<record id> ...]
 
 Delete records of the given domain.  There is no output.
