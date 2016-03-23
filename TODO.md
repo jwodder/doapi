@@ -1,7 +1,6 @@
 # For Version 1
 
 - Document everything!
-    - Write a README
     - Document the basic attributes of all resource classes (`.fields`,
       `.doapi_manager`, use as a dict, conversion to a dict, etc.)
     - Add a docstring to `__init__.py` for displaying in pydoc
@@ -20,9 +19,7 @@
 
 ## Naming Things
 
-- Look into BCP for naming of API "manager" objects like `doapi`
-    - Rename to `Manager`?  `DOAPIClient`?  `DOClient`?
-    - Rename `doapi_manager` to just `manager`?
+- Rename `doapi_manager` to just `manager`? (something else?)
 - Come up with a better name for `--multiple`?
 
 # General
