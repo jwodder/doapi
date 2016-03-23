@@ -14,7 +14,7 @@ doapi — DigitalOcean API Python library & CLI
 
 As yet another Python wrapper library for version 2 of the `DigitalOcean
 <https://www.digitalocean.com>`_ `API
-<https://developers.digitalocean.com/documentation/v2/`_, ``doapi`` offers:
+<https://developers.digitalocean.com/documentation/v2/>`_, ``doapi`` offers:
 
 - Individual methods for every operation listed in the API docs plus methods
   for making arbitrary "freeform" requests
