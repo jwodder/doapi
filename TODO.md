@@ -1,3 +1,5 @@
+- Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
+
 # For Version 1
 
 - Document everything!

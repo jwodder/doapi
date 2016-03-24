@@ -11,23 +11,26 @@ with open(join(dirname(__file__), 'doapi', '__init__.py')) as fp:
     else:
         raise RuntimeError('Unable to find own __version__ string')
 
+with open(join(dirname(__file__), 'README.rst')) as fp:
+    long_desc = fp.read()
+
 setup(
     name='doapi',
     version=version,
     packages=['doapi', 'doapi.cli'],
-    install_requires=[
-        'pyRFC3339>=1.0,<2',
-        'requests>=2.2.0,<3',
-        'six>=1.5.0,<2',
-    ],
     license='MIT',
     author='John Thorvald Wodder II',
     author_email='doapi@varonathe.org',
     keywords='DigitalOcean',
     description='DigitalOcean API library & CLI',
+    long_description=long_desc,
     url='https://github.com/jwodder/doapi',
 
-    ###long_description
+    install_requires=[
+        'pyRFC3339>=1.0,<2',
+        'requests>=2.2.0,<3',
+        'six>=1.5.0,<2',
+    ],
 
     classifiers=[
         'Programming Language :: Python :: 2',
