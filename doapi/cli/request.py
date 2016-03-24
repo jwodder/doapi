@@ -22,22 +22,16 @@ def main(argv=None, parsed=None):
     args = parser.parse_args(argv, parsed)
     if args.paginate is not None and args.request != 'GET':
         util.die('--paginate can only be used with the GET method')
-    if args.data is not None:
-        if args.request not in ('POST', 'PUT'):
-            util.die('--data can only be used with the POST and PUT methods')
-        if args.data.startswith("@") and len(args.data) > 1:
-            if args.data[1:] == '-':
-                extra = {"data": sys.stdin.read()}
-            else:
-                with open(args.data[1:]) as fp:
-                    extra = {"data": fp.read()}
+    data = args.data
+    if data is not None and data.startswith("@") and len(data) > 1:
+        if data[1:] == '-':
+            data = sys.stdin.read()
         else:
-            extra = {"data": args.data}
-    else:
-        extra = {}
+            with open(data[1:]) as fp:
+                data = fp.read()
     client, _ = util.mkclient(args)
     if args.paginate is None:
-        response = client.request(args.path, method=args.request, **extra)
+        response = client.request(args.path, method=args.request, data=data)
     else:
         response = client.paginate(args.path, args.paginate)
     if args.dump_header:

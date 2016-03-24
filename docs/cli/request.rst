@@ -41,11 +41,12 @@ In addition to the :ref:`universal options <universal>` common to all
 
 .. option:: -d <data>, --data <data>
 
-    (``POST`` and ``PUT`` methods only) Send the given data (which must be
-    valid JSON) in the body of the request.  If ``<data>`` begins with "``@``",
-    the rest of the argument (if there is any) is treated as a file from which
-    to read the data; a filename of ``-`` causes data to be read from standard
-    input.
+    Send the given data (which must be valid JSON) in the body of the request.
+    If ``<data>`` begins with "``@``", the rest of the argument (if there is
+    any) is treated as a file from which to read the data; a filename of ``-``
+    causes data to be read from standard input.
+
+    :option:`--data` and :option:`--paginate` are mutually exclusive.
 
 .. option:: -D <file>, --dump-header <file>
 
@@ -65,6 +66,8 @@ In addition to the :ref:`universal options <universal>` common to all
     will perform multiple requests to retrieve all of the pages and will output
     a concatenated list of all of the values in the ``<key>`` field of each
     page.
+
+    :option:`--data` and :option:`--paginate` are mutually exclusive.
 
 .. option:: -X <method>, --request <method>
 
