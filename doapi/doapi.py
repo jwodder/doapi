@@ -85,9 +85,13 @@ class doapi(object):
             a forward slash, :attr:`endpoint` is prepended to it; otherwise,
             ``url`` is treated as an absolute URL.
         :param dict params: parameters to add to the URL's query string
-        :param data: a value to send in the body of the request; only used by
-            the POST and PUT methods.  If ``data`` is not a string, it will be
-            serialized as JSON before sending.
+        :param data: a value to send in the body of the request.  If ``data``
+            is not a string, it will be serialized as JSON before sending;
+            either way, the :mailheader:`Content-Type` header of the request
+            will be set to :mimetype:`application/json`.  Note that a ``data``
+            value of `None` means "Don't send any data"; to send an actual
+            `None` value, convert it to JSON (i.e., the string ``"null"``)
+            first.
         :param str method: the HTTP method to use: ``"GET"``, ``"POST"``,
             ``"PUT"``, or ``"DELETE"`` (case-insensitive); default: ``"GET"``
         :return: a decoded JSON value, or ``None`` if ``method`` was
@@ -104,7 +108,7 @@ class doapi(object):
             "timeout": self.timeout,
         }
         method = method.upper()
-        if method == 'POST' or method == 'PUT':
+        if data is not None:
             if not isinstance(data, string_types):
                 data = json.dumps(data)
             attrs["data"] = data
