@@ -110,10 +110,10 @@ class ResourceWithDroplet(Resource):
 
     def fetch_droplet(self):
         """
-        Fetch the droplet to which the resource belongs, or return ``None`` if
-        the resource's ``droplet`` attribute is ``None``
+        Fetch the droplet to which the resource belongs, or return `None` if
+        the resource's ``droplet`` attribute is `None`
 
-        :rtype: `Droplet` or ``None``
+        :rtype: `Droplet` or `None`
         :raises DOAPIError: if the API endpoint replies with an error
         """
         if self.droplet is None:
@@ -158,16 +158,16 @@ class Actionable(Resource):
         Poll the server periodically until the resource's most recent action
         has either completed or errored out, and return the resource's final
         state afterwards.  If ``wait_time`` is exceeded or a
-        ``KeyboardInterrupt`` is caught, the resource's current state is
+        `KeyboardInterrupt` is caught, the resource's current state is
         returned immediately without waiting for completion.
 
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's
-            :attr:`~doapi.wait_interval` if not specified or ``None``
+            :attr:`~doapi.wait_interval` if not specified or `None`
         :param number wait_time: the total number of seconds after which the
             method will return, or a negative number to wait indefinitely;
             defaults to the `doapi` object's :attr:`~doapi.wait_time` if not
-            specified or ``None``
+            specified or `None`
         :return: the resource's final state
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -203,10 +203,10 @@ class Actionable(Resource):
 
     def fetch_current_action(self):
         """
-        Fetch the action currently in progress on the resource, or ``None`` if
+        Fetch the action currently in progress on the resource, or `None` if
         there is no such action
 
-        :rtype: `Action` or ``None``
+        :rtype: `Action` or `None`
         :raises DOAPIError: if the API endpoint replies with an error
         """
         lasttime = None
@@ -228,7 +228,7 @@ class Actionable(Resource):
 class DOEncoder(json.JSONEncoder):
     r"""
     A :class:`json.JSONEncoder` subclass that converts resource objects to
-    ``dict``\ s for JSONification.  It also converts iterators to lists.
+    `dict`\ s for JSONification.  It also converts iterators to lists.
     """
     def default(self, obj):
         if isinstance(obj, Resource):

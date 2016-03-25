@@ -21,8 +21,8 @@ class FloatingIP(Actionable):
     :vartype ip: string
 
     :var droplet: the droplet the floating IP is currently assigned to, or
-        ``None`` if the address is currently unassigned
-    :vartype droplet: `Droplet` or ``None``
+        `None` if the address is currently unassigned
+    :vartype droplet: `Droplet` or `None`
 
     :var region: the region the floating IP is reserved to
     :vartype region: `Region`

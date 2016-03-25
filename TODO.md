@@ -10,6 +10,7 @@
       erroring if the command doesn't support `--multiple`)
     - Add a note about `create_domain`/`doapi-domain new` not actually bringing
       a new domain name into existence
+    - Add more examples
 - When `--multiple` is in effect, should image slugs that are also names of
   available images be interpreted as both? (and likewise for SSH keys &
   fingerprints?)

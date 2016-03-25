@@ -20,16 +20,16 @@ class doapi(object):
     :param str api_token: the API token to use for authentication
     :param string endpoint: the URL relative to which requests will be made
     :param number timeout: the ``timeout`` value to use when making requests
-    :type timeout: float, tuple, or ``None``
+    :type timeout: float, tuple, or `None`
     :param number wait_interval: the default number of seconds that "wait"
         operations will sleep for between requests
     :param wait_time: the default number of seconds after which "wait"
-        operations will return, or ``None`` or a negative number to wait
+        operations will return, or `None` or a negative number to wait
         indefinitely
-    :type wait_type: number or ``None``
+    :type wait_type: number or `None`
     :param per_page: the default number of objects that :meth:`paginate` will
-        fetch on each request, or ``None`` to leave unspecified
-    :type per_page: integer or ``None``
+        fetch on each request, or `None` to leave unspecified
+    :type per_page: integer or `None`
     """
 
     #: The official DigitalOcean API endpoint
@@ -51,16 +51,16 @@ class doapi(object):
         #: `Droplet`, `FloatingIP`, and `Image` will sleep for between requests
         self.wait_interval = wait_interval
         #: The default number of seconds after which "wait" operations will
-        #: return, or ``None`` or a negative number to wait indefinitely
+        #: return, or `None` or a negative number to wait indefinitely
         self.wait_time = wait_time
         #: The default number of objects that :meth:`paginate` will fetch on
-        #: each request, or ``None`` to leave unspecified
+        #: each request, or `None` to leave unspecified
         self.per_page = per_page
         #: The :class:`requests.Response` object returned for the most recent
-        #: request, or ``None`` if no requests have been made yet
+        #: request, or `None` if no requests have been made yet
         self.last_response = None
         #: The ``meta`` field in the body of the most recent response, or
-        #: ``None`` if there was no such field, no requests have been made yet,
+        #: `None` if there was no such field, no requests have been made yet,
         #: or the last response was an error
         self.last_meta = None
         #: The :class:`requests.Session` object through which all requests are
@@ -96,7 +96,7 @@ class doapi(object):
             ``"PUT"``, or ``"DELETE"`` (case-insensitive); default: ``"GET"``
         :return: a decoded JSON value, or ``None`` if ``method`` was
             ``"DELETE"``
-        :rtype: ``list`` or ``dict`` (depending on the request) or ``None``
+        :rtype: `list` or `dict` (depending on the request) or `None`
         :raises ValueError: if ``method`` is an invalid value
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -138,8 +138,8 @@ class doapi(object):
     @property
     def last_rate_limit(self):
         """
-        A ``dict`` of the rate limit information returned in the most recent
-        response, or ``None`` if no requests have been made yet.  The ``dict``
+        A `dict` of the rate limit information returned in the most recent
+        response, or `None` if no requests have been made yet.  The `dict`
         consists of all headers whose names begin with ``"RateLimit"`` (case
         insensitive).
 
@@ -207,7 +207,7 @@ class doapi(object):
         `Droplet` will only contain the information in ``obj``; no data will be
         sent to or from the API endpoint.
 
-        :type obj: integer, ``dict``, or `Droplet`
+        :type obj: integer, `dict`, or `Droplet`
         :rtype: Droplet
         """
         return Droplet(obj, doapi_manager=self)
@@ -216,9 +216,9 @@ class doapi(object):
         """
         Fetch a droplet by ID number
 
-        :param obj: the ID of the droplet, a ``dict`` with an ``"id"`` field,
+        :param obj: the ID of the droplet, a `dict` with an ``"id"`` field,
             or a `Droplet` object (to re-fetch the same droplet)
-        :type obj: integer, ``dict``, or `Droplet`
+        :type obj: integer, `dict`, or `Droplet`
         :rtype: Droplet
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -270,7 +270,7 @@ class doapi(object):
         :type region: string or `Region`
         :param iterable ssh_keys: an iterable of SSH key resource IDs, SSH key
             fingerprints, and/or `SSHKey` objects specifying the public keys to
-            add to the new droplet's ``/root/.ssh/authorized_keys`` file
+            add to the new droplet's :file:`/root/.ssh/authorized_keys` file
         :param bool backups: whether to enable automatic backups on the new
             droplet
         :param bool ipv6: whether to enable IPv6 on the new droplet
@@ -328,7 +328,7 @@ class doapi(object):
         :type region: string or `Region`
         :param iterable ssh_keys: an iterable of SSH key resource IDs, SSH key
             fingerprints, and/or `SSHKey` objects specifying the public keys to
-            add to the new droplets' ``/root/.ssh/authorized_keys`` files
+            add to the new droplets' :file:`/root/.ssh/authorized_keys` files
         :param bool backups: whether to enable automatic backups on the new
             droplets
         :param bool ipv6: whether to enable IPv6 on the new droplets
@@ -376,29 +376,29 @@ class doapi(object):
         r"""
         Poll the server periodically until all droplets in ``droplets`` have
         reached some final state, yielding each `Droplet`'s final value when
-        it's done.  If ``status`` is non-``None``, ``wait_droplets`` will wait
+        it's done.  If ``status`` is non-`None`, ``wait_droplets`` will wait
         for each droplet's ``status`` field to equal the given value;
         otherwise, it will wait for the most recent action on each droplet to
         finish.
 
-        If ``wait_time`` is exceeded or a ``KeyboardInterrupt`` is caught, any
+        If ``wait_time`` is exceeded or a `KeyboardInterrupt` is caught, any
         remaining droplets are returned immediately without waiting for
         completion.
 
         :param iterable droplets: an iterable of `Droplet`\ s and/or other
             values that are acceptable arguments to :meth:`fetch_droplet`
-        :param status: When non-``None``, the desired value for the ``status``
+        :param status: When non-`None`, the desired value for the ``status``
             field of each `Droplet`, which should be one of
             `Droplet.STATUS_ACTIVE`, `Droplet.STATUS_ARCHIVE`,
             `Droplet.STATUS_NEW`, and `Droplet.STATUS_OFF`.  (For the sake of
             forwards-compatibility, any other value is accepted as well.)
-        :type status: string or ``None``
+        :type status: string or `None`
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
-            ``None``
+            `None`
         :param number wait_time: the total number of seconds after which the
             method will return, or a negative number to wait indefinitely;
-            defaults to :attr:`wait_time` if not specified or ``None``
+            defaults to :attr:`wait_time` if not specified or `None`
         :rtype: generator of `Droplet`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -420,7 +420,7 @@ class doapi(object):
         only contain the information in ``obj``; no data will be sent to or
         from the API endpoint.
 
-        :type obj: integer, ``dict``, or `Action`
+        :type obj: integer, `dict`, or `Action`
         :rtype: Action
         """
         return Action(obj, doapi_manager=self)
@@ -429,9 +429,9 @@ class doapi(object):
         """
         Fetch an action by ID number
 
-        :param obj: the ID of the action, a ``dict`` with an ``"id"`` field,
+        :param obj: the ID of the action, a `dict` with an ``"id"`` field,
             or an `Action` object (to re-fetch the same action)
-        :type obj: integer, ``dict``, or `Action`
+        :type obj: integer, `dict`, or `Action`
         :rtype: Action
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -439,11 +439,11 @@ class doapi(object):
 
     def fetch_last_action(self):
         """
-        Fetch the most recent action performed on the account, or ``None`` if
+        Fetch the most recent action performed on the account, or `None` if
         no actions have been performed yet.  If multiple actions were triggered
         simultaneously, the choice of which to return is undefined.
 
-        :rtype: `Action` or ``None``
+        :rtype: `Action` or `None`
         :raises DOAPIError: if the API endpoint replies with an error
         """
         # Naive implementation:
@@ -466,7 +466,7 @@ class doapi(object):
         r"""
         Poll the server periodically until all actions in ``actions`` have
         either completed or errored out, yielding each `Action`'s final value
-        as it ends.  If ``wait_time`` is exceeded or a ``KeyboardInterrupt`` is
+        as it ends.  If ``wait_time`` is exceeded or a `KeyboardInterrupt` is
         caught, any remaining actions are returned immediately without waiting
         for completion.
 
@@ -474,10 +474,10 @@ class doapi(object):
             that are acceptable arguments to :meth:`fetch_action`
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
-            ``None``
+            `None`
         :param number wait_time: the total number of seconds after which the
             method will return, or a negative number to wait indefinitely;
-            defaults to :attr:`wait_time` if not specified or ``None``
+            defaults to :attr:`wait_time` if not specified or `None`
         :rtype: generator of `Action`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -493,7 +493,7 @@ class doapi(object):
         information in ``obj``; no data will be sent to or from the API
         endpoint.
 
-        :type obj: integer, string, ``dict``, or `SSHKey`
+        :type obj: integer, string, `dict`, or `SSHKey`
         :rtype: SSHKey
         """
         return SSHKey(obj, doapi_manager=self)
@@ -502,10 +502,10 @@ class doapi(object):
         """
         Fetch an SSH public key by ID number or fingerprint
 
-        :param obj: the ID or fingerprint of the SSH key, a ``dict`` with an
+        :param obj: the ID or fingerprint of the SSH key, a `dict` with an
             ``"id"`` or ``"fingerprint"`` field, or an `SSHKey` object (to
             re-fetch the same SSH key)
-        :type obj: integer, string, ``dict``, or `SSHKey`
+        :type obj: integer, string, `dict`, or `SSHKey`
         :rtype: SSHKey
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -527,7 +527,7 @@ class doapi(object):
 
         :param str name: the name to give the new SSH key resource
         :param str public_key: the text of the public key to register, in the
-            form used by ``authorized_keys`` files
+            form used by :file:`authorized_keys` files
         :return: the new SSH key resource
         :rtype: SSHKey
         :raises DOAPIError: if the API endpoint replies with an error
@@ -546,7 +546,7 @@ class doapi(object):
         contain the information in ``obj``; no data will be sent to or from the
         API endpoint.
 
-        :type obj: integer, ``dict``, or `Image`
+        :type obj: integer, `dict`, or `Image`
         :rtype: Image
         """
         return Image(obj, doapi_manager=self)
@@ -555,9 +555,9 @@ class doapi(object):
         """
         Fetch an image by ID number
 
-        :param obj: the ID of the image, a ``dict`` with an ``"id"`` field, or
+        :param obj: the ID of the image, a `dict` with an ``"id"`` field, or
             an `Image` object (to re-fetch the same image)
-        :type obj: integer, ``dict``, or `Image`
+        :type obj: integer, `dict`, or `Image`
         :rtype: Image
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -579,10 +579,10 @@ class doapi(object):
         account
 
         :param type: the type of images to fetch: ``"distribution"``,
-            ``"application"``, or all (``None``); default: ``None``
+            ``"application"``, or all (`None`); default: `None`
         :type type: string or None
         :param bool private: whether to only return the user's private images;
-            default: ``False`` (i.e., return all images)
+            default: `False` (i.e., return all images)
         :rtype: generator of `Image`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -631,7 +631,7 @@ class doapi(object):
         information in ``obj``; no data will be sent to or from the API
         endpoint.
 
-        :type obj: ``dict`` or `Region`
+        :type obj: `dict` or `Region`
         :rtype: Region
         """
         return Region(obj, doapi_manager=self)
@@ -654,7 +654,7 @@ class doapi(object):
         information in ``obj``; no data will be sent to or from the API
         endpoint.
 
-        :type obj: ``dict`` or `Size`
+        :type obj: `dict` or `Size`
         :rtype: Size
         """
         return Size(obj, doapi_manager=self)
@@ -687,7 +687,7 @@ class doapi(object):
         will only contain the information in ``obj``; no data will be sent to
         or from the API endpoint.
 
-        :type obj: string, ``dict``, or `Domain`
+        :type obj: string, `dict`, or `Domain`
         :rtype: Domain
         """
         return Domain(obj, doapi_manager=self)
@@ -696,9 +696,9 @@ class doapi(object):
         """
         Fetch a domain by FQDN
 
-        :param obj: the domain name, a ``dict`` with a ``"name"`` field, or a
+        :param obj: the domain name, a `dict` with a ``"name"`` field, or a
             `Domain` object (to re-fetch the same domain)
-        :type obj: string, ``dict``, or `Domain`
+        :type obj: string, `dict`, or `Domain`
         :rtype: Domain
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -738,7 +738,7 @@ class doapi(object):
         the information in ``obj``; no data will be sent to or from the API
         endpoint.
 
-        :type obj: string, integer, ``dict``, or `FloatingIP`
+        :type obj: string, integer, `dict`, or `FloatingIP`
         :rtype: FloatingIP
         """
         return FloatingIP(obj, doapi_manager=self)
@@ -747,10 +747,10 @@ class doapi(object):
         """
         Fetch a floating IP
 
-        :param obj: an IP address (as a string or 32-bit integer), a ``dict``
+        :param obj: an IP address (as a string or 32-bit integer), a `dict`
             with an ``"ip"`` field, or a `FloatingIP` object (to re-fetch the
             same floating IP)
-        :type obj: string, integer, ``dict``, or `FloatingIP`
+        :type obj: string, integer, `dict`, or `FloatingIP`
         :rtype: FloatingIP
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -816,17 +816,17 @@ class doapi(object):
         Calls the ``fetch`` method of each object in ``objects`` periodically
         until ``isdone`` returns true on each one, yielding the final value of
         each object as soon as it succeeds.  If ``wait_time`` is exceeded or a
-        ``KeyboardInterrupt`` is caught, any remaining objects are returned
+        `KeyboardInterrupt` is caught, any remaining objects are returned
         immediately without waiting for completion.
 
         :param iterable objects: an iterable of objects with ``fetch`` methods
             (presumably `Resource`\ s)
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
-            ``None``
+            `None`
         :param number wait_time: the total number of seconds after which the
             method will return, or a negative number to wait indefinitely;
-            defaults to :attr:`wait_time` if not specified or ``None``
+            defaults to :attr:`wait_time` if not specified or `None`
         :rtype: generator
         :raises DOAPIError: if the API endpoint replies with an error
         """
