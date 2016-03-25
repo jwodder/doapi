@@ -1,4 +1,5 @@
 - Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
+    - Add a class for tag resource statistics dicts???
 
 # For Version 1
 

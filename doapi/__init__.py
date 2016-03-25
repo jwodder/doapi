@@ -10,3 +10,4 @@ from .droplet     import Droplet
 from .floating_ip import FloatingIP
 from .image       import Image
 from .ssh_key     import SSHKey
+from .tag         import Tag

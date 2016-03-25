@@ -10,6 +10,7 @@ from   .droplet     import Droplet
 from   .floating_ip import FloatingIP
 from   .image       import Image
 from   .ssh_key     import SSHKey
+from   .tag         import Tag
 
 class doapi(object):
     """
@@ -804,6 +805,19 @@ class doapi(object):
             data = {"region": region}
         return self._floating_ip(self.request('/v2/floating_ips', method='POST',
                                               data=data)["floating_ip"])
+
+    def _tag(self, obj):
+        """
+        Construct a `Tag` object belonging to the `doapi` object.  ``obj`` may
+        be a tag name, a dictionary of tag fields, or another `Tag` object
+        (which will be shallow-copied).  The resulting `Tag` will only contain
+        the information in ``obj``; no data will be sent to or from the API
+        endpoint.
+
+        :type obj: string, `dict`, or `Tag`
+        :rtype: Tag
+        """
+        return Tag(obj, doapi_manager=self)
 
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
