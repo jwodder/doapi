@@ -78,3 +78,12 @@ class Tag(Resource):
         res = [r if isinstance(r, dict) else r._taggable() for r in resources]
         self.doapi_manager.request(self.url + '/resources', method='DELETE',
                                    data={"resources": res})
+
+    def fetch_all_droplets(self):
+        api = self.doapi_manager
+        return map(api._droplet, api.paginate('/v2/droplets', 'droplets',
+                                              params={"tag_name": self.name}))
+
+    def delete_all_droplets(self):
+        self.doapi_manager.request('/v2/droplets', method='DELETE',
+                                   params={"tag_name": self.name})

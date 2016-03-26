@@ -228,11 +228,11 @@ class Actionable(Resource):
 class Taggable(Resource):
     # Required method: _taggable
 
-    def tag(self, tname):
-        self.doapi_manager._tag(tname).add(self)
+    def tag(self, tag_name):
+        self.doapi_manager._tag(tag_name).add(self)
 
-    def untag(self, tname):
-        self.doapi_manager._tag(tname).remove(self)
+    def untag(self, tag_name):
+        self.doapi_manager._tag(tag_name).remove(self)
 
 
 class DOEncoder(json.JSONEncoder):
