@@ -4,7 +4,7 @@ from .base import ResourceWithID
 class SSHKey(ResourceWithID):
     """
     An SSH key resource, representing an SSH public key that can be
-    automatically added to the ``/root/.ssh/authorized_keys`` files of new
+    automatically added to the :file:`/root/.ssh/authorized_keys` files of new
     droplets.
 
     New SSH keys are created via the :meth:`doapi.create_ssh_key` method and
@@ -39,9 +39,9 @@ class SSHKey(ResourceWithID):
     @property
     def _id(self):
         r"""
-        The ``SSHKey``'s ``id`` field, or if that is not defined, its
+        The `SSHKey`'s ``id`` field, or if that is not defined, its
         ``fingerprint`` field.  If neither field is defined, accessing this
-        attribute raises a ``TypeError``.
+        attribute raises a `TypeError`.
         """
         if self.get("id") is not None:
             return self.id

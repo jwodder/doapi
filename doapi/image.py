@@ -39,7 +39,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
 
     :var slug: the unique slug identifier for the image (only defined for
         public images)
-    :vartype slug: string or ``None``
+    :vartype slug: string or `None`
 
     :var type: the type of the image: ``"snapshot"`` or ``"backup"``
     :vartype type: string
@@ -50,7 +50,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
        defined for ``Droplet.image`` attributes and the images returned by the
        :meth:`Droplet.fetch_all_backups` and the
        :meth:`Droplet.fetch_all_snapshots` methods.  Images obtained by any
-       other means have this attribute set to ``None``.
+       other means have this attribute set to `None`.
     """
 
     def __init__(self, state=None, **extra):
@@ -62,7 +62,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     def __str__(self):
         """
         Convert the image to its slug representation.  If the image does not
-        have a slug, an ``AttributeError`` is raised.
+        have a slug, an `AttributeError` is raised.
         """
         if self.get("slug") is not None:
             return self.slug

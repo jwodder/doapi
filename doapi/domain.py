@@ -67,7 +67,7 @@ class Domain(Resource):
         information in ``obj``; no data will be sent to or from the API
         endpoint.
 
-        :type obj: integer, ``dict``, or `DomainRecord`
+        :type obj: integer, `dict`, or `DomainRecord`
         :rtype: DomainRecord
         """
         return DomainRecord(obj, domain=self, doapi_manager=self.doapi_manager)
@@ -81,9 +81,9 @@ class Domain(Resource):
         """
         Fetch a domain record by ID number
 
-        :param obj: the ID of the record, a ``dict`` with an ``"id"`` field,
+        :param obj: the ID of the record, a `dict` with an ``"id"`` field,
             or a `DomainRecord` object (to re-fetch the same record)
-        :type obj: integer, ``dict``, or `DomainRecord`
+        :type obj: integer, `dict`, or `DomainRecord`
         :rtype: DomainRecord
         :raises DOAPIError: if the API endpoint replies with an error
         """
@@ -154,13 +154,13 @@ class DomainRecord(ResourceWithID):
     :vartype data: string
 
     :var priority: the priority of the record (SRV and MX records only)
-    :vartype priority: number or ``None``
+    :vartype priority: number or `None`
 
     :var port: the port of the record (SRV records only)
-    :vartype port: number or ``None``
+    :vartype port: number or `None`
 
     :var weight: the weight of the record (SRV records only)
-    :vartype weight: number or ``None``
+    :vartype weight: number or `None`
 
     .. attribute:: domain
 

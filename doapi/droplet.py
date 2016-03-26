@@ -35,7 +35,7 @@ class Droplet(Actionable, ResourceWithID):
     :vartype image: `Image`
 
     :var kernel: the droplet's current kernel
-    :vartype kernel: `Kernel` or ``None``
+    :vartype kernel: `Kernel` or `None`
 
     :var locked: whether the droplet is currently locked, preventing actions on
         it
@@ -53,7 +53,7 @@ class Droplet(Actionable, ResourceWithID):
     :var next_backup_window: the start & end of the next timeframe in which the
         droplet will be backed up; only defined if backups are enabled on the
         droplet
-    :vartype next_backup_window: `BackupWindow` or ``None``
+    :vartype next_backup_window: `BackupWindow` or `None`
 
     :var region: the region in which the droplet is located
     :vartype region: `Region`
@@ -107,22 +107,22 @@ class Droplet(Actionable, ResourceWithID):
 
     @property
     def active(self):
-        """ ``True`` iff the droplet's status is ``"active"`` """
+        """ `True` iff the droplet's status is ``"active"`` """
         return self.status == self.STATUS_ACTIVE
 
     @property
     def new(self):
-        """ ``True`` iff the droplet's status is ``"new"`` """
+        """ `True` iff the droplet's status is ``"new"`` """
         return self.status == self.STATUS_NEW
 
     @property
     def off(self):
-        """ ``True`` iff the droplet's status is ``"off"`` """
+        """ `True` iff the droplet's status is ``"off"`` """
         return self.status == self.STATUS_OFF
 
     @property
     def archive(self):
-        """ ``True`` iff the droplet's status is ``"archive"`` """
+        """ `True` iff the droplet's status is ``"archive"`` """
         return self.status == self.STATUS_ARCHIVE
 
     @property
@@ -136,7 +136,7 @@ class Droplet(Actionable, ResourceWithID):
     @property
     def image_slug(self):
         """
-        The unique slug identifier for the droplet's image, or ``None`` if the
+        The unique slug identifier for the droplet's image, or `None` if the
         image doesn't have a slug
         """
         try:
@@ -148,7 +148,7 @@ class Droplet(Actionable, ResourceWithID):
     def ip_address(self):
         """
         The IP address of the first interface listed in the droplet's
-        ``networks`` field (ordering IPv4 before IPv6), or ``None`` if there
+        ``networks`` field (ordering IPv4 before IPv6), or `None` if there
         are no interfaces
         """
         networks = self.get("networks", {})
@@ -360,7 +360,7 @@ class Droplet(Actionable, ResourceWithID):
         :param size: a size slug or a `Size` object representing the size to
             resize to
         :type size: string or `Size`
-        :param bool disk: Set to ``True`` for a permanent resize, including
+        :param bool disk: Set to `True` for a permanent resize, including
             disk changes
         :return: an `Action` representing the in-progress operation on the
             droplet
@@ -475,7 +475,7 @@ class Droplet(Actionable, ResourceWithID):
     def wait(self, status=None, wait_interval=None, wait_time=None):
         """
         Poll the server periodically until the droplet has reached some final
-        state.  If ``status`` is non-``None``, ``wait`` will wait for the
+        state.  If ``status`` is non-`None`, ``wait`` will wait for the
         droplet's ``status`` field to equal the given value; otherwise, it will
         wait for the most recent action on the droplet to finish.
 
@@ -483,19 +483,19 @@ class Droplet(Actionable, ResourceWithID):
         droplet's most recently fetched state is returned immediately without
         waiting for completion.
 
-        :param status: When non-``None``, the desired value for the ``status``
+        :param status: When non-`None`, the desired value for the ``status``
             field of the droplet, which should be one of
             `Droplet.STATUS_ACTIVE`, `Droplet.STATUS_ARCHIVE`,
             `Droplet.STATUS_NEW`, and `Droplet.STATUS_OFF`.  (For the sake of
             forwards-compatibility, any other value is accepted as well.)
-        :type status: string or ``None``
+        :type status: string or `None`
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's
-            :attr:`~doapi.wait_interval` if not specified or ``None``
+            :attr:`~doapi.wait_interval` if not specified or `None`
         :param number wait_time: the total number of seconds after which the
             method will return, or a negative number to wait indefinitely;
             defaults to the `doapi` object's :attr:`~doapi.wait_time` if not
-            specified or ``None``
+            specified or `None`
         :return: the droplet's final state
         :rtype: Droplet
         :raises DOAPIError: if the API endpoint replies with an error

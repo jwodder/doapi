@@ -17,9 +17,9 @@ class Action(ResourceWithID):
     :var id: a unique identifier for the action
     :vartype id: int
 
-    :var completed_at: date & time of the action's completion, or ``None`` if
+    :var completed_at: date & time of the action's completion, or `None` if
         the action has not completed yet
-    :vartype completed_at: `datetime.datetime` or ``None``
+    :vartype completed_at: `datetime.datetime` or `None`
 
     :var region: the region in which the action occurred
     :vartype region: `Region`
@@ -72,22 +72,22 @@ class Action(ResourceWithID):
 
     @property
     def completed(self):
-        """ ``True`` iff the action's status is ``"completed"`` """
+        """ `True` iff the action's status is ``"completed"`` """
         return self.status == self.STATUS_COMPLETED
 
     @property
     def in_progress(self):
-        """ ``True`` iff the action's status is ``"in-progress"`` """
+        """ `True` iff the action's status is ``"in-progress"`` """
         return self.status == self.STATUS_IN_PROGRESS
 
     @property
     def done(self):
-        """ ``True`` iff the action's status is *not* ``"in-progress"`` """
+        """ `True` iff the action's status is *not* ``"in-progress"`` """
         return self.status != self.STATUS_IN_PROGRESS
 
     @property
     def errored(self):
-        """ ``True`` iff the action's status is ``"errored"`` """
+        """ `True` iff the action's status is ``"errored"`` """
         return self.status == self.STATUS_ERRORED
 
     @property
@@ -108,10 +108,10 @@ class Action(ResourceWithID):
 
     def fetch_resource(self):
         """
-        Fetch & return the resource that the action operated on, or ``None`` if
+        Fetch & return the resource that the action operated on, or `None` if
         the resource no longer exists (specifically, if the API returns a 404)
 
-        :rtype: `Droplet`, `Image`, `FloatingIP`, or ``None``
+        :rtype: `Droplet`, `Image`, `FloatingIP`, or `None`
         :raises ValueError: if the action has an unknown ``resource_type``
             (This indicates a deficiency in the library; please report it!)
         :raises DOAPIError: if the API endpoint replies with a non-404 error
@@ -136,16 +136,16 @@ class Action(ResourceWithID):
         """
         Poll the server periodically until the action has either completed or
         errored out and return its final state.  If ``wait_time`` is exceeded
-        or a ``KeyboardInterrupt`` is caught, the action's most recently
+        or a `KeyboardInterrupt` is caught, the action's most recently
         fetched state is returned immediately without waiting for completion.
 
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's
-            :attr:`~doapi.wait_interval` if not specified or ``None``
+            :attr:`~doapi.wait_interval` if not specified or `None`
         :param number wait_time: the total number of seconds after which the
             method will return, or a negative number to wait indefinitely;
             defaults to the `doapi` object's :attr:`~doapi.wait_time` if not
-            specified or ``None``
+            specified or `None`
         :return: the action's final state
         :rtype: Action
         :raises DOAPIError: if the API endpoint replies with an error

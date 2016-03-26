@@ -39,7 +39,7 @@ def main(argv=None, parsed=None):
         # which would cause problems if it was stdout.  "with" technically
         # doesn't provide any benefit here anyway.
         util.dump(dict(client.last_response.headers), fp=args.dump_header)
-    if args.request != 'DELETE':
+    if response is not None:
         util.dump(response)
 
 if __name__ == '__main__':
