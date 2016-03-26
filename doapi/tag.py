@@ -31,6 +31,17 @@ class Tag(Resource):
         """ The endpoint for operations on the specific tag """
         return self._url('/v2/tags/' + self.name)
 
+    def fetch(self):
+        """
+        Fetch & return a new `Tag` object representing the tag's current state
+
+        :rtype: Tag
+        :raises DOAPIError: if the API endpoint replies with an error (e.g., if
+            the tag no longer exists)
+        """
+        api = self.doapi_manager
+        return api._tag(api.request(self.url)["tag"])
+
     def __str__(self):
         """ Convert the tag object to its name """
         return self.name
