@@ -1,10 +1,11 @@
 from datetime  import datetime
 from six.moves import map
 from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
-                        Networks, BackupWindow, ResourceWithDroplet, fromISO8601
+                        Networks, BackupWindow, ResourceWithDroplet, Taggable, \
+                        fromISO8601
 from .image    import Image
 
-class Droplet(Actionable, ResourceWithID):
+class Droplet(Actionable, ResourceWithID, Taggable):
     """
     A droplet resource, representing a virtual machine provided by
     DigitalOcean.
@@ -502,3 +503,6 @@ class Droplet(Actionable, ResourceWithID):
         """
         return next(self.doapi_manager.wait_droplets([self], status,
                                                      wait_interval, wait_time))
+
+    def _taggable(self):
+        return {"resource_id": self.id, "resource_type": "droplet"}

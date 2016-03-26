@@ -1,8 +1,8 @@
-from   six          import iteritems, string_types
-from   .base        import Resource
-from   .droplet     import Droplet
-from   .floating_ip import FloatingIP
-from   .image       import Image
+from six          import iteritems, string_types
+from .base        import Resource
+from .droplet     import Droplet
+from .floating_ip import FloatingIP
+from .image       import Image
 
 resource_types = {
     "droplets": Droplet,
@@ -57,3 +57,13 @@ class Tag(Resource):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         self.doapi_manager.request(self.url, method='DELETE')
+
+    def add(self, *resources):
+        self.doapi_manager.request(self.url + '/resources', method='POST',
+                                   data={"resources": [r._taggable()
+                                                       for r in resources]})
+
+    def remove(self, *resources):
+        self.doapi_manager.request(self.url + '/resources', method='DELETE',
+                                   data={"resources": [r._taggable()
+                                                       for r in resources]})

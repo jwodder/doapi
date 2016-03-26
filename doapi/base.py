@@ -225,6 +225,16 @@ class Actionable(Resource):
         return None
 
 
+class Taggable(Resource):
+    # Required method: _taggable
+
+    def tag(self, tname):
+        self.doapi_manager._tag(tname).add(self)
+
+    def untag(self, tname):
+        self.doapi_manager._tag(tname).remove(self)
+
+
 class DOEncoder(json.JSONEncoder):
     r"""
     A :class:`json.JSONEncoder` subclass that converts resource objects to
