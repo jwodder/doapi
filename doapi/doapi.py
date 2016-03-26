@@ -94,8 +94,7 @@ class doapi(object):
             first.
         :param str method: the HTTP method to use: ``"GET"``, ``"POST"``,
             ``"PUT"``, or ``"DELETE"`` (case-insensitive); default: ``"GET"``
-        :return: a decoded JSON value, or ``None`` if ``method`` was
-            ``"DELETE"``
+        :return: a decoded JSON value, or `None` if no data was returned
         :rtype: `list` or `dict` (depending on the request) or `None`
         :raises ValueError: if ``method`` is an invalid value
         :raises DOAPIError: if the API endpoint replies with an error
@@ -125,9 +124,9 @@ class doapi(object):
             raise ValueError('Unrecognized HTTP method: ' + repr(method))
         self.last_response = r
         self.last_meta = None
-        if 400 <= r.status_code < 600:
+        if not r.ok:
             raise DOAPIError(r)
-        if method != 'DELETE':
+        if r.text:
             response = r.json()
             try:
                 self.last_meta = response["meta"]

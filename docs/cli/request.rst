@@ -24,9 +24,9 @@ DESCRIPTION
 ^^^^^^^^^^^
 
 :program:`doapi-request` makes a request to a DigitalOcean API endpoint and
-outputs the response as readably-formatted JSON.  It's like a
-DigitalOcean-centric :manpage:`curl(1)` that doesn't make you type out your API
-token every time, with an option for handling pagination.
+outputs the text of the response (if any) as nicely-formatted JSON.  It's like
+a DigitalOcean-centric :manpage:`curl(1)` that doesn't make you type out your
+API token every time, with an option for handling pagination.
 
 A request can be made either to an absolute URL or to a path like
 ``/v2/account`` that will be appended to the API endpoint in use.
@@ -74,6 +74,3 @@ In addition to the :ref:`universal options <universal>` common to all
     Specifies the HTTP method to use for the request.  Valid options are
     ``GET`` (the default), ``POST``, ``PUT``, and ``DELETE`` (case
     insensitive).
-
-    When the ``DELETE`` method is used, no output (other than that for
-    :option:`--dump-header`, if specified) will be produced.
