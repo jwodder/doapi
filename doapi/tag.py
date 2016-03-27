@@ -1,4 +1,5 @@
 from six          import iteritems, string_types
+from six.moves    import map
 from .base        import Resource
 from .droplet     import Droplet
 from .floating_ip import FloatingIP
@@ -87,3 +88,34 @@ class Tag(Resource):
     def delete_all_droplets(self):
         self.doapi_manager.request('/v2/droplets', method='DELETE',
                                    params={"tag_name": self.name})
+
+    def act_on_droplets(self, **data):
+        api = self.doapi_manager
+        return map(api._action, api.request('/v2/droplets/actions', method='POST', params={"tag_name": self.name}, data=data)["actions"])
+
+    def power_cycle(self):
+        return self.act_on_droplets(type='power_cycle')
+
+    def power_on(self):
+        return self.act_on_droplets(type='power_on')
+
+    def power_off(self):
+        return self.act_on_droplets(type='power_off')
+
+    def shutdown(self):
+        return self.act_on_droplets(type='shutdown')
+
+    def enable_private_networking(self):
+        return self.act_on_droplets(type='enable_private_networking')
+
+    def enable_ipv6(self):
+        return self.act_on_droplets(type='enable_ipv6')
+
+    def enable_backups(self):
+        return self.act_on_droplets(type='enable_backups')
+
+    def disable_backups(self):
+        return self.act_on_droplets(type='disable_backups')
+
+    def snapshot(self, name):
+        return self.act_on_droplets(type='snapshot', name=name)

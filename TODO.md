@@ -1,5 +1,8 @@
 - Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
     - Add a class for tag resource statistics dicts???
+    - Add a (public) method for constructing a `Tag` object without fetching
+      anything?
+    - Should `Tag`'s droplet action methods all contain the word "droplet"?
 
 # For Version 1
 
