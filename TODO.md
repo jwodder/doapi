@@ -11,6 +11,8 @@
     - Add a note about `create_domain`/`doapi-domain new` not actually bringing
       a new domain name into existence
     - Add more examples
+    - Add a summary (based on the README) to `index.rst`
+    - Move `library.rst` to `library/index.rst`, and likewise for `cli.rst`?
 - When `--multiple` is in effect, should image slugs that are also names of
   available images be interpreted as both? (and likewise for SSH keys &
   fingerprints?)
@@ -19,6 +21,7 @@
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
 - Eliminate the `doapi` command?
+- Add a way to pass a file to `doapi-droplet new --user-data`
 
 ## Naming Things
 
@@ -40,7 +43,7 @@
     - Convert the CLI documentation to manpages?
     - Add the CLI documentation to each command's source file as a docstring?
     - Improve the appearance of the "APIDocs" citations in the documentation
-- Add tests
+- Add tests (using Tox?)
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 
 # Command-Line Interface
