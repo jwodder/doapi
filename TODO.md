@@ -21,7 +21,6 @@
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
 - Eliminate the `doapi` command?
-- Add a way to pass a file to `doapi-droplet new --user-data`
 
 ## Naming Things
 

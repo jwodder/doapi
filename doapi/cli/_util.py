@@ -216,6 +216,7 @@ def add_actioncmds(cmds, objtype, multiple=True):
                               help='Perform an arbitrary action',
                               description='Perform an arbitrary action')
     cmd_act.add_argument('-p', '--params', metavar='JSON|@file',
+                         type=str_or_file,
                          help='JSON object of action arguments')
     if multiple:
         cmd_act.add_argument('-M', '--multiple', action='store_true',
@@ -262,14 +263,7 @@ def add_actioncmds(cmds, objtype, multiple=True):
 def do_actioncmd(args, client, objects):
     if args.cmd == 'act':
         if args.params is not None:
-            if args.params.startswith("@") and len(args.params) > 1:
-                if args.params[1:] == '-':
-                    params = json.load(sys.stdin)
-                else:
-                    with open(args.params[1:]) as fp:
-                        params = json.load(fp)
-            else:
-                params = json.loads(args.params)
+            params = json.loads(args.params)
             if not isinstance(params, dict):
                 die('--params must be a JSON dictionary/object')
         else:
@@ -295,3 +289,13 @@ def do_actioncmd(args, client, objects):
             dump(client.wait_actions(actions))
     else:
         assert False, 'do_actioncmd called with invalid command'
+
+def str_or_file(arg):
+    if arg.startswith("@") and len(arg) > 1:
+        if arg[1:] == '-':
+            return sys.stdin.read()
+        else:
+            with open(arg[1:]) as fp:
+                return fp.read()
+    else:
+        return arg

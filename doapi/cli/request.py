@@ -1,5 +1,4 @@
 import argparse
-import sys
 from   . import _util as util
 
 def main(argv=None, parsed=None):
@@ -11,6 +10,7 @@ def main(argv=None, parsed=None):
                         choices=['GET', 'POST', 'PUT', 'DELETE'],
                         help='HTTP method to use')
     parser.add_argument('-d', '--data', metavar='string|@file',
+                        type=util.str_or_file,
                         help='Send the given data in the body of the request')
     parser.add_argument('-D', '--dump-header', type=argparse.FileType('w'),
                         metavar='FILE',
@@ -22,16 +22,9 @@ def main(argv=None, parsed=None):
     args = parser.parse_args(argv, parsed)
     if args.paginate is not None and args.request != 'GET':
         util.die('--paginate can only be used with the GET method')
-    data = args.data
-    if data is not None and data.startswith("@") and len(data) > 1:
-        if data[1:] == '-':
-            data = sys.stdin.read()
-        else:
-            with open(data[1:]) as fp:
-                data = fp.read()
     client, _ = util.mkclient(args)
     if args.paginate is None:
-        response = client.request(args.path, method=args.request, data=data)
+        response = client.request(args.path, method=args.request, data=args.data)
     else:
         response = client.paginate(args.path, args.paginate)
     if args.dump_header:

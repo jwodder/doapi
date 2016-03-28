@@ -63,7 +63,8 @@ def main(argv=None, parsed=None):
                          help='Enable IPv6 on the new droplet')
     cmd_new.add_argument('-P', '--private-networking', action='store_true',
                          help='Enable private networking on the new droplet')
-    cmd_new.add_argument('-U', '--user-data',
+    cmd_new.add_argument('-U', '--user-data', metavar='string|@file',
+                         type=util.str_or_file,
                          help='user data for the new droplet')
     cmd_new.add_argument('-K', '--ssh-key', action='append', default=[],
                          help='ID, fingerprint, name, or local filepath of an'
