@@ -715,7 +715,13 @@ class doapi(object):
 
     def create_domain(self, name, ip_address):
         """
-        Add a new domain name resource to the account
+        Add a new domain name resource to the account.
+
+        Note that this method does not actually register a new domain name; it
+        merely configures DigitalOcean's nameservers to provide DNS resolution
+        for the domain.  See `How To Set Up a Host Name with DigitalOcean
+        <https://www.digitalocean.com/community/tutorials/how-to-set-up-a-host-name-with-digitalocean>`_
+        for more information.
 
         :param str name: the domain name to add
         :param str ip_address: the IP address to which the domain should point

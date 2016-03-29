@@ -49,8 +49,14 @@ specified by ID number.
 
     doapi-domain new <domain> <ip address>
 
-Configure a domain name ``<domain>`` pointing to ``<ip address>``.  The new
-domain is output as a `Domain` object converted to JSON.
+Set up a domain name ``<domain>`` pointing to ``<ip address>``.  The new domain
+is output as a `Domain` object converted to JSON.
+
+Note that this command does not actually register a new domain name; it merely
+configures DigitalOcean's nameservers to provide DNS resolution for the domain.
+See `How To Set Up a Host Name with DigitalOcean
+<https://www.digitalocean.com/community/tutorials/how-to-set-up-a-host-name-with-digitalocean>`_
+for more information.
 
 
 :command:`show`

@@ -29,3 +29,5 @@ As yet another Python wrapper library for version 2 of the `DigitalOcean
 - A command-line interface to all of the above that outputs JSON objects in the
   same format as used by the API (perfect for massaging with `jq
   <https://stedolan.github.io/jq/>`_!)
+- When creating droplets from the command line, new SSH public keys can be
+  specified without having to register them explicitly beforehand.

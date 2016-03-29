@@ -8,8 +8,6 @@
     - Add a docstring to `__init__.py` for displaying in pydoc
     - Mention how the CLI deals with overloaded object names (including always
       erroring if the command doesn't support `--multiple`)
-    - Add a note about `create_domain`/`doapi-domain new` not actually bringing
-      a new domain name into existence
     - Add more examples
     - Add a summary (based on the README) to `index.rst`
     - Move `library.rst` to `library/index.rst`, and likewise for `cli.rst`?
@@ -21,6 +19,7 @@
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
 - Eliminate the `doapi` command?
+- Set up Readthedocs
 
 ## Naming Things
 
@@ -62,6 +61,7 @@
 - `doapi-request`: When an error response is returned, should the response body
   still be output? (instead of or in addition to the traceback?)
 - `doapi-domain update-record`: Error if no fields to update are given
+- Support snapshotting multiple droplets at once without having to use a tag
 
 # Library
 
