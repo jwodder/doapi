@@ -5,12 +5,21 @@ doapi — DigitalOcean API Python library & CLI
     :alt: Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.
     :target: http://www.repostatus.org/#wip
 
-|repostatus| *(Until v1.0 is released, backwards compatibility will be broken at will.)*
+.. |RTD| image:: https://readthedocs.org/projects/doapi/badge/?version=latest
+    :target: http://doapi.readthedocs.org/en/latest/?badge=latest
+    :alt: Documentation Status
+
+|repostatus| |RTD|
+
+*(Until v1.0 is released, backwards compatibility will be broken at will.)*
 
 ..
     `GitHub <https://github.com/jwodder/doapi>`_
     PyPI
-    Readthedocs
+    .. image:: https://img.shields.io/pypi/v/doapi.svg
+        :target: https://pypi.python.org/pypi/doapi
+    .. image:: https://img.shields.io/pypi/l/doapi.svg
+        :target: https://pypi.python.org/pypi/doapi
 
 As yet another Python wrapper library for version 2 of the `DigitalOcean
 <https://www.digitalocean.com>`_ `API
