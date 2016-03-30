@@ -126,7 +126,9 @@ class doapi(object):
         self.last_meta = None
         if not r.ok:
             raise DOAPIError(r)
-        if r.text:
+        if r.text.strip():
+            # Even when returning "no content", the API can still return
+            # whitespace.
             response = r.json()
             try:
                 self.last_meta = response["meta"]
