@@ -98,9 +98,10 @@ class Cache(object):
 
     def get_sshkeys(self, labels, multiple=True, hasM=False):
         if multiple:
-            return [key for l in labels for key in self.get_sshkey(l, True)]
+            objs = [key for l in labels for key in self.get_sshkey(l, True)]
         else:
-            return [self.get_sshkey(l, False, hasM=hasM) for l in labels]
+            objs = [self.get_sshkey(l, False, hasM=hasM) for l in labels]
+        return rmdups(objs, 'SSH key')
 
     def add_sshkey(self, key):
         cache = self.caches["sshkey"]
@@ -118,9 +119,10 @@ class Cache(object):
 
     def get_droplets(self, labels, multiple=True, hasM=False):
         if multiple:
-            return [drop for l in labels for drop in self.get_droplet(l, True)]
+            objs = [drop for l in labels for drop in self.get_droplet(l, True)]
         else:
-            return [self.get_droplet(l, False, hasM=hasM) for l in labels]
+            objs = [self.get_droplet(l, False, hasM=hasM) for l in labels]
+        return rmdups(objs, 'droplet')
 
     def cache_images(self):
         self.cache(self.client.fetch_all_images(), "image")
@@ -131,9 +133,10 @@ class Cache(object):
 
     def get_images(self, labels, multiple=True, hasM=False):
         if multiple:
-            return [img for l in labels for img in self.get_image(l, True)]
+            objs = [img for l in labels for img in self.get_image(l, True)]
         else:
-            return [self.get_image(l, False, hasM=hasM) for l in labels]
+            objs = [self.get_image(l, False, hasM=hasM) for l in labels]
+        return rmdups(objs, 'image')
 
     def check_name_dup(self, key, name, fatal):
         if key == "sshkey":
@@ -299,3 +302,15 @@ def str_or_file(arg):
                 return fp.read()
     else:
         return arg
+
+def rmdups(objs, objtype, idfield='id'):
+    seen = set()
+    uniq = []
+    for o in objs:
+        idval = o[idfield]
+        if idval in seen:
+            sys.stderr.write('Warning: {0} {1!r} specified multiple times; ignoring later occurrence\n'.format(objtype, idval))
+        else:
+            seen.add(idval)
+            uniq.append(o)
+    return uniq
