@@ -19,7 +19,7 @@
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
 - Eliminate the `doapi` command?
-- Set up Readthedocs
+- Add more classifiers to `setup.py`?
 
 ## Naming Things
 
@@ -90,3 +90,7 @@
   `doapi-droplet new` to parse them correctly
 - Confirm whether extant actionable resources always have at least one action
   in their history
+- It appears that now, if you try to delete an assigned floating IP, a 202
+  response with a single space in the body (declared as text/html!) is
+  returned, and the IP is unassigned but remains.  Sending a DELETE request
+  again deletes the IP normally.  Handle this.
