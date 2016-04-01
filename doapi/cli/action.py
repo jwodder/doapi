@@ -56,13 +56,15 @@ are shown as `null`.''')
                          ' exclusive')
             util.dump(all_in_progress(client))
         elif args.action:
-            util.dump(map(client.fetch_action, args.action))
+            util.dump(util.rmdups(map(client.fetch_action, args.action),
+                                  'action'))
         else:
             util.dump(client.fetch_all_actions())
 
     elif args.cmd == 'wait':
         if args.action:
-            acts = args.action
+            acts = util.rmdups(map(client.fetch_action, args.action),
+                               'action')
         else:
             acts = all_in_progress(client)
         util.dump(client.wait_actions(acts))
@@ -79,7 +81,8 @@ are shown as `null`.''')
                              ' exclusive')
                 acts = all_in_progress(client)
             elif args.action:
-                acts = map(client.fetch_action, args.action)
+                acts = util.rmdups(map(client.fetch_action, args.action),
+                                   'action')
             else:
                 util.die('You must specify one of --last, --in-progress, or'
                          ' one or more actions')

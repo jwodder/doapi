@@ -1,4 +1,5 @@
 - Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
+- Make a 0.1.0 release (just so something's out there)
 
 # For Version 1
 
@@ -11,6 +12,9 @@
     - Add more examples
     - Add a summary (based on the README) to `index.rst`
     - Move `library.rst` to `library/index.rst`, and likewise for `cli.rst`?
+    - Add a note about the pitfalls of running `doapi-droplet rebuild <drop>`
+      (no `--image`) when the droplet's base image is no longer available
+    - Add a "quick start" section for both the library and CLI
 - When `--multiple` is in effect, should image slugs that are also names of
   available images be interpreted as both? (and likewise for SSH keys &
   fingerprints?)
@@ -20,6 +24,10 @@
   "updating" it to `null`?
 - Eliminate the `doapi` command?
 - Add more classifiers to `setup.py`?
+
+- Keep rethinking data structures
+    - Eliminate `ResourceWithDroplet`?
+    - Replace methodless classes with unsubclassed `Resource` instances?
 
 ## Naming Things
 
