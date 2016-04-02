@@ -304,6 +304,8 @@ def str_or_file(arg):
         return arg
 
 def rmdups(objs, objtype, idfield='id'):
+    ### TODO: Rethink whether this should return a list or a generator (Would I
+    ### want a generator for any non-showing operation?)
     seen = set()
     uniq = []
     for o in objs:

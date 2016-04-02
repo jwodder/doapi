@@ -85,7 +85,8 @@ def main(argv=None, parsed=None):
 
     if args.cmd == 'show':
         if args.domain:
-            util.dump(map(client.fetch_domain, args.domain))
+            util.dump(util.rmdups(map(client.fetch_domain, args.domain),
+                                  'domain', 'name'))
         else:
             util.dump(client.fetch_all_domains())
 
@@ -93,14 +94,16 @@ def main(argv=None, parsed=None):
         util.dump(client.create_domain(args.domain, args.ip_address))
 
     elif args.cmd == 'delete':
-        domains = list(map(client.fetch_domain, args.domain))
+        domains = util.rmdups(map(client.fetch_domain, args.domain), 'domain',
+                              'name')
         for d in domains:
             d.delete()
 
     elif args.cmd == 'show-record':
         domain = client.fetch_domain(args.domain)
         if args.record_id:
-            util.dump(map(domain.fetch_record, args.record_id))
+            util.dump(util.rmdups(map(domain.fetch_record, args.record_id),
+                                  'record'))
         else:
             util.dump(domain.fetch_all_records())
 
@@ -129,7 +132,7 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'delete-record':
         domain = client.fetch_domain(args.domain)
-        recs = list(map(domain.fetch_record, args.record_id))
+        recs = util.rmdups(map(domain.fetch_record, args.record_id), 'record')
         for r in recs:
             r.delete()
 
