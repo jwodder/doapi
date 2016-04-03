@@ -9,7 +9,7 @@ Library
    domain
    floating_ip
    image
-   sshkey
+   ssh_key
    immutable
    utils
    examples

@@ -15,7 +15,7 @@ Command-Line Programs
    region
    request
    size
-   sshkey
+   ssh_key
 
 TODO
 
