@@ -731,12 +731,15 @@ class doapi(object):
         for more information.
 
         :param str name: the domain name to add
-        :param str ip_address: the IP address to which the domain should point
+        :param ip_address: the IP address to which the domain should point
+        :type ip_address: string or `FloatingIP`
         :param kwargs: additional fields to include in the API request
         :return: the new domain resource
         :rtype: Domain
         :raises DOAPIError: if the API endpoint replies with an error
         """
+        if isinstance(ip_address, FloatingIP):
+            ip_address = ip_address.ip
         data = {"name": name, "ip_address": ip_address}
         data.update(kwargs)
         return self._domain(self.request('/v2/domains', method='POST',
