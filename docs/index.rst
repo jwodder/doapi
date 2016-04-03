@@ -12,8 +12,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   library
-   cli
+   library/index
+   cli/index
 
 
 Indices and tables

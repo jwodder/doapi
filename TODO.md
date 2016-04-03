@@ -12,7 +12,6 @@
     - Add more examples
         - Add examples of using the `act` subcommand
     - Add a summary (based on the README) to `index.rst`
-    - Move `library.rst` to `library/index.rst`, and likewise for `cli.rst`?
     - Add a note about the pitfalls of running `doapi-droplet rebuild <drop>`
       (no `--image`) when the droplet's base image is no longer available
     - Add a "quick start" section for both the library and CLI

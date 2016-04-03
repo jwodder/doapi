@@ -6,16 +6,16 @@ Command-Line Programs
 .. toctree::
    :maxdepth: 1
 
-   cli/account
-   cli/action
-   cli/domain
-   cli/droplet
-   cli/floating_ip
-   cli/image
-   cli/region
-   cli/request
-   cli/size
-   cli/sshkey
+   account
+   action
+   domain
+   droplet
+   floating_ip
+   image
+   region
+   request
+   size
+   sshkey
 
 TODO
 

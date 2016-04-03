@@ -4,15 +4,15 @@ Library
 =======
 
 .. toctree::
-   library/doapi
-   library/droplets
-   library/domain
-   library/floating_ip
-   library/image
-   library/sshkey
-   library/immutable
-   library/utils
-   library/examples
+   doapi
+   droplets
+   domain
+   floating_ip
+   image
+   sshkey
+   immutable
+   utils
+   examples
 
 Generators producing objects always yield them in whatever order the API
 endpoint returns them in.
