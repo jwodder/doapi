@@ -100,7 +100,7 @@ class Domain(Resource):
         return map(self._record, api.paginate(self.record_url, 'domain_records'))
 
     def create_record(self, type, name, data, priority=None, port=None,
-                      weight=None):
+                      weight=None, **kwargs):
         """
         Add a new DNS record to the domain
 
@@ -114,19 +114,23 @@ class Domain(Resource):
             records only)
         :param int weight: the weight of records with the same priority (SRV
             records only)
+        :param kwargs: additional fields to include in the API request
         :return: the new domain record
         :rtype: DomainRecord
         :raises DOAPIError: if the API endpoint replies with an error
         """
         api = self.doapi_manager
-        return self._record(api.request(self.record_url, method='POST', data={
+        data = {
             "type": type,
             "name": name,
             "data": data,
             "priority": priority,
             "port": port,
             "weight": weight,
-        })["domain_record"])
+        }
+        data.update(kwargs)
+        return self._record(api.request(self.record_url, method='POST',
+                                        data=data)["domain_record"])
 
 
 class DomainRecord(ResourceWithID):

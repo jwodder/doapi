@@ -22,7 +22,6 @@
       Are such names even allowed?
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
-- Eliminate the `doapi` command?
 - Add more classifiers to `setup.py`?
 
 - Keep rethinking data structures
@@ -34,7 +33,7 @@
 ## Naming Things
 
 - Rename `doapi_manager` to just `manager`? (something else?)
-- Come up with a better name for `--multiple`?
+- Come up with a better name for `--multiple`? (`--match-all`?)
 
 # General
 
@@ -51,6 +50,8 @@
     - Convert the CLI documentation to manpages?
     - Add the CLI documentation to each command's source file as a docstring?
     - Improve the appearance of the "APIDocs" citations in the documentation
+    - Give every applicable item a link to the corresponding entry in the API
+      docs
 - Add tests (using Tox?)
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 
@@ -72,6 +73,7 @@
   still be output? (instead of or in addition to the traceback?)
 - `doapi-domain update-record`: Error if no fields to update are given
 - Support snapshotting multiple droplets at once without having to use a tag
+- Support passing arbitrary extra arguments to `new` commands
 
 # Library
 

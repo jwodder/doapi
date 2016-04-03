@@ -248,7 +248,7 @@ class doapi(object):
 
     def create_droplet(self, name, image, size, region, ssh_keys=None,
                        backups=None, ipv6=None, private_networking=None,
-                       user_data=None):
+                       user_data=None, **kwargs):
         """
         Create a new droplet.  All fields other than ``name``, ``image``,
         ``size``, and ``region`` are optional and will be omitted from the API
@@ -278,6 +278,7 @@ class doapi(object):
         :param bool private_networking: whether to enable private networking
             for the new droplet
         :param str user_data: a string of user data/metadata for the droplet
+        :param kwargs: additional fields to include in the API request
         :return: the new droplet resource
         :rtype: Droplet
         :raises DOAPIError: if the API endpoint replies with an error
@@ -299,12 +300,14 @@ class doapi(object):
             data["private_networking"] = private_networking
         if user_data is not None:
             data["user_data"] = user_data
+        data.update(kwargs)
         return self._droplet(self.request('/v2/droplets', method='POST',
                                           data=data)["droplet"])
 
     def create_multiple_droplets(self, names, image, size, region,
                                  ssh_keys=None, backups=None, ipv6=None,
-                                 private_networking=None, user_data=None):
+                                 private_networking=None, user_data=None,
+                                 **kwargs):
         r"""
         Create multiple new droplets at once with the same image, size, etc.,
         differing only in name.  All fields other than ``names``, ``image``,
@@ -336,6 +339,7 @@ class doapi(object):
         :param bool private_networking: whether to enable private networking
             for the new droplets
         :param str user_data: a string of user data/metadata for the droplets
+        :param kwargs: additional fields to include in the API request
         :return: the new droplet resources
         :rtype: list of `Droplet`\ s
         :raises DOAPIError: if the API endpoint replies with an error
@@ -357,6 +361,7 @@ class doapi(object):
             data["private_networking"] = private_networking
         if user_data is not None:
             data["user_data"] = user_data
+        data.update(kwargs)
         return list(map(self._droplet, self.request('/v2/droplets',
                                                     method='POST',
                                                     data=data)["droplets"]))
@@ -522,22 +527,22 @@ class doapi(object):
         """
         return map(self._ssh_key, self.paginate('/v2/account/keys', 'ssh_keys'))
 
-    def create_ssh_key(self, name, public_key):
+    def create_ssh_key(self, name, public_key, **kwargs):
         """
         Add a new SSH public key resource to the account
 
         :param str name: the name to give the new SSH key resource
         :param str public_key: the text of the public key to register, in the
             form used by :file:`authorized_keys` files
+        :param kwargs: additional fields to include in the API request
         :return: the new SSH key resource
         :rtype: SSHKey
         :raises DOAPIError: if the API endpoint replies with an error
         """
+        data = {"name": name, "public_key": public_key}
+        data.update(kwargs)
         return self._ssh_key(self.request('/v2/account/keys', method='POST',
-                                          data={
-                                              "name": name,
-                                              "public_key": public_key
-                                          })["ssh_key"])
+                                          data=data)["ssh_key"])
 
     def _image(self, obj):
         """
@@ -715,7 +720,7 @@ class doapi(object):
         """
         return map(self._domain, self.paginate('/v2/domains', 'domains'))
 
-    def create_domain(self, name, ip_address):
+    def create_domain(self, name, ip_address, **kwargs):
         """
         Add a new domain name resource to the account.
 
@@ -727,14 +732,15 @@ class doapi(object):
 
         :param str name: the domain name to add
         :param str ip_address: the IP address to which the domain should point
+        :param kwargs: additional fields to include in the API request
         :return: the new domain resource
         :rtype: Domain
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return self._domain(self.request('/v2/domains', method='POST', data={
-            "name": name,
-            "ip_address": ip_address,
-        })["domain"])
+        data = {"name": name, "ip_address": ip_address}
+        data.update(kwargs)
+        return self._domain(self.request('/v2/domains', method='POST',
+                                                        data=data)["domain"])
 
     def _floating_ip(self, obj):
         """
@@ -774,7 +780,7 @@ class doapi(object):
         return map(self._floating_ip, self.paginate('/v2/floating_ips',
                                                     'floating_ips'))
 
-    def create_floating_ip(self, droplet_id=None, region=None):
+    def create_floating_ip(self, droplet_id=None, region=None, **kwargs):
         """
         Create a new floating IP assigned to a droplet or reserved to a region.
         Either ``droplet_id`` or ``region`` must be specified, but not both.
@@ -791,6 +797,7 @@ class doapi(object):
         :param region: the region to reserve the floating IP to as either a
             slug or a `Region` object
         :type region: string or `Region`
+        :param kwargs: additional fields to include in the API request
         :return: the new floating IP
         :rtype: FloatingIP
         :raises TypeError: if both ``droplet_id`` & ``region`` or neither of
@@ -809,6 +816,7 @@ class doapi(object):
             if isinstance(region, Region):
                 region = region.slug
             data = {"region": region}
+        data.update(kwargs)
         return self._floating_ip(self.request('/v2/floating_ips', method='POST',
                                               data=data)["floating_ip"])
 
