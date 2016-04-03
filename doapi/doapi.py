@@ -2,7 +2,7 @@ import json
 from   time         import sleep, time
 import requests
 from   six          import iteritems, string_types
-from   six.moves    import map
+from   six.moves    import map  # pylint: disable=redefined-builtin
 from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError
 from   .action      import Action
 from   .domain      import Domain

@@ -6,7 +6,7 @@ from   hashlib    import md5
 from   operator   import methodcaller
 import sys
 from   time       import time
-from   six.moves  import map, range
+from   six.moves  import map, range  # pylint: disable=redefined-builtin
 from   .          import _util as util
 from   ..base     import DropletUpgrade
 

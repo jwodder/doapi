@@ -4,7 +4,7 @@ import json
 import numbers
 import pyrfc3339
 from   six       import iteritems
-from   six.moves import map
+from   six.moves import map  # pylint: disable=redefined-builtin
 
 class Resource(collections.MutableMapping):
     _meta_attrs = ('fields', 'doapi_manager')

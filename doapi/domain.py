@@ -1,5 +1,5 @@
 from six       import string_types
-from six.moves import map
+from six.moves import map  # pylint: disable=redefined-builtin
 from .base     import Resource, ResourceWithID
 
 class Domain(Resource):

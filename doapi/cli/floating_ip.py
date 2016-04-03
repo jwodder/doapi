@@ -1,5 +1,5 @@
 import argparse
-from   six.moves import map
+from   six.moves import map  # pylint: disable=redefined-builtin
 from   .         import _util as util
 
 def main(argv=None, parsed=None):

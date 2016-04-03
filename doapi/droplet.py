@@ -1,5 +1,5 @@
 from datetime  import datetime
-from six.moves import map
+from six.moves import map  # pylint: disable=redefined-builtin
 from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
                         Networks, BackupWindow, ResourceWithDroplet, fromISO8601
 from .image    import Image
