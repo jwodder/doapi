@@ -798,7 +798,7 @@ class doapi(object):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         if (droplet_id is None) == (region is None):
-            ### Is TypeError the right type of error?
+            ### TODO: Is TypeError the right type of error?
             raise TypeError('Exactly one of "droplet_id" and "region" must be'
                             ' specified')
         if droplet_id is not None:

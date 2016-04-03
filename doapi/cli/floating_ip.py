@@ -44,7 +44,7 @@ def main(argv=None, parsed=None):
 
     if args.cmd == 'show':
         if args.ip:
-            util.dump(map(client.fetch_floating_ip, map(maybeInt, args.ip)))
+            util.dump(util.rmdups(map(client.fetch_floating_ip, map(maybeInt, args.ip)), 'floating IP', 'ip'))
         else:
             util.dump(client.fetch_all_floating_ips())
 
@@ -68,19 +68,19 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'unassign':
-        floips = map(client.fetch_floating_ip, map(maybeInt, args.ip))
+        floips = util.rmdups(map(client.fetch_floating_ip, map(maybeInt, args.ip)), 'floating IP', 'ip')
         acts = [fi.unassign() for fi in floips]
         if args.wait:
             acts = client.wait_actions(acts)
         util.dump(acts)
 
     elif args.cmd == 'delete':
-        floips = map(client.fetch_floating_ip, map(maybeInt, args.ip))
+        floips = util.rmdups(map(client.fetch_floating_ip, map(maybeInt, args.ip)), 'floating IP', 'ip')
         for fi in floips:
             fi.delete()
 
     elif args.cmd in ('act', 'actions', 'wait'):
-        floips = map(client.fetch_floating_ip, map(maybeInt, args.ip))
+        floips = util.rmdups(map(client.fetch_floating_ip, map(maybeInt, args.ip)), 'floating IP', 'ip')
         util.do_actioncmd(args, client, floips)
 
     else:
