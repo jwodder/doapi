@@ -33,11 +33,23 @@ setup(
     ],
 
     classifiers=[
+        #'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
+        #'Development Status :: 5 - Production/Stable',
+
         'Programming Language :: Python :: 2',
         # The use of argparse precludes support for Python 2 versions before
         # 2.7 and Python 3 versions before 3.2.
         'Programming Language :: Python :: 2.7',
+
         'License :: OSI Approved :: MIT License',
+        'Environment :: Console',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Information Technology',
+        'Intended Audience :: System Administrators',
+        'Topic :: Internet',
+        'Topic :: Internet :: Name Service (DNS)',
+        'Topic :: System :: Systems Administration',
     ],
 
     entry_points={

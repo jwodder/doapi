@@ -22,7 +22,6 @@
       Are such names even allowed?
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
-- Add more classifiers to `setup.py`?
 
 - Keep rethinking data structures
     - Eliminate `ResourceWithDroplet`?
@@ -74,6 +73,7 @@
 - `doapi-domain update-record`: Error if no fields to update are given
 - Support snapshotting multiple droplets at once without having to use a tag
 - Support passing arbitrary extra arguments to `new` commands
+- Refactor the code for fetching resources specified on the command line
 
 # Library
 
