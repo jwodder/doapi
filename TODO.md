@@ -7,14 +7,13 @@
     - Document the basic attributes of all resource classes (`.fields`,
       `.doapi_manager`, use as a dict, conversion to a dict, etc.)
     - Add a docstring to `__init__.py` for displaying in pydoc
-    - Mention how the CLI deals with overloaded object names (including always
-      erroring if the command doesn't support `--multiple`)
     - Add more examples
         - Add examples of using the `act` subcommand
     - Add a summary (based on the README) to `index.rst`
     - Add a note about the pitfalls of running `doapi-droplet rebuild <drop>`
       (no `--image`) when the droplet's base image is no longer available
     - Add a "quick start" section for both the library and CLI
+    - Add usage examples to README
 - When `--multiple` is in effect, should image slugs that are also names of
   available images be interpreted as both? (and likewise for SSH keys &
   fingerprints?)
@@ -74,6 +73,7 @@
 - Support snapshotting multiple droplets at once without having to use a tag
 - Support passing arbitrary extra arguments to `new` commands
 - Refactor the code for fetching resources specified on the command line
+- Be case-insensitive when looking up SSH keys by fingerprint
 
 # Library
 
@@ -106,3 +106,5 @@
   response with a single space in the body (declared as text/html!) is
   returned, and the IP is unassigned but remains.  Sending a DELETE request
   again deletes the IP normally.  Handle this.
+- The pagination code assumes that the `per_page` parameter is preserved in
+  links.  Confirm this.

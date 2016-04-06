@@ -17,11 +17,15 @@ Command-Line Programs
    size
    ssh_key
 
-TODO
+..
+    Document the plain :program:`doapi` command
+    [All commands output pretty-printed (sans colors) JSON]
 
-[Document the plain :program:`doapi` command]
+Common CLI Behavior
+-------------------
 
-----
+API Authentication
+''''''''''''''''''
 
 In order to perform API requests, an OAuth token must be supplied to
 :program:`doapi` so that it can authenticate with the DigitalOcean server.  You
@@ -37,12 +41,47 @@ locations, in order:
 2. The value of the :envvar:`DO_API_TOKEN` environment variable
 3. The contents of a :file:`.doapi` file in your home directory
 
-----
+
+Handling Non-Uniqueness of Identifiers
+''''''''''''''''''''''''''''''''''''''
+
+Most resources in the API are referred to by only a single identifier each, but
+droplets, images, and SSH keys can be referred to by either a unique ID number,
+a unique slug (for certain images), a unique fingerprint (for SSH keys), or a
+(potentially) *non*-unique name.
+
+When the user specifies an object identifier that could be an ID, slug,
+fingerprint, or name, the order of resolution is as follows:
+
+1. If the identifier is an integer and there is an object of the relevant type
+   with that integer as its ID number, :program:`doapi` uses that object.
+
+2. For images, if there is an image whose slug equals the identifier,
+   :program:`doapi` uses that image.
+
+3. For SSH keys, if the identifier is in the form of an SSH public key
+   fingerprint (16 colon-separated two-digit hexadecimal integers) and there is
+   an SSH key with that fingerprint registered with the user's DigitalOcean
+   account, :program:`doapi` uses that SSH key.
+
+4. Otherwise, the identifier is assumed to be a name, and if there exists
+   exactly one object of the relevant type with that name, :program:`doapi`
+   uses that object.  If the name is shared by multiple objects, by default
+   :program:`doapi` will exit without taking any action, displaying an error
+   message that includes the ID numbers of all of the objects with that name.
+   For subcommands that operate on lists of objects, this behavior can be
+   changed by passing the :option:`--multiple` option to the subcommand,
+   causing any names that refer to more than one object to be interpreted as a
+   list of all of those objects in unspecified order.
+
+In all cases, if the same object is specified more than once on the command
+line, all occurrences after the first are ignored with a warning.
+
 
 .. _universal:
 
 Universal Options
------------------
+'''''''''''''''''
 
 All commands take the following options in addition to those listed in their
 individual documentation:
@@ -86,11 +125,13 @@ subcommands::
 .. _waitopts:
 
 Waiting Options
----------------
+'''''''''''''''
 
-All subcommands that perform non-atomic actions on resources can take the
-following options in order to wait for the actions to complete before
-returning:
+By default, all subcommands that perform non-atomic actions return immediately
+after initiating the action, without waiting for it to complete.  They can be
+made to instead wait until completion with the :option:`--wait` option, which
+can be configured further with :option:`--wait-interval` and
+:option:`--wait-time`, as described below:
 
 .. option:: --wait
 
