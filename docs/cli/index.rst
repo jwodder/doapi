@@ -17,12 +17,16 @@ Command-Line Programs
    size
    ssh_key
 
-..
+.. todo::
+
     Document the plain :program:`doapi` command
-    [All commands output pretty-printed (sans colors) JSON]
 
 Common CLI Behavior
 -------------------
+
+..
+    General notes:
+    - All commands output pretty-printed (sans colors) JSON
 
 API Authentication
 ''''''''''''''''''

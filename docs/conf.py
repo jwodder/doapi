@@ -37,6 +37,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
     'sphinx.ext.viewcode',
 ]
 
@@ -301,3 +302,5 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/2.7", None),
     "requests": ("http://docs.python-requests.org/en/latest", None),
 }
+
+todo_include_todos = True
