@@ -17,12 +17,6 @@ doapi — DigitalOcean API Python library & CLI
 
 *(Until v1.0 is released, backwards compatibility will be broken at will.)*
 
-..
-    `GitHub <https://github.com/jwodder/doapi>`_
-    PyPI
-    .. image:: https://img.shields.io/pypi/v/doapi.svg
-        :target: https://pypi.python.org/pypi/doapi
-
 As yet another Python wrapper library for version 2 of the `DigitalOcean
 <https://www.digitalocean.com>`_ `API
 <https://developers.digitalocean.com/documentation/v2/>`_, ``doapi`` offers:

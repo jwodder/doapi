@@ -1,5 +1,4 @@
 - Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
-- Make a 0.1.0 release (just so something's out there)
 
 # For Version 1
 
@@ -31,7 +30,7 @@
 ## Naming Things
 
 - Rename `doapi_manager` to just `manager`? (something else?)
-- Come up with a better name for `--multiple`? (`--match-all`?)
+- Come up with a better name for `--multiple`? (`--match-all`? `--many`?)
 
 # General
 
