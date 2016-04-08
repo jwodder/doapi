@@ -1,5 +1,5 @@
 from datetime import datetime
-from .base    import ResourceWithID, Region, DOAPIError, fromISO8601
+from .base    import ResourceWithID, Region, DOAPIError, fromISO8601, int2ipv4
 
 class Action(ResourceWithID):
     """
@@ -152,3 +152,17 @@ class Action(ResourceWithID):
         """
         return next(self.doapi_manager.wait_actions([self], wait_interval,
                                                             wait_time))
+
+    def raise_for_error(self):
+        if self.errored:
+            raise ActionError(self)
+
+
+class ActionError(Exception):
+    def __init__(self, action):
+        self.action = action
+        rid = action.resource_id
+        if action.resource_type == 'floating_ip':
+            rid = int2ipv4(rid)
+        super(ActionError, self).__init__('{0.type} action on {0.resource_type}'
+                                          ' {1}: {0.status}'.format(action,rid))

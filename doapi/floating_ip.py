@@ -1,8 +1,6 @@
 import numbers
-import socket
-import struct
 from   six      import string_types
-from   .base    import Actionable, Region
+from   .base    import Actionable, Region, int2ipv4
 from   .droplet import Droplet
 
 class FloatingIP(Actionable):
@@ -30,7 +28,7 @@ class FloatingIP(Actionable):
 
     def __init__(self, state=None, **extra):
         if isinstance(state, numbers.Integral):
-            state = {"ip": socket.inet_ntoa(struct.pack('!I', state))}
+            state = {"ip": int2ipv4(state)}
         elif isinstance(state, string_types):
             state = {"ip": state}
         super(FloatingIP, self).__init__(state, **extra)

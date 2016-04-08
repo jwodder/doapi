@@ -2,6 +2,8 @@ import collections
 from   datetime  import datetime
 import json
 import numbers
+import socket
+import struct
 import pyrfc3339
 from   six       import iteritems
 from   six.moves import map  # pylint: disable=redefined-builtin
@@ -592,3 +594,6 @@ def fromISO8601(stamp):
 
 def toISO8601(dt):
     return pyrfc3339.generate(dt, accept_naive=True)
+
+def int2ipv4(n):
+    return socket.inet_ntoa(struct.pack('!I', n))
