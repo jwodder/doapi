@@ -553,11 +553,14 @@ class BackupWindow(ResourceWithDroplet):
 class DOAPIError(Exception):
     r"""
     An exception raised in reaction to the API endpoint responding with a 4xx
-    or 5xx error.  If the body of the response is a JSON object, its fields
-    will be added to the ``DOAPIError``\ 's attributes (except where a
-    pre-existing attribute would be overwritten).  DigitalOcean error response
-    bodies have been observed to consist of an object with two string fields,
-    ``"id"`` and ``"message"``.
+    or 5xx error.  Any method that performs an API request may raise this
+    error.
+
+    If the body of the error response is a JSON object, its fields will be
+    added to the ``DOAPIError``\ 's attributes (except where a pre-existing
+    attribute would be overwritten).  DigitalOcean error response bodies have
+    been observed to consist of an object with two string fields, ``"id"`` and
+    ``"message"``.
 
     Note that this class is only for representing errors reported by the
     endpoint in response to API requests.  Everything else that can go wrong

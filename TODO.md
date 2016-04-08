@@ -1,4 +1,5 @@
 - Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
+- Make docs in dev branch visible on RTD?
 
 # For Version 1
 

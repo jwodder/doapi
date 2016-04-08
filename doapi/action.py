@@ -136,8 +136,8 @@ class Action(ResourceWithID):
         """
         Poll the server periodically until the action has either completed or
         errored out and return its final state.  If ``wait_time`` is exceeded
-        or a `KeyboardInterrupt` is caught, the action's most recently
-        fetched state is returned immediately without waiting for completion.
+        or a `KeyboardInterrupt` is caught, the action's most recently fetched
+        state is returned immediately without waiting for completion.
 
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's
@@ -154,12 +154,28 @@ class Action(ResourceWithID):
                                                             wait_time))
 
     def raise_for_error(self):
+        """
+        .. versionadded:: 0.2.0
+
+        If the action's status is ``"errored"``, raise an :exc:`ActionError`.
+        Otherwise, do nothing.
+
+        :return: `None`
+        :raises ActionError: if the action's status is ``"errored"``
+        """
         if self.errored:
             raise ActionError(self)
 
 
 class ActionError(Exception):
+    """
+    .. versionadded:: 0.2.0
+
+    Raised when :meth:`~Action.raise_for_error` is called on an `Action` that
+    failed to complete successfully
+    """
     def __init__(self, action):
+        #: The `Action` that failed
         self.action = action
         rid = action.resource_id
         if action.resource_type == 'floating_ip':

@@ -3,6 +3,11 @@
 Utility Classes
 ---------------
 
+ActionError
+^^^^^^^^^^^
+
+.. autoexception:: ActionError
+
 DOAPIError
 ^^^^^^^^^^
 

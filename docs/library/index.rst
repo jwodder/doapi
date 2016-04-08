@@ -23,9 +23,6 @@ Library
     Document potential weirdness when accessing ``doapi.last_*`` while a
     generator is being evaluated
 
-All public non-magic methods (except `doapi.close`) perform API requests and
-may raise a `DOAPIError`.
-
 Under normal circumstances, the ``fetch`` and ``fetch_all_*`` methods of a
 resource will only raise a `DOAPIError` if the resource no longer exists.
 
