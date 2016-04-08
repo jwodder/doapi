@@ -1,6 +1,9 @@
 doapi — DigitalOcean API Python library & CLI
 =============================================
 
+.. |pypi| image:: https://img.shields.io/pypi/v/doapi.svg
+    :target: https://pypi.python.org/pypi/doapi
+
 .. |repostatus| image:: http://www.repostatus.org/badges/latest/wip.svg
     :target: http://www.repostatus.org/#wip
     :alt: Project Status: WIP - Initial development is in progress, but there
@@ -13,7 +16,7 @@ doapi — DigitalOcean API Python library & CLI
 .. |license| image:: https://img.shields.io/github/license/jwodder/doapi.svg
     :alt: MIT License
 
-|repostatus| |RTD| |license|
+|pypi| |repostatus| |RTD| |license|
 
 *(Until v1.0 is released, backwards compatibility will be broken at will.)*
 
