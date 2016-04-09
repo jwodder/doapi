@@ -87,6 +87,13 @@ class Resource(collections.MutableMapping):
     def _class(self):
         return self.__class__.__name__
 
+    def for_json(self):
+        return {
+            k: toISO8601(v) if isinstance(v, datetime) else v
+            ### Also listify iterators?
+            for k,v in iteritems(self)
+        }
+
 
 class ResourceWithID(Resource):
     """
