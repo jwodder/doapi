@@ -70,3 +70,7 @@ they should have.  Also note that only documented attributes are ever converted
 to custom classes; e.g., if the API suddenly returns an SSH key with a
 ``"region"`` field, the region data will be left as a `dict` rather than
 converted to a `Region`.
+
+All resource objects have the following method:
+
+.. automethod:: Resource.for_json

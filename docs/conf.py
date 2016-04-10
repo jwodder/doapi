@@ -301,6 +301,7 @@ autodoc_member_order = 'bysource'
 intersphinx_mapping = {
     "python": ("https://docs.python.org/2.7", None),
     "requests": ("http://docs.python-requests.org/en/latest", None),
+    "simplejson": ("http://simplejson.readthedocs.org/en/latest", None),
 }
 
 todo_include_todos = True

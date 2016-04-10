@@ -1,6 +1,6 @@
 __version__ = '0.2.0.dev1'
 
-from .base        import (DOEncoder, Region, Size, Account, Kernel,
+from .base        import (DOEncoder, Resource, Region, Size, Account, Kernel,
                           DropletUpgrade, Networks, NetworkInterface,
                           BackupWindow, DOAPIError)
 from .action      import Action, ActionError

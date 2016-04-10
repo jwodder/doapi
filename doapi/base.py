@@ -88,11 +88,16 @@ class Resource(collections.MutableMapping):
         return self.__class__.__name__
 
     def for_json(self):
-        return {
-            k: toISO8601(v) if isinstance(v, datetime) else v
-            ### Also listify iterators?
-            for k,v in iteritems(self)
-        }
+        """
+        .. versionadded:: 0.2.0
+
+        Recursively convert the resource and its attributes to values suitable
+        for direct JSONification.  This method is primarily intended for use by
+        :func:`simplejson.dump`.
+
+        :rtype: dict
+        """
+        return {k: for_json(v) for k,v in iteritems(self)}
 
 
 class ResourceWithID(Resource):
@@ -249,6 +254,17 @@ class DOEncoder(json.JSONEncoder):
         else:
             #return json.JSONEncoder.default(self, obj)
             return super(DOEncoder, self).default(obj)
+
+
+def for_json(obj):
+    if hasattr(obj, 'for_json'):
+        return obj.for_json()
+    elif isinstance(obj, datetime):
+        return toISO8601(obj)
+    elif isinstance(obj, collections.Iterator):
+        return list(obj)
+    else:
+        return obj
 
 
 class Region(Resource):
