@@ -3,7 +3,8 @@ from   time         import sleep, time
 import requests
 from   six          import iteritems, string_types
 from   six.moves    import map  # pylint: disable=redefined-builtin
-from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError
+from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError, \
+                            DOEncoder
 from   .action      import Action
 from   .domain      import Domain
 from   .droplet     import Droplet
@@ -109,7 +110,7 @@ class doapi(object):
         method = method.upper()
         if data is not None:
             if not isinstance(data, string_types):
-                data = json.dumps(data)
+                data = json.dumps(data, cls=DOEncoder)
             attrs["data"] = data
             attrs["headers"]["Content-Type"] = "application/json"
         if method == 'GET':

@@ -245,18 +245,15 @@ class DOEncoder(json.JSONEncoder):
     `dict`\ s for JSONification.  It also converts iterators to lists.
     """
     def default(self, obj):
-        if isinstance(obj, Resource):
-            return obj.fields
-        elif isinstance(obj, datetime):
-            return toISO8601(obj)
-        elif isinstance(obj, collections.Iterator):
-            return list(obj)
+        if hasattr(obj, 'for_json') or \
+                isinstance(obj, (datetime, collections.Iterator)):
+            return for_json(obj)
         else:
-            #return json.JSONEncoder.default(self, obj)
             return super(DOEncoder, self).default(obj)
 
 
 def for_json(obj):
+    ### TODO: Write docstring and add to docs
     if hasattr(obj, 'for_json'):
         return obj.for_json()
     elif isinstance(obj, datetime):
