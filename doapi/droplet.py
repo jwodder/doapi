@@ -479,9 +479,11 @@ class Droplet(Actionable, ResourceWithID):
         droplet's ``status`` field to equal the given value; otherwise, it will
         wait for the most recent action on the droplet to finish.
 
-        If ``wait_time`` is exceeded or a `KeyboardInterrupt` is caught, the
-        droplet's most recently fetched state is returned immediately without
-        waiting for completion.
+        If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing the
+        droplet's most recently fetched state) is raised.
+
+        If a `KeyboardInterrupt` is caught, the droplet's most recently fetched
+        state is returned immediately without waiting for completion.
 
         :param status: When non-`None`, the desired value for the ``status``
             field of the droplet, which should be one of
@@ -493,12 +495,13 @@ class Droplet(Actionable, ResourceWithID):
             requests; defaults to the `doapi` object's
             :attr:`~doapi.wait_interval` if not specified or `None`
         :param number wait_time: the total number of seconds after which the
-            method will return, or a negative number to wait indefinitely;
-            defaults to the `doapi` object's :attr:`~doapi.wait_time` if not
-            specified or `None`
+            method will raise an error if the droplet has not yet completed, or
+            a negative number to wait indefinitely; defaults to the `doapi`
+            object's :attr:`~doapi.wait_time` if not specified or `None`
         :return: the droplet's final state
         :rtype: Droplet
         :raises DOAPIError: if the API endpoint replies with an error
+        :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
         return next(self.doapi_manager.wait_droplets([self], status,
                                                      wait_interval, wait_time))

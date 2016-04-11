@@ -4,7 +4,7 @@ import requests
 from   six          import iteritems, string_types
 from   six.moves    import map  # pylint: disable=redefined-builtin
 from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError, \
-                            DOEncoder
+                            DOEncoder, WaitTimeoutError
 from   .action      import Action
 from   .domain      import Domain
 from   .droplet     import Droplet
@@ -388,9 +388,11 @@ class doapi(object):
         otherwise, it will wait for the most recent action on each droplet to
         finish.
 
-        If ``wait_time`` is exceeded or a `KeyboardInterrupt` is caught, any
-        remaining droplets are returned immediately without waiting for
-        completion.
+        If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
+        remaining in-progress droplets) is raised.
+
+        If a `KeyboardInterrupt` is caught, any remaining droplets are returned
+        immediately without waiting for completion.
 
         :param iterable droplets: an iterable of `Droplet`\ s and/or other
             values that are acceptable arguments to :meth:`fetch_droplet`
@@ -404,10 +406,12 @@ class doapi(object):
             requests; defaults to :attr:`wait_interval` if not specified or
             `None`
         :param number wait_time: the total number of seconds after which the
-            method will return, or a negative number to wait indefinitely;
-            defaults to :attr:`wait_time` if not specified or `None`
+            method will raise an error if any droplets have not yet completed,
+            or a negative number to wait indefinitely; defaults to
+            :attr:`wait_time` if not specified or `None`
         :rtype: generator of `Droplet`\ s
         :raises DOAPIError: if the API endpoint replies with an error
+        :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
         droplets = map(self._droplet, droplets)
         if status is None:
@@ -473,9 +477,13 @@ class doapi(object):
         r"""
         Poll the server periodically until all actions in ``actions`` have
         either completed or errored out, yielding each `Action`'s final value
-        as it ends.  If ``wait_time`` is exceeded or a `KeyboardInterrupt` is
-        caught, any remaining actions are returned immediately without waiting
-        for completion.
+        as it ends.
+
+        If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
+        remaining in-progress actions) is raised.
+
+        If a `KeyboardInterrupt` is caught, any remaining actions are returned
+        immediately without waiting for completion.
 
         :param iterable actions: an iterable of `Action`\ s and/or other values
             that are acceptable arguments to :meth:`fetch_action`
@@ -483,10 +491,12 @@ class doapi(object):
             requests; defaults to :attr:`wait_interval` if not specified or
             `None`
         :param number wait_time: the total number of seconds after which the
-            method will return, or a negative number to wait indefinitely;
-            defaults to :attr:`wait_time` if not specified or `None`
+            method will raise an error if any actions have not yet completed,
+            or a negative number to wait indefinitely; defaults to
+            :attr:`wait_time` if not specified or `None`
         :rtype: generator of `Action`\ s
         :raises DOAPIError: if the API endpoint replies with an error
+        :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
         return self._wait(map(self._action, actions), lambda a: a.done,
                           wait_interval, wait_time)
@@ -834,8 +844,12 @@ class doapi(object):
         r"""
         Calls the ``fetch`` method of each object in ``objects`` periodically
         until ``isdone`` returns true on each one, yielding the final value of
-        each object as soon as it succeeds.  If ``wait_time`` is exceeded or a
-        `KeyboardInterrupt` is caught, any remaining objects are returned
+        each object as soon as it succeeds.
+        
+        If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
+        remaining in-progress objects) is raised.
+
+        If a `KeyboardInterrupt` is caught, any remaining objects are returned
         immediately without waiting for completion.
 
         :param iterable objects: an iterable of objects with ``fetch`` methods
@@ -844,10 +858,12 @@ class doapi(object):
             requests; defaults to :attr:`wait_interval` if not specified or
             `None`
         :param number wait_time: the total number of seconds after which the
-            method will return, or a negative number to wait indefinitely;
-            defaults to :attr:`wait_time` if not specified or `None`
+            method will raise an error if any objects have not yet completed,
+            or a negative number to wait indefinitely; defaults to
+            :attr:`wait_time` if not specified or `None`
         :rtype: generator
         :raises DOAPIError: if the API endpoint replies with an error
+        :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
         objects = list(objects)
         if not objects:
@@ -884,5 +900,5 @@ class doapi(object):
                     sleep(time_left)
                 except KeyboardInterrupt:
                     break
-        for o in objects:
-            yield o
+        if objects:
+            raise WaitTimeoutError(objects, wait_interval, wait_time)

@@ -171,19 +171,24 @@ class Actionable(Resource):
         """
         Poll the server periodically until the resource's most recent action
         has either completed or errored out, and return the resource's final
-        state afterwards.  If ``wait_time`` is exceeded or a
-        `KeyboardInterrupt` is caught, the resource's current state is
+        state afterwards.
+
+        If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing the
+        resource's current state) is raised.
+
+        If a `KeyboardInterrupt` is caught, the resource's current state is
         returned immediately without waiting for completion.
 
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's
             :attr:`~doapi.wait_interval` if not specified or `None`
         :param number wait_time: the total number of seconds after which the
-            method will return, or a negative number to wait indefinitely;
-            defaults to the `doapi` object's :attr:`~doapi.wait_time` if not
-            specified or `None`
+            method will raise an error if the action has not yet completed, or
+            a negative number to wait indefinitely; defaults to the `doapi`
+            object's :attr:`~doapi.wait_time` if not specified or `None`
         :return: the resource's final state
         :raises DOAPIError: if the API endpoint replies with an error
+        :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
         list(self.doapi_manager.wait_actions([self.fetch_last_action()],
                                              wait_interval, wait_time))
@@ -254,6 +259,9 @@ class DOEncoder(json.JSONEncoder):
 
 def for_json(obj):
     ### TODO: Write docstring and add to docs
+    ### TODO: In order to be usable as a `default` argument to `json.dump`,
+    ### this function needs to raise a TypeError on values that can't be
+    ### naively JSONified.
     if hasattr(obj, 'for_json'):
         return obj.for_json()
     elif isinstance(obj, datetime):
@@ -612,6 +620,7 @@ class DOAPIError(Exception):
                     if not hasattr(self, k):
                         setattr(self, k, v)
 
+
 def fromISO8601(stamp):
     return pyrfc3339.parse(stamp)
 
@@ -620,3 +629,19 @@ def toISO8601(dt):
 
 def int2ipv4(n):
     return socket.inet_ntoa(struct.pack('!I', n))
+
+
+class WaitTimeoutError(Exception):
+    """
+    .. versionadded:: 0.2.0
+
+    Raised when the runtime of a ``wait`` method exceeds ``wait_time``
+    """
+    def __init__(self, in_progress, wait_interval, wait_time):
+        #: A list of any waited-on objects that have not yet completed
+        self.in_progress = in_progress
+        #: The ``wait_interval`` value for the wait operation
+        self.wait_interval = wait_interval
+        #: The ``wait_time`` value for the wait operation
+        self.wait_time = wait_time
+        super(WaitTimeoutError, self).__init__('wait time exceeded')
