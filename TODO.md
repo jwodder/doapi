@@ -40,7 +40,6 @@
 - Documentation:
     - Better organize the methods & properties of each class (Alphabetize them?)
     - Keep Sphinx from turning `:var:`s into hyperlinks
-    - Show inheritance trees for DOEncoder and DOAPIError?
     - Try to improve the layout of subcommand documentation
     - Add index entries for commands
     - Add a separate section to the documentation for private/internal methods
