@@ -637,11 +637,15 @@ class WaitTimeoutError(Exception):
 
     Raised when the runtime of a ``wait`` method exceeds ``wait_time``
     """
-    def __init__(self, in_progress, wait_interval, wait_time):
+    def __init__(self, in_progress, attr, value, wait_interval, wait_time):
         #: A list of any waited-on objects that have not yet completed
         self.in_progress = in_progress
+        #: The objects' attribute that was being monitored
+        self.attr = attr
+        #: The desired value for the objects' :attr:`attr` attribute
+        self.value = value
         #: The ``wait_interval`` value for the wait operation
         self.wait_interval = wait_interval
         #: The ``wait_time`` value for the wait operation
         self.wait_time = wait_time
-        super(WaitTimeoutError, self).__init__('wait time exceeded')
+        super(WaitTimeoutError, self).__init__('wait time limit exceeded')

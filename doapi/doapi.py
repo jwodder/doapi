@@ -420,8 +420,8 @@ class doapi(object):
                                              droplets),
                                          wait_interval, wait_time))
         else:
-            return self._wait(droplets, lambda d: d.status == status,
-                              wait_interval, wait_time)
+            return self._wait(droplets, "status", status, wait_interval,
+                              wait_time)
 
     def _action(self, obj):
         """
@@ -498,7 +498,7 @@ class doapi(object):
         :raises DOAPIError: if the API endpoint replies with an error
         :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
-        return self._wait(map(self._action, actions), lambda a: a.done,
+        return self._wait(map(self._action, actions), "done", True,
                           wait_interval, wait_time)
 
     def _ssh_key(self, obj):
@@ -840,20 +840,22 @@ class doapi(object):
     def __ne__(self, other):
         return not (self == other)
 
-    def _wait(self, objects, isdone, wait_interval=None, wait_time=None):
+    def _wait(self, objects, attr, value, wait_interval=None, wait_time=None):
         r"""
         Calls the ``fetch`` method of each object in ``objects`` periodically
-        until ``isdone`` returns true on each one, yielding the final value of
-        each object as soon as it succeeds.
-        
+        until the ``attr`` attribute of each one equals ``value``, yielding the
+        final state of each object as soon as it satisfies the condition.
+
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
         remaining in-progress objects) is raised.
 
         If a `KeyboardInterrupt` is caught, any remaining objects are returned
         immediately without waiting for completion.
 
-        :param iterable objects: an iterable of objects with ``fetch`` methods
-            (presumably `Resource`\ s)
+        :param iterable objects: an iterable of `Resource`\ s with ``fetch``
+            methods
+        :param string attr: the attribute to watch
+        :param value: the value of ``attr`` to wait for
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
             `None`
@@ -884,7 +886,7 @@ class doapi(object):
             next_objs = []
             for o in objects:
                 obj = o.fetch()
-                if isdone(obj):
+                if getattr(obj, attr, None) == value:
                     yield obj
                 else:
                     next_objs.append(obj)
@@ -901,4 +903,5 @@ class doapi(object):
                 except KeyboardInterrupt:
                     break
         if objects:
-            raise WaitTimeoutError(objects, wait_interval, wait_time)
+            raise WaitTimeoutError(objects, attr, value, wait_interval,
+                                   wait_time)
