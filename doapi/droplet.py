@@ -88,6 +88,7 @@ class Droplet(Actionable, ResourceWithID):
     STATUS_OFF = 'off'
 
     def __init__(self, state=None, **extra):
+        # pylint: disable=access-member-before-definition
         super(Droplet, self).__init__(state, **extra)
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
                           ('kernel', Kernel), ('networks', Networks),
@@ -474,6 +475,7 @@ class Droplet(Actionable, ResourceWithID):
 
     def wait(self, status=None, locked=None, wait_interval=None,
              wait_time=None):
+        # pylint: disable=arguments-differ
         """
         Poll the server periodically until the droplet has reached some final
         state.  If ``status`` is non-`None`, ``wait`` will wait for the

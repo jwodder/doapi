@@ -249,7 +249,7 @@ class DOEncoder(json.JSONEncoder):
     A :class:`json.JSONEncoder` subclass that converts resource objects to
     `dict`\ s for JSONification.  It also converts iterators to lists.
     """
-    def default(self, obj):
+    def default(self, obj):  # pylint: disable=method-hidden
         if hasattr(obj, 'for_json') or \
                 isinstance(obj, (datetime, collections.Iterator)):
             return for_json(obj)
@@ -459,6 +459,7 @@ class DropletUpgrade(Resource):
     """
 
     def __init__(self, state=None, **extra):
+        # pylint: disable=access-member-before-definition
         super(DropletUpgrade, self).__init__(state, **extra)
         if self.get('date_of_migration') is not None and \
                 not isinstance(self.date_of_migration, datetime):
@@ -569,6 +570,7 @@ class BackupWindow(ResourceWithDroplet):
     """
 
     def __init__(self, state=None, **extra):
+        # pylint: disable=access-member-before-definition
         super(BackupWindow, self).__init__(state, **extra)
         if self.get('start') is not None and \
                 not isinstance(self.start, datetime):

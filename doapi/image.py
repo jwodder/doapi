@@ -54,6 +54,7 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     """
 
     def __init__(self, state=None, **extra):
+        # pylint: disable=access-member-before-definition
         super(Image, self).__init__(state, **extra)
         if self.get('created_at') is not None and \
                 not isinstance(self.created_at, datetime):

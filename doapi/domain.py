@@ -101,6 +101,7 @@ class Domain(Resource):
 
     def create_record(self, type, name, data, priority=None, port=None,
                       weight=None, **kwargs):
+        # pylint: disable=redefined-builtin
         """
         Add a new DNS record to the domain
 

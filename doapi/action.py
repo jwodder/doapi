@@ -59,6 +59,7 @@ class Action(ResourceWithID):
     STATUS_ERRORED = 'errored'
 
     def __init__(self, state=None, **extra):
+        # pylint: disable=access-member-before-definition
         super(Action, self).__init__(state, **extra)
         if self.get('region') is not None and \
                 not isinstance(self.region, Region):

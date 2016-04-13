@@ -603,6 +603,7 @@ class doapi(object):
         return self._image(self.request('/v2/images/' + slug)["image"])
 
     def fetch_all_images(self, type=None, private=False):
+        # pylint: disable=redefined-builtin
         r"""
         Returns a generator that yields all of the images available to the
         account
