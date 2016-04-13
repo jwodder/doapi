@@ -257,10 +257,15 @@ def add_actioncmds(cmds, objtype, multiple=True):
                                description="Wait for resources' most recent"
                                            " actions to complete")
     if objtype == 'droplet':
-        cmd_wait.add_argument('-S', '--status', type=str.lower,
+        dropopts = cmd_wait.add_mutually_exclusive_group()
+        dropopts.add_argument('-S', '--status', type=str.lower,
                               choices=['active', 'new', 'off', 'archive'],
-                              help="Wait for the droplets' statuses to reach"
-                                   " the given value instead")
+                              help="Wait for the droplets to reach the given"
+                                   " status")
+        dropopts.add_argument('--locked', action='store_true',
+                              help='Wait for the droplets to become locked')
+        dropopts.add_argument('--unlocked', action='store_true',
+                              help='Wait for the droplets to become unlocked')
     if multiple:
         cmd_wait.add_argument('-M', '--multiple', action='store_true',
                               help='Act on multiple resources with the same'
@@ -292,6 +297,10 @@ def do_actioncmd(args, client, objects):
     elif args.cmd == 'wait':
         if getattr(args, "status", None) is not None:
             dump(client.wait_droplets(objects, status=args.status))
+        elif getattr(args, "locked", None) is not None:
+            dump(client.wait_droplets(objects, locked=True))
+        elif getattr(args, "unlocked", None) is not None:
+            dump(client.wait_droplets(objects, locked=False))
         else:
             actions = list(currentActions(objects))
             dump(client.wait_actions(actions))
