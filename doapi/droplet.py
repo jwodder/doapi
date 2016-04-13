@@ -472,12 +472,17 @@ class Droplet(Actionable, ResourceWithID):
         """
         self.doapi_manager.request(self.url, method='DELETE')
 
-    def wait(self, status=None, wait_interval=None, wait_time=None):
+    def wait(self, status=None, locked=None, wait_interval=None,
+             wait_time=None):
         """
         Poll the server periodically until the droplet has reached some final
         state.  If ``status`` is non-`None`, ``wait`` will wait for the
-        droplet's ``status`` field to equal the given value; otherwise, it will
-        wait for the most recent action on the droplet to finish.
+        droplet's ``status`` field to equal the given value.  If ``locked`` is
+        non-`None`, `wait` will wait for the droplet's ``locked`` field to
+        equal (the truth value of) the given value.  (``status`` and ``locked``
+        cannot both be non-`None`.)  If both ``status`` and ``locked`` are
+        `None`, `wait` will wait for the most recent action on the droplet to
+        finish.
 
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing the
         droplet's most recently fetched state) is raised.
@@ -491,6 +496,9 @@ class Droplet(Actionable, ResourceWithID):
             `Droplet.STATUS_NEW`, and `Droplet.STATUS_OFF`.  (For the sake of
             forwards-compatibility, any other value is accepted as well.)
         :type status: string or `None`
+        :param locked: When non-`None`, the desired value for the ``locked``
+            field of the droplet
+        :type locked: `bool` or `None`
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's
             :attr:`~doapi.wait_interval` if not specified or `None`
@@ -500,8 +508,9 @@ class Droplet(Actionable, ResourceWithID):
             object's :attr:`~doapi.wait_time` if not specified or `None`
         :return: the droplet's final state
         :rtype: Droplet
+        :raises ValueError: if both ``status`` and ``locked`` are non-`None`
         :raises DOAPIError: if the API endpoint replies with an error
         :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
-        return next(self.doapi_manager.wait_droplets([self], status,
+        return next(self.doapi_manager.wait_droplets([self], status, locked,
                                                      wait_interval, wait_time))

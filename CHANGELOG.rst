@@ -4,6 +4,8 @@ v0.2.0 (in development)
 - Gave Resource objects a ``for_json`` method and added a ``for_json`` function
 - **Breaking**: "Wait" methods now raise a ``WaitTimeoutError`` if
   ``wait_time`` is exceeded
+- Gave ``doapi.wait_droplets`` and ``Droplet.wait`` a ``locked`` parameter for
+  waiting for droplets to become locked/unlocked
 
 v0.1.0 (2016-04-07)
 -------------------

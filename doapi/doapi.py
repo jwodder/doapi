@@ -378,15 +378,18 @@ class doapi(object):
         for hood in self.paginate('/v2/reports/droplet_neighbors', 'neighbors'):
             yield list(map(self._droplet, hood))
 
-    def wait_droplets(self, droplets, status=None, wait_interval=None,
-                                                   wait_time=None):
+    def wait_droplets(self, droplets, status=None, locked=None,
+                      wait_interval=None, wait_time=None):
         r"""
         Poll the server periodically until all droplets in ``droplets`` have
         reached some final state, yielding each `Droplet`'s final value when
         it's done.  If ``status`` is non-`None`, ``wait_droplets`` will wait
-        for each droplet's ``status`` field to equal the given value;
-        otherwise, it will wait for the most recent action on each droplet to
-        finish.
+        for each droplet's ``status`` field to equal the given value.  If
+        ``locked`` is non-`None`, ``wait_droplets`` will wait for each
+        droplet's ``locked`` field to equal (the truth value of) the given
+        value.  (``status`` and ``locked`` cannot both be non-`None`.)  If both
+        ``status`` and ``locked`` are `None`, ``wait_droplets`` will wait for
+        the most recent action on each droplet to finish.
 
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
         remaining in-progress droplets) is raised.
@@ -402,6 +405,9 @@ class doapi(object):
             `Droplet.STATUS_NEW`, and `Droplet.STATUS_OFF`.  (For the sake of
             forwards-compatibility, any other value is accepted as well.)
         :type status: string or `None`
+        :param locked: When non-`None`, the desired value for the ``locked``
+            field of each `Droplet`
+        :type locked: `bool` or `None`
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
             `None`
@@ -410,18 +416,24 @@ class doapi(object):
             or a negative number to wait indefinitely; defaults to
             :attr:`wait_time` if not specified or `None`
         :rtype: generator of `Droplet`\ s
+        :raises ValueError: if both ``status`` and ``locked`` are non-`None`
         :raises DOAPIError: if the API endpoint replies with an error
         :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
         droplets = map(self._droplet, droplets)
-        if status is None:
+        if status is not None and locked is not None:
+            raise ValueError('"status" and "locked" cannot both be non-None')
+        elif status is not None:
+            return self._wait(droplets, "status", status, wait_interval,
+                              wait_time)
+        elif locked is not None:
+            return self._wait(droplets, "locked", bool(locked), wait_interval,
+                              wait_time)
+        else:
             return map(Action.fetch_resource,
                        self.wait_actions(map(Droplet.fetch_last_action,
                                              droplets),
                                          wait_interval, wait_time))
-        else:
-            return self._wait(droplets, "status", status, wait_interval,
-                              wait_time)
 
     def _action(self, obj):
         """
