@@ -37,6 +37,9 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
     :var regions: the slugs of the regions in which the image is available
     :vartype regions: list of strings
 
+    :var size_gigabytes: the size of the image in gigabytes
+    :vartype size_gigabytes: number
+
     :var slug: the unique slug identifier for the image (only defined for
         public images)
     :vartype slug: string or `None`
