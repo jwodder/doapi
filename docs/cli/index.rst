@@ -45,6 +45,7 @@ locations, in order:
 2. The value of the :envvar:`DO_API_TOKEN` environment variable
 3. The contents of a :file:`.doapi` file in your home directory
 
+.. _multiple:
 
 Handling Non-Uniqueness of Identifiers
 ''''''''''''''''''''''''''''''''''''''
@@ -55,7 +56,7 @@ a unique slug (for certain images), a unique fingerprint (for SSH keys), or a
 (potentially) *non*-unique name.
 
 When the user specifies an object identifier that could be an ID, slug,
-fingerprint, or name, the order of resolution is as follows:
+fingerprint, or name, the default order of resolution is as follows:
 
 1. If the identifier is an integer and there is an object of the relevant type
    with that integer as its ID number, :program:`doapi` uses that object.
@@ -70,13 +71,16 @@ fingerprint, or name, the order of resolution is as follows:
 
 4. Otherwise, the identifier is assumed to be a name, and if there exists
    exactly one object of the relevant type with that name, :program:`doapi`
-   uses that object.  If the name is shared by multiple objects, by default
-   :program:`doapi` will exit without taking any action, displaying an error
-   message that includes the ID numbers of all of the objects with that name.
-   For subcommands that operate on lists of objects, this behavior can be
-   changed by passing the :option:`--multiple` option to the subcommand,
-   causing any names that refer to more than one object to be interpreted as a
-   list of all of those objects in unspecified order.
+   uses that object.  If there is not exactly one object with that name,
+   :program:`doapi` will exit without taking any action; if the name is shared
+   by multiple objects, the error message will include all of the objects' ID
+   numbers.
+
+For subcommands that operate on lists of objects, this behavior can be changed
+by passing the :option:`--multiple` option to the subcommand, causing any
+identifier shared by multiple objects of the relevant type (whether as ID,
+slug, fingerprint, and/or name) to be interpreted as a list of all of those
+objects in unspecified order.
 
 In all cases, if the same object is specified more than once on the command
 line, all occurrences after the first are ignored with a warning.

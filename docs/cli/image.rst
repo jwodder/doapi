@@ -64,8 +64,9 @@ Options
 
 .. option:: -M, --multiple
 
-    If an argument is the name of more than one image, show all images with
-    that name instead of erroring.
+    Arguments that could refer to multiple images are interpreted as such
+    rather than using the default resolution rules; see :ref:`multiple` for
+    more information.
 
 .. option:: --private
 
@@ -119,8 +120,9 @@ subcommand takes the following:
 
 .. option:: -M, --multiple
 
-    If an argument is the name of more than one image, operate on all images
-    with that name instead of erroring.
+    Arguments that could refer to multiple images are interpreted as such
+    rather than using the default resolution rules; see :ref:`multiple` for
+    more information.
 
 
 :command:`transfer`
@@ -143,8 +145,9 @@ subcommand takes the following:
 
 .. option:: -M, --multiple
 
-    If an argument is the name of more than one image, operate on all images
-    with that name instead of erroring.
+    Arguments that could refer to multiple images are interpreted as such
+    rather than using the default resolution rules; see :ref:`multiple` for
+    more information.
 
 
 :command:`act`
@@ -168,8 +171,9 @@ subcommand takes the following:
 
 .. option:: -M, --multiple
 
-    If ``<image>`` is the name of more than one image, act on all images with
-    that name instead of erroring.
+    Arguments that could refer to multiple images are interpreted as such
+    rather than using the default resolution rules; see :ref:`multiple` for
+    more information.
 
 .. option:: -p <data>, --params <data>
 
@@ -257,5 +261,6 @@ Options
 
 .. option:: -M, --multiple
 
-    If an argument is the name of more than one image, delete all images with
-    that name instead of erroring.
+    Arguments that could refer to multiple images are interpreted as such
+    rather than using the default resolution rules; see :ref:`multiple` for
+    more information.

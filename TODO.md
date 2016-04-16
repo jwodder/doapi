@@ -74,6 +74,12 @@
 - Support passing arbitrary extra arguments to `new` commands
 - Refactor the code for fetching resources specified on the command line
 - Be case-insensitive when looking up SSH keys by fingerprint
+- When `--multiple` is in effect, prevent an object whose ID/slug/fingerprint
+  is also its name from being matched (and then pruned with a warning) more
+  than once
+- When an error message suggests using `--multiple`, *all* objects that would
+  be matched (not just the ones with matching names) should be listed
+- Improve the help text for `--multiple` (especially for action commands)
 
 # Library
 

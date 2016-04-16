@@ -6,6 +6,7 @@ v0.2.0 (in development)
   ``wait_time`` is exceeded
 - Gave ``doapi.wait_droplets`` and ``Droplet.wait`` a ``locked`` parameter for
   waiting for droplets to become locked/unlocked
+- **Breaking**: ``--multiple`` now also matches by ID, slug, & fingerprint
 
 v0.1.0 (2016-04-07)
 -------------------

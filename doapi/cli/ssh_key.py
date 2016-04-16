@@ -11,8 +11,8 @@ def main(argv=None, parsed=None):
     cmd_show = cmds.add_parser('show', help='List SSH keys',
                                description='List SSH keys')
     cmd_show.add_argument('-M', '--multiple', action='store_true',
-                          help='Show multiple keys with the same name instead'
-                               ' of erroring')
+                          help='Show multiple keys with the same ID,'
+                               ' fingerprint, or name')
     cmd_show.add_argument('ssh_key', nargs='*',
                           help='ID, fingerprint, or name of a registered SSH'
                                ' key; omit to list all')
@@ -30,8 +30,8 @@ def main(argv=None, parsed=None):
     cmd_delete = cmds.add_parser('delete', help='Unregister an SSH key',
                                  description='Unregister an SSH key')
     cmd_delete.add_argument('-M', '--multiple', action='store_true',
-                            help='Delete multiple keys with the same name'
-                                 ' instead of erroring')
+                            help='Delete multiple keys with the same ID,'
+                                 ' fingerprint, or name')
     cmd_delete.add_argument('ssh_key', nargs='+',
                             help='ID, fingerprint, or name of a registered SSH'
                                  ' key')

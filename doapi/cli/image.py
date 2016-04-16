@@ -23,16 +23,16 @@ def main(argv=None, parsed=None):
     showopts.add_argument('--private', action='store_true',
                           help="List all of the user's private images")
     cmd_show.add_argument('-M', '--multiple', action='store_true',
-                          help='Show multiple images with the same name instead'
-                               ' of erroring')
+                          help='Show multiple images with the same ID, slug, or'
+                               ' name')
     cmd_show.add_argument('image', nargs='*',
                           help='ID, slug, or name of an image; omit to list all')
 
     cmd_delete = cmds.add_parser('delete', help='Delete an image',
                                  description='Delete an image')
     cmd_delete.add_argument('-M', '--multiple', action='store_true',
-                            help='Delete multiple images with the same name'
-                                 ' instead of erroring')
+                            help='Delete multiple images with the same ID,'
+                                 ' slug, or name')
     cmd_delete.add_argument('image', nargs='+',
                             help='ID, slug, or name of an image')
 
@@ -47,8 +47,8 @@ def main(argv=None, parsed=None):
                                    help='Transfer images to another region',
                                    description='Transfer images to another region')
     cmd_transfer.add_argument('-M', '--multiple', action='store_true',
-                              help='Transfer multiple images with the same name'
-                                   ' instead of erroring')
+                              help='Transfer multiple images with the same ID,'
+                                   ' slug, or name')
     cmd_transfer.add_argument('region',
                               help='slug of the region to transfer images to')
     cmd_transfer.add_argument('image', nargs='+',
@@ -58,8 +58,8 @@ def main(argv=None, parsed=None):
                                   help='Convert images to snapshots',
                                   description='Convert images to snapshots')
     cmd_convert.add_argument('-M', '--multiple', action='store_true',
-                             help='Convert multiple images with the same name'
-                                  ' instead of erroring')
+                             help='Convert multiple images with the same ID,'
+                                  ' slug, or name')
     cmd_convert.add_argument('image', nargs='+',
                              help='ID, slug, or name of an image')
 

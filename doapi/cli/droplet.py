@@ -43,8 +43,8 @@ def main(argv=None, parsed=None):
     cmd_show = cmds.add_parser('show', help='List droplets',
                                description='List droplets')
     cmd_show.add_argument('-M', '--multiple', action='store_true',
-                          help='Show multiple droplets with the same name'
-                               ' instead of erroring')
+                          help='Show multiple droplets with the same ID or'
+                               ' name')
     cmd_show.add_argument('droplet', nargs='*',
                           help='ID or name of a droplet; omit to list all')
 
@@ -79,16 +79,16 @@ def main(argv=None, parsed=None):
         c = cmds.add_parser(act, parents=[util.waitopts], help=unary_acts[act],
                             description=unary_acts[act])
         c.add_argument('-M', '--multiple', action='store_true',
-                       help='Operate on multiple droplets with the same name'
-                            ' instead of erroring')
+                       help='Operate on multiple droplets with the same ID or'
+                            ' name')
         c.add_argument('droplet', nargs='+', help='ID or name of a droplet')
 
     for act in sorted(unary_other):
         about = unary_other[act][0]
         c = cmds.add_parser(act, help=about, description=about)
         c.add_argument('-M', '--multiple', action='store_true',
-                       help='Operate on multiple droplets with the same name'
-                            ' instead of erroring')
+                       help='Operate on multiple droplets with the same ID or'
+                            ' name')
         c.add_argument('droplet', nargs='+', help='ID or name of a droplet')
 
     c = cmds.add_parser('neighbors',
@@ -97,8 +97,8 @@ def main(argv=None, parsed=None):
                         description='Show groups of droplets that are running'
                                     ' on the same physical hardware')
     c.add_argument('-M', '--multiple', action='store_true',
-                   help='Fetch data for multiple droplets with the same name'
-                        ' instead of erroring')
+                   help='Fetch data for multiple droplets with the same ID or'
+                        ' name')
     c.add_argument('droplet', nargs='*',
                    help='Only show neighbors of these droplets (specified by'
                         ' ID or name)')
@@ -121,8 +121,8 @@ def main(argv=None, parsed=None):
     cmd_resize.add_argument('--disk', action='store_true',
                             help='Also resize the disk')
     cmd_resize.add_argument('-M', '--multiple', action='store_true',
-                            help='Operate on multiple droplets with the same'
-                                 ' name instead of erroring')
+                            help='Operate on multiple droplets with the same ID'
+                                 ' or name')
     cmd_resize.add_argument('size', help="slug for the droplet's new size")
     cmd_resize.add_argument('droplet', nargs='+',
                             help='ID or name of a droplet')
@@ -135,7 +135,7 @@ def main(argv=None, parsed=None):
                                   " the droplet's current image")
     cmd_rebuild.add_argument('-M', '--multiple', action='store_true',
                              help='Operate on multiple droplets with the same'
-                                  ' name instead of erroring')
+                                  ' ID or name')
     cmd_rebuild.add_argument('droplet', nargs='+',
                              help='ID or name of a droplet')
 
@@ -161,7 +161,7 @@ def main(argv=None, parsed=None):
                                    description="Change a droplet's kernel")
     cmd_chkernel.add_argument('-M', '--multiple', action='store_true',
                               help='Operate on multiple droplets with the same'
-                                   ' name instead of erroring')
+                                   ' ID or name')
     cmd_chkernel.add_argument('kernel', type=int, help='ID of a kernel')
     cmd_chkernel.add_argument('droplet', nargs='+',
                               help='ID or name of a droplet')

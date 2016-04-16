@@ -228,8 +228,8 @@ def add_actioncmds(cmds, objtype, multiple=True):
                          help='JSON object of action arguments')
     if multiple:
         cmd_act.add_argument('-M', '--multiple', action='store_true',
-                             help='Act on multiple resources with the same name'
-                                  ' instead of erroring')
+                             help='Act on multiple resources with the same ID'
+                                  ' or name')
     cmd_act.add_argument('type', help='type of action to perform')
     cmd_act.add_argument(objtype, nargs='+',
                          help='identifier for a resource to act on')
@@ -247,7 +247,7 @@ def add_actioncmds(cmds, objtype, multiple=True):
     if multiple:
         cmd_actions.add_argument('-M', '--multiple', action='store_true',
                                  help='Act on multiple resources with the same'
-                                      ' name instead of erroring')
+                                      ' ID or name')
     cmd_actions.add_argument(objtype, nargs='+',
                              help='identifier for a resource to fetch data for')
 
@@ -268,8 +268,8 @@ def add_actioncmds(cmds, objtype, multiple=True):
                               help='Wait for the droplets to become unlocked')
     if multiple:
         cmd_wait.add_argument('-M', '--multiple', action='store_true',
-                              help='Act on multiple resources with the same'
-                                   ' name instead of erroring')
+                              help='Act on multiple resources with the same ID'
+                                   ' or name')
     cmd_wait.add_argument(objtype, nargs='+',
                           help='identifier for a resource to wait on')
 

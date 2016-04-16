@@ -70,8 +70,9 @@ Options
 
 .. option:: -M, --multiple
 
-    If an argument is the name of more than one key, show all keys with that
-    name instead of erroring.
+    Arguments that could refer to multiple SSH keys are interpreted as such
+    rather than using the default resolution rules; see :ref:`multiple` for
+    more information.
 
 
 :command:`update`
@@ -112,5 +113,6 @@ Options
 
 .. option:: -M, --multiple
 
-    If an argument is the name of more than one key, delete all keys with that
-    name instead of erroring.
+    Arguments that could refer to multiple SSH keys are interpreted as such
+    rather than using the default resolution rules; see :ref:`multiple` for
+    more information.
