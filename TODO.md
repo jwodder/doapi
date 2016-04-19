@@ -27,7 +27,7 @@
     - Eliminate `ResourceWithDroplet`?
     - Replace methodless classes (BackupWindow, DropletUpgrade, Kernel?,
       Networks, NetworkInterface?, Region?, Size?) with unsubclassed `Resource`
-      instances?
+      (or `Property`?) instances?
 
 ## Naming Things
 
