@@ -1,7 +1,8 @@
 from datetime  import datetime
 from six.moves import map  # pylint: disable=redefined-builtin
 from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
-                        Networks, BackupWindow, ResourceWithDroplet, fromISO8601
+                        Networks, BackupWindow, ResourceWithDroplet, \
+                        fromISO8601, WaitTimeoutError
 from .image    import Image
 
 class Droplet(Actionable, ResourceWithID):
@@ -516,3 +517,30 @@ class Droplet(Actionable, ResourceWithID):
         """
         return next(self.doapi_manager.wait_droplets([self], status, locked,
                                                      wait_interval, wait_time))
+
+    def ensure_on(self, wait_interval=None, wait_time=None):
+        waitopts = {"wait_interval": wait_interval, "wait_time": wait_time}
+        this = self.fetch()
+        if this.active:
+            return
+        elif this.new:
+            self.wait(status='active', **waitopts).raise_for_error()
+        elif this.archive:
+            ### TODO: ???
+            raise ValueError("Don't know how to turn an archived droplet on")
+        else:
+            self.power_on().wait(**waitopts).raise_for_error()
+
+    def ensure_off(self, shutdown_wait=30, wait_interval=None, wait_time=None):
+        waitopts = {"wait_interval": wait_interval, "wait_time": wait_time}
+        this = self.fetch()
+        if this.off or this.archive:
+            return
+        if this.new:
+            self.ensure_on(self, **waitopts)
+        self.shutdown().wait(**waitopts).raise_for_error()
+        try:
+            self.wait(status='off', wait_interval=wait_interval,
+                                    wait_time=shutdown_wait).raise_for_error()
+        except WaitTimeoutError:
+            self.power_off().wait(**waitopts).raise_for_error()
