@@ -179,6 +179,9 @@ class Actionable(Resource):
         If a `KeyboardInterrupt` is caught, the resource's current state is
         returned immediately without waiting for completion.
 
+        .. versionchanged:: 0.2.0
+            Raises `WaitTimeoutError` on timeout
+
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's
             :attr:`~doapi.wait_interval` if not specified or `None`

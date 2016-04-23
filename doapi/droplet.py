@@ -492,6 +492,9 @@ class Droplet(Actionable, ResourceWithID):
         If a `KeyboardInterrupt` is caught, the droplet's most recently fetched
         state is returned immediately without waiting for completion.
 
+        .. versionchanged:: 0.2.0
+            Raises `WaitTimeoutError` on timeout
+
         :param status: When non-`None`, the desired value for the ``status``
             field of the droplet, which should be one of
             `Droplet.STATUS_ACTIVE`, `Droplet.STATUS_ARCHIVE`,

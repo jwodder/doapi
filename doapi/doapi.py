@@ -397,6 +397,9 @@ class doapi(object):
         If a `KeyboardInterrupt` is caught, any remaining droplets are returned
         immediately without waiting for completion.
 
+        .. versionchanged:: 0.2.0
+            Raises `WaitTimeoutError` on timeout
+
         :param iterable droplets: an iterable of `Droplet`\ s and/or other
             values that are acceptable arguments to :meth:`fetch_droplet`
         :param status: When non-`None`, the desired value for the ``status``
@@ -496,6 +499,9 @@ class doapi(object):
 
         If a `KeyboardInterrupt` is caught, any remaining actions are returned
         immediately without waiting for completion.
+
+        .. versionchanged:: 0.2.0
+            Raises `WaitTimeoutError` on timeout
 
         :param iterable actions: an iterable of `Action`\ s and/or other values
             that are acceptable arguments to :meth:`fetch_action`
@@ -864,6 +870,9 @@ class doapi(object):
 
         If a `KeyboardInterrupt` is caught, any remaining objects are returned
         immediately without waiting for completion.
+
+        .. versionchanged:: 0.2.0
+            Raises `WaitTimeoutError` on timeout
 
         :param iterable objects: an iterable of `Resource`\ s with ``fetch``
             methods
