@@ -68,6 +68,10 @@ objects in unspecified order.
 In all cases, if the same object is specified more than once on the command
 line, all occurrences after the first are ignored with a warning.
 
+.. todo::
+
+    Mention `--unique` and the warnings in its absence
+
 
 .. _universal:
 

@@ -21,7 +21,7 @@ setup(
     license='MIT',
     author='John Thorvald Wodder II',
     author_email='doapi@varonathe.org',
-    keywords='DigitalOcean',
+    keywords='DigitalOcean Digital Ocean cloud',
     description='DigitalOcean API library & CLI',
     long_description=long_desc,
     url='https://github.com/jwodder/doapi',

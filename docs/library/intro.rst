@@ -12,6 +12,9 @@ Introduction
     Document potential weirdness when accessing ``doapi.last_*`` while a
     generator is being evaluated
 
+..
+    doapi doesn't do any caching; you have to do it yourself.
+
 Under normal circumstances, the ``fetch`` and ``fetch_all_*`` methods of a
 resource will only raise a `DOAPIError` if the resource no longer exists.
 

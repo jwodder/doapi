@@ -1,5 +1,6 @@
 - Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
-- Make docs in dev branch visible on RTD?
+- Test creating an SSH key containing non-ASCII UTF-8
+    - Also test creating a droplet with non-ASCII UTF-8 metadata
 
 # For Version 1
 
