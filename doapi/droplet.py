@@ -519,28 +519,69 @@ class Droplet(Actionable, ResourceWithID):
                                                      wait_interval, wait_time))
 
     def ensure_on(self, wait_interval=None, wait_time=None):
+        ### TODO: Add an argument for the maximum runtime of this method?
+        """
+        .. versionadded:: ???
+
+        Ensure that the droplet is on.  If it is already on & active, do
+        nothing.  If it is off, perform a `power_on` and wait for the action to
+        complete.
+
+        :param number wait_interval: the ``wait_interval`` value to pass to
+            `Action.wait`
+        :param number wait_time: the ``wait_time`` value to pass to
+            `Action.wait`
+        :return: `None`
+        :raises DOAPIError: if the API endpoint replies with an error
+        :raises WaitTimeoutError: if ``wait_time`` is exceeded
+        :raises ActionError: if the action fails
+        """
         waitopts = {"wait_interval": wait_interval, "wait_time": wait_time}
         this = self.fetch()
         if this.active:
             return
         elif this.new:
-            self.wait(status='active', **waitopts).raise_for_error()
-        elif this.archive:
-            ### TODO: ???
-            raise ValueError("Don't know how to turn an archived droplet on")
+            self.wait(status='active', **waitopts)
         else:
+            # If the droplet is archived (which I think means it can't be
+            # turned on?), let the API respond with the appropriate error.
+            ### TODO: Also ensure the droplet is unlocked?
             self.power_on().wait(**waitopts).raise_for_error()
+            ### TODO: Do you still need to wait a bit after a power_on
+            ### completes before the droplet is active?
 
     def ensure_off(self, shutdown_wait=30, wait_interval=None, wait_time=None):
+        ### TODO: Add an argument for the maximum runtime of this method?
+        """
+        .. versionadded:: ???
+
+        Ensure that the droplet is off.  If it is already off, do nothing.  If
+        it is on, perform a `shutdown`, wait for the action to complete, and
+        then wait ``shutdown_wait`` seconds for the droplet to actually turn
+        off; if it does not turn off, perform a `power_off` and wait for the
+        action to complete.
+
+        :param number shutdown_wait: how many seconds to wait for the shutdown
+            action to take effect before giving up and performing a power-off
+        :param number wait_interval: the ``wait_interval`` value to pass to
+            `Action.wait`
+        :param number wait_time: the ``wait_time`` value to pass to
+            `Action.wait`
+        :return: `None`
+        :raises DOAPIError: if the API endpoint replies with an error
+        :raises WaitTimeoutError: if ``wait_time`` is exceeded
+        :raises ActionError: if an action fails
+        """
         waitopts = {"wait_interval": wait_interval, "wait_time": wait_time}
         this = self.fetch()
         if this.off or this.archive:
             return
         if this.new:
             self.ensure_on(self, **waitopts)
+        ### TODO: Also ensure the droplet is unlocked
         self.shutdown().wait(**waitopts).raise_for_error()
         try:
             self.wait(status='off', wait_interval=wait_interval,
-                                    wait_time=shutdown_wait).raise_for_error()
+                                    wait_time=shutdown_wait)
         except WaitTimeoutError:
             self.power_off().wait(**waitopts).raise_for_error()

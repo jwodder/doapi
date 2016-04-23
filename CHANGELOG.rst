@@ -1,3 +1,7 @@
+In This Branch
+--------------
+- Gave ``Droplet`` ``ensure_on`` and ``ensure_off`` methods
+
 v0.2.0 (in development)
 -----------------------
 - Added ``Action.raise_for_error`` method and an ``ActionError`` exception

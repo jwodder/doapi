@@ -80,6 +80,8 @@
 - When an error message suggests using `--multiple`, *all* objects that would
   be matched (not just the ones with matching names) should be listed
 - Improve the help text for `--multiple` (especially for action commands)
+- Change `doapi-droplet`'s `power-on` and `power-off` to call `ensure_on` and
+  `ensure_off`
 
 # Library
 
@@ -88,6 +90,8 @@
   letting the error propagate out
 - Eliminate duplication of type-conversion code in initializers
 - Make `Actionable` an ABC?
+- Add a way to call & run `ensure_on`/`ensure_off` on multiple droplets in
+  parallel
 
 # API Compatibility & Correctness
 
