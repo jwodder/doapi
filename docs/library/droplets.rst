@@ -15,6 +15,8 @@ Droplet
    .. automethod:: fetch_current_action
    .. automethod:: __int__
 
+.. [APIDocs] https://developers.digitalocean.com/documentation/v2/
+
 BackupWindow
 ^^^^^^^^^^^^
 

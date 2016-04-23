@@ -22,5 +22,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. [APIDocs] https://developers.digitalocean.com/documentation/v2/
