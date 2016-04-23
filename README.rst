@@ -9,9 +9,9 @@ doapi — DigitalOcean API Python library & CLI
     :alt: Project Status: WIP - Initial development is in progress, but there
           has not yet been a stable, usable release suitable for the public.
 
-.. |RTD| image:: https://readthedocs.org/projects/doapi/badge/?version=latest
-    :target: http://doapi.readthedocs.org/en/latest/?badge=latest
-    :alt: Documentation Status
+.. |RTD| image:: https://readthedocs.org/projects/doapi/badge/?version=stable
+    :target: http://doapi.readthedocs.org/en/latest/?badge=stable
+    :alt: Read the Docs
 
 .. |license| image:: https://img.shields.io/github/license/jwodder/doapi.svg
     :alt: MIT License
