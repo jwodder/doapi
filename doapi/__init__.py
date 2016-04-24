@@ -1,4 +1,8 @@
-__version__ = '0.2.0.dev1'
+__version__      = '0.2.0.dev1'
+__author__       = 'John Thorvald Wodder II'
+__author_email__ = 'doapi@varonathe.org'
+__license__      = 'MIT'
+__url__          = 'https://github.com/jwodder/doapi'
 
 from .base        import (DOEncoder, Resource, Region, Size, Account, Kernel,
                           DropletUpgrade, Networks, NetworkInterface,
