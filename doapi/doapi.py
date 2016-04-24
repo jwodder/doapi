@@ -400,6 +400,9 @@ class doapi(object):
         .. versionchanged:: 0.2.0
             Raises `WaitTimeoutError` on timeout
 
+        .. versionchanged:: 0.2.0
+            ``locked`` parameter added
+
         :param iterable droplets: an iterable of `Droplet`\ s and/or other
             values that are acceptable arguments to :meth:`fetch_droplet`
         :param status: When non-`None`, the desired value for the ``status``

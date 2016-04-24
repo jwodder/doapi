@@ -495,6 +495,9 @@ class Droplet(Actionable, ResourceWithID):
         .. versionchanged:: 0.2.0
             Raises `WaitTimeoutError` on timeout
 
+        .. versionchanged:: 0.2.0
+            ``locked`` parameter added
+
         :param status: When non-`None`, the desired value for the ``status``
             field of the droplet, which should be one of
             `Droplet.STATUS_ACTIVE`, `Droplet.STATUS_ARCHIVE`,

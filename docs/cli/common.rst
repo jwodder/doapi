@@ -68,6 +68,9 @@ objects in unspecified order.
 In all cases, if the same object is specified more than once on the command
 line, all occurrences after the first are ignored with a warning.
 
+.. versionchanged:: 0.2.0
+    :option:`--multiple` now also matches by ID, slug, & fingerprint
+
 .. todo::
 
     Mention `--unique` and the warnings in its absence
