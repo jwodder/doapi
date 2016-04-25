@@ -7,6 +7,8 @@ v0.2.0 (in development)
 - Gave ``doapi.wait_droplets`` and ``Droplet.wait`` a ``locked`` parameter for
   waiting for droplets to become locked/unlocked
 - **Breaking**: ``--multiple`` now also matches by ID, slug, & fingerprint
+- **Breaking**: Renamed the ``wait`` method of ``Droplet``, ``Image``, and
+  ``FloatingIP`` to ``wait_for_action``
 
 v0.1.0 (2016-04-07)
 -------------------

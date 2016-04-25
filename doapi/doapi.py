@@ -825,7 +825,7 @@ class doapi(object):
         creation; if the IP address is supposed to be assigned to a droplet,
         the assignment may not have been completed at the time the object is
         returned.  To wait for the assignment to complete, use the
-        `FloatingIP`'s :meth:`~FloatingIP.wait` method.
+        `FloatingIP`'s :meth:`~FloatingIP.wait_for_action` method.
 
         :param droplet_id: the droplet to assign the floating IP to as either
             an ID or a `Droplet` object

@@ -167,7 +167,7 @@ class Actionable(Resource):
         return api._action(api.request(self.action_url, method='POST',
                                        data=data)["action"])
 
-    def wait(self, wait_interval=None, wait_time=None):
+    def wait_for_action(self, wait_interval=None, wait_time=None):
         """
         Poll the server periodically until the resource's most recent action
         has either completed or errored out, and return the resource's final
