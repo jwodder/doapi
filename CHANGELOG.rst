@@ -10,6 +10,10 @@ v0.2.0 (in development)
 - **Breaking**: Renamed the ``wait`` method of ``Droplet``, ``Image``, and
   ``FloatingIP`` to ``wait_for_action``
 
+v0.1.1 (2016-04-29)
+-------------------
+- Fixed a bug with creating droplets with SSH keys from the command line
+
 v0.1.0 (2016-04-07)
 -------------------
 Initial release

@@ -10,7 +10,7 @@ doapi — DigitalOcean API Python library & CLI
           has not yet been a stable, usable release suitable for the public.
 
 .. |RTD| image:: https://readthedocs.org/projects/doapi/badge/?version=stable
-    :target: http://doapi.readthedocs.org/en/latest/?badge=stable
+    :target: http://doapi.readthedocs.io/en/latest/?badge=stable
     :alt: Read the Docs
 
 .. |license| image:: https://img.shields.io/github/license/jwodder/doapi.svg

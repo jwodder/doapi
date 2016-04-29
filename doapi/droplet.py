@@ -475,7 +475,6 @@ class Droplet(Actionable, ResourceWithID):
 
     def wait(self, status=None, locked=None, wait_interval=None,
              wait_time=None):
-        # pylint: disable=arguments-differ
         """
         Poll the server periodically until the droplet has reached some final
         state.  If ``status`` is non-`None`, ``wait`` will wait for the

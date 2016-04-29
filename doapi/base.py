@@ -196,6 +196,8 @@ class Actionable(Resource):
         list(self.doapi_manager.wait_actions([self.fetch_last_action()],
                                              wait_interval, wait_time))
         return self.fetch()
+        #return self.fetch_last_action().wait(wait_interval, wait_time)\
+        #           .fetch_resource()
 
     def fetch_all_actions(self):
         r"""

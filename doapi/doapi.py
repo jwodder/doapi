@@ -892,6 +892,7 @@ class doapi(object):
         :raises DOAPIError: if the API endpoint replies with an error
         :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
+
         objects = list(objects)
         if not objects:
             return
