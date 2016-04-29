@@ -1,4 +1,4 @@
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 from .base        import (DOEncoder, Region, Size, Account, Kernel,
                           DropletUpgrade, Networks, NetworkInterface,

@@ -212,8 +212,8 @@ def main(argv=None, parsed=None):
                     except (IndexError, TypeError):
                         util.die('{0}: no such SSH key'.format(kname))
                     try:
-                        key = cache.caches["sshkey"]["fingerprint"][fprint]
-                    except KeyError:
+                        key = cache.caches["sshkey"]["fingerprint"][fprint][0]
+                    except LookupError:
                         if len(keyparts) > 2 and keyparts[2] != '':
                             newname = keyparts[2]
                         else:
