@@ -14,6 +14,7 @@ doapi — DigitalOcean API Python library & CLI
     :alt: Read the Docs
 
 .. |license| image:: https://img.shields.io/github/license/jwodder/doapi.svg
+    :target: https://opensource.org/licenses/MIT
     :alt: MIT License
 
 |pypi| |repostatus| |RTD| |license|
