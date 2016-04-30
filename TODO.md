@@ -15,11 +15,6 @@
     - Add a note about the pitfalls of running `doapi-droplet rebuild <drop>`
       (no `--image`) when the droplet's base image is no longer available
     - Add a "quick start" section for both the library and CLI
-- When `--multiple` is in effect, should image slugs that are also names of
-  available images be interpreted as both? (and likewise for SSH keys &
-  fingerprints?)
-    - What about IDs that are also valid names for droplets/images/SSH keys?
-      Are such names even allowed?
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
 - Decrease the default `wait_interval` to 2?
