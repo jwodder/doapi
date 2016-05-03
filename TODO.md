@@ -18,12 +18,14 @@
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
 - Decrease the default `wait_interval` to 2?
+- Should `--unique` also prevent names that conflict with slugs, IDs, and/or
+  fingerprints?
 
 - Keep rethinking data structures
     - Eliminate `ResourceWithDroplet`?
-    - Replace methodless classes (BackupWindow, DropletUpgrade, Kernel?,
-      Networks, NetworkInterface?, Region?, Size?) with unsubclassed `Resource`
-      (or `Property`?) instances?
+    - Replace methodless classes (BackupWindow, Kernel?, Networks,
+      NetworkInterface?, Region?, Size?) with unsubclassed `Resource` (or
+      `Property`?) instances?
 
 ## Naming Things
 

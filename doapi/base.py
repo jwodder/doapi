@@ -443,43 +443,6 @@ class Kernel(ResourceWithDroplet, ResourceWithID):
     pass
 
 
-class DropletUpgrade(Resource):
-    """
-    A droplet upgrade resource, representing a scheduled upgrade of a droplet.
-
-    The set of all currently-scheduled upgrades can be retrieved with the
-    :meth:`doapi.fetch_all_droplet_upgrades` method.
-
-    The DigitalOcean API specifies the following fields for droplet upgrade
-    objects:
-
-    :var date_of_migration: date & time that the droplet will be migrated
-    :vartype date_of_migration: datetime.datetime
-
-    :var droplet_id: the ID of the affected droplet
-    :vartype droplet_id: int
-
-    :var url: the endpoint for operations on the affected droplet
-    :vartype url: string
-    """
-
-    def __init__(self, state=None, **extra):
-        # pylint: disable=access-member-before-definition
-        super(DropletUpgrade, self).__init__(state, **extra)
-        if self.get('date_of_migration') is not None and \
-                not isinstance(self.date_of_migration, datetime):
-            self.date_of_migration = fromISO8601(self.date_of_migration)
-
-    def fetch_droplet(self):
-        """
-        Fetch the droplet affected by the droplet upgrade
-
-        :rtype: Droplet
-        :raises DOAPIError: if the API endpoint replies with an error
-        """
-        return self.doapi_manager.fetch_droplet(self.droplet_id)
-
-
 class Networks(ResourceWithDroplet):
     r"""
     A networks resource, representing a set of network interfaces configured

@@ -453,17 +453,6 @@ class Droplet(Actionable, ResourceWithID):
         """
         return self.act(type='snapshot', name=name)
 
-    def upgrade(self):
-        """
-        Upgrade the droplet
-
-        :return: an `Action` representing the in-progress operation on the
-            droplet
-        :rtype: Action
-        :raises DOAPIError: if the API endpoint replies with an error
-        """
-        return self.act(type='upgrade')
-
     def delete(self):
         """
         Delete the droplet

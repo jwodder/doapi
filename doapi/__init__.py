@@ -5,8 +5,8 @@ __license__      = 'MIT'
 __url__          = 'https://github.com/jwodder/doapi'
 
 from .base        import (DOEncoder, Resource, Region, Size, Account, Kernel,
-                          DropletUpgrade, Networks, NetworkInterface,
-                          BackupWindow, DOAPIError, WaitTimeoutError)
+                          Networks, NetworkInterface, BackupWindow, DOAPIError,
+                          WaitTimeoutError)
 from .action      import Action, ActionError
 from .doapi       import doapi
 from .domain      import Domain, DomainRecord

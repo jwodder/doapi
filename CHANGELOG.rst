@@ -9,6 +9,7 @@ v0.2.0 (in development)
 - **Breaking**: ``--multiple`` now also matches by ID, slug, & fingerprint
 - **Breaking**: Renamed the ``wait`` method of ``Droplet``, ``Image``, and
   ``FloatingIP`` to ``wait_for_action``
+- Removed droplet upgrade code, as the API no longer supports it
 
 v0.1.1 (2016-04-29)
 -------------------

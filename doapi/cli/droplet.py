@@ -8,7 +8,6 @@ import sys
 from   time       import time
 from   six.moves  import map, range  # pylint: disable=redefined-builtin
 from   .          import _util as util
-from   ..base     import DropletUpgrade
 
 unary_acts = {
     "disable-backups":           "Disable automatic backups on a droplet",
@@ -21,7 +20,6 @@ unary_acts = {
     "power-on":                  "Power on a droplet",
     "reboot":                    "Attempt to gracefully reboot a droplet",
     "shutdown":                  "Attempt to gracefully shut down a droplet",
-    "upgrade":                   "Upgrade a droplet",
 }
 
 unary_other = {
@@ -102,12 +100,6 @@ def main(argv=None, parsed=None):
     c.add_argument('droplet', nargs='*',
                    help='Only show neighbors of these droplets (specified by'
                         ' ID or name)')
-
-    cmds.add_parser('show-upgrades',
-        help='List pending droplet upgrades',
-        description='List pending droplet upgrades',
-    ).add_argument('--droplets', action='store_true',
-                   help='Describe the droplets instead of their upgrades')
 
     cmd_restore = cmds.add_parser('restore', parents=[util.waitopts],
                                   help='Restore a droplet from a backup',
@@ -322,13 +314,6 @@ def main(argv=None, parsed=None):
                                              hasM=True)))
         else:
             util.dump(client.fetch_all_droplet_neighbors())
-
-    elif args.cmd == 'show-upgrades':
-        upgrades = client.fetch_all_droplet_upgrades()
-        if args.droplets:
-            util.dump(map(DropletUpgrade.fetch_droplet, upgrades))
-        else:
-            util.dump(upgrades)
 
     else:
         assert False, 'No path defined for command {0!r}'.format(args.cmd)

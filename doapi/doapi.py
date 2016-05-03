@@ -3,8 +3,8 @@ from   time         import sleep, time
 import requests
 from   six          import iteritems, string_types
 from   six.moves    import map  # pylint: disable=redefined-builtin
-from   .base        import Region, Size, Account, DropletUpgrade, DOAPIError, \
-                            DOEncoder, WaitTimeoutError
+from   .base        import Region, Size, Account, DOAPIError, DOEncoder, \
+                            WaitTimeoutError
 from   .action      import Action
 from   .domain      import Domain
 from   .droplet     import Droplet
@@ -235,17 +235,6 @@ class doapi(object):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         return map(self._droplet, self.paginate('/v2/droplets', 'droplets'))
-
-    def fetch_all_droplet_upgrades(self):
-        r"""
-        Returns a generator that yields `DropletUpgrade` objects describing
-        droplets that are scheduled to be upgraded
-
-        :rtype: generator of `DropletUpgrade`\ s
-        :raises DOAPIError: if the API endpoint replies with an error
-        """
-        for obj in self.request('/v2/droplet_upgrades'):
-            yield DropletUpgrade(obj, doapi_manager=self)
 
     def create_droplet(self, name, image, size, region, ssh_keys=None,
                        backups=None, ipv6=None, private_networking=None,
