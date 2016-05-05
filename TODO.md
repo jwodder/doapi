@@ -2,7 +2,6 @@
     - Add a class for tag resource statistics dicts???
     - Add a (public) method for constructing a `Tag` object without fetching
       anything?
-    - Should `Tag`'s droplet action methods all contain the word "droplet"?
     - Add CLI support
         - idea: The droplets with the tag `tag` can be specified on the command
           line as `:tag`
