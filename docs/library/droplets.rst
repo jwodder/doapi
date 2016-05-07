@@ -25,11 +25,6 @@ BackupWindow
 
    .. automethod:: fetch_droplet
 
-DropletUpgrade
-^^^^^^^^^^^^^^
-
-.. autoclass:: DropletUpgrade()
-
 Kernel
 ^^^^^^
 

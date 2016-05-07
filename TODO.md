@@ -31,6 +31,7 @@
 
 - Rename `doapi_manager` to just `manager`? (something else?)
 - Come up with a better name for `--multiple`? (`--match-all`? `--many`?)
+- Rename `doapi.wait_actions_on_objects`?
 
 # General
 
