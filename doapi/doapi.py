@@ -377,9 +377,7 @@ class doapi(object):
         for each droplet's ``status`` field to equal the given value.  If
         ``locked`` is non-`None`, ``wait_droplets`` will wait for each
         droplet's ``locked`` field to equal (the truth value of) the given
-        value.  (``status`` and ``locked`` cannot both be non-`None`.)  If both
-        ``status`` and ``locked`` are `None`, ``wait_droplets`` will wait for
-        the most recent action on each droplet to finish.
+        value.  Exactly one of ``status`` and ``locked`` must be non-`None`.
 
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
         remaining in-progress droplets) is raised.
@@ -392,6 +390,9 @@ class doapi(object):
 
         .. versionchanged:: 0.2.0
             ``locked`` parameter added
+
+        .. versionchanged:: 0.2.0
+            No longer waits for actions to complete
 
         :param iterable droplets: an iterable of `Droplet`\ s and/or other
             values that are acceptable arguments to :meth:`fetch_droplet`
@@ -412,24 +413,22 @@ class doapi(object):
             or a negative number to wait indefinitely; defaults to
             :attr:`wait_time` if not specified or `None`
         :rtype: generator of `Droplet`\ s
-        :raises ValueError: if both ``status`` and ``locked`` are non-`None`
+        :raises TypeError: if both or neither of ``status`` & ``locked`` are
+            defined
         :raises DOAPIError: if the API endpoint replies with an error
         :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
+        if (status is None) == (locked is None):
+            ### TODO: Is TypeError the right type of error?
+            raise TypeError('Exactly one of "status" and "locked" must be'
+                            ' specified')
         droplets = map(self._droplet, droplets)
-        if status is not None and locked is not None:
-            raise ValueError('"status" and "locked" cannot both be non-None')
-        elif status is not None:
+        if status is not None:
             return self._wait(droplets, "status", status, wait_interval,
                               wait_time)
-        elif locked is not None:
+        if locked is not None:
             return self._wait(droplets, "locked", bool(locked), wait_interval,
                               wait_time)
-        else:
-            return map(Action.fetch_resource,
-                       self.wait_actions(map(Droplet.fetch_last_action,
-                                             droplets),
-                                         wait_interval, wait_time))
 
     def _action(self, obj):
         """

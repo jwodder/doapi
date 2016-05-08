@@ -469,10 +469,8 @@ class Droplet(Actionable, ResourceWithID):
         state.  If ``status`` is non-`None`, ``wait`` will wait for the
         droplet's ``status`` field to equal the given value.  If ``locked`` is
         non-`None`, `wait` will wait for the droplet's ``locked`` field to
-        equal (the truth value of) the given value.  (``status`` and ``locked``
-        cannot both be non-`None`.)  If both ``status`` and ``locked`` are
-        `None`, `wait` will wait for the most recent action on the droplet to
-        finish.
+        equal (the truth value of) the given value.  Exactly one of ``status``
+        and ``locked`` must be non-`None`.
 
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing the
         droplet's most recently fetched state) is raised.
@@ -485,6 +483,9 @@ class Droplet(Actionable, ResourceWithID):
 
         .. versionchanged:: 0.2.0
             ``locked`` parameter added
+
+        .. versionchanged:: 0.2.0
+            No longer waits for latest action to complete
 
         :param status: When non-`None`, the desired value for the ``status``
             field of the droplet, which should be one of
@@ -504,7 +505,8 @@ class Droplet(Actionable, ResourceWithID):
             object's :attr:`~doapi.wait_time` if not specified or `None`
         :return: the droplet's final state
         :rtype: Droplet
-        :raises ValueError: if both ``status`` and ``locked`` are non-`None`
+        :raises TypeError: if both or neither of ``status`` & ``locked`` are
+            defined
         :raises DOAPIError: if the API endpoint replies with an error
         :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """

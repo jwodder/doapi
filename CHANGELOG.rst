@@ -4,6 +4,8 @@ v0.2.0 (in development)
   ``wait_time`` is exceeded
 - **Breaking**: Renamed the ``wait`` method of ``Droplet``, ``Image``, and
   ``FloatingIP`` to ``wait_for_action``
+- **Breaking**: ``doapi.wait_droplets`` and ``Droplet.wait`` no longer have the
+  option to wait for droplets' most recent actions to complete
 - **Breaking**: ``--multiple`` now also matches by ID, slug, & fingerprint
 - New methods:
 
