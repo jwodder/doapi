@@ -263,7 +263,7 @@ class DOEncoder(json.JSONEncoder):
 
 
 def for_json(obj):
-    ### TODO: Write docstring and add to docs
+    ### TODO: Write docstring, add to docs, and add to __init__.py
     ### TODO: In order to be usable as a `default` argument to `json.dump`,
     ### this function needs to raise a TypeError on values that can't be
     ### naively JSONified.
