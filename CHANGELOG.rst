@@ -17,6 +17,7 @@ v0.2.0 (in development)
 - Gave ``doapi.wait_droplets`` and ``Droplet.wait`` a ``locked`` parameter for
   waiting for droplets to become locked/unlocked
 - Removed droplet upgrade code, as the API no longer supports it
+- Gave ``Droplet`` ``ipv4_address`` and ``ipv6_address`` attributes
 
 v0.1.1 (2016-04-29)
 -------------------

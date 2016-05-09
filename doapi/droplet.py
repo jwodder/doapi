@@ -161,6 +161,28 @@ class Droplet(Actionable, ResourceWithID):
             return None
 
     @property
+    def ipv4_address(self):
+        """
+        The IP address of the first IPv4 interface listed in the droplet's
+        ``networks`` field, or `None` if there is no IPv4 interface
+        """
+        try:
+            return self.networks.v4[0].ip_address
+        except (AttributeError, LookupError):
+            return None
+
+    @property
+    def ipv6_address(self):
+        """
+        The IP address of the first IPv6 interface listed in the droplet's
+        ``networks`` field, or `None` if there is no IPv4 interface
+        """
+        try:
+            return self.networks.v6[0].ip_address
+        except (AttributeError, LookupError):
+            return None
+
+    @property
     def url(self):
         """ The endpoint for operations on the specific droplet """
         return self._url('/v2/droplets/' + str(self.id))
