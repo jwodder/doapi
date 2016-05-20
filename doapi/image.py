@@ -1,8 +1,7 @@
 from datetime import datetime
-from .base    import Actionable, ResourceWithDroplet, ResourceWithID, \
-                        fromISO8601
+from .base    import Actionable, ResourceWithID, fromISO8601
 
-class Image(Actionable, ResourceWithDroplet, ResourceWithID):
+class Image(Actionable, ResourceWithID):
     """
     An image resource, representing an OS image that can be used to create or
     reset a droplet.
@@ -46,14 +45,6 @@ class Image(Actionable, ResourceWithDroplet, ResourceWithID):
 
     :var type: the type of the image: ``"snapshot"`` or ``"backup"``
     :vartype type: string
-
-    .. attribute:: droplet
-
-       The `Droplet` to which the image belongs.  This attribute is only
-       defined for ``Droplet.image`` attributes and the images returned by the
-       :meth:`Droplet.fetch_all_backups` and the
-       :meth:`Droplet.fetch_all_snapshots` methods.  Images obtained by any
-       other means have this attribute set to `None`.
     """
 
     def __init__(self, state=None, **extra):

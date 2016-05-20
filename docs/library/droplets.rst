@@ -23,14 +23,11 @@ BackupWindow
 
 .. autoclass:: BackupWindow()
 
-   .. automethod:: fetch_droplet
-
 Kernel
 ^^^^^^
 
 .. autoclass:: Kernel()
 
-   .. automethod:: fetch_droplet
    .. automethod:: __int__
 
 Networks
@@ -38,12 +35,8 @@ Networks
 
 .. autoclass:: Networks()
 
-   .. automethod:: fetch_droplet
-
 NetworkInterface
 ^^^^^^^^^^^^^^^^
 
 .. autoclass:: NetworkInterface()
    :special-members: __str__
-
-   .. automethod:: fetch_droplet

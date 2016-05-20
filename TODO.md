@@ -15,6 +15,7 @@
     - Add a note about the pitfalls of running `doapi-droplet rebuild <drop>`
       (no `--image`) when the droplet's base image is no longer available
     - Add a "quick start" section for both the library and CLI
+    - Add a "quick start" section to the README
 - Is it actually possible to unset a DNS record's port/priority/weight by
   "updating" it to `null`?
 - Decrease the default `wait_interval` to 2?
@@ -22,7 +23,6 @@
   fingerprints?
 
 - Keep rethinking data structures
-    - Eliminate `ResourceWithDroplet`?
     - Replace methodless classes (BackupWindow, Kernel?, Networks,
       NetworkInterface?, Region?, Size?) with unsubclassed `Resource` (or
       `Property`?) instances?
@@ -49,7 +49,8 @@
     - Improve the appearance of the "APIDocs" citations in the documentation
     - Give every applicable item a link to the corresponding entry in the API
       docs
-- Add tests (using Tox?)
+    - Incorporate the changelog
+- Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 
 # Command-Line Interface

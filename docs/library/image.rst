@@ -15,5 +15,4 @@ Image
    .. automethod:: fetch_all_actions
    .. automethod:: fetch_last_action
    .. automethod:: fetch_current_action
-   .. automethod:: fetch_droplet
    .. automethod:: __int__

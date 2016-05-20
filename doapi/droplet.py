@@ -1,7 +1,7 @@
 from datetime  import datetime
 from six.moves import map  # pylint: disable=redefined-builtin
 from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
-                        Networks, BackupWindow, ResourceWithDroplet, fromISO8601
+                        Networks, BackupWindow, fromISO8601
 from .image    import Image
 
 class Droplet(Actionable, ResourceWithID):
@@ -94,14 +94,7 @@ class Droplet(Actionable, ResourceWithID):
                           ('kernel', Kernel), ('networks', Networks),
                           ('next_backup_window', BackupWindow)]:
             if self.get(attr) is not None and not isinstance(self[attr], cls):
-                extra = {}
-                if isinstance(cls, ResourceWithDroplet):
-                    extra = {"droplet": self}
-                    # `droplet` needs to be set when creating the objects so
-                    # that the `Networks` object will pass the value to its
-                    # `NetworkInterface`s.
-                self[attr] = cls(self[attr], doapi_manager=self.doapi_manager,
-                                 **extra)
+                self[attr] = cls(self[attr], doapi_manager=self.doapi_manager)
         if self.get('created_at') is not None and \
                 not isinstance(self.created_at, datetime):
             self.created_at = fromISO8601(self.created_at)
@@ -221,7 +214,7 @@ class Droplet(Actionable, ResourceWithID):
         """
         api = self.doapi_manager
         for obj in api.paginate(self.url + '/snapshots', 'snapshots'):
-            yield Image(obj, doapi_manager=api, droplet=self)
+            yield Image(obj, doapi_manager=api)
 
     def fetch_all_backups(self):
         r"""
@@ -233,7 +226,7 @@ class Droplet(Actionable, ResourceWithID):
         """
         api = self.doapi_manager
         for obj in api.paginate(self.url + '/backups', 'backups'):
-            yield Image(obj, doapi_manager=api, droplet=self)
+            yield Image(obj, doapi_manager=api)
 
     def fetch_all_kernels(self):
         r"""
@@ -245,7 +238,7 @@ class Droplet(Actionable, ResourceWithID):
         """
         api = self.doapi_manager
         for kern in api.paginate(self.url + '/kernels', 'kernels'):
-            yield Kernel(kern, doapi_manager=api, droplet=self)
+            yield Kernel(kern, doapi_manager=api)
 
     def enable_backups(self):
         """
