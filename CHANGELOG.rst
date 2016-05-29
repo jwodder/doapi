@@ -18,6 +18,7 @@ v0.2.0 (in development)
   waiting for droplets to become locked/unlocked
 - Removed droplet upgrade code, as the API no longer supports it
 - Gave ``Droplet`` ``ipv4_address`` and ``ipv6_address`` attributes
+- Decreased the default wait interval to 2 seconds
 
 v0.1.1 (2016-04-29)
 -------------------

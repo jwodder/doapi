@@ -141,7 +141,7 @@ can be configured further with :option:`--wait-interval` and
 .. option:: --wait-interval <seconds>
 
     How often to poll the server for the actions' current statuses; default
-    value: 5 seconds
+    value: 2 seconds
 
 .. option:: --wait-time <seconds>
 
