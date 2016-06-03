@@ -13,9 +13,9 @@ v0.2.0 (in development)
     - ``Action.raise_for_error`` (raises a new ``ActionError`` exception)
     - ``Resource.for_json``
 
-- Added a ``for_json`` function
 - Gave ``doapi.wait_droplets`` and ``Droplet.wait`` a ``locked`` parameter for
   waiting for droplets to become locked/unlocked
+- Gave ``doapi-droplet wait`` ``--locked`` and ``--unlocked`` options
 - Removed droplet upgrade code, as the API no longer supports it
 - Gave ``Droplet`` ``ipv4_address`` and ``ipv6_address`` attributes
 - Decreased the default wait interval to 2 seconds

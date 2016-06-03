@@ -237,11 +237,11 @@ class DOEncoder(json.JSONEncoder):
             return super(DOEncoder, self).default(obj)
 
 
-def for_json(obj):
-    ### TODO: Write docstring, add to docs, and add to __init__.py
-    ### TODO: In order to be usable as a `default` argument to `json.dump`,
-    ### this function needs to raise a TypeError on values that can't be
-    ### naively JSONified.
+def for_json(obj):  # private internal function
+    ### Note: In order to be usable as a `default` argument to `json.dump` (Do
+    ### I want that???) this function needs to raise a TypeError on values that
+    ### can't be naively JSONified.
+    ### TODO: Should this recursively convert dicts and lists???
     if hasattr(obj, 'for_json'):
         return obj.for_json()
     elif isinstance(obj, datetime):
