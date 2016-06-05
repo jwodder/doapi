@@ -173,6 +173,14 @@ def main(argv=None, parsed=None):
     cmd_tag.add_argument('tag_name', type=int, help='name of a tag')
     cmd_tag.add_argument('droplet', nargs='+', help='ID or name of a droplet')
 
+    cmd_untag = cmds.add_parser('untag', help='Remove a tag from a droplet',
+                                description='Remove a tag from a droplet')
+    cmd_untag.add_argument('-M', '--multiple', action='store_true',
+                           help='Untag multiple droplets with the same name'
+                                ' instead of erroring')
+    cmd_untag.add_argument('tag_name', type=int, help='name of a tag')
+    cmd_untag.add_argument('droplet', nargs='+', help='ID or name of a droplet')
+
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
@@ -342,6 +350,12 @@ def main(argv=None, parsed=None):
         drops = cache.get_droplets(args.droplet, multiple=args.multiple,
                                                  hasM=True)
         tag.add(*drops)
+
+    elif args.cmd == 'untag':
+        tag = client.fetch_tag(args.tag_name)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                 hasM=True)
+        tag.remove(*drops)
 
     else:
         assert False, 'No path defined for command {0!r}'.format(args.cmd)
