@@ -165,6 +165,14 @@ def main(argv=None, parsed=None):
     cmd_chkernel.add_argument('droplet', nargs='+',
                               help='ID or name of a droplet')
 
+    cmd_tag = cmds.add_parser('tag', help='Add a tag to a droplet',
+                              description='Add a tag to a droplet')
+    cmd_tag.add_argument('-M', '--multiple', action='store_true',
+                         help='Tag multiple droplets with the same name instead'
+                              ' of erroring')
+    cmd_tag.add_argument('tag_name', type=int, help='name of a tag')
+    cmd_tag.add_argument('droplet', nargs='+', help='ID or name of a droplet')
+
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
@@ -328,6 +336,12 @@ def main(argv=None, parsed=None):
             util.dump(map(DropletUpgrade.fetch_droplet, upgrades))
         else:
             util.dump(upgrades)
+
+    elif args.cmd == 'tag':
+        tag = client.fetch_tag(args.tag_name)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
+                                                 hasM=True)
+        tag.add(*drops)
 
     else:
         assert False, 'No path defined for command {0!r}'.format(args.cmd)

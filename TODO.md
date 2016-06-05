@@ -3,8 +3,9 @@
     - Add a (public) method for constructing a `Tag` object without fetching
       anything?
     - Add CLI support
-        - idea: The droplets with the tag `tag` can be specified on the command
-          line as `:tag`
+        - idea: The droplets with the tag `TAG` can be specified on the command
+          line as `--tag=TAG`, which can only be used in place of (not in
+          addition to) identifiers for individual objects.
     - Add branches for tagging of currently-unsupported types
 
 # For Version 1
