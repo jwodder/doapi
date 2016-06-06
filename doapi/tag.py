@@ -71,12 +71,14 @@ class Tag(Resource):
         self.doapi_manager.request(self.url, method='DELETE')
 
     def add(self, *resources):
-        res = [r if isinstance(r, dict) else r._taggable() for r in resources]
+        res = [r._taggable() if hasattr(r, '_taggable') else r
+               for r in resources]
         self.doapi_manager.request(self.url + '/resources', method='POST',
                                    data={"resources": res})
 
     def remove(self, *resources):
-        res = [r if isinstance(r, dict) else r._taggable() for r in resources]
+        res = [r._taggable() if hasattr(r, '_taggable') else r
+               for r in resources]
         self.doapi_manager.request(self.url + '/resources', method='DELETE',
                                    data={"resources": res})
 
