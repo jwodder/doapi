@@ -71,16 +71,12 @@ class Tag(Resource):
         self.doapi_manager.request(self.url, method='DELETE')
 
     def add(self, *resources):
-        res = [r._taggable() if hasattr(r, '_taggable') else r
-               for r in resources]
         self.doapi_manager.request(self.url + '/resources', method='POST',
-                                   data={"resources": res})
+                                   data={"resources": _to_taggable(resources)})
 
     def remove(self, *resources):
-        res = [r._taggable() if hasattr(r, '_taggable') else r
-               for r in resources]
         self.doapi_manager.request(self.url + '/resources', method='DELETE',
-                                   data={"resources": res})
+                                   data={"resources": _to_taggable(resources)})
 
     def fetch_all_droplets(self):
         api = self.doapi_manager
@@ -121,3 +117,18 @@ class Tag(Resource):
 
     def snapshot(self, name):
         return self.act_on_droplets(type='snapshot', name=name)
+
+
+def _to_taggable(resources):
+    res = []
+    for r in resources:
+        try:
+            res.append(r._taggable())
+        except (AttributeError, TypeError):
+            if isinstance(r, Resource):
+                raise TypeError('Tagging {0!r} objects is not supported'
+                                .format(r._class()))
+            else:
+                # Assume `r` is a "primitive" type
+                res.append(r)
+    return res
