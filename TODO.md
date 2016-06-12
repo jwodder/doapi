@@ -20,6 +20,8 @@
   "updating" it to `null`?
 - Should `--unique` also prevent names that conflict with slugs, IDs, and/or
   fingerprints?
+- Rethink whether `wait` subcommands should completely ignore arguments that
+  don't have any in-progress actions on them
 
 - Keep rethinking data structures
     - Replace methodless classes (BackupWindow, Kernel?, Networks,
@@ -79,6 +81,8 @@
 - When an error message suggests using `--multiple`, *all* objects that would
   be matched (not just the ones with matching names) should be listed
 - Improve the help text for `--multiple` (especially for action commands)
+- Rewrite the Cache methods so that their return types are fixed rather than
+  determined by their arguments
 
 # Library
 
@@ -86,7 +90,6 @@
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
 - Eliminate duplication of type-conversion code in initializers
-- Make `Actionable` an ABC?
 
 # API Compatibility & Correctness
 

@@ -1,4 +1,6 @@
 import numbers
+import socket
+import struct
 from   six      import string_types
 from   .base    import Actionable, Region, int2ipv4
 from   .droplet import Droplet
@@ -39,6 +41,14 @@ class FloatingIP(Actionable):
     def __str__(self):
         """ Convert the floating IP to just the actual IP address """
         return self.ip
+
+    def __int__(self):
+        """
+        .. versionadded:: 0.2.0
+
+        Convert the floating IP to a 32-bit integer
+        """
+        return struct.unpack('!I', socket.inet_aton(self.ip))[0]
 
     @property
     def url(self):

@@ -11,6 +11,7 @@ v0.2.0 (in development)
 
     - ``doapi.wait_actions_on_objects``
     - ``Action.raise_for_error`` (raises a new ``ActionError`` exception)
+    - ``FloatingIP.__int__``
     - ``Resource.for_json``
 
 - Gave ``doapi.wait_droplets`` and ``Droplet.wait`` a ``locked`` parameter for

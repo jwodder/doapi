@@ -157,6 +157,9 @@ class Actionable(Resource):
         .. versionchanged:: 0.2.0
             Raises `WaitTimeoutError` on timeout
 
+        .. versionchanged:: 0.2.0
+            Name changed from ``wait`` to ``wait_for_action``
+
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's
             :attr:`~doapi.wait_interval` if not specified or `None`

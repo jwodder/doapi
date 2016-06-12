@@ -7,7 +7,7 @@ FloatingIP
 ^^^^^^^^^^
 
 .. autoclass:: FloatingIP()
-   :special-members: __str__
+   :special-members: __str__, __int__
 
    .. autoattribute:: action_url
    .. automethod:: act
