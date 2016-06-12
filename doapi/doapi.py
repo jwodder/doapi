@@ -948,7 +948,9 @@ class doapi(object):
                 try:
                     sleep(time_left)
                 except KeyboardInterrupt:
-                    break
+                    for o in objects:
+                        yield o
+                    return
         if objects:
             raise WaitTimeoutError(objects, attr, value, wait_interval,
                                    wait_time)
