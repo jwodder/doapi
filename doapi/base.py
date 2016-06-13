@@ -146,7 +146,9 @@ class Actionable(Resource):
         """
         Poll the server periodically until the resource's most recent action
         has either completed or errored out, and return the resource's final
-        state afterwards.
+        state afterwards.  If no actions have ever been performed on the
+        resource, return ``self``.  If the resource no longer exists by the
+        time the action has completed, return `None`.
 
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing the
         resource's current state) is raised.
@@ -160,6 +162,12 @@ class Actionable(Resource):
         .. versionchanged:: 0.2.0
             Name changed from ``wait`` to ``wait_for_action``
 
+        .. versionchanged:: 0.2.0
+            Return ``self`` if there were no actions on the resource
+
+        .. versionchanged:: 0.2.0
+            Return `None` if the resource no longer exists afterwards
+
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to the `doapi` object's
             :attr:`~doapi.wait_interval` if not specified or `None`
@@ -171,11 +179,11 @@ class Actionable(Resource):
         :raises DOAPIError: if the API endpoint replies with an error
         :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
-        list(self.doapi_manager.wait_actions([self.fetch_last_action()],
-                                             wait_interval, wait_time))
-        return self.fetch()
-        #return self.fetch_last_action().wait(wait_interval, wait_time)\
-        #           .fetch_resource()
+        act = self.fetch_last_action()
+        if act is None:
+            return self
+        else:
+            return act.wait(wait_interval, wait_time).fetch_resource()
 
     def fetch_all_actions(self):
         r"""
@@ -190,16 +198,22 @@ class Actionable(Resource):
 
     def fetch_last_action(self):
         """
-        Fetch the most recent action performed on the resource.  If multiple
-        actions were triggered simultaneously, the choice of which to return is
-        undefined.
+        Fetch the most recent action performed on the resource, or `None` if no
+        actions have been performed on it yet.  If multiple actions were
+        triggered simultaneously, the choice of which to return is undefined.
+
+        .. versionchanged:: 0.2.0
+            Return `None` if there were no actions on the resource
 
         :rtype: Action
         :raises DOAPIError: if the API endpoint replies with an error
         """
         # Naive implementation:
         api = self.doapi_manager
-        return api._action(api.request(self.action_url)["actions"][0])
+        try:
+            return api._action(api.request(self.action_url)["actions"][0])
+        except LookupError:
+            return None
         # Slow yet guaranteed-correct implementation:
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 
