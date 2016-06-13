@@ -63,11 +63,11 @@ are shown as `null`.''')
 
     elif args.cmd == 'wait':
         if args.action:
-            acts = util.rmdups(map(client.fetch_action, args.action),
-                               'action')
+            acts = util.rmdups(map(client.fetch_action, args.action), 'action')
         else:
             acts = all_in_progress(client)
-        util.dump(client.wait_actions(acts))
+        util.dump(client.wait_actions(acts, wait_interval=args.wait_interval,
+                                            wait_time=args.wait_time))
 
     elif args.cmd == 'resource':
         if args.last:

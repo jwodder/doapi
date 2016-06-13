@@ -283,7 +283,9 @@ def do_actioncmd(args, client, objects):
             params = {}
         actions = [obj.act(type=args.type, **params) for obj in objects]
         if args.wait:
-            actions = client.wait_actions(actions)
+            actions = client.wait_actions(actions,
+                                          wait_interval=args.wait_interval,
+                                          wait_time=args.wait_time)
         dump(actions)
     elif args.cmd == 'actions':
         if args.last or args.in_progress:
@@ -296,14 +298,21 @@ def do_actioncmd(args, client, objects):
             dump(obj.fetch_all_actions() for obj in objects)
     elif args.cmd == 'wait':
         if getattr(args, "status", None) is not None:
-            dump(client.wait_droplets(objects, status=args.status))
+            dump(client.wait_droplets(objects, status=args.status,
+                                               wait_interval=args.wait_interval,
+                                               wait_time=args.wait_time))
         elif getattr(args, "locked", None) is not None:
-            dump(client.wait_droplets(objects, locked=True))
+            dump(client.wait_droplets(objects, locked=True,
+                                               wait_interval=args.wait_interval,
+                                               wait_time=args.wait_time))
         elif getattr(args, "unlocked", None) is not None:
-            dump(client.wait_droplets(objects, locked=False))
+            dump(client.wait_droplets(objects, locked=False,
+                                               wait_interval=args.wait_interval,
+                                               wait_time=args.wait_time))
         else:
             actions = list(currentActions(objects))
-            dump(client.wait_actions(actions))
+            dump(client.wait_actions(actions, wait_interval=args.wait_interval,
+                                              wait_time=args.wait_time))
     else:
         assert False, 'do_actioncmd called with invalid command'
 

@@ -55,7 +55,9 @@ def main(argv=None, parsed=None):
         else:
             newip = client.create_floating_ip(region=args.region)
         if args.wait:
-            list(client.wait_actions(newip.fetch_all_actions()))
+            list(client.wait_actions(newip.fetch_all_actions(),
+                                     wait_interval=args.wait_interval,
+                                     wait_time=args.wait_time))
             newip = newip.fetch()
         util.dump(newip)
 
@@ -64,14 +66,16 @@ def main(argv=None, parsed=None):
         drop = cache.get_droplet(args.droplet, multiple=False)
         act = floip.assign(drop)
         if args.wait:
-            act = act.wait()
+            act = act.wait(wait_interval=args.wait_interval,
+                           wait_time=args.wait_time)
         util.dump(act)
 
     elif args.cmd == 'unassign':
         floips = util.rmdups(map(client.fetch_floating_ip, map(maybeInt, args.ip)), 'floating IP', 'ip')
         acts = [fi.unassign() for fi in floips]
         if args.wait:
-            acts = client.wait_actions(acts)
+            acts = client.wait_actions(acts, wait_interval=args.wait_interval,
+                                             wait_time=args.wait_time)
         util.dump(acts)
 
     elif args.cmd == 'delete':

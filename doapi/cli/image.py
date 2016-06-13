@@ -105,14 +105,16 @@ def main(argv=None, parsed=None):
         imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
         acts = (i.transfer(args.region) for i in imgs)
         if args.wait:
-            acts = client.wait_actions(acts)
+            acts = client.wait_actions(acts, wait_interval=args.wait_interval,
+                                             wait_time=args.wait_time)
         util.dump(acts)
 
     elif args.cmd == 'convert':
         imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
         acts = map(Image.convert, imgs)
         if args.wait:
-            acts = client.wait_actions(acts)
+            acts = client.wait_actions(acts, wait_interval=args.wait_interval,
+                                             wait_time=args.wait_time)
         util.dump(acts)
 
     elif args.cmd in ('act', 'actions', 'wait'):
