@@ -210,10 +210,8 @@ class Actionable(Resource):
         """
         # Naive implementation:
         api = self.doapi_manager
-        try:
-            return api._action(api.request(self.action_url)["actions"][0])
-        except LookupError:
-            return None
+        acts = api.request(self.action_url)["actions"]
+        return api._action(acts[0]) if acts else None
         # Slow yet guaranteed-correct implementation:
         #return max(self.fetch_all_actions(), key=lambda a: a.started_at)
 
