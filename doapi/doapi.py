@@ -1,5 +1,4 @@
 import json
-from   operator     import methodcaller
 from   time         import sleep, time
 import requests
 from   six          import iteritems, string_types
@@ -513,7 +512,7 @@ class doapi(object):
 
     def wait_actions_on_objects(self, objects, wait_interval=None,
                                                wait_time=None):
-        r"""
+        """
         .. versionadded:: 0.2.0
 
         Poll the server periodically until the most recent action on each
@@ -527,7 +526,7 @@ class doapi(object):
         immediately without waiting for completion.
 
         :param iterable objects: an iterable of resource objects that have
-            ``fetch_current_action`` methods
+            ``fetch_last_action`` methods
         :param number wait_interval: how many seconds to sleep between
             requests; defaults to :attr:`wait_interval` if not specified or
             `None`
@@ -539,9 +538,15 @@ class doapi(object):
         :raises DOAPIError: if the API endpoint replies with an error
         :raises WaitTimeoutError: if ``wait_time`` is exceeded
         """
-        return map(Action.fetch_resource,
-                   self.wait_actions(map(methodcaller('fetch_last_action'),
-                                         objects), wait_interval, wait_time))
+        acts = []
+        for o in objects:
+            a = o.fetch_last_action()
+            if a is None:
+                yield o
+            else:
+                acts.append(a)
+        for a in self.wait_actions(acts, wait_interval, wait_time):
+            yield a.fetch_resource()
 
     def _ssh_key(self, obj):
         """
