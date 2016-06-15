@@ -152,7 +152,8 @@ Options
 
     Show only the most recent action on each floating IP instead of a list of
     all actions.  If multiple actions on a single IP were triggered
-    simultaneously, the choice of which to return is undefined.
+    simultaneously, the choice of which to return is undefined.  If no actions
+    were ever performed on a floating IP, show ``null``.
 
 
 :command:`wait`

@@ -112,4 +112,5 @@ Options
 
     Show only the resource operated on by the account's most recent action.  If
     multiple actions were triggered simultaneously, the choice of which to
-    display is undefined.
+    display is undefined.  If no actions have ever been performed on the
+    account, the output is ``null``.

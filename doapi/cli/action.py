@@ -73,7 +73,8 @@ are shown as `null`.''')
         if args.last:
             if args.action:
                 util.die('--last and action arguments are mutually exclusive')
-            util.dump(client.fetch_last_action().fetch_resource())
+            act = client.fetch_last_action()
+            util.dump(None if act is None else act.fetch_resource())
         else:
             if args.in_progress:
                 if args.action:
