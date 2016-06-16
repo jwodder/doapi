@@ -288,12 +288,10 @@ def do_actioncmd(args, client, objects):
                                           wait_time=args.wait_time)
         dump(actions)
     elif args.cmd == 'actions':
-        if args.last or args.in_progress:
-            if args.in_progress:
-                actions = list(currentActions(objects, withnulls=True))
-            else:
-                actions = [obj.fetch_last_action() for obj in objects]
-            dump(actions)
+        if args.in_progress:
+            dump(currentActions(objects, withnulls=True))
+        elif args.last:
+            dump(obj.fetch_last_action() for obj in objects)
         else:
             dump(obj.fetch_all_actions() for obj in objects)
     elif args.cmd == 'wait':
