@@ -37,6 +37,9 @@ Resource Objects
 
     Document `.doapi_manager`, dict/mapping methods, and conversion to a dict
 
+    Document that you can copy a Resource object by passing it to the
+    constructor for its class?
+
 Instances of classes representing DigitalOcean API resources — i.e., `Account`,
 `Action`, `BackupWindow`, `Domain`, `DomainRecord`, `Droplet`, `FloatingIP`,
 `Image`, `Kernel`, `NetworkInterface`, `Networks`, `Region`, `SSHKey`, and

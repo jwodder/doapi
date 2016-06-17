@@ -511,14 +511,9 @@ class BackupWindow(Resource):
     """
 
     def __init__(self, state=None, **extra):
-        # pylint: disable=access-member-before-definition
         super(BackupWindow, self).__init__(state, **extra)
-        if self.get('start') is not None and \
-                not isinstance(self.start, datetime):
-            self.start = fromISO8601(self.start)
-        if self.get('end') is not None and \
-                not isinstance(self.end, datetime):
-            self.end = fromISO8601(self.end)
+        self.start = fromISO8601(self.get('start'))
+        self.end = fromISO8601(self.get('end'))
 
 
 class DOAPIError(Exception):
@@ -565,7 +560,10 @@ class DOAPIError(Exception):
 
 
 def fromISO8601(stamp):
-    return pyrfc3339.parse(stamp)
+    if stamp is None or isinstance(stamp, datetime):
+        return stamp
+    else:
+        return pyrfc3339.parse(stamp)
 
 def toISO8601(dt):
     return pyrfc3339.generate(dt, accept_naive=True)

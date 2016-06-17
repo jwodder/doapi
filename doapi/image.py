@@ -1,4 +1,3 @@
-from datetime import datetime
 from .base    import Actionable, ResourceWithID, fromISO8601
 
 class Image(Actionable, ResourceWithID):
@@ -48,11 +47,8 @@ class Image(Actionable, ResourceWithID):
     """
 
     def __init__(self, state=None, **extra):
-        # pylint: disable=access-member-before-definition
         super(Image, self).__init__(state, **extra)
-        if self.get('created_at') is not None and \
-                not isinstance(self.created_at, datetime):
-            self.created_at = fromISO8601(self.created_at)
+        self.created_at = fromISO8601(self.get('created_at'))
 
     def __str__(self):
         """

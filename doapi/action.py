@@ -1,4 +1,3 @@
-from datetime import datetime
 from .base    import ResourceWithID, Region, DOAPIError, fromISO8601, int2ipv4
 
 class Action(ResourceWithID):
@@ -64,12 +63,8 @@ class Action(ResourceWithID):
         if self.get('region') is not None and \
                 not isinstance(self.region, Region):
             self.region = Region(self.region, doapi_manager=self.doapi_manager)
-        if self.get('started_at') is not None and \
-                not isinstance(self.started_at, datetime):
-            self.started_at = fromISO8601(self.started_at)
-        if self.get('completed_at') is not None and \
-                not isinstance(self.completed_at, datetime):
-            self.completed_at = fromISO8601(self.completed_at)
+        self.started_at = fromISO8601(self.get('started_at'))
+        self.completed_at = fromISO8601(self.get('completed_at'))
 
     @property
     def completed(self):

@@ -1,4 +1,3 @@
-from datetime  import datetime
 from six.moves import map  # pylint: disable=redefined-builtin
 from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
                         Networks, BackupWindow, fromISO8601
@@ -88,16 +87,13 @@ class Droplet(Actionable, ResourceWithID):
     STATUS_OFF = 'off'
 
     def __init__(self, state=None, **extra):
-        # pylint: disable=access-member-before-definition
         super(Droplet, self).__init__(state, **extra)
         for attr, cls in [('image', Image), ('region', Region), ('size', Size),
                           ('kernel', Kernel), ('networks', Networks),
                           ('next_backup_window', BackupWindow)]:
             if self.get(attr) is not None and not isinstance(self[attr], cls):
                 self[attr] = cls(self[attr], doapi_manager=self.doapi_manager)
-        if self.get('created_at') is not None and \
-                not isinstance(self.created_at, datetime):
-            self.created_at = fromISO8601(self.created_at)
+        self.created_at = fromISO8601(self.get('created_at'))
 
     @property
     def active(self):
