@@ -35,7 +35,7 @@ Resource Objects
 
 .. todo::
 
-    Document `.doapi_manager` and conversion to a dict
+    Document `.doapi_manager`, dict/mapping methods, and conversion to a dict
 
 Instances of classes representing DigitalOcean API resources — i.e., `Account`,
 `Action`, `BackupWindow`, `Domain`, `DomainRecord`, `Droplet`, `FloatingIP`,

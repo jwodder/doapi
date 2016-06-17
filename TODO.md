@@ -6,7 +6,8 @@
 
 - Document everything!
     - Document the basic attributes of all resource classes (`.fields`,
-      `.doapi_manager`, use as a dict, conversion to a dict, etc.)
+      `.doapi_manager`, use as a dict, dict methods, conversion to a dict,
+      etc.)
     - Add a docstring to `__init__.py` for displaying in pydoc
     - Add more examples
         - Add examples of using the `act` subcommand

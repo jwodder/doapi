@@ -7,6 +7,9 @@ v0.2.0 (in development)
 - **Breaking**: ``doapi.wait_droplets`` and ``Droplet.wait`` no longer have the
   option to wait for droplets' most recent actions to complete
 - **Breaking**: ``--multiple`` now also matches by ID, slug, & fingerprint
+- **Breaking**: Removed the ``droplet`` attribute and ``fetch_droplet`` method
+  from ``BackupWindow``, ``Image``, ``Kernel``, ``Networks``, and
+  ``NetworkInterface``
 - **Bugfix**: The ``--wait-interval`` and ``--wait-time`` options now actually
   have an effect
 - New methods:
