@@ -25,7 +25,7 @@ SYNOPSIS
             [-U|--user-data <string|@file>]
             [-K|--ssh-key <key>] ...
             [--unique]
-            [--wait] [--wait-time <seconds>] [--wait-interval <seconds>]
+            [-w|--wait] [--wait-time <seconds>] [--wait-interval <seconds>]
             <name> ...
 
     doapi-droplet show [-M|--multiple] [<droplet> ...]
@@ -86,7 +86,7 @@ must be referred to by their actual ID instead).
             [-U|--user-data <string|@file>]
             [-K|--ssh-key <key>] ...
             [--unique]
-            [--wait] [--wait-time <seconds>] [--wait-interval <seconds>]
+            [-w|--wait] [--wait-time <seconds>] [--wait-interval <seconds>]
             <name> ...
 
 

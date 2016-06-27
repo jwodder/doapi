@@ -28,6 +28,7 @@ v0.2.0 (in development)
 - Handle fetching the last action on a resource that has never been acted on
 - The ``wait_for_action`` methods now return ``None`` if the resource no longer
   exists by the time the action completes
+- Gave the ``--wait`` option a ``-w`` short form
 
 v0.1.1 (2016-04-29)
 -------------------

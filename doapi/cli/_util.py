@@ -30,7 +30,7 @@ waitbase.add_argument('--wait-interval', type=float, metavar='SECONDS',
                       help='how often to check progress')
 
 waitopts = argparse.ArgumentParser(parents=[waitbase], add_help=False)
-waitopts.add_argument('--wait', action='store_true',
+waitopts.add_argument('-w', '--wait', action='store_true',
                       help='Wait for the operation to finish')
 
 

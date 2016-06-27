@@ -131,7 +131,7 @@ made to instead wait until completion with the :option:`--wait` option, which
 can be configured further with :option:`--wait-interval` and
 :option:`--wait-time`, as described below:
 
-.. option:: --wait
+.. option:: -w, --wait
 
     Periodically poll the server for the current status of all actions until
     they all complete or error out or until the time limit specified by
