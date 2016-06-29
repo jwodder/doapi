@@ -13,7 +13,24 @@ resource_types = {
 }
 
 class Tag(Resource):
-    """ TODO """
+    """
+    A tag resource, representing a label that can be applied to other
+    resources.
+
+    New tags are created via the :meth:`doapi.create_tag` method and can be
+    retrieved with the :meth:`doapi.fetch_tag` and :meth:`doapi.fetch_all_tags`
+    methods.
+
+    The DigitalOcean API specifies the following fields for tag objects:
+
+    :var name: the name of the tag
+    :vartype name: string
+
+    :var resources: a `dict` mapping resource types (e.g., ``"droplets"``) to
+        sub-`dict`s containing fields ``"count"`` (the number of resources of
+        the given type with the given tag) and ``"last_tagged"`` (the resource
+        of the given type to which the tag was most recently applied)
+    """
 
     def __init__(self, state=None, **extra):
         if isinstance(state, string_types):
@@ -71,51 +88,65 @@ class Tag(Resource):
         self.doapi_manager.request(self.url, method='DELETE')
 
     def add(self, *resources):
+        """ TODO """
         self.doapi_manager.request(self.url + '/resources', method='POST',
                                    data={"resources": _to_taggable(resources)})
 
     def remove(self, *resources):
+        """ TODO """
         self.doapi_manager.request(self.url + '/resources', method='DELETE',
                                    data={"resources": _to_taggable(resources)})
 
     def fetch_all_droplets(self):
+        """ TODO """
         api = self.doapi_manager
         return map(api._droplet, api.paginate('/v2/droplets', 'droplets',
                                               params={"tag_name": self.name}))
 
     def delete_all_droplets(self):
+        """ TODO """
         self.doapi_manager.request('/v2/droplets', method='DELETE',
                                    params={"tag_name": self.name})
 
     def act_on_droplets(self, **data):
+        """ TODO """
         api = self.doapi_manager
         return map(api._action, api.request('/v2/droplets/actions', method='POST', params={"tag_name": self.name}, data=data)["actions"])
 
     def power_cycle(self):
+        """ TODO """
         return self.act_on_droplets(type='power_cycle')
 
     def power_on(self):
+        """ TODO """
         return self.act_on_droplets(type='power_on')
 
     def power_off(self):
+        """ TODO """
         return self.act_on_droplets(type='power_off')
 
     def shutdown(self):
+        """ TODO """
         return self.act_on_droplets(type='shutdown')
 
     def enable_private_networking(self):
+        """ TODO """
         return self.act_on_droplets(type='enable_private_networking')
 
     def enable_ipv6(self):
+        """ TODO """
         return self.act_on_droplets(type='enable_ipv6')
 
     def enable_backups(self):
+        """ TODO """
         return self.act_on_droplets(type='enable_backups')
 
     def disable_backups(self):
+        """ TODO """
         return self.act_on_droplets(type='disable_backups')
 
     def snapshot(self, name):
+        """ TODO """
         return self.act_on_droplets(type='snapshot', name=name)
 
 
