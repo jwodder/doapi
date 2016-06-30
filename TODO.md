@@ -8,6 +8,7 @@
             - idea: The droplets with the tag `TAG` can be specified on the
               command line as `--tag=TAG`, which can only be used in place of
               (not in addition to) identifiers for individual objects.
+    - Add pages to the documentation for the `Tag` class and `doapi-tag`
 
 # For Version 1
 

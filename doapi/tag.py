@@ -98,7 +98,13 @@ class Tag(Resource):
                                    data={"resources": _to_taggable(resources)})
 
     def fetch_all_droplets(self):
-        """ TODO """
+        r"""
+        Returns a generator that yields all of the droplets to which the tag is
+        currently applied
+
+        :rtype: generator of `Droplet`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         api = self.doapi_manager
         return map(api._droplet, api.paginate('/v2/droplets', 'droplets',
                                               params={"tag_name": self.name}))
