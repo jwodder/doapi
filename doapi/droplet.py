@@ -4,7 +4,6 @@ from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
                         Networks, BackupWindow, ResourceWithDroplet, Taggable, \
                         fromISO8601
 from .image    import Image
-from .tag      import Tag  ### TODO: Fix circular import
 
 class Droplet(Actionable, ResourceWithID, Taggable):
     """
@@ -74,7 +73,7 @@ class Droplet(Actionable, ResourceWithID, Taggable):
     :vartype status: string
 
     :var tags: tags that have been applied to the droplet
-    :vartype tags: list of `Tag`s
+    :vartype tags: list of strings
 
     :var vcpus: number of virtual CPUs
     :vartype vcpus: int
@@ -109,12 +108,6 @@ class Droplet(Actionable, ResourceWithID, Taggable):
         if self.get('created_at') is not None and \
                 not isinstance(self.created_at, datetime):
             self.created_at = fromISO8601(self.created_at)
-        tags = []
-        for t in self.get('tags', []):
-            if not isinstance(t, Tag):
-                t = Tag(t, doapi_manager=self.doapi_manager)
-            tags.append(t)
-        self.tags = tags
 
     @property
     def active(self):
