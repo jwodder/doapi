@@ -5,9 +5,7 @@ import os
 import os.path
 import re
 import sys
-from   ..          import __version__
-from   ..base      import DOEncoder
-from   ..doapi     import doapi
+from   ..          import __version__, DOEncoder, doapi, WaitTimeoutError
 
 universal = argparse.ArgumentParser(add_help=False)
 tokenopts = universal.add_mutually_exclusive_group()
@@ -283,9 +281,11 @@ def do_actioncmd(args, client, objects):
             params = {}
         actions = [obj.act(type=args.type, **params) for obj in objects]
         if args.wait:
-            actions = client.wait_actions(actions,
-                                          wait_interval=args.wait_interval,
-                                          wait_time=args.wait_time)
+            actions = catch_timeout(client.wait_actions(
+                actions,
+                wait_interval=args.wait_interval,
+                wait_time=args.wait_time
+            ))
         dump(actions)
     elif args.cmd == 'actions':
         if args.in_progress:
@@ -296,21 +296,23 @@ def do_actioncmd(args, client, objects):
             dump(obj.fetch_all_actions() for obj in objects)
     elif args.cmd == 'wait':
         if getattr(args, "status", None) is not None:
-            dump(client.wait_droplets(objects, status=args.status,
-                                               wait_interval=args.wait_interval,
-                                               wait_time=args.wait_time))
+            waiter = client.wait_droplets(objects, status=args.status,
+                                          wait_interval=args.wait_interval,
+                                          wait_time=args.wait_time)
         elif getattr(args, "locked", None) is not None:
-            dump(client.wait_droplets(objects, locked=True,
-                                               wait_interval=args.wait_interval,
-                                               wait_time=args.wait_time))
+            waiter = client.wait_droplets(objects, locked=True,
+                                          wait_interval=args.wait_interval,
+                                          wait_time=args.wait_time)
         elif getattr(args, "unlocked", None) is not None:
-            dump(client.wait_droplets(objects, locked=False,
-                                               wait_interval=args.wait_interval,
-                                               wait_time=args.wait_time))
+            waiter = client.wait_droplets(objects, locked=False,
+                                          wait_interval=args.wait_interval,
+                                          wait_time=args.wait_time)
         else:
             actions = list(currentActions(objects))
-            dump(client.wait_actions(actions, wait_interval=args.wait_interval,
-                                              wait_time=args.wait_time))
+            waiter = client.wait_actions(actions,
+                                         wait_interval=args.wait_interval,
+                                         wait_time=args.wait_time)
+        dump(catch_timeout(waiter))
     else:
         assert False, 'do_actioncmd called with invalid command'
 
@@ -337,3 +339,11 @@ def rmdups(objs, objtype, idfield='id'):
             seen.add(idval)
             uniq.append(o)
     return uniq
+
+def catch_timeout(gen):
+    try:
+        for obj in gen:
+            yield obj
+    except WaitTimeoutError as e:
+        for obj in e.in_progress:
+            yield obj

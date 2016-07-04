@@ -1,6 +1,7 @@
 import argparse
 from   six.moves import map  # pylint: disable=redefined-builtin
 from   .         import _util as util
+from   ..        import WaitTimeoutError
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal],
@@ -55,9 +56,12 @@ def main(argv=None, parsed=None):
         else:
             newip = client.create_floating_ip(region=args.region)
         if args.wait:
-            list(client.wait_actions(newip.fetch_all_actions(),
-                                     wait_interval=args.wait_interval,
-                                     wait_time=args.wait_time))
+            try:
+                list(client.wait_actions(newip.fetch_all_actions(),
+                                         wait_interval=args.wait_interval,
+                                         wait_time=args.wait_time))
+            except WaitTimeoutError:
+                pass
             newip = newip.fetch()
         util.dump(newip)
 
@@ -66,16 +70,22 @@ def main(argv=None, parsed=None):
         drop = cache.get_droplet(args.droplet, multiple=False)
         act = floip.assign(drop)
         if args.wait:
-            act = act.wait(wait_interval=args.wait_interval,
-                           wait_time=args.wait_time)
+            try:
+                act = act.wait(wait_interval=args.wait_interval,
+                               wait_time=args.wait_time)
+            except WaitTimeoutError as e:
+                act = e.in_progress[0]
         util.dump(act)
 
     elif args.cmd == 'unassign':
         floips = util.rmdups(map(client.fetch_floating_ip, map(maybeInt, args.ip)), 'floating IP', 'ip')
         acts = [fi.unassign() for fi in floips]
         if args.wait:
-            acts = client.wait_actions(acts, wait_interval=args.wait_interval,
-                                             wait_time=args.wait_time)
+            acts = util.catch_timeout(client.wait_actions(
+                acts,
+                wait_interval=args.wait_interval,
+                wait_time=args.wait_time
+            ))
         util.dump(acts)
 
     elif args.cmd == 'delete':

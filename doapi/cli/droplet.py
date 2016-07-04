@@ -8,6 +8,7 @@ import sys
 from   time       import time
 from   six.moves  import map, range  # pylint: disable=redefined-builtin
 from   .          import _util as util
+from   ..         import WaitTimeoutError
 
 unary_acts = {
     "disable-backups":           "Disable automatic backups on a droplet",
@@ -223,9 +224,12 @@ def main(argv=None, parsed=None):
         for i in range(0, len(args.name), create_rate):
             drops.extend(client.create_multiple_droplets(args.name[i:i+create_rate], **params))
         if args.wait:
-            drops = client.wait_droplets(drops, status='active',
-                                         wait_interval=args.wait_interval,
-                                         wait_time=args.wait_time)
+            drops = util.catch_timeout(client.wait_droplets(
+                drops,
+                status='active',
+                wait_interval=args.wait_interval,
+                wait_time=args.wait_time
+            ))
             ### Note: This will cause problems when fetching a pre-existing
             ###       droplet that isn't active.
         util.dump(drops)
@@ -242,8 +246,11 @@ def main(argv=None, parsed=None):
                                                  hasM=True)
         acts = map(methodcaller(args.cmd.replace('-', '_')), drops)
         if args.wait:
-            acts = client.wait_actions(acts, wait_interval=args.wait_interval,
-                                             wait_time=args.wait_time)
+            acts = util.catch_timeout(client.wait_actions(
+                acts,
+                wait_interval=args.wait_interval,
+                wait_time=args.wait_time
+            ))
         util.dump(acts)
 
     elif args.cmd == 'delete':
@@ -262,8 +269,11 @@ def main(argv=None, parsed=None):
         img = cache.get_image(args.backup, multiple=False)
         act = drop.restore(img)
         if args.wait:
-            act = act.wait(wait_interval=args.wait_interval,
-                           wait_time=args.wait_time)
+            try:
+                act = act.wait(wait_interval=args.wait_interval,
+                               wait_time=args.wait_time)
+            except WaitTimeoutError as e:
+                act = e.in_progress[0]
         util.dump(act)
 
     elif args.cmd == 'resize':
@@ -271,8 +281,11 @@ def main(argv=None, parsed=None):
                                                  hasM=True)
         acts = [d.resize(args.size, disk=args.disk) for d in drops]
         if args.wait:
-            acts = client.wait_actions(acts, wait_interval=args.wait_interval,
-                                             wait_time=args.wait_time)
+            acts = util.catch_timeout(client.wait_actions(
+                acts,
+                wait_interval=args.wait_interval,
+                wait_time=args.wait_time
+            ))
         util.dump(acts)
 
     elif args.cmd == 'rebuild':
@@ -284,8 +297,11 @@ def main(argv=None, parsed=None):
         else:
             acts = [d.rebuild(d.image) for d in drops]
         if args.wait:
-            acts = client.wait_actions(acts, wait_interval=args.wait_interval,
-                                             wait_time=args.wait_time)
+            acts = util.catch_timeout(client.wait_actions(
+                acts,
+                wait_interval=args.wait_interval,
+                wait_time=args.wait_time
+            ))
         util.dump(acts)
 
     elif args.cmd == 'rename':
@@ -293,8 +309,11 @@ def main(argv=None, parsed=None):
         drop = cache.get_droplet(args.droplet, multiple=False)
         act = drop.rename(args.name)
         if args.wait:
-            act = act.wait(wait_interval=args.wait_interval,
-                           wait_time=args.wait_time)
+            try:
+                act = act.wait(wait_interval=args.wait_interval,
+                               wait_time=args.wait_time)
+            except WaitTimeoutError as e:
+                act = e.in_progress[0]
         util.dump(act)
 
     elif args.cmd == 'snapshot':
@@ -302,8 +321,11 @@ def main(argv=None, parsed=None):
         drop = cache.get_droplet(args.droplet, multiple=False)
         act = drop.snapshot(args.name)
         if args.wait:
-            act = act.wait(wait_interval=args.wait_interval,
-                           wait_time=args.wait_time)
+            try:
+                act = act.wait(wait_interval=args.wait_interval,
+                               wait_time=args.wait_time)
+            except WaitTimeoutError as e:
+                act = e.in_progress[0]
         util.dump(act)
 
     elif args.cmd == 'change-kernel':
@@ -311,8 +333,11 @@ def main(argv=None, parsed=None):
                                                  hasM=True)
         acts = [d.change_kernel(args.kernel) for d in drops]
         if args.wait:
-            acts = client.wait_actions(acts, wait_interval=args.wait_interval,
-                                             wait_time=args.wait_time)
+            acts = util.catch_timeout(client.wait_actions(
+                acts,
+                wait_interval=args.wait_interval,
+                wait_time=args.wait_time
+            ))
         util.dump(acts)
 
     elif args.cmd == 'neighbors':
