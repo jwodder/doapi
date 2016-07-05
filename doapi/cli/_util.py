@@ -281,11 +281,7 @@ def do_actioncmd(args, client, objects):
             params = {}
         actions = [obj.act(type=args.type, **params) for obj in objects]
         if args.wait:
-            actions = catch_timeout(client.wait_actions(
-                actions,
-                wait_interval=args.wait_interval,
-                wait_time=args.wait_time
-            ))
+            actions = catch_timeout(client.wait_actions(actions))
         dump(actions)
     elif args.cmd == 'actions':
         if args.in_progress:
@@ -296,22 +292,14 @@ def do_actioncmd(args, client, objects):
             dump(obj.fetch_all_actions() for obj in objects)
     elif args.cmd == 'wait':
         if getattr(args, "status", None) is not None:
-            waiter = client.wait_droplets(objects, status=args.status,
-                                          wait_interval=args.wait_interval,
-                                          wait_time=args.wait_time)
+            waiter = client.wait_droplets(objects, status=args.status)
         elif getattr(args, "locked", None) is not None:
-            waiter = client.wait_droplets(objects, locked=True,
-                                          wait_interval=args.wait_interval,
-                                          wait_time=args.wait_time)
+            waiter = client.wait_droplets(objects, locked=True)
         elif getattr(args, "unlocked", None) is not None:
-            waiter = client.wait_droplets(objects, locked=False,
-                                          wait_interval=args.wait_interval,
-                                          wait_time=args.wait_time)
+            waiter = client.wait_droplets(objects, locked=False)
         else:
             actions = list(currentActions(objects))
-            waiter = client.wait_actions(actions,
-                                         wait_interval=args.wait_interval,
-                                         wait_time=args.wait_time)
+            waiter = client.wait_actions(actions)
         dump(catch_timeout(waiter))
     else:
         assert False, 'do_actioncmd called with invalid command'

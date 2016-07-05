@@ -57,9 +57,7 @@ def main(argv=None, parsed=None):
             newip = client.create_floating_ip(region=args.region)
         if args.wait:
             try:
-                list(client.wait_actions(newip.fetch_all_actions(),
-                                         wait_interval=args.wait_interval,
-                                         wait_time=args.wait_time))
+                list(client.wait_actions(newip.fetch_all_actions()))
             except WaitTimeoutError:
                 pass
             newip = newip.fetch()
@@ -71,8 +69,7 @@ def main(argv=None, parsed=None):
         act = floip.assign(drop)
         if args.wait:
             try:
-                act = act.wait(wait_interval=args.wait_interval,
-                               wait_time=args.wait_time)
+                act = act.wait()
             except WaitTimeoutError as e:
                 act = e.in_progress[0]
         util.dump(act)
@@ -81,11 +78,7 @@ def main(argv=None, parsed=None):
         floips = util.rmdups(map(client.fetch_floating_ip, map(maybeInt, args.ip)), 'floating IP', 'ip')
         acts = [fi.unassign() for fi in floips]
         if args.wait:
-            acts = util.catch_timeout(client.wait_actions(
-                acts,
-                wait_interval=args.wait_interval,
-                wait_time=args.wait_time
-            ))
+            acts = util.catch_timeout(client.wait_actions(acts))
         util.dump(acts)
 
     elif args.cmd == 'delete':

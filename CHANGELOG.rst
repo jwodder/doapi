@@ -10,8 +10,6 @@ v0.2.0 (in development)
 - **Breaking**: Removed the ``droplet`` attribute and ``fetch_droplet`` method
   from ``BackupWindow``, ``Image``, ``Kernel``, ``Networks``, and
   ``NetworkInterface``
-- **Bugfix**: The ``--wait-interval`` and ``--wait-time`` options now actually
-  have an effect
 - New methods:
 
     - ``doapi.wait_actions_on_objects``
