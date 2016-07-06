@@ -1,7 +1,6 @@
 from six.moves import map  # pylint: disable=redefined-builtin
 from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
-                        Networks, BackupWindow, ResourceWithDroplet, Taggable, \
-                        fromISO8601
+                        Networks, BackupWindow, Taggable, fromISO8601
 from .image    import Image
 
 class Droplet(Actionable, ResourceWithID, Taggable):

@@ -1,5 +1,5 @@
 from six          import iteritems, string_types
-from six.moves    import map
+from six.moves    import map  # pylint: disable=redefined-builtin
 from .base        import Resource
 from .droplet     import Droplet
 from .floating_ip import FloatingIP

@@ -1,5 +1,6 @@
 import argparse
-from   . import _util as util
+from   six.moves import map  # pylint: disable=redefined-builtin
+from   .         import _util as util
 
 def main(argv=None, parsed=None):
     parser = argparse.ArgumentParser(parents=[util.universal], prog='doapi-tag',
@@ -25,7 +26,7 @@ def main(argv=None, parsed=None):
     cmd_update.add_argument('name', help='new name for the tag')
 
     args = parser.parse_args(argv, parsed)
-    client, cache = util.mkclient(args)
+    client, _ = util.mkclient(args)
 
     if args.cmd == 'show':
         if args.tag:
