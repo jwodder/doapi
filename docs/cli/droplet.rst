@@ -63,6 +63,9 @@ SYNOPSIS
     doapi-droplet actions [--last | --in-progress] [-M|--multiple] <droplet> ...
     doapi-droplet wait [--wait-time <seconds>] [--wait-interval <seconds>] [-M|--multiple] [-S|--status <status> | --locked | --unlocked] <droplet> ...
 
+    doapi-droplet tag [-M|--multiple] <tag> <droplet> ...
+    doapi-droplet untag [-M|--multiple] <tag> <droplet> ...
+
 :program:`doapi-droplet` also takes the :ref:`universal options <universal>`
 common to all :program:`doapi` commands.
 
@@ -225,3 +228,18 @@ Simple Actions
 ::
 
     doapi-droplet delete [-M|--multiple] <droplet> ...
+
+:command:`tag`
+^^^^^^^^^^^^^^
+
+::
+
+    doapi-droplet tag [-M|--multiple] <tag> <droplet> ...
+
+
+:command:`untag`
+^^^^^^^^^^^^^^^^^
+
+::
+
+    doapi-droplet untag [-M|--multiple] <tag> <droplet> ...

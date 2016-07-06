@@ -1,3 +1,4 @@
+import abc
 import collections
 from   datetime  import datetime
 import json
@@ -5,7 +6,7 @@ import numbers
 import socket
 import struct
 import pyrfc3339
-from   six       import iteritems
+from   six       import add_metaclass, iteritems
 from   six.moves import map  # pylint: disable=redefined-builtin
 
 class Resource(collections.MutableMapping):
@@ -237,6 +238,22 @@ class Actionable(Resource):
             if a.in_progress:
                 return a
         return None
+
+
+@add_metaclass(abc.ABCMeta)
+class Taggable(Resource):
+    @abc.abstractmethod
+    def _taggable(self):
+        """
+        Returns the value that represents this object in tagging operations
+        """
+        pass
+
+    def tag(self, tag_name):
+        self.doapi_manager._tag(tag_name).add(self)
+
+    def untag(self, tag_name):
+        self.doapi_manager._tag(tag_name).remove(self)
 
 
 class DOEncoder(json.JSONEncoder):

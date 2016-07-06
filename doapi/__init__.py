@@ -14,6 +14,7 @@ from .droplet     import Droplet
 from .floating_ip import FloatingIP
 from .image       import Image
 from .ssh_key     import SSHKey
+from .tag         import Tag
 
 __all__ = [
     'doapi',
@@ -35,5 +36,6 @@ __all__ = [
     'Resource',
     'SSHKey',
     'Size',
+    'Tag',
     'WaitTimeoutError',
 ]

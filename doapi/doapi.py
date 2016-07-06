@@ -11,6 +11,7 @@ from   .droplet     import Droplet
 from   .floating_ip import FloatingIP
 from   .image       import Image
 from   .ssh_key     import SSHKey
+from   .tag         import Tag
 
 class doapi(object):
     """
@@ -881,6 +882,53 @@ class doapi(object):
         data.update(kwargs)
         return self._floating_ip(self.request('/v2/floating_ips', method='POST',
                                               data=data)["floating_ip"])
+
+    def _tag(self, obj):
+        """
+        Construct a `Tag` object belonging to the `doapi` object.  ``obj`` may
+        be a tag name, a dictionary of tag fields, or another `Tag` object
+        (which will be shallow-copied).  The resulting `Tag` will only contain
+        the information in ``obj``; no data will be sent to or from the API
+        endpoint.
+
+        :type obj: string, `dict`, or `Tag`
+        :rtype: Tag
+        """
+        return Tag(obj, doapi_manager=self)
+
+    def fetch_tag(self, obj):
+        """
+        Fetch a tag by name
+
+        :param obj: the name of the tag, a `dict` with a ``"name"`` field, or a
+            `Tag` object (to re-fetch the same tag)
+        :type obj: string, `dict`, or `Tag`
+        :rtype: Tag
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        return self._tag(obj).fetch()
+
+    def fetch_all_tags(self):
+        r"""
+        Returns a generator that yields all of the tags belonging to the
+        account
+
+        :rtype: generator of `Tag`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        return map(self._tag, self.paginate('/v2/tags', 'tags'))
+
+    def create_tag(self, name):
+        """
+        Add a new tag resource to the account
+
+        :param str name: the name of the new tag
+        :rtype: Tag
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        return self._tag(self.request('/v2/tags', method='POST', data={
+            "name": name,
+        })["tag"])
 
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)

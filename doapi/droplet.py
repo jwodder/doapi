@@ -1,9 +1,10 @@
 from six.moves import map  # pylint: disable=redefined-builtin
 from .base     import Actionable, ResourceWithID, Region, Size, Kernel, \
-                        Networks, BackupWindow, fromISO8601
+                        Networks, BackupWindow, ResourceWithDroplet, Taggable, \
+                        fromISO8601
 from .image    import Image
 
-class Droplet(Actionable, ResourceWithID):
+class Droplet(Actionable, ResourceWithID, Taggable):
     """
     A droplet resource, representing a virtual machine provided by
     DigitalOcean.
@@ -69,6 +70,9 @@ class Droplet(Actionable, ResourceWithID):
     :var status: the current state of the droplet: ``"new"``, ``"active"``,
         ``"off"``, or ``"archive"``
     :vartype status: string
+
+    :var tags: tags that have been applied to the droplet
+    :vartype tags: list of strings
 
     :var vcpus: number of virtual CPUs
     :vartype vcpus: int
@@ -523,3 +527,6 @@ class Droplet(Actionable, ResourceWithID):
         """
         return next(self.doapi_manager.wait_droplets([self], status, locked,
                                                      wait_interval, wait_time))
+
+    def _taggable(self):
+        return {"resource_id": self.id, "resource_type": "droplet"}
