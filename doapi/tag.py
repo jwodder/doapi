@@ -13,7 +13,7 @@ resource_types = {
 }
 
 class Tag(Resource):
-    """
+    r"""
     A tag resource, representing a label that can be applied to other
     resources.
 
@@ -27,7 +27,7 @@ class Tag(Resource):
     :vartype name: string
 
     :var resources: a `dict` mapping resource types (e.g., ``"droplets"``) to
-        sub-`dict`s containing fields ``"count"`` (the number of resources of
+        sub-`dict`\ s containing fields ``"count"`` (the number of resources of
         the given type with the given tag) and ``"last_tagged"`` (the resource
         of the given type to which the tag was most recently applied)
     """

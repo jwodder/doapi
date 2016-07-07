@@ -13,6 +13,7 @@ Library
    floating_ip
    image
    ssh_key
+   tag
    immutable
    utils
    examples

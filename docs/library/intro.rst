@@ -42,8 +42,8 @@ Resource Objects
 
 Instances of classes representing DigitalOcean API resources — i.e., `Account`,
 `Action`, `BackupWindow`, `Domain`, `DomainRecord`, `Droplet`, `FloatingIP`,
-`Image`, `Kernel`, `NetworkInterface`, `Networks`, `Region`, `SSHKey`, and
-`Size` — make their API fields available in three different ways:
+`Image`, `Kernel`, `NetworkInterface`, `Networks`, `Region`, `SSHKey`, `Size`,
+and `Tag` — make their API fields available in three different ways:
 
 - as regular object attributes: ``droplet.id``
 - via indexing: ``droplet["id"]``
