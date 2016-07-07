@@ -8,7 +8,6 @@
             - idea: The droplets with the tag `TAG` can be specified on the
               command line as `--tag=TAG`, which can only be used in place of
               (not in addition to) identifiers for individual objects.
-    - Add page to the documentation for `doapi-tag`
     - Give `Droplet` `add_tag` and `remove_tag` methods that can take either a
       string or a `Tag`
 - Test creating an SSH key containing non-ASCII UTF-8
