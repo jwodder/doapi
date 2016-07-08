@@ -164,7 +164,7 @@ def main(argv=None, parsed=None):
     cmd_tag.add_argument('-M', '--multiple', action='store_true',
                          help='Tag multiple droplets with the same name instead'
                               ' of erroring')
-    cmd_tag.add_argument('tag_name', type=int, help='name of a tag')
+    cmd_tag.add_argument('tag_name', help='name of a tag')
     cmd_tag.add_argument('droplet', nargs='+', help='ID or name of a droplet')
 
     cmd_untag = cmds.add_parser('untag', help='Remove a tag from a droplet',
@@ -172,7 +172,7 @@ def main(argv=None, parsed=None):
     cmd_untag.add_argument('-M', '--multiple', action='store_true',
                            help='Untag multiple droplets with the same name'
                                 ' instead of erroring')
-    cmd_untag.add_argument('tag_name', type=int, help='name of a tag')
+    cmd_untag.add_argument('tag_name', help='name of a tag')
     cmd_untag.add_argument('droplet', nargs='+', help='ID or name of a droplet')
 
     args = parser.parse_args(argv, parsed)

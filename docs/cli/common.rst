@@ -91,8 +91,9 @@ individual documentation:
 
 .. option:: --api-token-file <file>
 
-    Use the contents of ``<file>`` as an OAuth token for authentication with
-    the API; mutually exclusive with ``--api-token``
+    Use the contents of ``<file>`` (after stripping leading & trailing
+    whitespace) as an OAuth token for authentication with the API; mutually
+    exclusive with ``--api-token``
 
 .. option:: --endpoint <URL>
 
