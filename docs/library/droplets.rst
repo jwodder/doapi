@@ -15,6 +15,8 @@ Droplet
    .. automethod:: fetch_last_action
    .. automethod:: fetch_current_action
    .. automethod:: __int__
+   .. automethod:: tag
+   .. automethod:: untag
 
 .. [APIDocs] https://developers.digitalocean.com/documentation/v2/
 

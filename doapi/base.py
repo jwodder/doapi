@@ -252,11 +252,27 @@ class Taggable(Resource):
         """
         pass
 
-    def tag(self, tag_name):
-        self.doapi_manager._tag(tag_name).add(self)
+    def tag(self, t):
+        """
+        Apply the given tag to the resource
 
-    def untag(self, tag_name):
-        self.doapi_manager._tag(tag_name).remove(self)
+        :param t: the tag to apply
+        :type t: string or `Tag`
+        :return: `None`
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        self.doapi_manager._tag(t).add(self)
+
+    def untag(self, t):
+        """
+        Remove the given tag from the resource
+
+        :param t: the tag to remove
+        :type t: string or `Tag`
+        :return: `None`
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        self.doapi_manager._tag(t).remove(self)
 
 
 class DOEncoder(json.JSONEncoder):
