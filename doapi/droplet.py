@@ -176,7 +176,7 @@ class Droplet(Actionable, ResourceWithID, Taggable):
 
     @property
     def url(self):
-        """ The endpoint for operations on the specific droplet """
+        """ The endpoint for general operations on the individual droplet """
         return self._url('/v2/droplets/' + str(self.id))
 
     def fetch(self):

@@ -52,7 +52,7 @@ class SSHKey(ResourceWithID):
 
     @property
     def url(self):
-        """ The endpoint for operations on the specific SSH key """
+        """ The endpoint for general operations on the individual SSH key """
         return self._url('/v2/account/keys/' + str(self._id))
 
     def fetch(self):

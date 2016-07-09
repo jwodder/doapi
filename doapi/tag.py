@@ -46,7 +46,7 @@ class Tag(Resource):
 
     @property
     def url(self):
-        """ The endpoint for operations on the specific tag """
+        """ The endpoint for general operations on the individual tag """
         return self._url('/v2/tags/' + self.name)
 
     def fetch(self):

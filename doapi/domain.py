@@ -34,7 +34,7 @@ class Domain(Resource):
 
     @property
     def url(self):
-        """ The endpoint for operations on the specific domain """
+        """ The endpoint for general operations on the individual domain """
         return self._url('/v2/domains/' + self.name)
 
     def fetch(self):
@@ -176,7 +176,9 @@ class DomainRecord(ResourceWithID):
 
     @property
     def url(self):
-        """ The endpoint for operations on the specific domain record """
+        """
+        The endpoint for general operations on the individual domain record
+        """
         return self.domain.record_url + '/' + str(self.id)
 
     def fetch(self):

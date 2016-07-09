@@ -1,5 +1,4 @@
 - Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
-    - Add a class for tag resource statistics dicts???
     - Add a (public) method for constructing a `Tag` object without fetching
       anything?
     - Add CLI support
@@ -8,8 +7,6 @@
             - idea: The droplets with the tag `TAG` can be specified on the
               command line as `--tag=TAG`, which can only be used in place of
               (not in addition to) identifiers for individual objects.
-    - Give `Droplet` `add_tag` and `remove_tag` methods that can take either a
-      string or a `Tag`
 - Test creating an SSH key containing non-ASCII UTF-8
     - Also test creating a droplet with non-ASCII UTF-8 metadata
 

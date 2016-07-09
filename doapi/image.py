@@ -63,7 +63,7 @@ class Image(Actionable, ResourceWithID):
 
     @property
     def url(self):
-        """ The endpoint for operations on the specific image """
+        """ The endpoint for general operations on the individual image """
         return self._url('/v2/images/' + str(self.id))
 
     def fetch(self):

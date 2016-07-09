@@ -52,7 +52,9 @@ class FloatingIP(Actionable):
 
     @property
     def url(self):
-        """ The endpoint for operations on the specific floating IP """
+        """
+        The endpoint for general operations on the individual floating IP
+        """
         return self._url('/v2/floating_ips/' + self.ip)
 
     def fetch(self):
