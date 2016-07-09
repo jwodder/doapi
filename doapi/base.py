@@ -118,13 +118,16 @@ class ResourceWithID(Resource):
         return self.id
 
 
+@add_metaclass(abc.ABCMeta)
 class Actionable(Resource):
-    # Required property: url
-    # Required method: fetch
+    @abc.abstractproperty
+    def url(self):
+        """ The endpoint for general operations on the individual resource """
+        pass
 
     @property
     def action_url(self):
-        """ The endpoint for actions on the specific resource """
+        """ The endpoint for actions on the individual resource """
         return self.url + '/actions'
 
     def act(self, **data):
