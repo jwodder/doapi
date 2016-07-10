@@ -1,35 +1,36 @@
-from   __future__ import print_function
+from   __future__  import print_function
 import argparse
-from   base64     import b64decode
-from   errno      import ENOENT
-from   hashlib    import md5
-from   operator   import methodcaller
+from   base64      import b64decode
+from   collections import namedtuple
+from   errno       import ENOENT
+from   hashlib     import md5
+from   operator    import methodcaller
 import sys
-from   time       import time
-from   six.moves  import map, range  # pylint: disable=redefined-builtin
-from   .          import _util as util
-from   ..         import WaitTimeoutError
+from   time        import time
+from   six.moves   import map, range  # pylint: disable=redefined-builtin
+from   .           import _util as util
+from   ..          import WaitTimeoutError
 
-unary_acts = {
-    "disable-backups":           "Disable automatic backups on a droplet",
-    "enable-backups":            "Enable automatic backups on a droplet",
-    "enable-ipv6":               "Enable IPv6 networking on a droplet",
-    "enable-private-networking": "Enable private networking on a droplet",
-    "password-reset":            "Reset the root password for a droplet",
-    "power-cycle":               "Forcibly powercycle a droplet",
-    "power-off":                 "Forcibly power off a droplet",
-    "power-on":                  "Power on a droplet",
-    "reboot":                    "Attempt to gracefully reboot a droplet",
-    "shutdown":                  "Attempt to gracefully shut down a droplet",
+UnaryCmd = namedtuple('UnaryCmd', 'help method waitable taggable')
+
+unary_cmds = {
+    "backups":                   UnaryCmd("List a droplet's backup images", 'fetch_all_backups', False, False),
+    "delete":                    UnaryCmd('Delete a droplet', 'delete', False, False),  ### no output
+    "disable-backups":           UnaryCmd("Disable automatic backups on a droplet", 'disable_backups', True, True),
+    "enable-backups":            UnaryCmd("Enable automatic backups on a droplet", 'enable_backups', True, True),
+    "enable-ipv6":               UnaryCmd("Enable IPv6 networking on a droplet", 'enable_ipv6', True, True),
+    "enable-private-networking": UnaryCmd("Enable private networking on a droplet", 'enable_private_networking', True, True),
+    "kernels":                   UnaryCmd('List the kernels available to a droplet', 'fetch_all_kernels', False, False),
+    "password-reset":            UnaryCmd("Reset the root password for a droplet", 'password_reset', True, False),
+    "power-cycle":               UnaryCmd("Forcibly powercycle a droplet", 'power_cycle', True, True),
+    "power-off":                 UnaryCmd("Forcibly power a droplet off", 'power_off', True, True),
+    "power-on":                  UnaryCmd("Power a droplet on", 'power_on', True, True),
+    "reboot":                    UnaryCmd("Attempt to gracefully reboot a droplet", 'reboot', True, False),
+    "show-snapshots":            UnaryCmd("List a droplet's snapshot images", 'fetch_all_snapshots', False, False),
+    "shutdown":                  UnaryCmd("Attempt to gracefully shut down a droplet", 'shutdown', True, True),
 }
 
-unary_other = {
-    'show-snapshots': ("List a droplet's snapshot images",
-                       'fetch_all_snapshots'),
-    'backups': ("List a droplet's backup images", 'fetch_all_backups'),
-    'kernels': ('List the kernels available to a droplet', 'fetch_all_kernels'),
-    'delete':  ('Delete a droplet', 'delete'),
-}
+### also taggable: `snapshot`
 
 create_rate = 10  # maximum number of droplets to create at once
 
@@ -74,17 +75,11 @@ def main(argv=None, parsed=None):
 
     util.add_actioncmds(cmds, 'droplet')
 
-    for act in sorted(unary_acts):
-        c = cmds.add_parser(act, parents=[util.waitopts], help=unary_acts[act],
-                            description=unary_acts[act])
-        c.add_argument('-M', '--multiple', action='store_true',
-                       help='Operate on multiple droplets with the same ID or'
-                            ' name')
-        c.add_argument('droplet', nargs='+', help='ID or name of a droplet')
-
-    for act in sorted(unary_other):
-        about = unary_other[act][0]
-        c = cmds.add_parser(act, help=about, description=about)
+    for cname, about in sorted(unary_cmds.items()):
+        parents = [util.waitopts] if about.waitable else []
+        c = cmds.add_parser(cname, parents=parents,
+                                   help=about.help,
+                                   description=about.help)
         c.add_argument('-M', '--multiple', action='store_true',
                        help='Operate on multiple droplets with the same ID or'
                             ' name')
@@ -251,23 +246,15 @@ def main(argv=None, parsed=None):
         drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         util.do_actioncmd(args, client, drops)
 
-    elif args.cmd in unary_acts:
+    elif args.cmd in unary_cmds:
         # Fetch all of the droplets first so that an invalid droplet
         # specification won't cause some actions to start and others not.
         drops = cache.get_droplets(args.droplet, multiple=args.multiple)
-        acts = map(methodcaller(args.cmd.replace('-', '_')), drops)
-        if args.wait:
-            acts = util.catch_timeout(client.wait_actions(acts))
-        util.dump(acts)
-
-    elif args.cmd == 'delete':
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
-        for d in drops:
-            d.delete()
-
-    elif args.cmd in unary_other:
-        util.dump(map(methodcaller(unary_other[args.cmd][1]),
-                      cache.get_droplets(args.droplet, multiple=args.multiple)))
+        output = map(methodcaller(unary_cmds[args.cmd].method), drops)
+        if getattr(args, 'wait', False):
+            output = util.catch_timeout(client.wait_actions(output))
+        if args.cmd != 'delete':
+            util.dump(output)
 
     elif args.cmd == 'restore':
         drop = cache.get_droplet(args.droplet, multiple=False)
