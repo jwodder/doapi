@@ -114,7 +114,7 @@ class ResourceWithID(Resource):
         super(ResourceWithID, self).__init__(state, **extra)
 
     def __int__(self):
-        """ Convert the resource to its unique ID """
+        """ Convert the resource to its unique integer ID """
         return self.id
 
 
