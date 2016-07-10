@@ -86,13 +86,12 @@ def main(argv=None, parsed=None):
                 util.die('--private and image arguments are mutually exclusive')
             util.dump(client.fetch_all_private_images())
         elif args.image:
-            util.dump(cache.get_images(args.image, multiple=args.multiple,
-                                                   hasM=True))
+            util.dump(cache.get_images(args.image, multiple=args.multiple))
         else:
             util.dump(client.fetch_all_images())
 
     elif args.cmd == 'delete':
-        imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
+        imgs = cache.get_images(args.image, multiple=args.multiple)
         for i in imgs:
             i.delete()
 
@@ -102,21 +101,21 @@ def main(argv=None, parsed=None):
         util.dump(img.update_image(args.name))
 
     elif args.cmd == 'transfer':
-        imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
+        imgs = cache.get_images(args.image, multiple=args.multiple)
         acts = (i.transfer(args.region) for i in imgs)
         if args.wait:
             acts = util.catch_timeout(client.wait_actions(acts))
         util.dump(acts)
 
     elif args.cmd == 'convert':
-        imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
+        imgs = cache.get_images(args.image, multiple=args.multiple)
         acts = map(Image.convert, imgs)
         if args.wait:
             acts = util.catch_timeout(client.wait_actions(acts))
         util.dump(acts)
 
     elif args.cmd in ('act', 'actions', 'wait'):
-        imgs = cache.get_images(args.image, multiple=args.multiple, hasM=True)
+        imgs = cache.get_images(args.image, multiple=args.multiple)
         util.do_actioncmd(args, client, imgs)
 
     else:

@@ -99,11 +99,11 @@ class Cache(object):
         self.cache_sshkeys()
         return self.get("sshkey", label, multiple, mandatory, hasM)
 
-    def get_sshkeys(self, labels, multiple=True, hasM=False):
+    def get_sshkeys(self, labels, multiple=True):
         if multiple:
             objs = [key for l in labels for key in self.get_sshkey(l, True)]
         else:
-            objs = [self.get_sshkey(l, False, hasM=hasM) for l in labels]
+            objs = [self.get_sshkey(l, False, hasM=True) for l in labels]
         return rmdups(objs, 'SSH key')
 
     def add_sshkey(self, key):
@@ -120,11 +120,11 @@ class Cache(object):
         self.cache_droplets()
         return self.get("droplet", label, multiple, mandatory, hasM)
 
-    def get_droplets(self, labels, multiple=True, hasM=False):
+    def get_droplets(self, labels, multiple=True):
         if multiple:
             objs = [drop for l in labels for drop in self.get_droplet(l, True)]
         else:
-            objs = [self.get_droplet(l, False, hasM=hasM) for l in labels]
+            objs = [self.get_droplet(l, False, hasM=True) for l in labels]
         return rmdups(objs, 'droplet')
 
     def cache_images(self):
@@ -134,11 +134,11 @@ class Cache(object):
         self.cache_images()
         return self.get("image", label, multiple, mandatory, hasM)
 
-    def get_images(self, labels, multiple=True, hasM=False):
+    def get_images(self, labels, multiple=True):
         if multiple:
             objs = [img for l in labels for img in self.get_image(l, True)]
         else:
-            objs = [self.get_image(l, False, hasM=hasM) for l in labels]
+            objs = [self.get_image(l, False, hasM=True) for l in labels]
         return rmdups(objs, 'image')
 
     def check_name_dup(self, key, name, fatal):

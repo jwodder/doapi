@@ -50,8 +50,7 @@ def main(argv=None, parsed=None):
 
     if args.cmd == 'show':
         if args.ssh_key:
-            util.dump(cache.get_sshkeys(args.ssh_key, multiple=args.multiple,
-                                                      hasM=True))
+            util.dump(cache.get_sshkeys(args.ssh_key, multiple=args.multiple))
         else:
             util.dump(client.fetch_all_ssh_keys())
 
@@ -60,8 +59,7 @@ def main(argv=None, parsed=None):
         util.dump(client.create_ssh_key(args.name, args.pubkey.read().strip()))
 
     elif args.cmd == 'delete':
-        keys = cache.get_sshkeys(args.ssh_key, multiple=args.multiple,
-                                               hasM=True)
+        keys = cache.get_sshkeys(args.ssh_key, multiple=args.multiple)
         for k in keys:
             k.delete()
 

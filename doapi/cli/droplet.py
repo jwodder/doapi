@@ -179,8 +179,7 @@ def main(argv=None, parsed=None):
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
         if args.droplet:
-            util.dump(cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                       hasM=True))
+            util.dump(cache.get_droplets(args.droplet, multiple=args.multiple))
         else:
             util.dump(client.fetch_all_droplets())
 
@@ -249,30 +248,26 @@ def main(argv=None, parsed=None):
         util.dump(drops)
 
     elif args.cmd in ('act', 'actions', 'wait'):
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                 hasM=True)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         util.do_actioncmd(args, client, drops)
 
     elif args.cmd in unary_acts:
         # Fetch all of the droplets first so that an invalid droplet
         # specification won't cause some actions to start and others not.
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                 hasM=True)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         acts = map(methodcaller(args.cmd.replace('-', '_')), drops)
         if args.wait:
             acts = util.catch_timeout(client.wait_actions(acts))
         util.dump(acts)
 
     elif args.cmd == 'delete':
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                 hasM=True)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         for d in drops:
             d.delete()
 
     elif args.cmd in unary_other:
         util.dump(map(methodcaller(unary_other[args.cmd][1]),
-                      cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                       hasM=True)))
+                      cache.get_droplets(args.droplet, multiple=args.multiple)))
 
     elif args.cmd == 'restore':
         drop = cache.get_droplet(args.droplet, multiple=False)
@@ -286,16 +281,14 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'resize':
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                 hasM=True)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         acts = [d.resize(args.size, disk=args.disk) for d in drops]
         if args.wait:
             acts = util.catch_timeout(client.wait_actions(acts))
         util.dump(acts)
 
     elif args.cmd == 'rebuild':
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                 hasM=True)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         if args.image is not None:
             img = cache.get_image(args.image, multiple=False)
             acts = [d.rebuild(img) for d in drops]
@@ -328,8 +321,7 @@ def main(argv=None, parsed=None):
         util.dump(act)
 
     elif args.cmd == 'change-kernel':
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                 hasM=True)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         acts = [d.change_kernel(args.kernel) for d in drops]
         if args.wait:
             acts = util.catch_timeout(client.wait_actions(acts))
@@ -339,21 +331,18 @@ def main(argv=None, parsed=None):
         if args.droplet:
             util.dump(map(methodcaller('fetch_all_neighbors'),
                           cache.get_droplets(args.droplet,
-                                             multiple=args.multiple,
-                                             hasM=True)))
+                                             multiple=args.multiple)))
         else:
             util.dump(client.fetch_all_droplet_neighbors())
 
     elif args.cmd == 'tag':
         tag = client.fetch_tag(args.tag_name)
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                 hasM=True)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         tag.add(*drops)
 
     elif args.cmd == 'untag':
         tag = client.fetch_tag(args.tag_name)
-        drops = cache.get_droplets(args.droplet, multiple=args.multiple,
-                                                 hasM=True)
+        drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         tag.remove(*drops)
 
     else:
