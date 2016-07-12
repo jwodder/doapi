@@ -45,6 +45,7 @@ def main(argv=None, parsed=None):
     cmd_show.add_argument('-M', '--multiple', action='store_true',
                           help='Show multiple droplets with the same ID or'
                                ' name')
+    cmd_show.add_argument('--tag', help='Show all droplets with the given tag')
     cmd_show.add_argument('droplet', nargs='*',
                           help='ID or name of a droplet; omit to list all')
 
@@ -178,7 +179,12 @@ def main(argv=None, parsed=None):
     args = parser.parse_args(argv, parsed)
     client, cache = util.mkclient(args)
     if args.cmd == 'show':
-        if args.droplet:
+        if args.tag is not None:
+            if args.droplet:
+                util.die('--tag and droplets are mutually exclusive')
+            tag = client.fetch_tag(args.tag)
+            util.dump(tag.fetch_all_droplets())
+        elif args.droplet:
             util.dump(cache.get_droplets(args.droplet, multiple=args.multiple))
         else:
             util.dump(client.fetch_all_droplets())

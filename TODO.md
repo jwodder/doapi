@@ -2,11 +2,7 @@
     - Add a (public) method for constructing a `Tag` object without fetching
       anything?
     - Add CLI support
-        - Support listing droplets with a given tag
         - Support acting on/deleting tagged droplets
-            - idea: The droplets with the tag `TAG` can be specified on the
-              command line as `--tag=TAG`, which can only be used in place of
-              (not in addition to) identifiers for individual objects.
 - Test creating an SSH key containing non-ASCII UTF-8
     - Also test creating a droplet with non-ASCII UTF-8 metadata
 
