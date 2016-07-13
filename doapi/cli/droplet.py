@@ -11,23 +11,23 @@ from   six.moves   import map, range  # pylint: disable=redefined-builtin
 from   .           import _util as util
 from   ..          import WaitTimeoutError
 
-UnaryCmd = namedtuple('UnaryCmd', 'help method tag_method waitable taggable')
+UnaryCmd = namedtuple('UnaryCmd', 'help method waitable taggable')
 
 unary_cmds = {
-    "backups":                   UnaryCmd("List a droplet's backup images", 'fetch_all_backups', None, False, False),
-    "delete":                    UnaryCmd('Delete a droplet', 'delete', 'delete_all_droplets', False, False),  ### no output
-    "disable-backups":           UnaryCmd("Disable automatic backups on a droplet", 'disable_backups', None, True, True),
-    "enable-backups":            UnaryCmd("Enable automatic backups on a droplet", 'enable_backups', None, True, True),
-    "enable-ipv6":               UnaryCmd("Enable IPv6 networking on a droplet", 'enable_ipv6', None, True, True),
-    "enable-private-networking": UnaryCmd("Enable private networking on a droplet", 'enable_private_networking', None, True, True),
-    "kernels":                   UnaryCmd('List the kernels available to a droplet', 'fetch_all_kernels', None, False, False),
-    "password-reset":            UnaryCmd("Reset the root password for a droplet", 'password_reset', None, True, False),
-    "power-cycle":               UnaryCmd("Forcibly powercycle a droplet", 'power_cycle', None, True, True),
-    "power-off":                 UnaryCmd("Forcibly power a droplet off", 'power_off', None, True, True),
-    "power-on":                  UnaryCmd("Power a droplet on", 'power_on', None, True, True),
-    "reboot":                    UnaryCmd("Attempt to gracefully reboot a droplet", 'reboot', None, True, False),
-    "show-snapshots":            UnaryCmd("List a droplet's snapshot images", 'fetch_all_snapshots', None, False, False),
-    "shutdown":                  UnaryCmd("Attempt to gracefully shut down a droplet", 'shutdown', None, True, True),
+    "backups":                   UnaryCmd("List a droplet's backup images",            'fetch_all_backups',         False, False),
+    "delete":                    UnaryCmd('Delete a droplet',                          'delete',                    False, False),  # handled separately
+    "disable-backups":           UnaryCmd('Disable automatic backups on a droplet',    'disable_backups',           True,  True),
+    "enable-backups":            UnaryCmd('Enable automatic backups on a droplet',     'enable_backups',            True,  True),
+    "enable-ipv6":               UnaryCmd('Enable IPv6 networking on a droplet',       'enable_ipv6',               True,  True),
+    "enable-private-networking": UnaryCmd('Enable private networking on a droplet',    'enable_private_networking', True,  True),
+    "kernels":                   UnaryCmd('List the kernels available to a droplet',   'fetch_all_kernels',         False, False),
+    "password-reset":            UnaryCmd('Reset the root password for a droplet',     'password_reset',            True,  False),
+    "power-cycle":               UnaryCmd('Forcibly powercycle a droplet',             'power_cycle',               True,  True),
+    "power-off":                 UnaryCmd('Forcibly power a droplet off',              'power_off',                 True,  True),
+    "power-on":                  UnaryCmd('Power a droplet on',                        'power_on',                  True,  True),
+    "reboot":                    UnaryCmd('Attempt to gracefully reboot a droplet',    'reboot',                    True,  False),
+    "show-snapshots":            UnaryCmd("List a droplet's snapshot images",          'fetch_all_snapshots',       False, False),
+    "shutdown":                  UnaryCmd('Attempt to gracefully shut down a droplet', 'shutdown',                  True,  True),
 }
 
 ### also taggable: `snapshot`
@@ -257,6 +257,17 @@ def main(argv=None, parsed=None):
         drops = cache.get_droplets(args.droplet, multiple=args.multiple)
         util.do_actioncmd(args, client, drops)
 
+    elif args.cmd == 'delete':
+        if (args.tag is not None) == (args.droplet != []):
+            util.die('Specify either a --tag or droplets, not both')
+        elif args.tag is not None:
+            tag = client.fetch_tag(args.tag)
+            tag.delete_all_droplets()
+        else:
+            drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+            for d in drops:
+                d.delete()
+
     elif args.cmd in unary_cmds:
         # Fetch all of the droplets first so that an invalid droplet
         # specification won't cause some actions to start and others not.
@@ -266,14 +277,12 @@ def main(argv=None, parsed=None):
                 util.die('Specify either a --tag or droplets, not both')
             elif args.tag is not None:
                 tag = client.fetch_tag(args.tag)
-                output = getattr(tag, about.tag_method or about.method)()
+                output = getattr(tag, about.method)()
         if not about.taggable or args.tag is None:
             drops = cache.get_droplets(args.droplet, multiple=args.multiple)
             output = map(methodcaller(about.method), drops)
         if about.waitable and args.wait:
             output = util.catch_timeout(client.wait_actions(output))
-        if args.cmd != 'delete':
-            util.dump(output)
 
     elif args.cmd == 'restore':
         drop = cache.get_droplet(args.droplet, multiple=False)
