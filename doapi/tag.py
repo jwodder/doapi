@@ -119,9 +119,7 @@ class Tag(Resource):
         :rtype: generator of `Droplet`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        api = self.doapi_manager
-        return map(api._droplet, api.paginate('/v2/droplets', 'droplets',
-                                              params={"tag_name": self.name}))
+        return self.doapi_manager.fetch_all_droplets(tag_name=self.name)
 
     def delete_all_droplets(self):
         """

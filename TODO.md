@@ -4,7 +4,6 @@
     - Add CLI support
         - Support acting on/deleting tagged droplets
         - Support `doapi-droplet act --tag=<tag> <act-type>`
-    - Give `doapi.fetch_all_droplets` a `tag_name` parameter?
 - Support block storage
 - Test creating an SSH key containing non-ASCII UTF-8
     - Also test creating a droplet with non-ASCII UTF-8 metadata
