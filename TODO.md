@@ -3,6 +3,9 @@
       anything?
     - Add CLI support
         - Support acting on/deleting tagged droplets
+        - Support `doapi-droplet act --tag=<tag> <act-type>`
+    - Give `doapi.fetch_all_droplets` a `tag_name` parameter?
+- Support block storage
 - Test creating an SSH key containing non-ASCII UTF-8
     - Also test creating a droplet with non-ASCII UTF-8 metadata
 
@@ -56,6 +59,9 @@
     - Give every applicable item a link to the corresponding entry in the API
       docs
     - Incorporate the changelog
+    - Mention somewhere that the API doesn't have a way to retrieve regions or
+      sizes by slug (or droplets/images/SSH keys by name), so if you want that,
+      you have to retrieve & filter all of them
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 
@@ -73,6 +79,7 @@
       the very least, produce a warning
 - `doapi-image show`: Forbid using `--multiple` with `--type`, `--private`,
   etc.
+- `doapi-image show`: Allow using `--private` with `--type` and its shortcuts
 - `doapi-request`: When an error response is returned, should the response body
   still be output? (instead of or in addition to the traceback?)
 - `doapi-domain update-record`: Error if no fields to update are given
@@ -95,6 +102,7 @@
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
 - Eliminate duplication of type-conversion code in initializers
+- Should all casts to `str` use `unicode` instead?
 
 # API Compatibility & Correctness
 

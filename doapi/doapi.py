@@ -638,7 +638,7 @@ class doapi(object):
         """
         return self._image(self.request('/v2/images/' + slug)["image"])
 
-    def fetch_all_images(self, type=None, private=False):
+    def fetch_all_images(self, type=None, private=None):
         # pylint: disable=redefined-builtin
         r"""
         Returns a generator that yields all of the images available to the
@@ -648,15 +648,15 @@ class doapi(object):
             ``"application"``, or all (`None`); default: `None`
         :type type: string or None
         :param bool private: whether to only return the user's private images;
-            default: `False` (i.e., return all images)
+            default: return all images
         :rtype: generator of `Image`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
         params = {}
         if type is not None:
             params["type"] = type
-        if private:
-            params["private"] = 'true'
+        if private is not None:
+            params["private"] = 'true' if private else 'false'
         return map(self._image, self.paginate('/v2/images', 'images',
                                               params=params))
 

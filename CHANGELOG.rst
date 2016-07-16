@@ -27,6 +27,9 @@ v0.2.0 (in development)
 - The ``wait_for_action`` methods now return ``None`` if the resource no longer
   exists by the time the action completes
 - Gave the ``--wait`` option a ``-w`` short form
+- The ``private`` argument to ``doapi.fetch_all_images`` now defaults to
+  ``None``; if set to ``False``, the value will be passed through to the API
+  (not that this currently has any effect).
 
 v0.1.1 (2016-04-29)
 -------------------
