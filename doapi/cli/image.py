@@ -13,9 +13,11 @@ def main(argv=None, parsed=None):
     cmd_show = cmds.add_parser('show', help='List images',
                                description='List images')
     showopts = cmd_show.add_mutually_exclusive_group()
-    showopts.add_argument('--distribution', action='store_true',
+    showopts.add_argument('--distribution', action='store_const',
+                          dest='type', const='distribution',
                           help='List distribution images')
-    showopts.add_argument('--application', action='store_true',
+    showopts.add_argument('--application', action='store_const',
+                          dest='type', const='application',
                           help='List application images')
     showopts.add_argument('--type',
                           help='List all images of the given type'
@@ -69,15 +71,7 @@ def main(argv=None, parsed=None):
     client, cache = util.mkclient(args)
 
     if args.cmd == 'show':
-        if args.distribution:
-            if args.image:
-                util.die('--distribution and image arguments are mutually exclusive')
-            util.dump(client.fetch_all_distribution_images())
-        elif args.application:
-            if args.image:
-                util.die('--application and image arguments are mutually exclusive')
-            util.dump(client.fetch_all_application_images())
-        elif args.type:
+        if args.type is not None:
             if args.image:
                 util.die('--type and image arguments are mutually exclusive')
             util.dump(client.fetch_all_images(type=args.type))
