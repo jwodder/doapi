@@ -253,7 +253,8 @@ Options
 
     doapi-image delete [-M|--multiple] <image> ...
 
-Delete images.  There is no output.
+Delete images.  If any of the given images do not exist, nothing is deleted.
+There is no output.
 
 Options
 '''''''

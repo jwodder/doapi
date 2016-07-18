@@ -104,7 +104,8 @@ Options
 
     doapi-ssh-key delete [-M|--multiple] <ssh key> ...
 
-Delete SSH keys.  There is no output.
+Delete SSH keys.  If any of the given SSH keys do not exist, nothing is
+deleted.  There is no output.
 
 Options
 '''''''

@@ -78,7 +78,8 @@ converted to JSON.
 
     doapi-domain delete <domain> ...
 
-Delete domains.  There is no output.
+Delete domains.  If any of the given domains do not exist, nothing is deleted.
+There is no output.
 
 
 :command:`new-record`
@@ -193,4 +194,5 @@ Options
 
     doapi-domain delete-record <domain> <record id> [<record id> ...]
 
-Delete records of the given domain.  There is no output.
+Delete records of the given domain.  If any of the given records do not exist,
+nothing is deleted.  There is no output.

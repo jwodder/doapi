@@ -195,4 +195,5 @@ Options
 
     doapi-floating-ip delete <ip> ...
 
-Delete floating IPs.  There is no output.
+Delete floating IPs.  If any of the given floating IPs do not exist, nothing is
+deleted.  There is no output.

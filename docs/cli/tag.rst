@@ -68,4 +68,5 @@ converted to JSON.
 
     doapi-tag delete <tag> ...
 
-Delete tags.  There is no output.
+Delete tags.  If any of the given tags do not exist, nothing is deleted.  There
+is no output.
