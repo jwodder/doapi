@@ -147,39 +147,106 @@ class Tag(Resource):
         return map(api._action, api.request('/v2/droplets/actions', method='POST', params={"tag_name": self.name}, data=data)["actions"])
 
     def power_cycle(self):
-        """ TODO """
+        """
+        Power cycle all of the droplets to which the tag is applied
+
+        :return: a generator of `Action`\ s representing the in-progress
+            operations on the droplets
+        :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_droplets(type='power_cycle')
 
     def power_on(self):
-        """ TODO """
+        """
+        Power on all of the droplets to which the tag is applied
+
+        :return: a generator of `Action`\ s representing the in-progress
+            operations on the droplets
+        :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_droplets(type='power_on')
 
     def power_off(self):
-        """ TODO """
+        """
+        Power off all of the droplets to which the tag is applied
+
+        :return: a generator of `Action`\ s representing the in-progress
+            operations on the droplets
+        :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_droplets(type='power_off')
 
     def shutdown(self):
-        """ TODO """
+        """
+        Shut down all of the droplets to which the tag is applied
+
+        :return: a generator of `Action`\ s representing the in-progress
+            operations on the droplets
+        :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_droplets(type='shutdown')
 
     def enable_private_networking(self):
-        """ TODO """
+        """
+        Enable private networking on all of the droplets to which the tag is
+        applied
+
+        :return: a generator of `Action`\ s representing the in-progress
+            operations on the droplets
+        :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_droplets(type='enable_private_networking')
 
     def enable_ipv6(self):
-        """ TODO """
+        """
+        Enable IPv6 networking on all of the droplets to which the tag is
+        applied
+
+        :return: a generator of `Action`\ s representing the in-progress
+            operations on the droplets
+        :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_droplets(type='enable_ipv6')
 
     def enable_backups(self):
-        """ TODO """
+        """
+        Enable backups on all of the droplets to which the tag is applied
+
+        :return: a generator of `Action`\ s representing the in-progress
+            operations on the droplets
+        :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_droplets(type='enable_backups')
 
     def disable_backups(self):
-        """ TODO """
+        """
+        Disable backups on all of the droplets to which the tag is applied
+
+        :return: a generator of `Action`\ s representing the in-progress
+            operations on the droplets
+        :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_droplets(type='disable_backups')
 
     def snapshot(self, name):
-        """ TODO """
+        """
+        Create snapshot images of all of the droplets to which the tag is
+        applied
+
+        :param str name: the name for the new snapshots
+        :return: a generator of `Action`\ s representing the in-progress
+            operations on the droplets
+        :rtype: generator of `Action`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_droplets(type='snapshot', name=name)
 
 
