@@ -283,6 +283,7 @@ def main(argv=None, parsed=None):
             output = map(methodcaller(about.method), drops)
         if about.waitable and args.wait:
             output = util.catch_timeout(client.wait_actions(output))
+        util.dump(output)
 
     elif args.cmd == 'restore':
         drop = cache.get_droplet(args.droplet, multiple=False)
