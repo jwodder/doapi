@@ -94,6 +94,7 @@
 - Improve the help text for `--multiple` (especially for action commands)
 - Rewrite the Cache methods so that their return types are fixed rather than
   determined by their arguments
+- Allow placing the universal options after subcommands
 
 # Library
 

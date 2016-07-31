@@ -12,10 +12,10 @@ v0.2.0 (in development)
   ``NetworkInterface``
 - New methods:
 
-    - ``doapi.wait_actions_on_objects``
-    - ``Action.raise_for_error`` (raises a new ``ActionError`` exception)
-    - ``FloatingIP.__int__``
-    - ``Resource.for_json``
+  - ``doapi.wait_actions_on_objects``
+  - ``Action.raise_for_error`` (raises a new ``ActionError`` exception)
+  - ``FloatingIP.__int__``
+  - ``Resource.for_json``
 
 - Gave ``doapi.wait_droplets`` and ``Droplet.wait`` a ``locked`` parameter for
   waiting for droplets to become locked/unlocked
