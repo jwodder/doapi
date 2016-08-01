@@ -126,8 +126,10 @@ def main(argv=None, parsed=None):
             if getattr(args, a, None) is not None:
                 attrs[a] = getattr(args, a)
         for a in 'priority port weight'.split():
-            if getattr(args, 'no_' + a, None):
+            if getattr(args, 'no_' + a, False):
                 attrs[a] = None
+        if not attrs:
+            util.die('No fields to update specified')
         util.dump(rec.update_record(**attrs))
 
     elif args.cmd == 'delete-record':
