@@ -1,9 +1,3 @@
-__version__      = '0.2.0.dev1'
-__author__       = 'John Thorvald Wodder II'
-__author_email__ = 'doapi@varonathe.org'
-__license__      = 'MIT'
-__url__          = 'https://github.com/jwodder/doapi'
-
 from .base        import (DOEncoder, Resource, Region, Size, Account, Kernel,
                           Networks, NetworkInterface, BackupWindow, DOAPIError,
                           WaitTimeoutError)
@@ -15,6 +9,12 @@ from .floating_ip import FloatingIP
 from .image       import Image
 from .ssh_key     import SSHKey
 from .tag         import Tag
+
+__version__      = '0.2.0.dev1'
+__author__       = 'John Thorvald Wodder II'
+__author_email__ = 'doapi@varonathe.org'
+__license__      = 'MIT'
+__url__          = 'https://github.com/jwodder/doapi'
 
 __all__ = [
     'doapi',

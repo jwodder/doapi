@@ -941,7 +941,7 @@ class doapi(object):
         return type(self) is type(other) and vars(self) == vars(other)
 
     def __ne__(self, other):
-        return not (self == other)
+        return not (self == other)  # pylint: disable=unneeded-not
 
     def _wait(self, objects, attr, value, wait_interval=None, wait_time=None):
         r"""

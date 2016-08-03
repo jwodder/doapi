@@ -147,7 +147,7 @@ class Tag(Resource):
         return map(api._action, api.request('/v2/droplets/actions', method='POST', params={"tag_name": self.name}, data=data)["actions"])
 
     def power_cycle(self):
-        """
+        r"""
         Power cycle all of the droplets to which the tag is applied
 
         :return: a generator of `Action`\ s representing the in-progress
@@ -158,7 +158,7 @@ class Tag(Resource):
         return self.act_on_droplets(type='power_cycle')
 
     def power_on(self):
-        """
+        r"""
         Power on all of the droplets to which the tag is applied
 
         :return: a generator of `Action`\ s representing the in-progress
@@ -169,7 +169,7 @@ class Tag(Resource):
         return self.act_on_droplets(type='power_on')
 
     def power_off(self):
-        """
+        r"""
         Power off all of the droplets to which the tag is applied
 
         :return: a generator of `Action`\ s representing the in-progress
@@ -180,7 +180,7 @@ class Tag(Resource):
         return self.act_on_droplets(type='power_off')
 
     def shutdown(self):
-        """
+        r"""
         Shut down all of the droplets to which the tag is applied
 
         :return: a generator of `Action`\ s representing the in-progress
@@ -191,7 +191,7 @@ class Tag(Resource):
         return self.act_on_droplets(type='shutdown')
 
     def enable_private_networking(self):
-        """
+        r"""
         Enable private networking on all of the droplets to which the tag is
         applied
 
@@ -203,7 +203,7 @@ class Tag(Resource):
         return self.act_on_droplets(type='enable_private_networking')
 
     def enable_ipv6(self):
-        """
+        r"""
         Enable IPv6 networking on all of the droplets to which the tag is
         applied
 
@@ -215,7 +215,7 @@ class Tag(Resource):
         return self.act_on_droplets(type='enable_ipv6')
 
     def enable_backups(self):
-        """
+        r"""
         Enable backups on all of the droplets to which the tag is applied
 
         :return: a generator of `Action`\ s representing the in-progress
@@ -226,7 +226,7 @@ class Tag(Resource):
         return self.act_on_droplets(type='enable_backups')
 
     def disable_backups(self):
-        """
+        r"""
         Disable backups on all of the droplets to which the tag is applied
 
         :return: a generator of `Action`\ s representing the in-progress
@@ -237,7 +237,7 @@ class Tag(Resource):
         return self.act_on_droplets(type='disable_backups')
 
     def snapshot(self, name):
-        """
+        r"""
         Create snapshot images of all of the droplets to which the tag is
         applied
 

@@ -35,7 +35,7 @@ class Resource(collections.MutableMapping):
         return type(self) is type(other) and vars(self) == vars(other)
 
     def __ne__(self, other):
-        return not (self == other)
+        return not (self == other)  # pylint: disable=unneeded-not
 
     def __repr__(self):
         # Meta attributes have to be omitted or else infinite recursion will
