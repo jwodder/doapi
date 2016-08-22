@@ -21,8 +21,8 @@ class Image(Actionable, ResourceWithID):
     :var distribution: the base Linux distribution used for the image
     :vartype distribution: string
 
-    :var min_disk_size: the minimum ``disk`` size required for a droplet to use
-        the image
+    :var min_disk_size: the minimum ``disk`` size (in gigabytes) required for a
+        droplet to use the image
     :vartype min_disk_size: number
 
     :var name: a human-readable name for the image

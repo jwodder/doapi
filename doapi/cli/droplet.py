@@ -30,8 +30,6 @@ unary_cmds = {
     "shutdown":                  UnaryCmd('Attempt to gracefully shut down a droplet', 'shutdown',                  True,  True),
 }
 
-### also taggable: `snapshot`
-
 create_rate = 10  # maximum number of droplets to create at once
 
 def main(argv=None, parsed=None):
@@ -145,10 +143,16 @@ def main(argv=None, parsed=None):
                                    help='Create a snapshot image of a droplet',
                                    description='Create a snapshot image of a'
                                                ' droplet')
+    cmd_snapshot.add_argument('--tag',
+                              help='Snapshot all droplets with the given tag')
     cmd_snapshot.add_argument('--unique', action='store_true',
                               help='Error if the name is already in use')
-    cmd_snapshot.add_argument('droplet', help='ID or name of a droplet')
+    cmd_snapshot.add_argument('-M', '--multiple', action='store_true',
+                              help='Operate on multiple droplets with the same'
+                                   ' ID or name')
     cmd_snapshot.add_argument('name', help='name for the snapshot image')
+    cmd_snapshot.add_argument('droplet', help='ID or name of a droplet',
+                              nargs='*')
 
     cmd_chkernel = cmds.add_parser('change-kernel', parents=[util.waitopts],
                                    help="Change a droplet's kernel",
@@ -259,7 +263,7 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'delete':
         if (args.tag is not None) == (args.droplet != []):
-            util.die('Specify either a --tag or droplets, not both')
+            util.die('Specify either a --tag or droplets, but not both')
         elif args.tag is not None:
             tag = client.fetch_tag(args.tag)
             tag.delete_all_droplets()
@@ -274,7 +278,7 @@ def main(argv=None, parsed=None):
         about = unary_cmds[args.cmd]
         if about.taggable:
             if (args.tag is not None) == (args.droplet != []):
-                util.die('Specify either a --tag or droplets, not both')
+                util.die('Specify either a --tag or droplets, but not both')
             elif args.tag is not None:
                 tag = client.fetch_tag(args.tag)
                 output = getattr(tag, about.method)()
@@ -327,14 +331,17 @@ def main(argv=None, parsed=None):
 
     elif args.cmd == 'snapshot':
         cache.check_name_dup("image", args.name, args.unique)
-        drop = cache.get_droplet(args.droplet, multiple=False)
-        act = drop.snapshot(args.name)
+        if (args.tag is not None) == (args.droplet != []):
+            util.die('Specify either a --tag or droplets, but not both')
+        elif args.tag is not None:
+            tag = client.fetch_tag(args.tag)
+            acts = tag.snapshot(args.name)
+        else:
+            drops = cache.get_droplets(args.droplet, multiple=args.multiple)
+            acts = map(methodcaller('snapshot', args.name), drops)
         if args.wait:
-            try:
-                act = act.wait()
-            except WaitTimeoutError as e:
-                act = e.in_progress[0]
-        util.dump(act)
+            acts = util.catch_timeout(client.wait_actions(acts))
+        util.dump(acts)
 
     elif args.cmd == 'change-kernel':
         drops = cache.get_droplets(args.droplet, multiple=args.multiple)

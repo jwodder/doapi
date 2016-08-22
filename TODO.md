@@ -2,7 +2,6 @@
     - Add a (public) method for constructing a `Tag` object without fetching
       anything?
     - Add CLI support
-        - Support acting on/deleting tagged droplets
         - Support `doapi-droplet act --tag=<tag> <act-type>`
 - Support block storage
 - Test creating an SSH key containing non-ASCII UTF-8
@@ -94,6 +93,8 @@
 - Rewrite the Cache methods so that their return types are fixed rather than
   determined by their arguments
 - Allow placing the universal options after subcommands
+- How should `doapi-droplet snapshot --unique` act when given multiple droplets
+  to snapshot?
 
 # Library
 
