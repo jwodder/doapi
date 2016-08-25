@@ -5,7 +5,11 @@
         - Support `doapi-droplet act --tag=<tag> <act-type>`
 - Support block storage
 - Test creating an SSH key containing non-ASCII UTF-8
-    - Also test creating a droplet with non-ASCII UTF-8 metadata
+    - Also test creating a droplet with non-ASCII UTF-8 user data
+
+- It seems that Exceptions make their error message available via a(n
+  undocumented?) `message` property, which conflicts with the "message" field
+  that DOAPIError's constructor tries to assign.  Deal with this.
 
 # For Version 1
 
@@ -103,6 +107,7 @@
   letting the error propagate out
 - Eliminate duplication of type-conversion code in initializers
 - Should all casts to `str` use `unicode` instead?
+- Handle (i.e., add an exception for) the API returning invalid JSON?
 
 # API Compatibility & Correctness
 

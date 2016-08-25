@@ -186,7 +186,7 @@ class doapi(object):
         if params is None:
             params = {}
         if self.per_page is not None and "per_page" not in params:
-            params["per_page"] = self.per_page
+            params = dict(params, per_page=self.per_page)
         page = self.request(url, params=params)
         while True:
             try:
