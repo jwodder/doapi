@@ -4,6 +4,7 @@ from   base64      import b64decode
 from   collections import namedtuple
 from   errno       import ENOENT
 from   hashlib     import md5
+import json
 from   operator    import methodcaller
 import sys
 from   time        import time
@@ -72,7 +73,7 @@ def main(argv=None, parsed=None):
                          help='Error if the name is already in use')
     cmd_new.add_argument('name', nargs='+', help='name for the new droplet')
 
-    util.add_actioncmds(cmds, 'droplet')
+    util.add_actioncmds(cmds, 'droplet', taggable=True)
 
     for cname, about in sorted(unary_cmds.items()):
         parents = [util.waitopts] if about.waitable else []
@@ -256,6 +257,21 @@ def main(argv=None, parsed=None):
             ### Note: This will cause problems when fetching a pre-existing
             ###       droplet that isn't active.
         util.dump(drops)
+
+    elif args.cmd == 'act' and (args.tag is not None or args.droplet == []):
+        if (args.tag is not None) == (args.droplet != []):
+            util.die('Specify either a --tag or droplets, but not both')
+        if args.params is not None:
+            params = json.loads(args.params)
+            if not isinstance(params, dict):
+                util.die('--params must be a JSON dictionary/object')
+        else:
+            params = {}
+        tag = client.fetch_tag(args.tag)
+        actions = tag.act_on_droplets(type=args.type, **params)
+        if args.wait:
+            actions = util.catch_timeout(client.wait_actions(actions))
+        util.dump(actions)
 
     elif args.cmd in ('act', 'actions', 'wait'):
         drops = cache.get_droplets(args.droplet, multiple=args.multiple)

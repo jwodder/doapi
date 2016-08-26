@@ -1,3 +1,4 @@
+from   __future__  import print_function
 import argparse
 from   collections import defaultdict, Iterator
 import json
@@ -154,7 +155,7 @@ class Cache(object):
             if fatal:
                 die(msg)
             else:
-                sys.stderr.write('Warning: ' + msg + '\n')
+                print('Warning:', msg, file=sys.stderr)
 
 
 def mkclient(args):
@@ -217,7 +218,7 @@ def currentActions(objs, withnulls=False):
         elif withnulls:
             yield None
 
-def add_actioncmds(cmds, objtype, multiple=True):
+def add_actioncmds(cmds, objtype, multiple=True, taggable=False):
     cmd_act = cmds.add_parser('act', parents=[waitopts],
                               help='Perform an arbitrary action',
                               description='Perform an arbitrary action')
@@ -228,8 +229,11 @@ def add_actioncmds(cmds, objtype, multiple=True):
         cmd_act.add_argument('-M', '--multiple', action='store_true',
                              help='Act on multiple resources with the same ID'
                                   ' or name')
+    if taggable:
+        cmd_act.add_argument('--tag',
+                             help='Operate on all droplets with the given tag')
     cmd_act.add_argument('type', help='type of action to perform')
-    cmd_act.add_argument(objtype, nargs='+',
+    cmd_act.add_argument(objtype, nargs='*' if taggable else '+',
                          help='identifier for a resource to act on')
 
     cmd_actions = cmds.add_parser('actions',
@@ -322,7 +326,9 @@ def rmdups(objs, objtype, idfield='id'):
     for o in objs:
         idval = o[idfield]
         if idval in seen:
-            sys.stderr.write('Warning: {0} {1!r} specified multiple times; ignoring later occurrence\n'.format(objtype, idval))
+            print('Warning: {0} {1!r} specified multiple times'\
+                  .format(objtype, idval), file=sys.stderr)
+            print('Warning: ignoring later occurrence', file=sys.stderr)
         else:
             seen.add(idval)
             uniq.append(o)

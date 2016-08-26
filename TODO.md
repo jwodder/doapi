@@ -1,8 +1,6 @@
 - Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
     - Add a (public) method for constructing a `Tag` object without fetching
       anything?
-    - Add CLI support
-        - Support `doapi-droplet act --tag=<tag> <act-type>`
 - Support block storage
 - Test creating an SSH key containing non-ASCII UTF-8
     - Also test creating a droplet with non-ASCII UTF-8 user data
