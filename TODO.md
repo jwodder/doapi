@@ -82,7 +82,6 @@
 - `doapi-image show`: Allow using `--private` with `--type` and its shortcuts
 - `doapi-request`: When an error response is returned, should the response body
   still be output? (instead of or in addition to the traceback?)
-- Support snapshotting multiple droplets at once without having to use a tag
 - Support passing arbitrary extra arguments to `new` commands
 - Refactor the code for fetching resources specified on the command line
 - Be case-insensitive when looking up SSH keys by fingerprint
