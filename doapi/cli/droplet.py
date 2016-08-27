@@ -16,7 +16,7 @@ UnaryCmd = namedtuple('UnaryCmd', 'help method waitable taggable')
 
 unary_cmds = {
     "backups":                   UnaryCmd("List a droplet's backup images",            'fetch_all_backups',         False, False),
-    "delete":                    UnaryCmd('Delete a droplet',                          'delete',                    False, False),  # handled separately
+    "delete":                    UnaryCmd('Delete a droplet',                          'delete',                    False, True),  # handled separately
     "disable-backups":           UnaryCmd('Disable automatic backups on a droplet',    'disable_backups',           True,  True),
     "enable-backups":            UnaryCmd('Enable automatic backups on a droplet',     'enable_backups',            True,  True),
     "enable-ipv6":               UnaryCmd('Enable IPv6 networking on a droplet',       'enable_ipv6',               True,  True),
