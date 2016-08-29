@@ -1,16 +1,11 @@
-- Support tagging: <https://developers.digitalocean.com/documentation/v2/#tags>
-    - Add a (public) method for constructing a `Tag` object without fetching
-      anything?
 - Support block storage
-- Test creating an SSH key containing non-ASCII UTF-8
-    - Also test creating a droplet with non-ASCII UTF-8 user data
 
 - It seems that Exceptions make their error message available via a(n
   undocumented?) `message` property, which conflicts with the "message" field
   that DOAPIError's constructor tries to assign.  Deal with this.
 
-# For Version 1
-
+For Version 1
+=============
 - Document everything!
     - Document the basic attributes of all resource classes (`.fields`,
       `.doapi_manager`, use as a dict, dict methods, conversion to a dict,
@@ -36,14 +31,15 @@
       NetworkInterface?, Region?, Size?) with unsubclassed `Resource` (or
       `Property`?) instances?
 
-## Naming Things
-
+Naming Things
+-------------
 - Rename `doapi_manager` to just `manager`? (something else?)
 - Come up with a better name for `--multiple`? (`--match-all`? `--many`?)
 - Rename `doapi.wait_actions_on_objects`?
 
-# General
 
+General
+=======
 - Convert these items into GitHub issues
 - Documentation:
     - Better organize the methods & properties of each class (Alphabetize them?)
@@ -65,8 +61,9 @@
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
 
-# Command-Line Interface
 
+Command-Line Interface
+======================
 - Use argh (or cmdpy?) instead of argparse (or at least do _something_ to clean
   up the argument-processing code)
 - Handle fetching actions of objects that are being deleted
@@ -97,17 +94,21 @@
 - How should `doapi-droplet snapshot --unique` act when given multiple droplets
   to snapshot?
 
-# Library
 
+Library
+=======
 - If an error occurs inside `_wait`, it should return the remaining objects
   somehow (by yielding them? by attaching them to the exception?) before
   letting the error propagate out
 - Eliminate duplication of type-conversion code in initializers
 - Should all casts to `str` use `unicode` instead?
 - Handle (i.e., add an exception for) the API returning invalid JSON?
+- Add a (public) method for constructing a `Tag` object without fetching
+  anything
 
-# API Compatibility & Correctness
 
+API Compatibility & Correctness
+===============================
 - A lot of the code relies on the assumptions that an object cannot have more
   than one in-progress action running on it at a time and that, if there is an
   in-progress action, it the most recent and the first listed.  Confirm this.
@@ -129,3 +130,5 @@
   again deletes the IP normally.  Handle this.
 - The pagination code assumes that the `per_page` parameter is preserved in
   links.  Confirm this.
+- Test creating an SSH key containing non-ASCII UTF-8
+    - Also test creating a droplet with non-ASCII UTF-8 user data
