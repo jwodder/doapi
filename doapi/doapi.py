@@ -232,6 +232,9 @@ class doapi(object):
         Returns a generator that yields all of the droplets belonging to the
         account
 
+        .. versionchanged:: 0.2.0
+            ``tag_name`` parameter added
+
         :param tag_name: if non-`None`, only droplets with the given tag are
             returned
         :type tag_name: string or `Tag`
