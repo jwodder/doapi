@@ -1,5 +1,5 @@
-v0.2.0 (in development)
------------------------
+v0.2.0 (2016-08-30)
+-------------------
 - Support for tags:
 
   - new ``Tag`` class with methods for acting on all droplets with a given tag
