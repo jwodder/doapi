@@ -9,8 +9,9 @@ from .floating_ip import FloatingIP
 from .image       import Image
 from .ssh_key     import SSHKey
 from .tag         import Tag
+from .volume      import Volume
 
-__version__      = '0.2.0'
+__version__      = '0.3.0.dev1'
 __author__       = 'John Thorvald Wodder II'
 __author_email__ = 'doapi@varonathe.org'
 __license__      = 'MIT'
@@ -37,5 +38,6 @@ __all__ = [
     'SSHKey',
     'Size',
     'Tag',
+    'Volume',
     'WaitTimeoutError',
 ]

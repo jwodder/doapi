@@ -12,6 +12,7 @@ from   .floating_ip import FloatingIP
 from   .image       import Image
 from   .ssh_key     import SSHKey
 from   .tag         import Tag
+from   .volume      import Volume
 
 class doapi(object):
     """
@@ -945,6 +946,19 @@ class doapi(object):
         return self._tag(self.request('/v2/tags', method='POST', data={
             "name": name,
         })["tag"])
+
+    def _volume(self, obj):
+        """
+        Construct a `Volume` object belonging to the `doapi` object.  ``obj``
+        may be a volume ID, a dictionary of volume fields, or another `Volume`
+        object (which will be shallow-copied).  The resulting `Volume` will
+        only contain the information in ``obj``; no data will be sent to or
+        from the API endpoint.
+
+        :type obj: string, `dict`, or `Volume`
+        :rtype: Volume
+        """
+        return Volume(obj, doapi_manager=self)
 
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
