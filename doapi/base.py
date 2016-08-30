@@ -254,6 +254,8 @@ class Taggable(Resource):
 
     def tag(self, t):
         """
+        .. versionadded:: 0.2.0
+
         Apply the given tag to the resource
 
         :param t: the tag to apply
@@ -265,6 +267,8 @@ class Taggable(Resource):
 
     def untag(self, t):
         """
+        .. versionadded:: 0.2.0
+
         Remove the given tag from the resource
 
         :param t: the tag to remove

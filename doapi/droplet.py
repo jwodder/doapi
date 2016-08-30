@@ -155,6 +155,8 @@ class Droplet(Actionable, ResourceWithID, Taggable):
     @property
     def ipv4_address(self):
         """
+        .. versionadded:: 0.2.0
+
         The IP address of the first IPv4 interface listed in the droplet's
         ``networks`` field, or `None` if there is no IPv4 interface
         """
@@ -166,6 +168,8 @@ class Droplet(Actionable, ResourceWithID, Taggable):
     @property
     def ipv6_address(self):
         """
+        .. versionadded:: 0.2.0
+
         The IP address of the first IPv6 interface listed in the droplet's
         ``networks`` field, or `None` if there is no IPv4 interface
         """

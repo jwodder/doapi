@@ -144,6 +144,9 @@ can be configured further with :option:`--wait-interval` and
     How often to poll the server for the actions' current statuses; default
     value: 2 seconds
 
+    .. versionchanged:: 0.2.0
+        Default value changed from 5 seconds to 2 seconds
+
 .. option:: --wait-time <seconds>
 
     The maximum number of seconds to wait for all actions to complete.  After

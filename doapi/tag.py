@@ -14,6 +14,8 @@ resource_types = {
 
 class Tag(Resource):
     r"""
+    .. versionadded:: 0.2.0
+
     A tag resource, representing a label that can be applied to other
     resources.
 

@@ -908,6 +908,8 @@ class doapi(object):
 
     def fetch_tag(self, obj):
         """
+        .. versionadded:: 0.2.0
+
         Fetch a tag by name
 
         :param obj: the name of the tag, a `dict` with a ``"name"`` field, or a
@@ -920,6 +922,8 @@ class doapi(object):
 
     def fetch_all_tags(self):
         r"""
+        .. versionadded:: 0.2.0
+
         Returns a generator that yields all of the tags belonging to the
         account
 
@@ -930,6 +934,8 @@ class doapi(object):
 
     def create_tag(self, name):
         """
+        .. versionadded:: 0.2.0
+
         Add a new tag resource to the account
 
         :param str name: the name of the new tag
