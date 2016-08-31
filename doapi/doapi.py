@@ -960,6 +960,49 @@ class doapi(object):
         """
         return Volume(obj, doapi_manager=self)
 
+    def fetch_volume(self, obj):
+        """
+        .. versionadded:: 0.3.0
+
+        Fetch a volume by ID
+
+        :param obj: the ID of the volume, a `dict` with an ``"id"`` field, or a
+            `Volume` object (to re-fetch the same volume)
+        :type obj: string, `dict`, or `Volume`
+        :rtype: Volume
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        return self._volume(obj).fetch()
+
+    def fetch_all_volumes(self):
+        r"""
+        .. versionadded:: 0.3.0
+
+        Returns a generator that yields all of the volumes belonging to the
+        account
+
+        :rtype: generator of `Volume`\ s
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
+        return map(self._volume, self.paginate('/v2/volumes', 'volumes'))
+
+    def create_volume(self, size_gigabytes, name, region, description=None,
+                      **kwargs):
+        """ TODO """
+        data = {
+            "size_gigabytes": size_gigabytes,
+            "name": name,
+            "region": str(region),
+        }
+        if description is not None:
+            data["description"] = description
+        data.update(kwargs)
+        return self._volume(self.request(
+            '/v2/volumes',
+            method='POST',
+            data=data,
+        )["volume"])
+
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
 

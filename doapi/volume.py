@@ -1,9 +1,12 @@
+from   six   import string_types
 from   .base import Actionable, Region, fromISO8601
 
 class Volume(Actionable):
     """ TODO """
 
     def __init__(self, state=None, **extra):
+        if isinstance(state, string_types):
+            state = {"id": state}
         super(Volume, self).__init__(state, **extra)
         for attr, cls in [('region', Region)]:
             if self.get(attr) is not None and not isinstance(self[attr], cls):

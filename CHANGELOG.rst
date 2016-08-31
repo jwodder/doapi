@@ -1,3 +1,12 @@
+v0.3.0 (in development)
+-----------------------
+- Support for block storage volumes:
+
+  - new ``Volume`` class
+  - new ``doapi.fetch_volume()``, ``doapi.fetch_all_volumes()``, and
+    ``doapi.create_volume()`` methods
+
+
 v0.2.0 (2016-08-30)
 -------------------
 - Support for tags:

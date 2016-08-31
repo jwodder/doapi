@@ -105,6 +105,7 @@ Library
 - Handle (i.e., add an exception for) the API returning invalid JSON?
 - Add a (public) method for constructing a `Tag` object without fetching
   anything
+- Let `doapi.create_tag` take `**kwargs`
 
 
 API Compatibility & Correctness
