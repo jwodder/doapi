@@ -1,4 +1,5 @@
 - Support block storage
+    - Look into the necessity of passing the region to volume action methods
 
 - It seems that Exceptions make their error message available via a(n
   undocumented?) `message` property, which conflicts with the "message" field
@@ -64,8 +65,8 @@ General
 
 Command-Line Interface
 ======================
-- Use argh (or cmdpy?) instead of argparse (or at least do _something_ to clean
-  up the argument-processing code)
+- Use argh (or cmdpy? click?) instead of argparse (or at least do _something_
+  to clean up the argument-processing code)
 - Handle fetching actions of objects that are being deleted
 - `doapi-droplet new`:
     - If an error occurs in the middle of creating droplets (e.g., if the

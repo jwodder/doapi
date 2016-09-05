@@ -974,17 +974,28 @@ class doapi(object):
         """
         return self._volume(obj).fetch()
 
-    def fetch_all_volumes(self):
+    def fetch_all_volumes(self, name=None, region=None):
         r"""
         .. versionadded:: 0.3.0
 
         Returns a generator that yields all of the volumes belonging to the
         account
 
+        :param string name: if non-`None`, only volumes with the given name are
+            fetched
+        :param region: if non-`None`, only volumes in the given region are
+            fetched
+        :type region: string or `Region`
         :rtype: generator of `Volume`\ s
         :raises DOAPIError: if the API endpoint replies with an error
         """
-        return map(self._volume, self.paginate('/v2/volumes', 'volumes'))
+        params = {}
+        if name is not None:
+            params["name"] = name
+        if region is not None:
+            params["region"] = str(region)
+        return map(self._volume, self.paginate('/v2/volumes', 'volumes',
+                                               params=params))
 
     def create_volume(self, size_gigabytes, name, region, description=None,
                       **kwargs):
