@@ -107,6 +107,9 @@ Library
 - Add a (public) method for constructing a `Tag` object without fetching
   anything
 - Let `doapi.create_tag` take `**kwargs`
+- Should `Droplet.snapshot_ids` and `Droplet.backup_ids` be converted to lists
+  of `Image`s?  Should `Droplet.volume_ids` and `Volume.droplet_ids` not be
+  converted to lists of `Volume`s and `Droplet`s?
 
 
 API Compatibility & Correctness
