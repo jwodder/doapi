@@ -11,9 +11,6 @@ class Volume(Actionable):
         for attr, cls in [('region', Region)]:
             if self.get(attr) is not None and not isinstance(self[attr], cls):
                 self[attr] = cls(self[attr], doapi_manager=self.doapi_manager)
-        self.droplet_ids = [
-            self.doapi_manager._droplet(d) for d in self.get('droplet_ids', [])
-        ]
         self.created_at = fromISO8601(self.get('created_at'))
 
     def __str__(self):
