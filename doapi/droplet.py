@@ -96,9 +96,6 @@ class Droplet(Actionable, ResourceWithID, Taggable):
                           ('next_backup_window', BackupWindow)]:
             if self.get(attr) is not None and not isinstance(self[attr], cls):
                 self[attr] = cls(self[attr], doapi_manager=self.doapi_manager)
-        self.volume_ids = [
-            self.doapi_manager._volume(v) for v in self.get('volume_ids', [])
-        ]
         self.created_at = fromISO8601(self.get('created_at'))
 
     @property
