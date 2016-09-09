@@ -1014,6 +1014,14 @@ class doapi(object):
             data=data,
         )["volume"])
 
+    def delete_volume_by_name(self, name, region):
+        """ TODO """
+        self.request(
+            '/v2/volumes',
+            params={"name": name, "region": str(region)},
+            method='DELETE',
+        )
+
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
 
