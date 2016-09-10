@@ -1008,11 +1008,8 @@ class doapi(object):
         if description is not None:
             data["description"] = description
         data.update(kwargs)
-        return self._volume(self.request(
-            '/v2/volumes',
-            method='POST',
-            data=data,
-        )["volume"])
+        return self._volume(self.request('/v2/volumes', method='POST',
+                                         data=data)["volume"])
 
     def delete_volume_by_name(self, name, region):
         """ TODO """
@@ -1021,6 +1018,27 @@ class doapi(object):
             params={"name": name, "region": str(region)},
             method='DELETE',
         )
+
+    def act_on_volume_by_name(self, type, volume_name, region, **kwargs):
+        """ TODO """
+        data = {
+            "type": type,
+            "volume_name": str(volume_name),
+            "region": str(region),
+        }
+        data.update(kwargs)
+        return self._action(self.request('/v2/volumes/actions', method='POST',
+                                         data=data)["action"])
+
+    def attach_volume_by_name(self, droplet_id, volume_name, region):
+        """ TODO """
+        return self.act_on_volume_by_name("attach", volume_name, region,
+                                          droplet_id=int(droplet_id))
+
+    def detach_volume_by_name(self, droplet_id, volume_name, region):
+        """ TODO """
+        return self.act_on_volume_by_name("detach", volume_name, region,
+                                          droplet_id=int(droplet_id))
 
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
