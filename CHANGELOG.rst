@@ -3,8 +3,15 @@ v0.3.0 (in development)
 - Support for block storage volumes:
 
   - new ``Volume`` class
-  - new ``doapi.fetch_volume()``, ``doapi.fetch_all_volumes()``, and
-    ``doapi.create_volume()`` methods
+  - new ``doapi`` methods:
+
+    - ``doapi.act_on_volume_by_name()``
+    - ``doapi.attach_volume_by_name()``
+    - ``doapi.create_volume()``
+    - ``doapi.delete_volume_by_name()``
+    - ``doapi.detach_volume_by_name()``
+    - ``doapi.fetch_all_volumes()``
+    - ``doapi.fetch_volume()``
 
 
 v0.2.0 (2016-08-30)
