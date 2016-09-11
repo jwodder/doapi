@@ -250,7 +250,7 @@ class doapi(object):
 
     def create_droplet(self, name, image, size, region, ssh_keys=None,
                        backups=None, ipv6=None, private_networking=None,
-                       user_data=None, **kwargs):
+                       user_data=None, volumes=None, **kwargs):
         """
         Create a new droplet.  All fields other than ``name``, ``image``,
         ``size``, and ``region`` are optional and will be omitted from the API
@@ -280,6 +280,9 @@ class doapi(object):
         :param bool private_networking: whether to enable private networking
             for the new droplet
         :param str user_data: a string of user data/metadata for the droplet
+        :param volumes: an iterable of volumes to attach to the new droplet,
+            specified as either IDs or `Volume` objects
+        :type volumes: iterable of strings and/or `Volume`s
         :param kwargs: additional fields to include in the API request
         :return: the new droplet resource
         :rtype: Droplet
@@ -302,6 +305,8 @@ class doapi(object):
             data["private_networking"] = private_networking
         if user_data is not None:
             data["user_data"] = user_data
+        if volumes is not None:
+            data["volumes"] = list(map(str, volumes))
         data.update(kwargs)
         return self._droplet(self.request('/v2/droplets', method='POST',
                                           data=data)["droplet"])
@@ -347,7 +352,7 @@ class doapi(object):
         :raises DOAPIError: if the API endpoint replies with an error
         """
         data = {
-            "names": names,
+            "names": list(names),
             "image": image.id if isinstance(image, Image) else image,
             "size": str(size),
             "region": str(region),
@@ -1020,6 +1025,7 @@ class doapi(object):
         )
 
     def act_on_volume_by_name(self, type, volume_name, region, **kwargs):
+        # pylint: disable=redefined-builtin
         """ TODO """
         data = {
             "type": type,

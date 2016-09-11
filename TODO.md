@@ -109,6 +109,7 @@ Library
 - Add a (public) method for constructing a `Tag` object without fetching
   anything
 - Let `doapi.create_tag` take `**kwargs`
+- Set the User Agent when making requests?
 
 
 API Compatibility & Correctness

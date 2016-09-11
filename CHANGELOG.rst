@@ -13,6 +13,8 @@ v0.3.0 (in development)
     - ``doapi.fetch_all_volumes()``
     - ``doapi.fetch_volume()``
 
+  - ``doapi.create_droplet`` now takes an optional ``volumes`` argument
+
 
 v0.2.0 (2016-08-30)
 -------------------
