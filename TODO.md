@@ -1,5 +1,4 @@
 - Support block storage
-    - Look into the necessity of passing the region to volume action methods
     - Look into whether volumes can be resized by name
     - Look into whether volumes can be attached/detached by only name or region
 

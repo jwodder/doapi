@@ -43,32 +43,14 @@ class Volume(Actionable):
         """
         self.doapi_manager.request(self.url, method='DELETE')
 
-    def attach(self, droplet_id, region):
+    def attach(self, droplet_id):
         """ TODO """
-        ### Is `region` actually required?  Can't I just default it to
-        ### `self.region.slug`?
-        return self.act(
-            type='attach',
-            droplet_id=int(droplet_id),
-            region=str(region),
-        )
+        return self.act(type='attach', droplet_id=int(droplet_id))
 
-    def detach(self, droplet_id, region):
+    def detach(self, droplet_id):
         """ TODO """
-        ### Is `region` actually required?  Can't I just default it to
-        ### `self.region.slug`?
-        return self.act(
-            type='detach',
-            droplet_id=int(droplet_id),
-            region=str(region),
-        )
+        return self.act(type='detach', droplet_id=int(droplet_id))
 
-    def resize(self, size_gigabytes, region):
+    def resize(self, size_gigabytes):
         """ TODO """
-        ### Is `region` actually required?  Can't I just default it to
-        ### `self.region.slug`?
-        return self.act(
-            type='resize',
-            size_gigabytes=size_gigabytes,
-            region=str(region),
-        )
+        return self.act(type='resize', size_gigabytes=size_gigabytes)
