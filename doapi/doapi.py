@@ -1046,6 +1046,11 @@ class doapi(object):
         return self.act_on_volume_by_name("detach", volume_name, region,
                                           droplet_id=int(droplet_id))
 
+    def resize_volume_by_name(self, size_gigabytes, volume_name, region):
+        """ TODO """
+        return self.act_on_volume_by_name("resize", volume_name, region,
+                                          size_gigabytes=size_gigabytes)
+
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)
 

@@ -12,6 +12,7 @@ v0.3.0 (in development)
     - ``doapi.detach_volume_by_name()``
     - ``doapi.fetch_all_volumes()``
     - ``doapi.fetch_volume()``
+    - ``doapi.resize_volume_by_name()``
 
   - ``doapi.create_droplet`` now takes an optional ``volumes`` argument
 

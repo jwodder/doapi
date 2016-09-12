@@ -1,6 +1,4 @@
 - Support block storage
-    - Look into whether volumes can be resized by name
-    - Look into whether volumes can be attached/detached by only name or region
 
 - It seems that Exceptions make their error message available via a(n
   undocumented?) `message` property, which conflicts with the "message" field
