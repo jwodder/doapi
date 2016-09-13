@@ -75,6 +75,10 @@ class Droplet(Actionable, ResourceWithID, Taggable):
 
     :var vcpus: number of virtual CPUs
     :vartype vcpus: int
+
+    :var volume_ids: volume IDs of block storage volumes currently attached to
+        the droplet
+    :vartype volume_ids: list of strings
     """
 
     #: The status of droplets that are powered on and operating

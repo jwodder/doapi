@@ -13,7 +13,7 @@ doapi — DigitalOcean API Python library & CLI
     :target: http://doapi.readthedocs.io/en/latest/?badge=stable
     :alt: Read the Docs
 
-.. |license| image:: https://img.shields.io/github/license/jwodder/doapi.svg
+.. |license| image:: https://img.shields.io/github/license/jwodder/doapi.svg?maxAge=2592000
     :target: https://opensource.org/licenses/MIT
     :alt: MIT License
 
