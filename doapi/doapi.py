@@ -1002,13 +1002,13 @@ class doapi(object):
         return map(self._volume, self.paginate('/v2/volumes', 'volumes',
                                                params=params))
 
-    def create_volume(self, size_gigabytes, name, region, description=None,
+    def create_volume(self, name, region, size_gigabytes, description=None,
                       **kwargs):
         """ TODO """
         data = {
-            "size_gigabytes": size_gigabytes,
             "name": name,
             "region": str(region),
+            "size_gigabytes": size_gigabytes,
         }
         if description is not None:
             data["description"] = description
@@ -1024,29 +1024,30 @@ class doapi(object):
             method='DELETE',
         )
 
-    def act_on_volume_by_name(self, type, volume_name, region, **kwargs):
+    def act_on_volume_by_name(self, type, volume_name, region=None, **kwargs):
         # pylint: disable=redefined-builtin
         """ TODO """
         data = {
             "type": type,
             "volume_name": str(volume_name),
-            "region": str(region),
         }
+        if region is not None:
+            data["region"] = str(region)
         data.update(kwargs)
         return self._action(self.request('/v2/volumes/actions', method='POST',
                                          data=data)["action"])
 
-    def attach_volume_by_name(self, droplet_id, volume_name, region):
+    def attach_volume_by_name(self, volume_name, droplet_id):
         """ TODO """
-        return self.act_on_volume_by_name("attach", volume_name, region,
+        return self.act_on_volume_by_name("attach", volume_name,
                                           droplet_id=int(droplet_id))
 
-    def detach_volume_by_name(self, droplet_id, volume_name, region):
+    def detach_volume_by_name(self, volume_name, droplet_id):
         """ TODO """
-        return self.act_on_volume_by_name("detach", volume_name, region,
+        return self.act_on_volume_by_name("detach", volume_name,
                                           droplet_id=int(droplet_id))
 
-    def resize_volume_by_name(self, size_gigabytes, volume_name, region):
+    def resize_volume_by_name(self, volume_name, region, size_gigabytes):
         """ TODO """
         return self.act_on_volume_by_name("resize", volume_name, region,
                                           size_gigabytes=size_gigabytes)
