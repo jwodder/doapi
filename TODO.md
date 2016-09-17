@@ -43,6 +43,7 @@ General
 - Convert these items into GitHub issues
 - Documentation:
     - Better organize the methods & properties of each class (Alphabetize them?)
+        - Divine `doapi`'s method list into subsections
     - Keep Sphinx from turning `:var:`s into hyperlinks
     - Try to improve the layout of subcommand documentation
     - Add index entries for commands

@@ -14,6 +14,7 @@ Library
    image
    ssh_key
    tag
+   volume
    immutable
    utils
    examples
