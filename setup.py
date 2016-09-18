@@ -65,6 +65,7 @@ setup(
             'doapi-size = doapi.cli.size:main',
             'doapi-ssh-key = doapi.cli.ssh_key:main',
             'doapi-tag = doapi.cli.tag:main',
+            'doapi-volume = doapi.cli.volume:main',
         ]
     },
 )

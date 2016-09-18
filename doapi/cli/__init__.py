@@ -19,10 +19,11 @@ Commands:
     size                List available DigitalOcean droplet sizes
     ssh-key             Manage DigitalOcean SSH keys
     tag                 Manage DigitalOcean tags
+    volume              Manage DigitalOcean volumes
 ''')
     parser.add_argument('cmd', choices="account action domain droplet"
                                        " floating-ip image region request size"
-                                       " ssh-key tag".split())
+                                       " ssh-key tag volume".split())
     parser.add_argument('arguments', nargs=argparse.REMAINDER)
     args = parser.parse_args()
     module = importlib.import_module('.' + args.cmd.replace('-', '_'),
