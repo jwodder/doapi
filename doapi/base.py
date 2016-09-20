@@ -86,7 +86,7 @@ class Resource(collections.MutableMapping):
         return endpoint + path
 
     def _class(self):
-        return self.__class__.__name__
+        return __package__ + '.' + self.__class__.__name__
 
     def for_json(self):
         """
