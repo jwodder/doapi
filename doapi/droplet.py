@@ -497,8 +497,9 @@ class Droplet(Actionable, ResourceWithID, Taggable):
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing the
         droplet's most recently fetched state) is raised.
 
-        If a `KeyboardInterrupt` is caught, the droplet's most recently fetched
-        state is returned immediately without waiting for completion.
+        If a `~exceptions.KeyboardInterrupt` is caught, the droplet's most
+        recently fetched state is returned immediately without waiting for
+        completion.
 
         .. versionchanged:: 0.2.0
             Raises `WaitTimeoutError` on timeout

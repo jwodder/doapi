@@ -157,8 +157,8 @@ class Actionable(Resource):
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing the
         resource's current state) is raised.
 
-        If a `KeyboardInterrupt` is caught, the resource's current state is
-        returned immediately without waiting for completion.
+        If a `~exceptions.KeyboardInterrupt` is caught, the resource's current
+        state is returned immediately without waiting for completion.
 
         .. versionchanged:: 0.2.0
             Raises `WaitTimeoutError` on timeout
@@ -563,7 +563,7 @@ class DOAPIError(Exception):
     error.
 
     If the body of the error response is a JSON object, its fields will be
-    added to the ``DOAPIError``\ 's attributes (except where a pre-existing
+    added to the `DOAPIError`\ 's attributes (except where a pre-existing
     attribute would be overwritten).  DigitalOcean error response bodies have
     been observed to consist of an object with two string fields, ``"id"`` and
     ``"message"``.

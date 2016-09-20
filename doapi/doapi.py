@@ -398,8 +398,8 @@ class doapi(object):
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
         remaining in-progress droplets) is raised.
 
-        If a `KeyboardInterrupt` is caught, any remaining droplets are returned
-        immediately without waiting for completion.
+        If a `~exceptions.KeyboardInterrupt` is caught, any remaining droplets
+        are returned immediately without waiting for completion.
 
         .. versionchanged:: 0.2.0
             Raises `WaitTimeoutError` on timeout
@@ -505,8 +505,8 @@ class doapi(object):
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
         remaining in-progress actions) is raised.
 
-        If a `KeyboardInterrupt` is caught, any remaining actions are returned
-        immediately without waiting for completion.
+        If a `~exceptions.KeyboardInterrupt` is caught, any remaining actions
+        are returned immediately without waiting for completion.
 
         .. versionchanged:: 0.2.0
             Raises `WaitTimeoutError` on timeout
@@ -539,8 +539,8 @@ class doapi(object):
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
         remaining in-progress actions) is raised.
 
-        If a `KeyboardInterrupt` is caught, any remaining actions are returned
-        immediately without waiting for completion.
+        If a `~exceptions.KeyboardInterrupt` is caught, any remaining actions
+        are returned immediately without waiting for completion.
 
         :param iterable objects: an iterable of resource objects that have
             ``fetch_last_action`` methods
@@ -1067,8 +1067,8 @@ class doapi(object):
         If ``wait_time`` is exceeded, a `WaitTimeoutError` (containing any
         remaining in-progress objects) is raised.
 
-        If a `KeyboardInterrupt` is caught, any remaining objects are returned
-        immediately without waiting for completion.
+        If a `~exceptions.KeyboardInterrupt` is caught, any remaining objects
+        are returned immediately without waiting for completion.
 
         .. versionchanged:: 0.2.0
             Raises `WaitTimeoutError` on timeout
