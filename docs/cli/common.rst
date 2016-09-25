@@ -87,13 +87,13 @@ individual documentation:
 .. option:: --api-token <token>
 
     Use ``<token>`` as an OAuth token for authentication with the API; mutually
-    exclusive with ``--api-token-file``
+    exclusive with :option:`--api-token-file`
 
 .. option:: --api-token-file <file>
 
     Use the contents of ``<file>`` (after stripping leading & trailing
     whitespace) as an OAuth token for authentication with the API; mutually
-    exclusive with ``--api-token``
+    exclusive with :option:`--api-token`
 
 .. option:: --endpoint <URL>
 

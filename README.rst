@@ -1,6 +1,3 @@
-doapi — DigitalOcean API Python library & CLI
-=============================================
-
 .. image:: https://img.shields.io/pypi/v/doapi.svg
     :target: https://pypi.python.org/pypi/doapi
 
