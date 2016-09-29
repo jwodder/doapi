@@ -281,8 +281,8 @@ class doapi(object):
             for the new droplet
         :param str user_data: a string of user data/metadata for the droplet
         :param volumes: an iterable of volumes to attach to the new droplet,
-            specified as either IDs or `Volume` objects
-        :type volumes: iterable of strings and/or `Volume`s
+            specified as volume IDs and/or `Volume` objects
+        :type volumes: iterable
         :param kwargs: additional fields to include in the API request
         :return: the new droplet resource
         :rtype: Droplet
