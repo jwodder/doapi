@@ -20,7 +20,7 @@ class Volume(Actionable):
     :var created_at: date & time of the volume's creation
     :vartype created_at: datetime.datetime
 
-    :var description: a human-readable description for the volume
+    :var description: a human-readable free-form description for the volume
     :vartype description: string
 
     :var droplet_ids: IDs of droplets that the volume is currently attached to

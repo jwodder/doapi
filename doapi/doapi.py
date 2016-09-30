@@ -1004,7 +1004,23 @@ class doapi(object):
 
     def create_volume(self, name, region, size_gigabytes, description=None,
                       **kwargs):
-        """ TODO """
+        """
+        .. versionadded:: 0.3.0
+
+        Create a new block storage volume
+
+        :param str name: the name of the new volume
+        :param region: the slug or `Region` object representing the region in
+            which to create the volume
+        :type region: string or `Region`
+        :param int size_gigabytes: the size of the new volume in gigabytes
+        :param str description: an optional human-readable free-form
+            description of the volume
+        :param kwargs: additional fields to include in the API request
+        :return: the new volume resource
+        :rtype: Volume
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         data = {
             "name": name,
             "region": str(region),
@@ -1016,17 +1032,46 @@ class doapi(object):
         return self._volume(self.request('/v2/volumes', method='POST',
                                          data=data)["volume"])
 
-    def delete_volume_by_name(self, name, region):
-        """ TODO """
+    def delete_volume_by_name(self, volume_name, region):
+        """
+        .. versionadded:: 0.3.0
+
+        Delete the volume with the given name in the given region
+
+        :param str volume_name: the name of the volume to delete
+        :param region: the region in which the volume to delete is located
+        :type region: slug or `Region`
+        :return: `None`
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         self.request(
             '/v2/volumes',
-            params={"name": name, "region": str(region)},
+            params={"name": volume_name, "region": str(region)},
             method='DELETE',
         )
 
     def act_on_volume_by_name(self, type, volume_name, region=None, **kwargs):
         # pylint: disable=redefined-builtin
-        """ TODO """
+        """
+        .. versionadded:: 0.3.0
+
+        Perform an arbitrary action on a volume identified by name and possibly
+        by region.
+
+        :param str type: The type of action to perform.  Values specified by
+            the DigitalOcean API include ``"attach"``, ``"detach"``, and
+            ``"resize"``.
+        :param str volume_name: the name of the volume to act on
+        :param region: The region in which the volume to act on is located.
+            This may or may not be required, depending on the action and other
+            parameters provided.
+        :type region: slug, `Region`, or `None`
+        :param kwargs: additional fields to include in the API request
+        :return: an `Action` representing the in-progress operation on the
+            volume
+        :rtype: Action
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         data = {
             "type": type,
             "volume_name": str(volume_name),
@@ -1038,17 +1083,57 @@ class doapi(object):
                                          data=data)["action"])
 
     def attach_volume_by_name(self, volume_name, droplet_id):
-        """ TODO """
+        """
+        .. versionadded:: 0.3.0
+
+        Attach a volume identified only by name to a given droplet.  The volume
+        and droplet must be in the same region.
+
+        :param str volume_name: the name of the volume to attach
+        :param droplet_id: the droplet to attach the volume to
+        :type droplet_id: integer or `Droplet`
+        :return: an `Action` representing the in-progress operation on the
+            volume
+        :rtype: Action
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_volume_by_name("attach", volume_name,
                                           droplet_id=int(droplet_id))
 
     def detach_volume_by_name(self, volume_name, droplet_id):
-        """ TODO """
+        """
+        .. versionadded:: 0.3.0
+
+        Detach a volume identified only by name from a given droplet.  The
+        volume and droplet must be in the same region.
+
+        :param str volume_name: the name of the volume to detach
+        :param droplet_id: the droplet to detach the volume from
+        :type droplet_id: integer or `Droplet`
+        :return: an `Action` representing the in-progress operation on the
+            volume
+        :rtype: Action
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_volume_by_name("detach", volume_name,
                                           droplet_id=int(droplet_id))
 
     def resize_volume_by_name(self, volume_name, region, size_gigabytes):
-        """ TODO """
+        """
+        .. versionadded:: 0.3.0
+
+        Resize the volume with the given name in the given region
+
+        :param str volume_name: the name of the volume to resize
+        :param region: the region in which the volume to resize is located
+        :type region: slug or `Region`
+        :param size_gigabytes: the new size of the volume in gigabytes
+        :type size_gigabytes: integer
+        :return: an `Action` representing the in-progress operation on the
+            volume
+        :rtype: Action
+        :raises DOAPIError: if the API endpoint replies with an error
+        """
         return self.act_on_volume_by_name("resize", volume_name, region,
                                           size_gigabytes=size_gigabytes)
 
