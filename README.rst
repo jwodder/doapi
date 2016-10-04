@@ -1,14 +1,7 @@
-.. image:: https://img.shields.io/pypi/v/doapi.svg
-    :target: https://pypi.python.org/pypi/doapi
-
 .. image:: http://www.repostatus.org/badges/latest/wip.svg
     :target: http://www.repostatus.org/#wip
     :alt: Project Status: WIP - Initial development is in progress, but there
           has not yet been a stable, usable release suitable for the public.
-
-.. image:: https://readthedocs.org/projects/doapi/badge/?version=latest
-    :target: http://doapi.readthedocs.io/en/latest/?badge=latest
-    :alt: Read the Docs
 
 .. image:: https://img.shields.io/github/license/jwodder/doapi.svg?maxAge=2592000
     :target: https://opensource.org/licenses/MIT
