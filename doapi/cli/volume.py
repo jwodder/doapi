@@ -63,7 +63,7 @@ def main(argv=None, parsed=None):
     client, cache = util.mkclient(args)
 
     if args.cmd == 'show':
-        if args.tag:
+        if args.volume:
             util.dump(map(client.fetch_volume, args.volume))
         else:
             util.dump(client.fetch_all_volumes())
