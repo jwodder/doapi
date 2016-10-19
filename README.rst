@@ -3,6 +3,8 @@
     :alt: Project Status: WIP - Initial development is in progress, but there
           has not yet been a stable, usable release suitable for the public.
 
+.. image:: https://img.shields.io/pypi/pyversions/doapi.svg
+
 .. image:: https://img.shields.io/github/license/jwodder/doapi.svg?maxAge=2592000
     :target: https://opensource.org/licenses/MIT
     :alt: MIT License

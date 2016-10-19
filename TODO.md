@@ -1,4 +1,5 @@
 - Support block storage
+- Support volume snapshots and the new snapshot endpoint
 
 - It seems that Exceptions make their error message available via a(n
   undocumented?) `message` property, which conflicts with the "message" field
