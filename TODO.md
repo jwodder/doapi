@@ -42,6 +42,7 @@ Naming Things
 General
 =======
 - Convert these items into GitHub issues
+- Support Python 3
 - Documentation:
     - Better organize the methods & properties of each class (Alphabetize them?)
         - Divine `doapi`'s method list into subsections
@@ -62,6 +63,7 @@ General
       you have to retrieve & filter all of them
 - Add tests
     - Test giving non-ASCII names to things in both Python 2 and Python 3
+- Move the contents of `droplet/cli/__init__.py` to `droplet/cli/__main__.py`?
 
 
 Command-Line Interface

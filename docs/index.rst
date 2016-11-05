@@ -1,3 +1,5 @@
+.. module:: doapi
+
 ===========================================================
 doapi — DigitalOcean API library and Command-Line Interface
 ===========================================================

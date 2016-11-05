@@ -1,4 +1,4 @@
-.. module:: doapi
+.. currentmodule:: doapi
 
 Common CLI Behavior
 -------------------
