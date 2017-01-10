@@ -1,7 +1,5 @@
 *.egg-info/
 *.pyc
-*.sh
 build/
 dist/
 docs/_build
-wiki/
