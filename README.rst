@@ -4,6 +4,7 @@
           has not yet been a stable, usable release suitable for the public.
 
 .. image:: https://img.shields.io/pypi/pyversions/doapi.svg
+    :target: https://pypi.python.org/pypi/doapi
 
 .. image:: https://img.shields.io/github/license/jwodder/doapi.svg?maxAge=2592000
     :target: https://opensource.org/licenses/MIT
