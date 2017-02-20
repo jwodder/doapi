@@ -26,7 +26,11 @@ setup(
     long_description=long_desc,
     url='https://github.com/jwodder/doapi',
 
-    install_requires=['pyRFC3339~=1.0', 'requests~=2.2', 'six~=1.5'],
+    install_requires=[
+        'pyRFC3339>=1.0,<2',
+        'requests>=2.2.0,<3',
+        'six>=1.5.0,<2',
+    ],
 
     classifiers=[
         'Development Status :: 4 - Beta',
