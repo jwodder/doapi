@@ -185,8 +185,11 @@ class ActionError(Exception):
     def __init__(self, action):
         #: The `Action` that failed
         self.action = action
-        rid = action.resource_id
-        if action.resource_type == 'floating_ip':
+        super(ActionError, self).__init__(action)
+
+    def __str__(self):
+        rid = self.action.resource_id
+        if self.action.resource_type == 'floating_ip':
             rid = int2ipv4(rid)
-        super(ActionError, self).__init__('{0.type} action on {0.resource_type}'
-                                          ' {1}: {0.status}'.format(action,rid))
+        return '{0.type} action on {0.resource_type} {1}: {0.status}'\
+               .format(self.action, rid)

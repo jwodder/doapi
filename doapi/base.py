@@ -629,4 +629,9 @@ class WaitTimeoutError(Exception):
         self.wait_interval = wait_interval
         #: The ``wait_time`` value for the wait operation
         self.wait_time = wait_time
-        super(WaitTimeoutError, self).__init__('wait time limit exceeded')
+        super(WaitTimeoutError, self).__init__(
+            in_progress, attr, value, wait_interval, wait_time,
+        )
+
+    def __str__(self):
+        return 'wait time limit exceeded'

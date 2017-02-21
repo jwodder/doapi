@@ -111,6 +111,9 @@ Library
   anything
 - Let `doapi.create_tag` take `**kwargs`
 - Set the User Agent when making requests?
+- Make `Droplet.ip_address` and friends always return a public IP address if
+  one exists?
+- `DOAPIError`: Decouple the stringification from the `__init__` method
 
 
 API Compatibility & Correctness
