@@ -1,9 +1,12 @@
 - Support block storage
 - Support volume snapshots and the new snapshot endpoint
 
-- It seems that Exceptions make their error message available via a(n
-  undocumented?) `message` property, which conflicts with the "message" field
-  that DOAPIError's constructor tries to assign.  Deal with this.
+- It seems that Exceptions (in Python 2 only?) make their error message
+  available via a(n undocumented?) `message` property, which conflicts with the
+  "message" field that DOAPIError's constructor tries to assign.  Deal with
+  this.
+
+- I don't think `doapi-droplet wait` is actually waiting for actions correctly
 
 For Version 1
 =============
@@ -52,7 +55,6 @@ General
     - Add a separate section to the documentation for private/internal methods
       & classes
         - Document `__init__` methods
-    - Convert the CLI documentation to manpages?
     - Add the CLI documentation to each command's source file as a docstring?
     - Improve the appearance of the "APIDocs" citations in the documentation
     - Give every applicable item a link to the corresponding entry in the API
@@ -110,7 +112,7 @@ Library
 - Add a (public) method for constructing a `Tag` object without fetching
   anything
 - Let `doapi.create_tag` take `**kwargs`
-- Set the User Agent when making requests?
+- Set the User Agent when making requests
 - Make `Droplet.ip_address` and friends always return a public IP address if
   one exists?
 - `DOAPIError`: Decouple the stringification from the `__init__` method
