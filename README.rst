@@ -4,10 +4,11 @@ doapi — DigitalOcean API Python library & CLI
 .. |pypi| image:: https://img.shields.io/pypi/v/doapi.svg
     :target: https://pypi.python.org/pypi/doapi
 
-.. |repostatus| image:: http://www.repostatus.org/badges/latest/wip.svg
-    :target: http://www.repostatus.org/#wip
-    :alt: Project Status: WIP - Initial development is in progress, but there
-          has not yet been a stable, usable release suitable for the public.
+.. |repostatus| image:: https://www.repostatus.org/badges/latest/abandoned.svg
+    :target: https://www.repostatus.org/#abandoned
+    :alt: Project Status: Abandoned – Initial development has started, but there
+          has not yet been a stable, usable release; the project has been
+          abandoned and the author(s) do not intend on continuing development.
 
 .. |RTD| image:: https://readthedocs.org/projects/doapi/badge/?version=stable
     :target: http://doapi.readthedocs.io/en/latest/?badge=stable
